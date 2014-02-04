@@ -33,4 +33,4 @@ linux32: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).x32 $(OBJ) $(CXXFLAGS) "./liblinux32/libbass.so" "./liblinux32/libsfml-graphics.so.2.1" "./liblinux32/libsfml-window.so.2.1" "./liblinux32/libsfml-system.so.2.1"
 
 linux 64:
-	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./liblinux64/libbass.so" "./liblinux64/libsfml-graphics.so.2.1" "./liblinux64/libsfml-window.so.2.1" "./liblinux64/libsfml-system.so.2.1"
+	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/libsfml-graphics.so.2.1" "./liblinux64/libsfml-window.so.2.1" "./liblinux64/libsfml-system.so.2.1"
