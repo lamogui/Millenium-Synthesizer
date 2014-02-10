@@ -85,8 +85,11 @@
     #if defined(SFML_SYSTEM_WINDOWS)
 
         // Windows compilers need specific (and different) keywords for export and import
-        #define SFML_API_EXPORT __declspec(dllexport)
+        /*#define SFML_API_EXPORT __declspec(dllexport)
         #define SFML_API_IMPORT __declspec(dllimport)
+        */
+        #define SFML_API_EXPORT
+        #define SFML_API_IMPORT
 
         // For Visual C++ compilers, we also need to turn off this annoying C4251 warning
         #ifdef _MSC_VER
