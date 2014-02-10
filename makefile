@@ -1,16 +1,16 @@
 
 TARGET_NAME=test
-OBJ=
+OBJ=main.o terrain.o
 CFLAGS= --std=c99 -W -Wall -I"include"
-CXXFLAGS= $(CFLAGS) -pedantic
-FILECPP=
-HEADER=
+CXXFLAGS= -W -Wall -I"include" -pedantic
+FILECPP=main.cpp terrain.cpp
+HEADER=terrain.hpp
 
 defaut:
 	@echo you must choose :
 	@echo   - make win32
 	@echo   - make linux32
-   @echo   - make linux64
+	@echo   - make linux64
 	
 
 %.o: %.c $(HEADER)
