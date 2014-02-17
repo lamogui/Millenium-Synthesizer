@@ -1,10 +1,10 @@
 
 TARGET_NAME=test
-OBJ=main.o terrain.o player.o
+OBJ=main.o terrain.o player.o soccerball.o
 CFLAGS= --std=c99 -W -Wall -I"include"
-CXXFLAGS= -W -Wall -I"include" -pedantic
-FILECPP=main.cpp terrain.cpp player.cpp
-HEADER=terrain.hpp player.hpp
+CXXFLAGS= -I"include" -W -Wall
+FILECPP=main.cpp terrain.cpp player.cpp soccerball.cpp
+HEADER=terrain.hpp player.hpp soccerball.hpp
 
 defaut:
 	@echo you must choose :

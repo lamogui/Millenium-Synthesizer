@@ -19,13 +19,13 @@ SoccerBall::~SoccerBall()
 
 void SoccerBall::update(float dt)
 {
-  _frame++;
+  //_frame++;
   _frame%=25;
   velocity += acceleration*dt;
   z+=velocity.z*dt;
   setPosition(getPosition().x + velocity.x*dt,getPosition().y+ velocity.y*dt);
   setTextureRect(sf::IntRect(_frame*24,0,24,24));
-  setScale(z*0.05 + 1.0,z*0.05 + 1.0);
+  setScale(z*0.3 + 1.0,z*0.3 + 1.0);
 }
 
 bool SoccerBall::intersect(float x, float y)
