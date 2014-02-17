@@ -33,6 +33,8 @@ class BasicTerrain : public Terrain
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     virtual void generate();
     
+    void update();
+    
   private:
     sf::Color _grassColor;
     sf::Color _linesColor;
@@ -48,6 +50,10 @@ class BasicTerrain : public Terrain
     
     sf::CircleShape _upCircle;
     sf::CircleShape _downCircle;
+    
+    sf::Texture _grassTexture;
+    
+    sf::Clock _time;
 };
 
 
