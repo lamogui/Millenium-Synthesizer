@@ -1,7 +1,25 @@
 
 #include <cstdio>
+#include <cmath>
+#include <iostream>
 #include "terrain.hpp"
 #include "soccerball.hpp"
+
+sf::Vector3f v3abs(const sf::Vector3f& v)
+{
+  return sf::Vector3f(abs(v.x),abs(v.y),abs(v.z));
+}
+
+sf::Vector3f fake_v3pow2(const sf::Vector3f& v)
+{
+  return sf::Vector3f(abs(v.x)*v.x,abs(v.y)*v.y,abs(v.z)*v.z);
+}
+
+float vec3power(const sf::Vector3f& v)
+{
+  return sqrt(v.x*v.x+v.y*v.y+v.z*v.z);
+}
+
 int main()
 {
   srand(time(NULL));
@@ -39,7 +57,7 @@ int main()
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            ball.acceleration += sf::Vector3f((50 - rand()%50) * 0.1, (50 - rand()%50) * 0.1, 80);
+            ball.acceleration += sf::Vector3f((25 - rand()%50) * 0.1, (25 - rand()%50) * 0.1, 40.0);
           }
           break;
         default:
@@ -60,21 +78,40 @@ int main()
     
     terrain.update();
     
-    //frottements de l'air
-    ball.acceleration -= ball.velocity*0.04f;
-    //poids
-    ball.acceleration.z -= 1.2f*dt;
     
-    ball.update(dt);
-    
-    if (ball.z < 0.0) { ball.z=0.0;ball.acceleration.z = abs(ball.acceleration.z)*0.8; }
+    if (ball.z >= 0.1)
+    {
+      //frottements de l'air R=1/2 * Cx * p * S * v^2
+      ball.acceleration -= fake_v3pow2(ball.velocity)*(float)(0.5*0.5*1.1845*0.6);
+    }
+    else
+    {
+      //std::cout << "frottement de terrain" << std::endl;
+      float old_z=ball.acceleration.z;
+      //frottements de terrain IREEL sinon la balle ne veut pas se stopper 0.5^2 trop faible
+      ball.acceleration -= ball.velocity*0.1f;
+      ball.acceleration.z=old_z;
+    }
+    //poids P = mg
+      ball.acceleration.z -= 9.81*0.410;
+ 
+    if (ball.z < 0.0) { 
+      ball.z=0.0;
+      ball.acceleration.z += ball.velocity.z*ball.velocity.z; 
+      ball.velocity.z=0;
+    }
+
+    //Sortie de terrain
     if (ball.getPosition().x < -terrain.width/2) ball.setPosition(-terrain.width/2,ball.getPosition().y);
     if (ball.getPosition().x > terrain.width/2) ball.setPosition(terrain.width/2,ball.getPosition().y);
     if (ball.getPosition().y < -terrain.height/2) ball.setPosition(ball.getPosition().x,-terrain.height/2);
     if (ball.getPosition().y > terrain.height/2) ball.setPosition(ball.getPosition().x,terrain.height/2);
     
+    ball.update(dt);
+    
     // Clear screen
     window.clear();
+    //std::cout << "ball z " << ball.z << " velocity^2 " << vec3power(ball.velocity) << std::endl;
    
     window.draw(terrain);
     window.draw(ball);
