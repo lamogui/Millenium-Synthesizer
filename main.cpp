@@ -4,6 +4,7 @@
 #include <iostream>
 #include "terrain.hpp"
 #include "soccerball.hpp"
+#include "Player.hpp"
 
 sf::Vector3f v3abs(const sf::Vector3f& v)
 {
@@ -25,6 +26,7 @@ int main()
   srand(time(NULL));
   BasicTerrain terrain;
   SoccerBall ball;
+  Player player;
   
   sf::View cam(sf::Vector2f(0,0),sf::Vector2f(terrain.width + 1,6.0*terrain.width/8.0));
   sf::RenderWindow window(sf::VideoMode(800, 600), "Jeu Foot");
@@ -66,14 +68,30 @@ int main()
     }
     
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && cam.getCenter().y < terrain.height/2) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && cam.getCenter().y < terrain.height/2) {
       cam.move(0.0,0.4);
       window.setView(cam);
     }
     
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && cam.getCenter().y > -terrain.height/2) {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && cam.getCenter().y > -terrain.height/2) {
       cam.move(0.0,-0.4);
       window.setView(cam);
+    }
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+      player.move(0.0,-0.2);
+    }
+    
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+      player.move(0.0,0.2);
+    }
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+      player.move(-0.2,0.0);
+    }
+    
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+      player.move(0.2,0.0);
     }
     
     terrain.update();
@@ -115,6 +133,7 @@ int main()
    
     window.draw(terrain);
     window.draw(ball);
+    window.draw(player);
     // Update the window
     window.display();
   }
