@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class Player : public sf::Drawable
+class Player : public sf::Drawable, public sf::Transformable
 {
   public:
     Player();
@@ -12,7 +12,7 @@ class Player : public sf::Drawable
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     
   protected:
-    
+    mutable sf::CircleShape _head;
 };
 
 #endif
