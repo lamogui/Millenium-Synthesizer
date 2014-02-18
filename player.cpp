@@ -13,7 +13,11 @@ Player::~Player()
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-  _head.setPosition(getPosition());
   target.draw(_head,states);
   
+}
+
+void Player::update(float dt)
+{
+  _head.setPosition(getPosition());
 }

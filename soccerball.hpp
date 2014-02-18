@@ -20,6 +20,7 @@ class SoccerBall : public sf::CircleShape
   protected:
     sf::Texture _tex;
     int _frame;
+    float _timer;
     
   
 };
