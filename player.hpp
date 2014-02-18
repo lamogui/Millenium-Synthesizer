@@ -10,9 +10,11 @@ class Player : public sf::Drawable, public sf::Transformable
     virtual ~Player();
     
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void update(float dt);
     
   protected:
-    mutable sf::CircleShape _head;
+    unsigned int state;
+    sf::CircleShape _head;
 };
 
 #endif

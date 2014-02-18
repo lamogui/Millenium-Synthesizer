@@ -32,11 +32,12 @@ int main()
   sf::RenderWindow window(sf::VideoMode(800, 600), "Jeu Foot");
   
   window.setView(cam);
-  window.setFramerateLimit(60);
+  window.setFramerateLimit(50);
   
   
   
-  float dt = 0.16;
+  float dt = 0.02;
+  float zoom = 1.0;
   
   while (window.isOpen())
   {
@@ -53,13 +54,11 @@ int main()
           window.close(); // Close window : exit
           break;
         case sf::Event::Resized:
-          cam.setSize(terrain.width + 1,terrain.width*event.size.height/event.size.width);
-          window.setView(cam);
           break;
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            ball.acceleration += sf::Vector3f((25 - rand()%50) * 0.1, (25 - rand()%50) * 0.1, 40.0);
+            ball.acceleration += sf::Vector3f(0.0,0.0,100.0/0.410);
           }
           break;
         default:
@@ -67,7 +66,17 @@ int main()
       }
     }
     
+    //Calcul de la camera 
+    sf::Vector2f cam_delta(0,0);
+    zoom = 1.0-vec3power(ball.velocity)*0.01;
+    cam.setSize(terrain.width+1,terrain.width*(float)window.getSize().y/(float)window.getSize().x + 1);
+    cam.zoom(zoom);
+    cam_delta.x = (ball.getPosition().x - cam.getCenter().x)*dt*0.1;
+    cam_delta.y = (ball.getPosition().y - cam.getCenter().y)*dt*0.1;
+    cam.move(cam_delta);
     
+    window.setView(cam);
+    /*
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && cam.getCenter().y < terrain.height/2) {
       cam.move(0.0,0.4);
       window.setView(cam);
@@ -77,7 +86,7 @@ int main()
       cam.move(0.0,-0.4);
       window.setView(cam);
     }
-    
+    */
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
       player.move(0.0,-0.2);
     }
@@ -95,28 +104,37 @@ int main()
     }
     
     terrain.update();
+    player.update(dt);
     
     
-    if (ball.z >= 0.1)
+    //poids P = mg
+    ball.acceleration.z -= 9.81;
+    
+    if (ball.z > 0.01) //Balle en l'air
     {
       //frottements de l'air R=1/2 * Cx * p * S * v^2
-      ball.acceleration -= fake_v3pow2(ball.velocity)*(float)(0.5*0.5*1.1845*0.6);
+      ball.acceleration -= fake_v3pow2(ball.velocity)*(float)(0.5*0.5*1.1845*0.06);
     }
-    else
+    else //Balle au sol
     {
-      //std::cout << "frottement de terrain" << std::endl;
-      float old_z=ball.acceleration.z;
+      if (ball.z < 0.0)  ball.z=0.0; //balle dans la terre
+    
+      //std::cout << "frottement de terrain ";
       //frottements de terrain IREEL sinon la balle ne veut pas se stopper 0.5^2 trop faible
-      ball.acceleration -= ball.velocity*0.1f;
-      ball.acceleration.z=old_z;
-    }
-    //poids P = mg
-      ball.acceleration.z -= 9.81*0.410;
- 
-    if (ball.z < 0.0) { 
-      ball.z=0.0;
-      ball.acceleration.z += ball.velocity.z*ball.velocity.z; 
-      ball.velocity.z=0;
+      ball.acceleration.x -= ball.velocity.x*0.7f;
+      ball.acceleration.y -= ball.velocity.y*0.7f;
+      
+      //réaction du support = au poid
+      ball.acceleration.z += 9.81;
+      
+      //réaction de vitesse
+      if (ball.velocity.z < 0.0) 
+      {
+        
+        //ball.acceleration.z += ball.velocity.z*ball.velocity.z*5.0/0.410;
+        //Potable mais iréaliste
+        ball.acceleration.z -= ball.velocity.z*90.0;
+      }
     }
 
     //Sortie de terrain
@@ -130,7 +148,7 @@ int main()
     // Clear screen
     window.clear();
     //std::cout << "ball z " << ball.z << " velocity^2 " << vec3power(ball.velocity) << std::endl;
-   
+    std::cout << "ball speed " << vec3power(ball.velocity)*3.6 << " km/h" << std::endl; 
     window.draw(terrain);
     window.draw(ball);
     window.draw(player);
