@@ -2,9 +2,10 @@
 #include <cstdio>
 #include <cmath>
 #include <iostream>
+#include <vector>
 #include "terrain.hpp"
 #include "soccerball.hpp"
-#include "Player.hpp"
+#include "player.hpp"
 
 sf::Vector3f v3abs(const sf::Vector3f& v)
 {
@@ -26,7 +27,16 @@ int main()
   srand(time(NULL));
   BasicTerrain terrain;
   SoccerBall ball;
-  Player player;
+  std::vector<Player*> players;
+  players.push_back(new Player());
+  players[0]->setPosition(-2.0,-4.0);
+  players.push_back(new Player());
+  players[1]->setPosition(-20.0,80.0);
+  players.push_back(new Player());
+  players[2]->setPosition(0.0,16.0);
+  
+  Player* control = players[0];
+  
   
   sf::View cam(sf::Vector2f(0,0),sf::Vector2f(terrain.width + 1,6.0*terrain.width/8.0));
   sf::RenderWindow window(sf::VideoMode(800, 600), "Jeu Foot");
@@ -37,7 +47,7 @@ int main()
   
   
   float dt = 0.02;
-  float zoom = 1.0;
+  float zoom = 0.5;
   
   while (window.isOpen())
   {
@@ -68,12 +78,64 @@ int main()
     
     //Calcul de la camera 
     sf::Vector2f cam_delta(0,0);
-    zoom = 1.0-vec3power(ball.velocity)*0.01;
+    float d =sqrt((ball.getPosition().x-control->getPosition().x)*(ball.getPosition().x-control->getPosition().x)+
+			(ball.getPosition().y-control->getPosition().y)*(ball.getPosition().y-control->getPosition().y));
+    zoom = 0.3+0.02*d;
+    zoom += ball.z*0.05;
+    
+    cam_delta.x = (ball.getPosition().x - (ball.getPosition().x - control->getPosition().x)*0.5 - cam.getCenter().x)*dt*3.0;
+    cam_delta.y = (ball.getPosition().y - (ball.getPosition().y - control->getPosition().y)*0.5 - cam.getCenter().y)*dt*3.0;
+    
     cam.setSize(terrain.width+1,terrain.width*(float)window.getSize().y/(float)window.getSize().x + 1);
+    
+    
+      
+    
+    /*if (zoom*cam.getSize().x > terrain.width*0.51)
+      zoom = (terrain.width*0.51)/cam.getSize().x;*/
     cam.zoom(zoom);
-    cam_delta.x = (ball.getPosition().x - cam.getCenter().x)*dt*0.1;
-    cam_delta.y = (ball.getPosition().y - cam.getCenter().y)*dt*0.1;
     cam.move(cam_delta);
+    
+    if (cam.getCenter().x + cam.getSize().x*0.5 > terrain.width*0.5 && 
+	cam.getCenter().x-cam.getSize().x*0.5 < -terrain.width*0.5)
+    {
+      cam.setCenter(0.0,cam.getCenter().y);
+      cam.setSize(terrain.width+1,terrain.width*(float)window.getSize().y/(float)window.getSize().x + 1);
+    }
+    
+    else if (cam.getCenter().x + cam.getSize().x*0.5 > terrain.width*0.5 && cam.getCenter().x > 0.0)
+    {
+      cam.setCenter((terrain.width+1-cam.getSize().x)*0.5,cam.getCenter().y);
+    }
+    else if (cam.getCenter().x-cam.getSize().x*0.5 < -terrain.width*0.5 && cam.getCenter().x < -0.0)
+    {
+	cam.setCenter((-terrain.width-1+cam.getSize().x)*0.5,cam.getCenter().y);
+    }
+    /*
+    if (cam.getCenter().y + cam.getSize().y*0.5 > terrain.height*0.5)
+    {
+      cam.setCenter(cam.getCenter().x,terrain.height*0.5-cam.getSize().y*0.5);
+    }
+    else if (cam.getCenter().y - cam.getSize().y*0.5 < -terrain.height*0.5)
+    {
+      cam.setCenter(cam.getCenter().x,-terrain.height*0.5+cam.getSize().y*0.5);
+    }*/
+      
+    
+    
+   /* if (cam.getSize().x*0.5 + cam.getCenter().x > terrain.width*0.5)
+    {
+	cam.setSize(terrain.width-cam.getCenter().x + 1,
+		   (terrain.width-cam.getCenter().x)*(float)window.getSize().y/(float)window.getSize().x + 1);
+    }*/
+    
+    
+    /*else if (cam.getSize().x/0.5 + cam.getCenter().x < terrain.width)
+    {
+	cam.setSize(terrain.width*0.5 - cam.getCenter().x,
+		   (terrain.width*0.5 - cam.getCenter().x)*(float)window.getSize().y/(float)window.getSize().x + 1);
+    }*/
+    
     
     window.setView(cam);
     /*
@@ -85,27 +147,46 @@ int main()
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && cam.getCenter().y > -terrain.height/2) {
       cam.move(0.0,-0.4);
       window.setView(cam);
-    }
-    */
+    }*/
+    
+    control->_acceleration.x = 0.0;
+    control->_acceleration.y = 0.0;
+    
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-      player.move(0.0,-0.2);
+      control->_acceleration.y -= 10.0;
     }
     
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-      player.move(0.0,0.2);
+      control->_acceleration.y += 10.0;
     }
     
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-      player.move(-0.2,0.0);
+      control->_acceleration.x -= 10.0;
     }
     
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-      player.move(0.2,0.0);
+      control->_acceleration.x += 10.0;
     }
     
-    terrain.update();
-    player.update(dt);
     
+    terrain.update();
+    for (unsigned int i=0;i<players.size();i++)
+    {
+      if (players[i] != control)
+      {
+	players[i]->think(ball,players,players);
+	
+	/*float norm = sqrt((ball.getPosition().x-players[i]->getPosition().x)*(ball.getPosition().x-players[i]->getPosition().x)+
+			  (ball.getPosition().y-players[i]->getPosition().y)*(ball.getPosition().y-players[i]->getPosition().y));
+
+	if (norm > 0.5)
+	players[i]->move(5.0*dt*(ball.getPosition().x-players[i]->getPosition().x)/norm,
+		    5.0*dt*(ball.getPosition().y-players[i]->getPosition().y)/norm);*/
+      
+      }
+      players[i]->update(dt);
+      
+    }
     
     //poids P = mg
     ball.acceleration.z -= 9.81;
@@ -136,12 +217,43 @@ int main()
         ball.acceleration.z -= ball.velocity.z*90.0;
       }
     }
+    
+    for (int i=0;i<players.size();i++)
+    {
+      if (ball.intersect(players[i]->getPosition().x, players[i]->getPosition().y) && ball.z < 2.0)
+      {
+	ball.acceleration += sf::Vector3f(700.0*(ball.getPosition().x-players[i]->getPosition().x),
+					  700.0*(ball.getPosition().y-players[i]->getPosition().y),
+					  100.0 - ball.z*100.0);
+      }
+    }
+    
 
     //Sortie de terrain
-    if (ball.getPosition().x < -terrain.width/2) ball.setPosition(-terrain.width/2,ball.getPosition().y);
-    if (ball.getPosition().x > terrain.width/2) ball.setPosition(terrain.width/2,ball.getPosition().y);
-    if (ball.getPosition().y < -terrain.height/2) ball.setPosition(ball.getPosition().x,-terrain.height/2);
-    if (ball.getPosition().y > terrain.height/2) ball.setPosition(ball.getPosition().x,terrain.height/2);
+    if (ball.getPosition().x < -terrain.width/2) {
+      ball.setPosition(-terrain.width/2,ball.getPosition().y);
+      ball.z=0;
+      ball.acceleration=sf::Vector3f(0,0,0);
+      ball.velocity=sf::Vector3f(0,0,0);
+    }
+    if (ball.getPosition().x > terrain.width/2) {
+      ball.setPosition(terrain.width/2,ball.getPosition().y);
+      ball.z=0;
+      ball.acceleration=sf::Vector3f(0,0,0);
+      ball.velocity=sf::Vector3f(0,0,0);
+    }
+    if (ball.getPosition().y < -terrain.height/2) {
+      ball.setPosition(ball.getPosition().x,-terrain.height/2);
+      ball.z=0;
+      ball.acceleration=sf::Vector3f(0,0,0);
+      ball.velocity=sf::Vector3f(0,0,0);
+    }
+    if (ball.getPosition().y > terrain.height/2) {
+      ball.setPosition(ball.getPosition().x,terrain.height/2);
+      ball.z=0;
+      ball.acceleration=sf::Vector3f(0,0,0);
+      ball.velocity=sf::Vector3f(0,0,0);
+    }
     
     ball.update(dt);
     
@@ -151,7 +263,11 @@ int main()
     std::cout << "ball speed " << vec3power(ball.velocity)*3.6 << " km/h" << std::endl; 
     window.draw(terrain);
     window.draw(ball);
-    window.draw(player);
+    for (int i=0;i<players.size();i++)
+    {
+	window.draw(*(players[i]));
+    }
+    
     // Update the window
     window.display();
   }
