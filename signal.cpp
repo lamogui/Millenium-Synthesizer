@@ -3,44 +3,51 @@
 #include "signal.hpp"
 
 Signal::Signal() :
-_size(0),
-_frequency(0),
-_buffer1(0),
-_buffer2(0),      
-_currentBuffer(0)
+_buffers(),
+_prepared(0),
+_played(0),
+_filled(0)
 {
-   
-
-}
-
-Signal::Signal(unsigned int size, unsigned int frequency) :
-_size(size),
-_frequency(frequency),
-_buffer1(0),
-_buffer2(0),      
-_currentBuffer(0)
-{
-   _buffer1 = new float[size];
-   _buffer2 = new float[size];
-   _currentBuffer = _buffer1;
+  for (unsigned int i=0; i < Signal::nBuffers;i++)
+  {
+    _buffers.push_back((float*) malloc(Signal::byteSize));
+    memset((void*) _buffers[i],0,Signal::byteSize);
+  }
 }
 
 Signal::Signal(const Signal& s) :
-_size(s._size),
-_frequency(s._frequency),
-_buffer1(0),
-_buffer2(0),      
-_currentBuffer(0)
+_buffers(),
+_prepared(s._prepared),
+_played(s._played),
+_filled(s._filled)
 {
-   _buffer1 = new float[size];
-   _buffer2 = new float[size];
-   
-   if (s._currentBuffer == s._buffer1)
-   _currentBuffer = _buffer1;
-   
-   for (unsigned int i=0; i < size; i++)
-   {
-      _buffer1[i]=s._buffer1[i];
-      _buffer2[i]=s._buffer2[i];
-   }
+  for (unsigned int i=0; i < s._buffers.size();i++)
+  {
+    _buffers.push_back((float*) malloc(Signal::byteSize));
+    memcpy((void*) _buffers[i],(void*) s._buffers[i],Signal::byteSize);
+  }
+}
+
+Signal::~Signal()
+{
+  for (unsigned int i=0; i < _buffers.size();i++)
+  {
+    free((void*) _buffers[i]);
+  }
+}
+
+
+sample* Signal::getPreparedBuffer()
+{
+  return _buffers[_prepared];
+}
+
+bool Signal::nextBuffer()
+{
+  if (_filled==_buffers.size())
+    return false;
+  _prepared++;
+  if (_prepared==_buffers.size())
+    _prepared=0;
+  return true;
 }
