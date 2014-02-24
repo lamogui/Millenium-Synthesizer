@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdlib> //old malloc
 #include <cstring> //memset
+#include <bass.h>
 
 typedef float sample; //type pour un echantillon
 
@@ -25,14 +26,17 @@ class Signal
     
     //Get an access to the buffers
     sample* getPreparedBuffer(); //get current prepared buffer
-    bool nextBuffer(); //finnish prepare the current buffer
+    bool prepareNextBuffer(); //finnish prepare the current buffer
     
     //Play the buffer
+    bool pop(); //Remove the first in buffer from the queue
+    bool playInBass(HSTREAM stream); //push the current buffer in bass stream
     
-    
+    //Create the bass stream
+    static HSTREAM CreateCompatibleBassStream();
       
   protected:
-    std::vector<sample*> _buffers; //fifo buffers of the signal
+    std::vector<sample*> _buffers; //fifo/circular signal buffers
     unsigned int _prepared;  //Current prepared buffer
     unsigned int _played;   //Current played buffer
     unsigned int _filled;   //Number of filled buffer
