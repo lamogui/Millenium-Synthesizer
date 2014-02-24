@@ -42,7 +42,7 @@ sample* Signal::getPreparedBuffer()
   return _buffers[_prepared];
 }
 
-bool Signal::nextBuffer()
+bool Signal::prepareNextBuffer()
 {
   if (_filled==_buffers.size())
     return false;
@@ -51,3 +51,22 @@ bool Signal::nextBuffer()
     _prepared=0;
   return true;
 }
+
+bool Signal::pop()
+{
+  if (!_filled) //no buffer prepared for stream !
+    return false;
+  _played++;
+  if (_played==_buffers.size())
+    _played=0;
+  return true;
+}
+
+bool Signal::playInBass(HSTREAM stream)
+{
+  if (!_filled) return false;
+  DWORD size = BASS_StreamPutData(stream,_buffers[_played],Signal::byteSize);
+  
+  return pop();
+}
+

@@ -34,3 +34,6 @@ linux32: $(HEADER) $(OBJ) $(FILECPP)
 
 linux64: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libsfml-graphics.a" "./liblinux64/libsfml-window.a" "./liblinux64/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/libGLEW.a"
+	
+synth_exemple: synth.c
+	gcc -o synth.exe  synth.c  -I"include" -std=c99 "./libwin32/bass.lib"
