@@ -11,4 +11,16 @@
 *.la
 
 #backup file
-*.~
+*~
+*swp
+
+#visual file
+.gitattributes
+POO.opensdf
+POO.sdf
+POO.sln
+POO.v11.suo
+POO.vcxproj
+POO.vcxproj.filters
+POO.vcxproj.user
+Release
