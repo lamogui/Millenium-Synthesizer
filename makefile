@@ -2,7 +2,7 @@
 TARGET_NAME=test
 OBJ=main.o signal.o
 CFLAGS= --std=c99 -W -Wall -I"include"
-CXXFLAGS= -I"include" -W
+CXXFLAGS= -I"include"
 FILECPP=signal.cpp main.cpp
 HEADER=signal.hpp
 

@@ -8,7 +8,8 @@
 #ifndef BASS_H
 #define BASS_H
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN32_) || defined(__WIN32__) 
+#include <windows.h>
 #include <wtypes.h>
 typedef unsigned __int64 QWORD;
 #else
