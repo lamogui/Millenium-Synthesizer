@@ -10,6 +10,8 @@ class AudioStream
     AudioStream();
     virtual ~AudioStream();  
  
+    static const unsigned int nBuffers = 4; //minimum 3 le but c'est d'en avoir le moins possible (ça augmente la latence)
+ 
     //Get an access to the buffers
     //NON-THREAD SAFE BUT YOU SHOULD NOT WRITE WITH MULTIPLES THREADS
     //(SHOULD BE) SAFE WITH READING (WILL NOT ERASE THE CURRENT PLAYED BUFFER !)
@@ -32,9 +34,9 @@ class AudioStream
     void _pop(); //Remove the first in buffer from the queue (because it has been played)
   
     std::vector<Signal*> _buffers; //fifo/circular signal buffers
-    unsigned int _prepared;  //Current prepared buffer
-    unsigned int _played;   //Current played buffer
-    unsigned int _filled;   //Number of filled buffer
+    volatile unsigned int _prepared;  //Current prepared buffer
+    volatile unsigned int _played;   //Current played buffer
+    volatile unsigned int _filled;   //Number of filled buffer
     HSTREAM _stream;        //Bass Stream
     
   private:

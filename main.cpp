@@ -18,14 +18,38 @@ int main()
   
   BASS_Init(-1, Signal::frequency, 0,0,0);
   
-  //window.setFramerateLimit(50); //Detruit tout ne pas activer
+  
   float dt=0.02;
+  bool use_callback=true;
   
   AudioStream s;
-  HSTREAM stream = s.createCompatibleBassStream(false);
+  HSTREAM stream = s.createCompatibleBassStream(use_callback);
   std::cout << "bass start " << BASS_Start() << std::endl;
   std::cout << "bass channel start " << BASS_ChannelPlay(stream,TRUE) << std::endl;
   
+  if (use_callback) 
+  {
+    window.setFramerateLimit(50); //Detruit tout ne pas activer
+    // update period min 5 ms
+    if (BASS_SetConfig(BASS_CONFIG_UPDATEPERIOD,10))
+    {
+      std::cout << "Bass period correctly set to " << BASS_GetConfig(BASS_CONFIG_UPDATEPERIOD) << " ms" << std::endl;
+    }
+    else
+    {
+      std::cerr << "Bass period error unable set it to " << BASS_GetConfig(BASS_CONFIG_UPDATEPERIOD) << " ms" << std::endl;
+    }
+    
+    if (BASS_SetConfig(BASS_CONFIG_BUFFER,AudioStream::nBuffers*1000/Signal::refreshRate))
+    {
+      std::cout << "Bass buffer correctly set to " << AudioStream::nBuffers*1000/Signal::refreshRate << " ms" << std::endl;
+    }
+    else
+    {
+      std::cerr << "Bass buffer error unable set it to " << AudioStream::nBuffers*1000/Signal::refreshRate << " ms" << std::endl;
+    }
+  }
+
   int delta=0;
   
   while (window.isOpen())
@@ -73,7 +97,7 @@ int main()
       }
     }
     
-    if (s.pushInBass())
+    if (!use_callback && s.pushInBass())
     {
       //std::cout << "pushed in bass\n"; 
     }
