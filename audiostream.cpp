@@ -11,7 +11,7 @@ _stream(0),
 _callbackMutex(),
 _relativeDelta(0)
 {
-  for (unsigned int i=0; i < Signal::nBuffers;i++)
+  for (unsigned int i=0; i < AudioStream::nBuffers;i++)
   {
     _buffers.push_back(new Signal);
   }
@@ -61,7 +61,7 @@ bool AudioStream::pushInBass()
   if (!_filled) return false;
   
   /*DWORD size = BASS_StreamPutData(_stream,(void*) _buffers[_played],0); //get queue size
-  if (size < (Signal::byteSize*Signal::nBuffers) >> 1)
+  if (size < (Signal::byteSize*AudioStream::nBuffers) >> 1)
   {*/
     DWORD size = BASS_StreamPutData(_stream,(void*) (((unsigned char*)_buffers[_played]->samples) + _relativeDelta),Signal::byteSize-_relativeDelta);
     if (size == -1)
@@ -114,6 +114,7 @@ HSTREAM AudioStream::createCompatibleBassStream(bool callback)
   AudioStream* user = 0;
   STREAMPROC* proc = STREAMPROC_PUSH;
   if (sizeof(sample)==sizeof(float)) flags |= BASS_SAMPLE_FLOAT;
+  else if (sizeof(sample)==sizeof(unsigned char)) flags |= BASS_SAMPLE_8BITS;
   if (callback) 
   {
     proc = _BassStreamProc;
@@ -157,7 +158,7 @@ HSTREAM AudioStream::createCompatibleBassStream(bool callback)
   {
     //preload 
     
-    DWORD size = BASS_StreamPutData(_stream,NULL,Signal::byteSize*Signal::nBuffers);
+    DWORD size = BASS_StreamPutData(_stream,NULL,Signal::byteSize*AudioStream::nBuffers);
     if (size == -1)
     {
       DWORD error = BASS_ErrorGetCode();
@@ -217,10 +218,31 @@ DWORD CALLBACK AudioStream::_BassStreamProc(HSTREAM handle,
                                         DWORD length,
                                         void *user)
 {
-  Signal* s=(Signal*)user;
-  for (;length;)
+  AudioStream* s=(AudioStream*)user;
+  DWORD writed=0;
+  //std::cout << "Debug buffer needed " << length;
+  if (s)
   {
-    //sample* buf = s->usePlayableBuffer();
+    sample* samples = 0;
+    sf::Lock(s->_callbackMutex);
+
+    while (s->_filled && length)
+    {
+      DWORD will_write=0;
+      if (length < Signal::byteSize - s->_relativeDelta) will_write = length;
+      else will_write = Signal::byteSize - s->_relativeDelta;
+      
+      samples = s->_buffers[s->_played]->samples;
+      memcpy((void*) (((unsigned char*)buffer) + writed),(void*) (((unsigned char*)samples) + s->_relativeDelta),will_write);
+      if (will_write == Signal::byteSize-s->_relativeDelta) //end of buffer
+      {
+        s->_pop();s->_relativeDelta=0;
+      }
+      length-=will_write;
+      writed+=will_write;
+    }
   }
+  //std::cout << " buffer given " << writed << std::endl;
+  return writed;
 }
 

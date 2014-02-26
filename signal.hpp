@@ -27,7 +27,7 @@ class Signal
   static const unsigned int refreshRate = 50; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
   static const unsigned int size = channels*frequency/refreshRate;
   static const unsigned int byteSize = sizeof(sample)*size;
-  static const unsigned int nBuffers = 4; //minimum 3 le but c'est d'en avoir le moins possible (ça augmente la latence)
+  
 };
 
 
