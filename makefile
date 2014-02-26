@@ -1,10 +1,10 @@
 
 TARGET_NAME=test
-OBJ=main.o signal.o
+OBJ=main.o signal.o audiostream.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include"
-FILECPP=signal.cpp main.cpp
-HEADER=signal.hpp
+FILECPP=signal.cpp audiostream.cpp main.cpp
+HEADER=signal.hpp audiostream.hpp
 
 defaut:
 	@echo you must choose :
