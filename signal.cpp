@@ -42,5 +42,21 @@ void Signal::add(const Signal* s, unsigned int n)
   }
 }
 
+void Signal::scale(sample s)
+{
+  for (unsigned int i=0; i < Signal::size;i++)
+  {
+    samples[i] *= s;
+  }
+}
+
+void Signal::constant(sample s)
+{
+  for (unsigned int i=0; i < Signal::size;i++)
+  {
+    samples[i] = s;
+  }
+}
+
 
 
