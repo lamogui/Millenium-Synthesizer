@@ -20,7 +20,7 @@ int main()
   
   
   float dt=0.02;
-  bool use_callback=true;
+  bool use_callback=false;
   
   AudioStream s;
   HSTREAM stream = s.createCompatibleBassStream(use_callback);
