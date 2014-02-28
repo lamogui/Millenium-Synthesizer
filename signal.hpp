@@ -20,6 +20,9 @@ class Signal
 
     void mix(const Signal*, unsigned int n=1);
     void add(const Signal*, unsigned int n=1);
+    void scale(sample s);
+    void constant(sample s);
+    
     
       //Constants for all signals
   static const unsigned int frequency = 44100;

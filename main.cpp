@@ -7,6 +7,7 @@
 #include <ctime>
 #include "signal.hpp"
 #include "audiostream.hpp"
+#include "oscillator.hpp"
 #include <SFML/Graphics.hpp>
 
 
@@ -23,6 +24,15 @@ int main()
   bool use_callback=false;
   
   AudioStream s;
+  SinusoidalOscillator uni;
+  uni.setFrequency(1.0);
+  uni.setAmplitude(1.0);
+  
+  SinusoidalOscillator osc;
+  osc.setFrequency(440.0);
+  osc.setAmplitude(0.75);
+  
+  
   HSTREAM stream = s.createCompatibleBassStream(use_callback);
   std::cout << "bass start " << BASS_Start() << std::endl;
   std::cout << "bass channel start " << BASS_ChannelPlay(stream,TRUE) << std::endl;
@@ -50,8 +60,6 @@ int main()
     }
   }
 
-  int delta=0;
-  
   while (window.isOpen())
   {
   // Process events
@@ -85,15 +93,14 @@ int main()
     {
       //std::cout << "prepare\n"; 
       Signal* signal = s.getPreparedBuffer();
+      
       if (signal)
       {
-        sample* samples = signal->samples;
-        for (int i=0;i < Signal::size-1;i+=2)
-        {
-          samples[i] = 0.3*sin(2.0*3.1415*441.0*(delta + i/2)/(float)Signal::frequency);
-          samples[i+1] = samples[i];
-        }
-        delta+=Signal::size/2;
+        //sample* samples = signal->samples;
+        //generate unisson
+        osc.unisson=&uni.generate();
+        //output sinuoidal
+        osc.stepfill(signal);
       }
     }
     
