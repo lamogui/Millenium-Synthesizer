@@ -47,7 +47,7 @@ SinusoidalOscillator::~SinusoidalOscillator()
 {
 }
 
-void SinusoidalOscillator::stepfill(Signal* output)
+void SinusoidalOscillator::step(Signal* output)
 {
   sample* samples = output->samples;
   sample* f = frequency->samples;
@@ -59,7 +59,7 @@ void SinusoidalOscillator::stepfill(Signal* output)
   for (int i=0;i < Signal::size-1;i+=2)
   {
     const float x=k*f[i]*_dt;
-    samples[i] = (a[i]/6.0)*(sin(x + m[i])+u[i]*sin(2.0*x + m[i])+ 0.5*u[i]*sin(4.0*x + m[i])+0.25*u[i]*sin(8.0*x + m[i]) + 0.5*u[i]*sin(0.5*x + m[i]) + 0.25*u[i]*sin(0.25*x + m[i]));
+    samples[i] = a[i]*sin(x + 10.0*m[i]);
     samples[i+1] = samples[i];
     _dt++;
   }
