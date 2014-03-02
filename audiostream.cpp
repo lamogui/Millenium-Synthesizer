@@ -60,9 +60,10 @@ bool AudioStream::pushInBass()
    
   if (!_filled) return false;
   
-  /*DWORD size = BASS_StreamPutData(_stream,(void*) _buffers[_played],0); //get queue size
-  if (size < (Signal::byteSize*AudioStream::nBuffers) >> 1)
-  {*/
+  DWORD size = BASS_StreamPutData(_stream,(void*) _buffers[_played],0); //get queue size
+  //if (size < (Signal::byteSize*AudioStream::nBuffers) >> 1)
+  if (size < Signal::byteSize)
+  {
     DWORD size = BASS_StreamPutData(_stream,(void*) (((unsigned char*)_buffers[_played]->samples) + _relativeDelta),Signal::byteSize-_relativeDelta);
     if (size == -1)
     {
@@ -104,7 +105,7 @@ bool AudioStream::pushInBass()
       }
       return true;
     }
-  //}
+  }
   return false;
 }
 
@@ -234,6 +235,7 @@ DWORD CALLBACK AudioStream::_BassStreamProc(HSTREAM handle,
       
       samples = s->_buffers[s->_played]->samples;
       memcpy((void*) (((unsigned char*)buffer) + writed),(void*) (((unsigned char*)samples) + s->_relativeDelta),will_write);
+      
       if (will_write == Signal::byteSize-s->_relativeDelta) //end of buffer
       {
         s->_pop();s->_relativeDelta=0;

@@ -10,7 +10,7 @@ class AudioStream
     AudioStream();
     virtual ~AudioStream();  
  
-    static const unsigned int nBuffers = 4; //minimum 3 le but c'est d'en avoir le moins possible (ça augmente la latence)
+    static const unsigned int nBuffers = 3; //minimum 3 le but c'est d'en avoir le moins possible (ça augmente la latence)
  
     //Get an access to the buffers
     //NON-THREAD SAFE BUT YOU SHOULD NOT WRITE WITH MULTIPLES THREADS
@@ -19,7 +19,7 @@ class AudioStream
     bool prepareNextBuffer(); //finnish prepare the current buffer
     
     //Play the playable buffer
-    //DON'T USE 3 FOLLOWING WITH BASS CALLBACK STREAM !
+    //DON'T USE 4 FOLLOWING WITH BASS CALLBACK STREAM !
     bool pushInBass(); //push the current buffer in bass stream (push method)
     Signal* usePlayableBuffer(); //use the current played buffer DON'T USE WITH BASS CALLBACK STREAM !
     void releasePlayableBuffer(); //release the current playable buffer and go to the next

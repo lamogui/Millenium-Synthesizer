@@ -24,10 +24,12 @@ class Signal
     void constant(sample s);
     
     
+    Signal& operator=(const Signal&);
+    
       //Constants for all signals
   static const unsigned int frequency = 44100;
   static const unsigned int channels = 2; //stereo only supported yet
-  static const unsigned int refreshRate = 50; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
+  static const unsigned int refreshRate = 100; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
   static const unsigned int size = channels*frequency/refreshRate;
   static const unsigned int byteSize = sizeof(sample)*size;
   

@@ -11,12 +11,12 @@ class Oscillator
     
     inline Signal& generate()
     {
-      this->stepfill(&_output);
+      this->step(&_output);
       return _output;
     }
     
     //Must provide this
-    virtual void stepfill(Signal* output) = 0;
+    virtual void step(Signal* output) = 0;
 
     
     inline void resetTime()
@@ -81,7 +81,7 @@ class SinusoidalOscillator : public Oscillator
     SinusoidalOscillator();
     virtual ~SinusoidalOscillator();
   
-    virtual void stepfill(Signal* output);
+    virtual void step(Signal* output);
 };
 
 #endif

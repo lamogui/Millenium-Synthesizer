@@ -8,8 +8,9 @@
 #include "signal.hpp"
 #include "audiostream.hpp"
 #include "oscillator.hpp"
+#include "nelead6.hpp"
 #include <SFML/Graphics.hpp>
-
+#include <map>
 
 int main()
 {
@@ -22,16 +23,12 @@ int main()
   
   float dt=0.02;
   bool use_callback=false;
+  unsigned int time=0;
   
   AudioStream s;
-  SinusoidalOscillator uni;
-  uni.setFrequency(1.0);
-  uni.setAmplitude(1.0);
+  NELead6 lead;
   
-  SinusoidalOscillator osc;
-  osc.setFrequency(440.0);
-  osc.setAmplitude(0.75);
-  
+  std::map<sf::Keyboard::Key,Note*> notes;
   
   HSTREAM stream = s.createCompatibleBassStream(use_callback);
   std::cout << "bass start " << BASS_Start() << std::endl;
@@ -83,6 +80,43 @@ int main()
           {
           }
           break;
+          
+        case sf::Event::KeyPressed:
+          {
+            float f=0;
+            switch (event.key.code)
+            {
+              case sf::Keyboard::Q: f=261.63; break;
+              case sf::Keyboard::Z: f=277.18; break;
+              case sf::Keyboard::S: f=293.66; break;
+              case sf::Keyboard::E: f=311.13; break;
+              case sf::Keyboard::D: f=329.63; break;
+              case sf::Keyboard::F: f=349.23; break;
+              case sf::Keyboard::T: f=369.99; break;
+              case sf::Keyboard::G: f=392.00; break;
+              case sf::Keyboard::Y: f=415.30; break;
+              case sf::Keyboard::H: f=440.00; break;
+              case sf::Keyboard::U: f=466.16; break;
+              case sf::Keyboard::J: f=493.88; break;
+              default: break;
+            }
+            if (f)
+            {
+              if (notes.find(event.key.code) == notes.end())
+              {
+                notes[event.key.code] = new Note(time,f,1.0);
+                lead.playNote(*notes[event.key.code]);
+              }  
+            }
+          }
+          break;
+        case sf::Event::KeyReleased:
+          if (notes.find(event.key.code) != notes.end())
+          {
+            delete notes[event.key.code];
+            notes.erase(event.key.code);
+          }
+          break;
         default:
           break;
       }
@@ -91,23 +125,21 @@ int main()
     
     if (s.prepareNextBuffer())
     {
-      //std::cout << "prepare\n"; 
       Signal* signal = s.getPreparedBuffer();
-      
       if (signal)
       {
-        //sample* samples = signal->samples;
-        //generate unisson
-        osc.unisson=&uni.generate();
-        //output sinuoidal
-        osc.stepfill(signal);
+        lead.step(signal);
+        time++;
       }
+      
     }
+    sf::sleep(sf::microseconds(1000));
     
     if (!use_callback && s.pushInBass())
     {
-      //std::cout << "pushed in bass\n"; 
     }
+    
+    
     
     // Update the window
     window.display();
