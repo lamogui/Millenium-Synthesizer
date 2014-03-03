@@ -25,14 +25,24 @@ int main()
   bool use_callback=false;
   unsigned int time=0;
   
-  AudioStream s;
-  NELead6 lead;
+  HSTREAM stream =BASS_StreamCreate(Signal::frequency,
+                                    Signal::channels,BASS_SAMPLE_FLOAT,
+                                    STREAMPROC_PUSH,(void*) 0);
+                                    
+  //reserve place for our buffer
+  BASS_StreamPutData(stream,0,Signal::byteSize*2);
+                                    
+  std::cout << "bass channel start " << BASS_ChannelPlay(stream,TRUE) << std::endl;
   
+  
+  NELead6 lead;
+  Signal output;
   std::map<sf::Keyboard::Key,Note*> notes;
   
+  /*
+  AudioStream s;
   HSTREAM stream = s.createCompatibleBassStream(use_callback);
-  std::cout << "bass start " << BASS_Start() << std::endl;
-  std::cout << "bass channel start " << BASS_ChannelPlay(stream,TRUE) << std::endl;
+  
   
   if (use_callback) 
   {
@@ -56,7 +66,7 @@ int main()
       std::cerr << "Bass buffer error unable set it to " << AudioStream::nBuffers*1000/Signal::refreshRate << " ms" << std::endl;
     }
   }
-
+  */
   while (window.isOpen())
   {
   // Process events
@@ -122,8 +132,15 @@ int main()
       }
     }
     
+    DWORD buffed = BASS_StreamPutData(stream,0,0); 
+    if (buffed < Signal::byteSize/10)
+    {
+      lead.step(&output);
+      time++;
+      BASS_StreamPutData(stream,(void*)output.samples,Signal::byteSize); 
+    }
     
-    if (s.prepareNextBuffer())
+    /*if (s.prepareNextBuffer())
     {
       Signal* signal = s.getPreparedBuffer();
       if (signal)
@@ -137,7 +154,7 @@ int main()
     
     if (!use_callback && s.pushInBass())
     {
-    }
+    }*/
     
     
     
