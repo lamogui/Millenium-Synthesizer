@@ -1,4 +1,6 @@
 
+#include "config.hpp"
+
 #include <cstdio>
 #include <cmath>
 #include <iostream>
@@ -12,10 +14,9 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include "bass.h"
+#include "basserrorhandler.hpp"
 
-#if defined(SFML_SYSTEM_WINDOWS)
-#define COMPILE_WINDOWS
-#endif 
+
 
 #if defined(COMPILE_WINDOWS)
 #include <windows.h>
@@ -26,90 +27,18 @@ DWORD CALLBACK AsioProc(BOOL input, DWORD channel, void *buffer, DWORD length, v
 {
 	DWORD c=BASS_ChannelGetData((DWORD)user,buffer,length);
 	if (c==-1) c=0; // an error, no data
-  if (c!= length)
-  {
-    std::cout << "wanted " << length << "  got " << c << std::endl;
-  }
 	return c;
-}
-
-std::string handleBassAsioInitError()
-{
-  switch (BASS_ASIO_ErrorGetCode())
-  {
-    case BASS_ERROR_DEVICE:	return "The device number specified is invalid.";
-    case BASS_ERROR_ALREADY: return "A device has already been initialized. You must call BASS_ASIO_Free before you can initialize again.";
-    case BASS_ERROR_DRIVER:	return "The driver could not be initialized.";
-    default: return "";
-  }
-}
-
-std::string handleBassAsioStartError()
-{
-  switch (BASS_ASIO_ErrorGetCode())
-  {
-    case BASS_ERROR_INIT:	return "BASS_ASIO_Init has not been successfully called.";
-    case BASS_ERROR_ALREADY:	return "The device has already been started.";
-    case BASS_ERROR_NOCHAN:	return "No channels have been enabled.";
-    case BASS_ERROR_UNKNOWN:	return "Some other mystery problem!"; 
-    default: return "";
-  }
 }
 
 #endif
 
 
-
-std::string handleBassInitError()
-{
-  switch (BASS_ErrorGetCode())
-  {
-    case BASS_ERROR_DX:	return "DirectX (or ALSA on Linux or OpenSL ES on Android) is not installed.";
-    case BASS_ERROR_DEVICE:	return "device is invalid.";
-    case BASS_ERROR_ALREADY:	return "The device has already been initialized. BASS_Free must be called before it can be initialized again.";
-    case BASS_ERROR_DRIVER:	return "There is no available device driver. The device may already be in use.";
-    case BASS_ERROR_FORMAT:	return "The specified format is not supported by the device. Try changing the freq and flags parameters.";
-    case BASS_ERROR_MEM:	return "There is insufficient memory.";
-    case BASS_ERROR_NO3D:	return "Could not initialize 3D support.";
-    case BASS_ERROR_UNKNOWN:	return "Some other mystery problem!";
-    default: return "";
-  }
-}
-
-std::string handleBassStreamCreateError()
-{
-  switch (BASS_ErrorGetCode())
-  {
-    case BASS_ERROR_INIT:	return "BASS_Init has not been successfully called.";
-    case BASS_ERROR_NOTAVAIL:	return "Only decoding channels (BASS_STREAM_DECODE) are allowed when using the 'no sound' device. The BASS_STREAM_AUTOFREE flag is also unavailable to decoding channels.";
-    case BASS_ERROR_FORMAT:	return "The sample format is not supported by the device/drivers. If the stream is more than stereo or the BASS_SAMPLE_FLOAT flag is used, it could be that they are not supported.";
-    case BASS_ERROR_SPEAKER:	return "The specified SPEAKER flags are invalid. The device/drivers do not support them, they are attempting to assign a stereo stream to a mono speaker or 3D functionality is enabled.";
-    case BASS_ERROR_MEM:	return "There is insufficient memory.";
-    case BASS_ERROR_NO3D:	return "Could not initialize 3D support.";
-    case BASS_ERROR_UNKNOWN:	return "Some other mystery problem!";
-    default: return "";
-  }
-}
-
-std::string handleBassChannelPlayError()
-{
-  switch (BASS_ErrorGetCode())
-  {
-    case BASS_ERROR_HANDLE:	return "handle is not a valid channel.";
-    case BASS_ERROR_START:	return "The output is paused/stopped, use BASS_Start to start it.";
-    case BASS_ERROR_DECODE:	return "The channel is not playable; it is a 'decoding channel'.";
-    case BASS_ERROR_BUFLOST:	return "Should not happen... check that a valid window handle was used with BASS_Init.";
-    case BASS_ERROR_NOHW:	return "No hardware voices are available (HCHANNEL only). This only occurs if the sample was loaded/created with the BASS_SAMPLE_VAM flag and BASS_VAM_HARDWARE is set in the sample's VAM mode, and there are no hardware voices available to play it.";
-    default: return "";
-  }
-}
-
 int main()
 {
   srand(time(NULL));
   Settings::getInstance().loadFile("settings.ini");
-  unsigned int signalFrequency = GetSettingsFor("Audio/SignalFrequency",44100);
-  unsigned int signalRefreshRate = GetSettingsFor("Audio/SignalRefreshRate",50);
+  unsigned int signalFrequency = GetSettingsFor("Signal/Frequency",44100);
+  unsigned int signalRefreshRate = GetSettingsFor("Signal/RefreshRate",50);
   Signal::globalConfiguration(signalFrequency,signalRefreshRate);
   
   if (HIWORD(BASS_GetVersion())!=BASSVERSION) {
@@ -124,13 +53,13 @@ int main()
   int selected_driver=0;
   HSTREAM stream;
   #if defined(COMPILE_WINDOWS)
-  bool useAsioDriver = GetSettingsFor("Audio/UseAsioDriver",true);
+  bool useAsioDriver = GetSettingsFor("ASIO/UseAsioDriver",true);
   BASS_ASIO_INFO info;
   if (useAsioDriver)
   {
     int count;
     BASS_ASIO_DEVICEINFO device_info;
-    if (GetSettingsFor("Audio/AddAsio4AllAsDriver",false))
+    /*if (GetSettingsFor("ASIO/AddAsio4AllAsDriver",false))
     {
       GUID driver_id;
       DWORD asio4all_id = BASS_ASIO_AddDevice(&driver_id,"asio4all.dll","Asio4All");
@@ -143,7 +72,7 @@ int main()
       {
         std::cerr << "Asio4All loaded from asio4all.dll device id: " << asio4all_id << std::endl;
       }
-    }
+    }*/
     
     std::cout << "Looking for ASIO drivers available..." << std::endl;
     for (count=0; BASS_ASIO_GetDeviceInfo(count, &device_info); count++)
@@ -154,7 +83,7 @@ int main()
     }
     std::cout << count <<  " Driver(s) available" << std::endl;
     
-    selected_driver = GetSettingsFor("Audio/AsioDriverID",0);
+    selected_driver = GetSettingsFor("ASIO/DriverID",0);
     if (count)
     {
       if (selected_driver >= count)
@@ -165,8 +94,7 @@ int main()
       }
       BASS_SetConfig(BASS_CONFIG_UPDATEPERIOD,0);
       //setup BASS - "no sound" device
-      correct_bass_init = BASS_Init(0,48000,0,0,NULL);
-      Signal::globalConfiguration(48000,Signal::refreshRate);
+      correct_bass_init = BASS_Init(0,Signal::frequency,0,0,NULL);
     }
     else
     {
@@ -218,6 +146,10 @@ int main()
       std::cout << "Warning: Cannot set Signal frequency to ASIO sample rate, this will reconfigure alls signals now" << std::endl;
       Signal::globalConfiguration(BASS_ASIO_GetRate(),Signal::refreshRate);
     }
+    else
+    {
+      std::cout << "ASIO Rate set to " << Signal::frequency << std::endl;
+    }
     stream=BASS_StreamCreate(Signal::frequency,
                              Signal::channels, BASS_STREAM_DECODE,
                              STREAMPROC_PUSH,(void*) 0);
@@ -252,7 +184,7 @@ int main()
   #if defined(COMPILE_WINDOWS)
   if (useAsioDriver)
   {
-    unsigned right=GetSettingsFor("Audio/AsioDriverChannelRight",0),left=GetSettingsFor("Audio/AsioDriverChannelLeft",1);
+    unsigned right=GetSettingsFor("ASIO/AsioDriverChannelRight",0),left=GetSettingsFor("ASIO/AsioDriverChannelLeft",1);
     unsigned count;
     BASS_ASIO_CHANNELINFO channel_info;
     std::cout << "Looking for Channels available..." << std::endl;
@@ -290,12 +222,6 @@ int main()
     }
   }
   #endif
-  
-	
-  
-                                    
-  //reserve place for our buffer
-  BASS_StreamPutData(stream,0,Signal::byteSize*2);
   
   #if defined(COMPILE_WINDOWS)
   if (!useAsioDriver)
@@ -426,8 +352,11 @@ int main()
       }
     }
     
+    
+    /*
+    
     DWORD buffed = BASS_StreamPutData(stream,0,0); 
-    if (buffed < Signal::size*2)
+    if (buffed <= Signal::size*2)
     {
       lead.step(&output);
       time++;
@@ -435,9 +364,28 @@ int main()
       {
         finalSamples[i]=output.samples[i]*32000;
       }
+      BASS_StreamPutData(stream,(void*)0,Signal::size*2); 
       BASS_StreamPutData(stream,(void*)finalSamples,Signal::size*2); 
     }
-    
+    else
+    {
+      //std::cout << "buffed " << buffed <<  " minimum " << Signal::size*2 << std::endl;
+      lead.step(&output);
+      time++;
+      for (unsigned int i=0; i < Signal::size;i++)
+      {
+        finalSamples[i]=output.samples[i]*32000;
+      }
+      buffed = BASS_StreamPutData(stream,0,0); 
+      if (buffed)
+        sf::sleep(sf::microseconds((1000000*buffed)/(2*Signal::channels*Signal::frequency)));
+      BASS_StreamPutData(stream,(void*)0,Signal::size*2); 
+      if (BASS_StreamPutData(stream,(void*)finalSamples,Signal::size*2) != Signal::size*2)
+      {
+        std::cout << "ohoh !" << std::endl;
+      }
+    }
+    */
     /*if (s.prepareNextBuffer())
     {
       Signal* signal = s.getPreparedBuffer();
