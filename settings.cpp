@@ -262,12 +262,67 @@ Variant Settings::value(std::string key)
 	return Variant();
 }
 
-Variant GetSettingsFor(std::string key)
+bool GetSettingsFor(std::string key, bool defValue)
 {
-	return Settings::getInstance().value(key);
+  bool defaultValue=true;
+  bool v = Settings::getInstance().value(key).toBool(&defaultValue);
+  if (defaultValue)
+  {
+    Settings::getInstance().setValue(key,Variant(defValue));
+    return defValue;
+  }
+	return v;
+}
+
+unsigned int GetSettingsFor(std::string key, unsigned int defValue)
+{
+  bool defaultValue=true;
+  unsigned int v = Settings::getInstance().value(key).toUInt(&defaultValue);
+  if (defaultValue)
+  {
+    Settings::getInstance().setValue(key,Variant(defValue));
+    return defValue;
+  }
+	return v;
+}
+
+int GetSettingsFor(std::string key, int defValue)
+{
+  bool defaultValue=true;
+  int v = Settings::getInstance().value(key).toInt(&defaultValue);
+  if (defaultValue)
+  {
+    Settings::getInstance().setValue(key,Variant(defValue));
+    return defValue;
+  }
+	return v;
+}
+
+float GetSettingsFor(std::string key, float defValue)
+{
+  bool defaultValue=true;
+  float v = Settings::getInstance().value(key).toFloat(&defaultValue);
+  if (defaultValue)
+  {
+    Settings::getInstance().setValue(key,Variant(defValue));
+    return defValue;
+  }
+	return v;
+}
+
+std::string GetSettingsFor(std::string key, const std::string& defValue)
+{
+  std::string v = Settings::getInstance().value(key).toString();
+  if (v.empty())
+  {
+    Settings::getInstance().setValue(key,Variant(defValue));
+    return defValue;
+  }
+	return v;
 }
 
 void SetSettings(std::string key,const Variant &yourvalue)
 {
+  
 	Settings::getInstance().setValue(key,yourvalue);
 }
