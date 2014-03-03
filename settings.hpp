@@ -6,7 +6,12 @@
 #include <iostream>
 #include "variant.hpp"
 
-Variant GetSettingsFor(std::string key);
+bool GetSettingsFor(std::string key, bool defValue);
+unsigned int GetSettingsFor(std::string key, unsigned int defValue);
+int GetSettingsFor(std::string key, int defValue);
+float GetSettingsFor(std::string key, float defValue);
+std::string GetSettingsFor(std::string key, const std::string& defValue);
+
 void SetSettings(std::string key,const Variant &yourvalue);
 
 class Settings 

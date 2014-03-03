@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstdlib> //old malloc
 #include <cstring> //memset
-
+#include <set>
 
 typedef float sample; //type pour un echantillon
 
@@ -27,11 +27,19 @@ class Signal
     Signal& operator=(const Signal&);
     
       //Constants for all signals
-  static const unsigned int frequency = 44100;
-  static const unsigned int channels = 2; //stereo only supported yet
-  static const unsigned int refreshRate = 50; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
-  static const unsigned int size = channels*frequency/refreshRate;
-  static const unsigned int byteSize = sizeof(sample)*size;
+  static unsigned int frequency;
+  static unsigned int channels; //stereo only supported yet
+  static unsigned int refreshRate; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
+  static unsigned int size;
+  static unsigned int byteSize;
+  
+  
+  //be sure to lock ALL instances of Signals before do this
+  static void globalConfiguration( unsigned int f,  unsigned int r);
+  
+  private:
+    void _reset();
+    static std::set<Signal*> _instances;
   
 };
 

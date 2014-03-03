@@ -27,7 +27,7 @@ defaut:
 	windres $< $@ -v
 
 win32: $(HEADER) $(OBJ) $(FILECPP)
-	g++ -o $(TARGET_NAME).exe $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
+	g++ -o $(TARGET_NAME).exe $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
 
 linux32: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).x32 $(OBJ) $(CXXFLAGS) "./liblinux32/libbass.so" "./liblinux32/libsfml-graphics.so.2.1" "./liblinux32/libsfml-window.so.2.1" "./liblinux32/libsfml-system.so.2.1" 
