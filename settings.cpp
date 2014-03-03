@@ -19,7 +19,7 @@ void Settings::saveFile()
 		std::cerr << "failled to save the file no filename" << std::endl;
 		return; 
 	}
-	std::ofstream strm(_filename.c_str());
+	std::ofstream strm(_filename.c_str(), std::ofstream::binary);
 	if (!strm.is_open())
 	{
 		std::cerr << "cannot write on file : "  << _filename << std::endl;
@@ -60,7 +60,7 @@ bool Settings::loadFile(const char* filename)
 		return false; 
 	}
 	_filename = filename;
-	std::ifstream strm(_filename.c_str());
+	std::ifstream strm(_filename.c_str(), std::ifstream::binary);
 	if (!strm.is_open())
 	{
 		std::cerr << "cannot open file : "  << _filename << std::endl;
