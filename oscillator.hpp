@@ -32,6 +32,8 @@ class Oscillator
     virtual void setUnisson(float u);
     //set constant fm
     virtual void setFM(float fm);
+    //set constant shape
+    virtual void setShape(float s);
     
     //Used signals for parameters must be non-NULL
     //Function generate MUST always use these pointers
@@ -63,6 +65,11 @@ class Oscillator
       return _fm;
     }
     
+    inline Signal& getShape()
+    {
+      return _shape;
+    }
+
   protected:
     unsigned int _time; //in (1/fe) secondes
  
@@ -71,7 +78,7 @@ class Oscillator
     Signal _frequency; //Oscillator "constant" frequency;
     Signal _unisson; //Oscillator "constant" unison;
     Signal _fm; //Oscillator "constant" fmodulation;
-    
+    Signal _shape; //Oscillator "constant" shape (duty for square ...)
     Signal _output;
 };
 
