@@ -47,7 +47,7 @@ void NELead6Voice::step(Signal* output)
   }
   else
   {
-    _osc2->step(_osc1->fm);
+    //_osc2->step(_osc1->fm);
     _osc1->step(output);
   }
 }
