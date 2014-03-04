@@ -8,6 +8,7 @@ Oscillator::Oscillator() : _time(0)
   amplitude=&_amplitude;
   unisson=&_unisson;
   fm=&_fm;
+  shape=&_shape;
 }
 
 Oscillator::~Oscillator()
@@ -37,6 +38,12 @@ void Oscillator::setFM(float myfm)
 {
   _fm.constant(myfm);
   fm=&_fm;
+}
+
+void Oscillator::setShape(float myshape)
+{
+  _shape.constant(myshape);
+  shape=&_shape;
 }
 
 SinusoidalOscillator::SinusoidalOscillator()
@@ -87,10 +94,10 @@ void SquareOscillator::step(Signal* output)
   {
     float t=fmod(_time,(Signal::frequency/f[i]));
     if (t>s[i]) {
-      samples[i]=0;
+      samples[i]=a[i];
     }
     else
-      samples[i]=1;
+      samples[i]=0;
   }
 }
 
