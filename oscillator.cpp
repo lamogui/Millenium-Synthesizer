@@ -83,6 +83,7 @@ SquareOscillator::~SquareOscillator()
 
 void SquareOscillator::step(Signal* output)
 {
+  float t;
   sample* samples = output->samples;
   sample* f = frequency->samples;
   sample* a = amplitude->samples;
@@ -92,12 +93,18 @@ void SquareOscillator::step(Signal* output)
   
   for (int i=0;i < Signal::size-1;i+=2)
   {
-    float t=fmod(_time,(Signal::frequency/f[i]));
+    std::cout << "t=" << t << std::endl;
+    t=fmod(_time,(Signal::frequency/f[i]));
     if (t>s[i]) {
       samples[i]=a[i];
+      std::cout << "ok"<<std::endl;
     }
-    else
+    else {
+      std::cout << "ok1"<<std::endl;
       samples[i]=0;
+    }
+    samples[i+1] = samples[i];
+    _time++;
   }
 }
 

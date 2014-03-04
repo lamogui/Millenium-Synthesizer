@@ -2,6 +2,7 @@
 #define __OSCILLATORS
 
 #include "signal.hpp"
+#include <iostream>
 
 class Oscillator
 {
