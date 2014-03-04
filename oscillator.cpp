@@ -2,7 +2,7 @@
 #include "oscillator.hpp"
 #include <cmath>
 
-Oscillator::Oscillator() : _dt(0)
+Oscillator::Oscillator() : _time(0)
 {
   frequency=&_frequency;
   amplitude=&_amplitude;
@@ -58,9 +58,39 @@ void SinusoidalOscillator::step(Signal* output)
   const float k=(2.0*3.1415/(float)Signal::frequency);
   for (int i=0;i < Signal::size-1;i+=2)
   {
-    const float x=k*f[i]*_dt;
+    const float x=k*f[i]*_time;
     samples[i] = a[i]*sin(x + 10.0*m[i]);
     samples[i+1] = samples[i];
-    _dt++;
+    _time++;
   }
 }
+
+SquareOscillator::SquareOscillator()
+{
+}
+
+SquareOscillator::~SquareOscillator()
+{
+}
+
+
+void SquareOscillator::step(Signal* output)
+{
+  sample* samples = output->samples;
+  sample* f = frequency->samples;
+  sample* a = amplitude->samples;
+  sample* u = unisson->samples;
+  sample* m = fm->samples;
+  sample* s = shape->samples;
+  
+  for (int i=0;i < Signal::size-1;i+=2)
+  {
+    float t=fmod(_time,(Signal::frequency/f[i]));
+    if (t>s[i]) {
+      samples[i]=0;
+    }
+    else
+      samples[i]=1;
+  }
+}
+
