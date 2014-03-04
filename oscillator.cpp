@@ -74,6 +74,7 @@ void SinusoidalOscillator::step(Signal* output)
 
 SquareOscillator::SquareOscillator()
 {
+  setShape(0.5);
 }
 
 SquareOscillator::~SquareOscillator()

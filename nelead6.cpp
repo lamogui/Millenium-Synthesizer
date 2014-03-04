@@ -29,7 +29,6 @@ void NELead6Voice::beginNote(Note& n)
   _osc1->setAmplitude(n.velocity);
   _osc2->setFrequency(n.frequency*0.25);
   _osc2->setAmplitude(0.5);
-  _osc2->setShape(0.5);
 
   _used=true;
 }
