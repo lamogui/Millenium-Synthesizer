@@ -21,7 +21,7 @@ class Oscillator
     
     inline void resetTime()
     {
-      _dt=0;
+      _time=0;
     }
     
     //set constant frequency
@@ -39,6 +39,7 @@ class Oscillator
     Signal* frequency; //
     Signal* unisson;
     Signal* fm;
+    Signal* shape;
     
     //if the user want use the internal Signal for 
     //with specific wave and not constant
@@ -63,7 +64,7 @@ class Oscillator
     }
     
   protected:
-    unsigned int _dt; //in (1/fe) secondes
+    unsigned int _time; //in (1/fe) secondes
  
   private:
     Signal _amplitude; //Oscillator "constant" amplitude;
@@ -80,6 +81,15 @@ class SinusoidalOscillator : public Oscillator
   public:
     SinusoidalOscillator();
     virtual ~SinusoidalOscillator();
+  
+    virtual void step(Signal* output);
+};
+
+class SquareOscillator : public Oscillator
+{
+  public:
+    SquareOscillator ();
+    virtual ~SquareOscillator ();
   
     virtual void step(Signal* output);
 };

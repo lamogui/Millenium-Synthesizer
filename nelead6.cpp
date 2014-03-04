@@ -1,7 +1,7 @@
 #include "nelead6.hpp"
 
 NELead6Voice::NELead6Voice() :
-_osc1(new SinusoidalOscillator),
+_osc1(new SquareOscillator),
 _osc2(new SinusoidalOscillator),
 _lfo1(new SinusoidalOscillator),
 _lfo2(new SinusoidalOscillator),
