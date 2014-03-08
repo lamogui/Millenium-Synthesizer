@@ -1,6 +1,7 @@
 #include "nelead6.hpp"
 
-NELead6Voice::NELead6Voice() :
+NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
+InstrumentVoice(creator),
 _osc1(new SquareOscillator),
 _osc2(new SinusoidalOscillator),
 _lfo1(new SinusoidalOscillator),
@@ -43,7 +44,7 @@ void NELead6Voice::step(Signal* output)
   if (_modulation_mode==NELEAD6_RM)
   {
     _osc1->step(output);
-    output->mix(&_osc2->generate());
+    output->mix(_osc2->generate());
   }
   else
   {

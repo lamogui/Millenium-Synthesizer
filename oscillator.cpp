@@ -2,7 +2,7 @@
 #include "oscillator.hpp"
 #include <cmath>
 
-Oscillator::Oscillator() : _time(0)
+Oscillator::Oscillator() 
 {
   frequency=&_frequency;
   amplitude=&_amplitude;
@@ -102,7 +102,7 @@ void SquareOscillator::step(Signal* output)
     else {
       samples[i]=-a[i];
     }
-    samples[i+1] = samples[i];
+    samples[i+1] = -samples[i];
     _time++;
   }
 }

@@ -13,7 +13,7 @@
 class NELead6Voice : public InstrumentVoice
 {
   public:
-    NELead6Voice();
+    NELead6Voice(AbstractInstrument* creator);
     virtual ~NELead6Voice();
 
     void beginNote(Note& n);
@@ -26,11 +26,6 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _lfo1;
     Oscillator* _lfo2;
     unsigned char _modulation_mode;
-};
-
-class NELead6 : public Instrument<NELead6Voice>
-{
-  
 };
 
 #endif

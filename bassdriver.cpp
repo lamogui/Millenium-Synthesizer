@@ -153,6 +153,10 @@ DWORD CALLBACK BassDriver::_StreamProc(HSTREAM handle,
   {
     std::cout << "Critical here: BASS want " << length << " but there is no data in queue" << std::endl;
   }*/
+  /*if (c<length)
+  {
+    std::cout << "Critical here: BASS want " << length << " but there is only " << c << std::endl;
+  }*/
   return c;
 }
 

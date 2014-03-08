@@ -23,6 +23,11 @@ class Signal
     void scale(sample s);
     void constant(sample s);
     
+    inline void reset()
+    {
+      memset((void*) samples,0,Signal::byteSize);
+    }
+    
     
     Signal& operator=(const Signal&);
     
@@ -41,6 +46,37 @@ class Signal
     void _reset();
     static std::set<Signal*> _instances;
   
+};
+
+class AbstractSignalModifier
+{
+  public:
+    virtual ~AbstractSignalModifier() {};
+    virtual void step(Signal* inout) = 0;
+};
+
+class AbstractSignalGenerator : public AbstractSignalModifier
+{
+  public:
+    AbstractSignalGenerator() : _time(0) {};
+    virtual ~AbstractSignalGenerator() {};
+    
+    virtual void step(Signal* output) = 0;
+    
+    inline Signal* generate()
+    {
+      this->step(&_output);
+      return &_output;
+    }
+    
+    inline void resetTime()
+    {
+      _time=0;
+    }
+   
+  protected:
+    Signal _output;
+    unsigned int _time; //in (1/fe) secondes
 };
 
 
