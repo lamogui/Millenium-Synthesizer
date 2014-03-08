@@ -50,3 +50,46 @@ Note& Note::operator=(const Note& c)
   frequency = c.frequency;
   velocity = c.velocity;
 }
+
+InstrumentParameter::InstrumentParameter(short value, short min, short max) :
+_value(value),
+_min(min),
+_max(max)
+{
+}
+
+InstrumentParameter::InstrumentParameter(const InstrumentParameter& p) :
+_value(p._value),
+_min(p._min),
+_max(p._max)
+{
+}
+
+short InstrumentParameter::operator++(int) { 
+  _value++; 
+  if (_value > _max) {_value=_min; return _max;} 
+  return _value-1;
+}
+
+short InstrumentParameter::operator--(int){
+  _value--; 
+  if (_value < _min) {_value=_max; return _min;}
+  return _value + 1;
+}
+
+InstrumentParameter& InstrumentParameter::operator=(const InstrumentParameter& p)
+{
+  _value = p._value;
+  _min = p._min;
+  _max = p._max;
+  return *this;
+}
+
+bool InstrumentParameter::setValue(short v)
+{
+  if (v>=_min && v <= _max)
+  {
+    _value=v; return true;
+  }
+  return false;
+}

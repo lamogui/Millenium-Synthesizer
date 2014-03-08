@@ -2,7 +2,7 @@
 TARGET_NAME=test
 OBJ=main.o signal.o audiostream.o oscillator.o note.o nelead6.o variant.o settings.o basserrorhandler.o bassdriver.o
 CFLAGS= --std=c99 -W -Wall -I"include"
-CXXFLAGS= -I"include"
+CXXFLAGS= -I"include" -Os -s
 FILECPP=signal.cpp oscillator.cpp audiostream.cpp main.cpp note.cpp nelead6.cpp variant.cpp settings.cpp config.hpp basserrorhandler.cpp bassdriver.cpp
 HEADER=signal.hpp oscillator.hpp audiostream.hpp note.hpp instrument.hpp nelead6.hpp variant.hpp settings.hpp basserrorhandler.hpp audiodriver.hpp bassdriver.hpp
 
