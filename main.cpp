@@ -35,18 +35,17 @@ int main()
   }
   
   if (!driver->init(Signal::frequency)) return 0xdead;
-  AudioStream stream(Signal::size*3);
+  AudioStream stream(Signal::size*2);
   
   sf::RenderWindow window(sf::VideoMode(800, 600), "Millenium Synth");
   
   float dt=0.02;
   unsigned int time=0;
-  NELead6 lead;
+  Instrument<NELead6Voice> lead;
   Signal output;
   bool sendSignalSuccess=true;
   
   std::map<sf::Keyboard::Key,Note*> notes;
-  short* finalSamples = (short*) malloc(Signal::size*2);
   
   
   if (!driver->start(&stream)) return 0xdead;
@@ -137,5 +136,5 @@ int main()
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   delete driver;
-  return 0xdead;
+  return 0;
 }

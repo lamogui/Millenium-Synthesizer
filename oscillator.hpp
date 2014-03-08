@@ -4,26 +4,15 @@
 #include "signal.hpp"
 #include <iostream>
 
-class Oscillator
+class Oscillator : public AbstractSignalGenerator
 {
   public:
     Oscillator();
     virtual ~Oscillator();
     
-    inline Signal& generate()
-    {
-      this->step(&_output);
-      return _output;
-    }
-    
     //Must provide this
     virtual void step(Signal* output) = 0;
 
-    
-    inline void resetTime()
-    {
-      _time=0;
-    }
     
     //set constant frequency
     virtual void setFrequency(float f);
@@ -70,9 +59,6 @@ class Oscillator
     {
       return _shape;
     }
-
-  protected:
-    unsigned int _time; //in (1/fe) secondes
  
   private:
     Signal _amplitude; //Oscillator "constant" amplitude;
@@ -80,7 +66,6 @@ class Oscillator
     Signal _unisson; //Oscillator "constant" unison;
     Signal _fm; //Oscillator "constant" fmodulation;
     Signal _shape; //Oscillator "constant" shape (duty for square ...)
-    Signal _output;
 };
 
 
