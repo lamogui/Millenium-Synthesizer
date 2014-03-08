@@ -1,6 +1,6 @@
 
-Petite Méga explications des classes:
-=====================================
+Petite Méga explications des classes
+====================================
 
 Signal 
 ------
