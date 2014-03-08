@@ -12,7 +12,6 @@
 // - what it represent for the whole sound : Instrument (dependant of global config)
 //even if an instrument has only one voici he should provide both inherited class :  Instrument AND InstrumentVoice
 
-
 //Class for manipulate a group of instrument
 //only describes the methods that all instruments must have
 //You should not inherit this class but inherit the Instrument class
@@ -23,6 +22,14 @@ class AbstractInstrument : public AbstractSignalGenerator
     virtual ~AbstractInstrument() {};
     virtual bool playNote(Note & n)=0;
     virtual void step(Signal* output)=0;
+    virtual InstrumentParameter* getParameter(unsigned char id)=0;
+    inline bool setParameterValue(unsigned char id, short value)
+    {
+      InstrumentParameter* p = this->getParameter(id);
+      if (p)
+        return p->setValue(value);
+      return false;
+    }
 };
 
 
@@ -41,7 +48,6 @@ class InstrumentVoice : public AbstractSignalGenerator
     {
     }
     
-    
     //is the voice currently used by the instrument for produce a note ?
     //may change in a future
     inline bool isUsed()
@@ -58,13 +64,11 @@ class InstrumentVoice : public AbstractSignalGenerator
     AbstractInstrument* _instrument; //Use the owner instrument to get parameters from
     bool _used;
     Signal _output;
-    
-    
 };
 
 //all instrument should inherit from this class with  
 //the instrument voice class as voiceClass
-//If you don't want a "special final mixing" just use 
+//If you don't want a "special final mixing" or parameters just use 
 //Instrument<myVoiceClass>
 template <class voiceClass>
 class Instrument : public AbstractInstrument
@@ -114,6 +118,11 @@ class Instrument : public AbstractInstrument
         }
       }
       output->scale(1.0/sqrt(_voices.size()+1.0));
+    }
+    
+    virtual InstrumentParameter* getParameter(unsigned char id)
+    {
+      return NULL;
     }
 
   protected:
