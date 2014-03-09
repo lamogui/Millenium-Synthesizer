@@ -39,7 +39,7 @@ bool Knob::onMousePress(float x, float y)
     
     _catch_angle=_param->getValueToUnsigned(300);
     //std::cout << "catch angle " << _catch_angle << std::endl;
-    _knob_sprite.setColor(sf::Color(242,144,144,255));
+    _knob_sprite.setColor(sf::Color(242,42,42,255));
     
     return true;
   }
@@ -76,5 +76,97 @@ void Knob::update()
 {
   if ( _param)
     _knob_sprite.setRotation((float)_param->getValueToUnsigned(300));
+}
+
+
+ScrollBar::ScrollBar(sf::View& view, int zone,bool h):
+_view(&view),
+_bar(),
+_catch(0),
+_current_offset(0),
+_zone_size(zone),
+_horizontal(h)
+{
+  _bar.setFillColor(sf::Color(242,42,42,140));
+  if (_horizontal) {
+    _current_offset = _view->getCenter().x-view.getSize().x/2;
+    
+  }
+  else {
+    _current_offset = _view->getCenter().y-view.getSize().y/2;
+  }
+  update();
+}
+
+ScrollBar::~ScrollBar() {
+  
+}
+
+bool ScrollBar::onMousePress(float x, float y)
+{
+  if (_horizontal && _zone_size <= _view->getSize().x) return false;
+  else if (!_horizontal && _zone_size <= _view->getSize().y) return false;
+  
+  if (_bar.getGlobalBounds().contains(x,y))
+  {
+    if (_horizontal) _catch=x-_bar.getPosition().x;
+    else _catch=y-_bar.getPosition().y;
+    _bar.setFillColor(sf::Color(242,42,42,255));
+    return true;
+  }
+  return false;
+}
+
+void ScrollBar::onMouseMove(float x, float y){
+  if (_horizontal)
+  {
+    float r_x=x-_catch-_view->getCenter().x+_view->getSize().x/2;
+    _current_offset = r_x*_zone_size/_view->getSize().x;
+    if (_current_offset < 0) _current_offset=0;
+    if (_current_offset > _zone_size - _view->getSize().x) _current_offset=_zone_size - _view->getSize().x;
+  }
+  else
+  {
+    float r_y=y-_catch-_view->getCenter().y+_view->getSize().y/2;
+    _current_offset = r_y*_zone_size/_view->getSize().y;
+    if (_current_offset < 0) _current_offset=0;
+    if (_current_offset > _zone_size - _view->getSize().y) _current_offset=_zone_size - _view->getSize().y;
+  }
+  update();
+}
+void ScrollBar::onMouseRelease(float x, float y)
+{
+  _bar.setFillColor(sf::Color(242,42,42,140));
+}
+
+void ScrollBar::draw (sf::RenderTarget &target, sf::RenderStates states) const
+{
+  if ((_horizontal && _zone_size > _view->getSize().x) || 
+      (!_horizontal && _zone_size > _view->getSize().y))
+    target.draw(_bar);
+}
+
+void ScrollBar::update()
+{
+  if ((_horizontal && _zone_size <= _view->getSize().x) || 
+      (!_horizontal && _zone_size <= _view->getSize().y))
+  {
+    _current_offset=0;
+    _view->setCenter(_view->getSize().x/2.f, _view->getSize().y/2.f);
+  }
+
+  else if (_horizontal) {
+    _bar.setSize(sf::Vector2f(_view->getSize().x*_view->getSize().x/_zone_size,12));
+    _view->setCenter(_current_offset+_view->getSize().x/2,_view->getCenter().y);
+    _bar.setPosition(_current_offset + _current_offset*_view->getSize().x/(float)_zone_size,
+                      _view->getCenter().y+_view->getSize().y/2-12);
+  }
+  else
+  {
+    _bar.setSize(sf::Vector2f(12,_view->getSize().y*_view->getSize().y/_zone_size));
+    _view->setCenter(_view->getCenter().x,_current_offset+_view->getSize().y/2);
+    _bar.setPosition(_view->getCenter().x+_view->getSize().x/2-12,
+                      _current_offset + _current_offset*_view->getSize().y/(float)_zone_size);
+  }              
 }
 
