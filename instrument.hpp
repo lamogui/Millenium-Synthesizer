@@ -7,6 +7,10 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+
+#define PARAM_INSTRUMENT_PAN_ID 254
+#define PARAM_INSTRUMENT_VOLUME_ID 255
+
 //an instrument is divised in 2 part :
 // - what it represent for a note : InstrumentVoice (dependant of the note)
 // - what it represent for the whole sound : Instrument (dependant of global config)
@@ -74,7 +78,8 @@ template <class voiceClass>
 class Instrument : public AbstractInstrument
 {
   public:
-    Instrument(unsigned int nbVoice=24)
+    Instrument(unsigned int nbVoice=24) :
+    _volume(150,0,255)
     {
       for (unsigned int i=0; i < nbVoice; i++)
       {
@@ -117,16 +122,18 @@ class Instrument : public AbstractInstrument
           output->add(_voices[i]->generate());
         }
       }
-      output->scale(1.0/sqrt(_voices.size()+1.0));
+      output->scale(_volume.getValue()/(sqrt(_voices.size()+1.0)*255.0));
     }
     
     virtual InstrumentParameter* getParameter(unsigned char id)
     {
+      if (id == PARAM_INSTRUMENT_VOLUME_ID) return &_volume;
       return NULL;
     }
 
   protected:
     std::vector<voiceClass*> _voices;
+    InstrumentParameter _volume;
 };
 
 #endif
