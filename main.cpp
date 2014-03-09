@@ -40,6 +40,8 @@ int main()
   AudioStream stream(Signal::size*2);
   
   sf::RenderWindow window(sf::VideoMode(800, 600), "Millenium Synth");
+  sf::View view(sf::FloatRect(0,0,800,600));
+  ScrollBar bar(view, 200,true);
   
   MouseCatcher* mouseCatcher=NULL;
   
@@ -49,7 +51,6 @@ int main()
   Instrument<NELead6Voice> lead;
   sf::Texture knobTexture;
   knobTexture.loadFromFile(std::string("img/knob.png"));
-  std::cout << "texture success" << std::endl;
   Knob volumeKnob(lead.getParameter(PARAM_INSTRUMENT_VOLUME_ID),
                   knobTexture,
                   sf::IntRect(0,0,360,360),
@@ -62,7 +63,6 @@ int main()
   
   std::map<sf::Keyboard::Key,Note*> notes;
   
-    std::cout << "lol" << std::endl;
   if (!driver->start(&stream)) return 0xdead;
   while (window.isOpen())
   {
@@ -78,16 +78,19 @@ int main()
           break;
         case sf::Event::Resized:
           {
-            sf::View newView(sf::FloatRect(0,0,event.size.width,event.size.height));
-            window.setView(newView);
+            view.reset(sf::FloatRect(0,0,event.size.width,event.size.height));
           }
           break;
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            if (!mouseCatcher && volumeKnob.onMousePress(event.mouseButton.x,event.mouseButton.y))
+            if (!mouseCatcher)
             {
-              mouseCatcher = &volumeKnob;
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),view); 	
+              if (volumeKnob.onMousePress(v.x,v.y))
+                mouseCatcher = &volumeKnob;
+              else if (bar.onMousePress(v.x,v.y))
+                mouseCatcher = &bar;
             }
           }
           break;
@@ -96,7 +99,8 @@ int main()
           {
             if (mouseCatcher)
             {
-              mouseCatcher->onMouseRelease(event.mouseButton.x,event.mouseButton.y);
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),view); 
+              mouseCatcher->onMouseRelease(v.x,v.y);
               mouseCatcher=NULL;
             }
           }
@@ -104,7 +108,8 @@ int main()
         case sf::Event::MouseMoved:
           if (mouseCatcher)
           {
-            mouseCatcher->onMouseMove(event.mouseMove.x,event.mouseMove.y);
+            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),view);
+            mouseCatcher->onMouseMove(v.x,v.y);
           }
           break;
           
@@ -150,7 +155,9 @@ int main()
     }
     
     
+    
     volumeKnob.update();
+    bar.update();
     
     if (sendSignalSuccess)
     {
@@ -167,9 +174,12 @@ int main()
       sendSignalSuccess = stream.writeSignal(output);
     }
     
+    window.setView(view);
+    
     window.clear();
     
     window.draw(volumeKnob);
+    window.draw(bar);
     // Update the window
     window.display();
     
