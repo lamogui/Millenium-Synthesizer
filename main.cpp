@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 #include "signal.hpp"
 #include "oscillator.hpp"
 #include "nelead6.hpp"
@@ -14,6 +15,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include "bassdriver.hpp"
+#include "interface.hpp"
 
 int main()
 {
@@ -39,15 +41,28 @@ int main()
   
   sf::RenderWindow window(sf::VideoMode(800, 600), "Millenium Synth");
   
+  MouseCatcher* mouseCatcher=NULL;
+  
+  
   float dt=0.02;
   unsigned int time=0;
   Instrument<NELead6Voice> lead;
+  sf::Texture knobTexture;
+  knobTexture.loadFromFile(std::string("img/knob.png"));
+  std::cout << "texture success" << std::endl;
+  Knob volumeKnob(lead.getParameter(PARAM_INSTRUMENT_VOLUME_ID),
+                  knobTexture,
+                  sf::IntRect(0,0,360,360),
+                  sf::IntRect(360,0,360,360));
+                  
+  volumeKnob.setScale(0.5,0.5);
+  
   Signal output;
   bool sendSignalSuccess=true;
   
   std::map<sf::Keyboard::Key,Note*> notes;
   
-  
+    std::cout << "lol" << std::endl;
   if (!driver->start(&stream)) return 0xdead;
   while (window.isOpen())
   {
@@ -70,6 +85,26 @@ int main()
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
+            if (!mouseCatcher && volumeKnob.onMousePress(event.mouseButton.x,event.mouseButton.y))
+            {
+              mouseCatcher = &volumeKnob;
+            }
+          }
+          break;
+        case sf::Event::MouseButtonReleased:
+          if (event.mouseButton.button == sf::Mouse::Left)
+          {
+            if (mouseCatcher)
+            {
+              mouseCatcher->onMouseRelease(event.mouseButton.x,event.mouseButton.y);
+              mouseCatcher=NULL;
+            }
+          }
+          break;
+        case sf::Event::MouseMoved:
+          if (mouseCatcher)
+          {
+            mouseCatcher->onMouseMove(event.mouseMove.x,event.mouseMove.y);
           }
           break;
           
@@ -115,6 +150,8 @@ int main()
     }
     
     
+    volumeKnob.update();
+    
     if (sendSignalSuccess)
     {
       //std::cout << "generating output..." << std::endl;
@@ -130,6 +167,9 @@ int main()
       sendSignalSuccess = stream.writeSignal(output);
     }
     
+    window.clear();
+    
+    window.draw(volumeKnob);
     // Update the window
     window.display();
     

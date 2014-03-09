@@ -69,6 +69,7 @@ class InstrumentParameter
     //Set the value with an other value between 0 and max (from the GUI)
     inline void setValueFromUnsigned(unsigned v, unsigned max) { 
       _value = _min + (v*(_max - _min))/max;
+      //_value = (v/(float)max)*(float)(_max - _min) + _min;
     }
     
     //get value in range from 0 to max (for the GUI)
