@@ -58,11 +58,11 @@ class ScrollBar : public MouseCatcher
     int _zone_size;
     bool _horizontal;
 };
-/*
+
 class Interface : public sf::Drawable
 {
   public:
-    Interface(const sf::IntRect& zone)
+    Interface(const sf::Vector2i& zone,const sf::Vector2f &size);
     virtual ~Interface();
     
     //is the interface have an object to interact with
@@ -70,7 +70,7 @@ class Interface : public sf::Drawable
     MouseCatcher* onMousePress(float x, float y);
     
     
-    inline void setViewport(const FloatRect &viewport)
+    inline void setViewport(const sf::FloatRect &viewport)
     {
       _view.setViewport(viewport);
     }
@@ -79,14 +79,21 @@ class Interface : public sf::Drawable
       return _view;
     }
     
+    void setViewSize(float x, float y);
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void update();
     
-    void draw (sf::RenderTarget &target, sf::RenderStates states) const;
+    void addMouseCatcher(MouseCatcher* c);
+    void addDrawable(sf::Drawable* c);
     
   protected:
     std::vector<MouseCatcher*> _mouseCatcher;
+    std::vector<sf::Drawable*> _drawables;
     sf::View _view;
-    sf::IntRect _zone;
-};*/
+    sf::Vector2i _zone;
+    ScrollBar _verticalBar;
+    ScrollBar _horizontalBar;
+};
 
 
 
