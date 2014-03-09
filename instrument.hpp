@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+#include <cmath>
 
 #define PARAM_INSTRUMENT_PAN_ID 254
 #define PARAM_INSTRUMENT_VOLUME_ID 255
