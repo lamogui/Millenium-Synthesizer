@@ -16,6 +16,7 @@
 #include <map>
 #include "bassdriver.hpp"
 #include "interface.hpp"
+#include "puresquare.hpp"
 
 int main()
 {
@@ -39,7 +40,9 @@ int main()
   if (!driver->init(Signal::frequency)) return 0xdead;
   AudioStream stream(Signal::size*2);
   
-  sf::RenderWindow window(sf::VideoMode(800, 600), "Millenium Synth");
+  sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
+  
+  window.setFramerateLimit(2*Signal::refreshRate);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
@@ -47,18 +50,8 @@ int main()
   
   float dt=0.02;
   unsigned int time=0;
-  Instrument<NELead6Voice> lead;
-  
-  
-  sf::Texture knobTexture;
-  knobTexture.loadFromFile(std::string("img/knob.png"));
-  Knob volumeKnob(lead.getParameter(PARAM_INSTRUMENT_VOLUME_ID),
-                  knobTexture,
-                  sf::IntRect(0,0,360,360),
-                  sf::IntRect(360,0,360,360));
-                  
-  Interface* lolinterface = new Interface(sf::Vector2i(400,400),sf::Vector2f(800,600));    
-  lolinterface->addMouseCatcher(&volumeKnob);
+  PureSquare lead;      
+  Interface* lolinterface = new PureSquareInterface(&lead,sf::Vector2f(720,360));    
   
   Signal output;
   bool sendSignalSuccess=true;
@@ -97,7 +90,7 @@ int main()
         case sf::Event::MouseButtonReleased:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            if (currentMouseCatcher)
+            if (currentMouseCatcher && currentInterfaceCatcher)
             {
               sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),currentInterfaceCatcher->getView()); 
               currentMouseCatcher->onMouseRelease(v.x,v.y);
@@ -106,7 +99,7 @@ int main()
           }
           break;
         case sf::Event::MouseMoved:
-          if (currentMouseCatcher)
+          if (currentMouseCatcher && currentInterfaceCatcher)
           {
             sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),currentInterfaceCatcher->getView());
             currentMouseCatcher->onMouseMove(v.x,v.y);

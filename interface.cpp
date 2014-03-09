@@ -195,6 +195,7 @@ MouseCatcher* Interface::onMousePress(float x, float y)
     if (_mouseCatcher[i]->onMousePress(x,y)) 
       return _mouseCatcher[i];
   }
+  return NULL;
 }
 
 void Interface::setViewSize(float x, float y)
