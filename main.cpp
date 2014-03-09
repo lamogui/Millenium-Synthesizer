@@ -40,15 +40,16 @@ int main()
   AudioStream stream(Signal::size*2);
   
   sf::RenderWindow window(sf::VideoMode(800, 600), "Millenium Synth");
-  sf::View view(sf::FloatRect(0,0,800,600));
-  ScrollBar bar(view, 200,true);
   
-  MouseCatcher* mouseCatcher=NULL;
-  
+  //Current mouse catcher
+  MouseCatcher* currentMouseCatcher=NULL;
+  Interface* currentInterfaceCatcher=NULL;
   
   float dt=0.02;
   unsigned int time=0;
   Instrument<NELead6Voice> lead;
+  
+  
   sf::Texture knobTexture;
   knobTexture.loadFromFile(std::string("img/knob.png"));
   Knob volumeKnob(lead.getParameter(PARAM_INSTRUMENT_VOLUME_ID),
@@ -56,7 +57,8 @@ int main()
                   sf::IntRect(0,0,360,360),
                   sf::IntRect(360,0,360,360));
                   
-  volumeKnob.setScale(0.5,0.5);
+  Interface* lolinterface = new Interface(sf::Vector2i(400,400),sf::Vector2f(800,600));    
+  lolinterface->addMouseCatcher(&volumeKnob);
   
   Signal output;
   bool sendSignalSuccess=true;
@@ -78,38 +80,36 @@ int main()
           break;
         case sf::Event::Resized:
           {
-            view.reset(sf::FloatRect(0,0,event.size.width,event.size.height));
+            lolinterface->setViewSize(event.size.width,event.size.height);
           }
           break;
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            if (!mouseCatcher)
+            if (!currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),view); 	
-              if (volumeKnob.onMousePress(v.x,v.y))
-                mouseCatcher = &volumeKnob;
-              else if (bar.onMousePress(v.x,v.y))
-                mouseCatcher = &bar;
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),lolinterface->getView()); 	
+              currentMouseCatcher = lolinterface->onMousePress(v.x,v.y);
+              currentInterfaceCatcher = lolinterface;
             }
           }
           break;
         case sf::Event::MouseButtonReleased:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
-            if (mouseCatcher)
+            if (currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),view); 
-              mouseCatcher->onMouseRelease(v.x,v.y);
-              mouseCatcher=NULL;
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),currentInterfaceCatcher->getView()); 
+              currentMouseCatcher->onMouseRelease(v.x,v.y);
+              currentMouseCatcher=NULL;
             }
           }
           break;
         case sf::Event::MouseMoved:
-          if (mouseCatcher)
+          if (currentMouseCatcher)
           {
-            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),view);
-            mouseCatcher->onMouseMove(v.x,v.y);
+            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),currentInterfaceCatcher->getView());
+            currentMouseCatcher->onMouseMove(v.x,v.y);
           }
           break;
           
@@ -156,8 +156,8 @@ int main()
     
     
     
-    volumeKnob.update();
-    bar.update();
+    lolinterface->update();
+
     
     if (sendSignalSuccess)
     {
@@ -174,12 +174,13 @@ int main()
       sendSignalSuccess = stream.writeSignal(output);
     }
     
-    window.setView(view);
+   
     
     window.clear();
     
-    window.draw(volumeKnob);
-    window.draw(bar);
+    window.setView(lolinterface->getView());
+    window.draw(*lolinterface);
+    
     // Update the window
     window.display();
     

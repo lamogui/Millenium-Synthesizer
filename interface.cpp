@@ -152,7 +152,7 @@ void ScrollBar::update()
       (!_horizontal && _zone_size <= _view->getSize().y))
   {
     _current_offset=0;
-    _view->setCenter(_view->getSize().x/2.f, _view->getSize().y/2.f);
+    //_view->setCenter(_view->getSize().x/2.f, _view->getSize().y/2.f);
   }
 
   else if (_horizontal) {
@@ -168,5 +168,67 @@ void ScrollBar::update()
     _bar.setPosition(_view->getCenter().x+_view->getSize().x/2-12,
                       _current_offset + _current_offset*_view->getSize().y/(float)_zone_size);
   }              
+}
+
+
+Interface::Interface(const sf::Vector2i& zone,const sf::Vector2f &size):
+_mouseCatcher(),
+_drawables(),
+_view(size/2.f,size),
+_zone(zone),
+_verticalBar(_view,_zone.y,false),
+_horizontalBar(_view,_zone.x,true)
+{
+  addMouseCatcher(&_verticalBar);
+  addMouseCatcher(&_horizontalBar);
+}
+
+Interface::~Interface()
+{
+  
+}
+
+MouseCatcher* Interface::onMousePress(float x, float y)
+{
+  for (unsigned int i=0; i < _mouseCatcher.size();i++)
+  {
+    if (_mouseCatcher[i]->onMousePress(x,y)) 
+      return _mouseCatcher[i];
+  }
+}
+
+void Interface::setViewSize(float x, float y)
+{
+  _view.setSize(x,y);
+  _verticalBar.update();
+  _horizontalBar.update();
+}
+
+void Interface::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+  //premier ajouté dernier dessiné
+  for (unsigned int i=_drawables.size(); i ;)
+  {
+    target.draw(*_drawables[--i]);
+  }
+}
+
+void Interface::update()
+{
+  for (unsigned int i=0; i < _mouseCatcher.size();i++)
+  {
+    _mouseCatcher[i]->update(); 
+  }
+}
+
+void Interface::addMouseCatcher(MouseCatcher* c)
+{
+  _mouseCatcher.push_back(c);
+  _drawables.push_back(c);
+}
+
+void Interface::addDrawable(sf::Drawable* c)
+{
+   _drawables.push_back(c);
 }
 
