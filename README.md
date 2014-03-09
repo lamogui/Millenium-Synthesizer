@@ -2,53 +2,155 @@
 Petite Méga explications des classes
 ====================================
 
-Signal 
-------
+Signal (signal.hpp)
+-------------------
 
-Unité de "son", tout son continu est décomposé en signaux (un tableau d'échantillons), c'est ce qu'un instrument doit générer. (TODO : tester les constructeurs par recopie qui n'ont pas l'air de fonctionner)
+Unité de "son", tout son continu est décomposé en signaux (un tableau 
+d'échantillons), c'est ce qu'un instrument doit générer. (TODO : Coder la 
+méthode "pan" comme scale mais avec un facteur différent selon si c'est le 
+haut parleur droit ou gauche)
 
-Oscillator 
-----------
-Générateur de signal périodique il genere un signal grâce à la méthode "generate", mais il est aussi possible de generer le signal sur un objet Signal exterieur grâce à "step". (TODO: Coder les différents oscillateurs car seul le Sinusoidal est codé)
+Oscillator (oscillator.hpp)
+---------------------------
+Générateur de signal périodique il genere un signal grâce à la méthode 
+"generate", mais il est aussi possible de generer le signal sur un objet Signal 
+exterieur grâce à "step". (TODO: Coder les différents oscillateurs car seul le 
+Sinusoidal et le Carré est codé)
 
-InstrumentVoice 
+InstrumentVoice (instrument.hpp)
+--------------------------------
+C'est un générateur de signal (comme un oscillateur) mais il est lié à une Note 
+(ET UNE SEULE NOTE !), le signal peut ne pas être périodique (et d'ailleurs ne 
+doit pas l'être). 
+
+Instrument (instrument.hpp)
+---------------------------
+C'est un template, il regroupe plusieurs InstrumentVoice, et affecte chacuns 
+d'entre eux à une note qu'il reçoit. Il fait également le mixage final entre 
+tous les signaux générés par ces InstrumentVoice. (TODO : faire un fichier 
+instrument.cpp)  
+
+AbstractInstrument (instrument.hpp)
+-----------------------------------
+C'est la base d'un Instrument, elle permet a un gestionnaire d'instrument de 
+gérer les différents Instrument sans connaître les InstrumentVoice associés 
+(en effet la classe instrument est une classe template). La classe Instrument 
+a déjà un minimum de code fournis (gestion des notes !) alors héritez de la 
+classe Instrument et PAS de cette classe ! (sauf si vous voulez faire 
+quelque chose de complétement différent)
+
+Note (note.hpp)
 ---------------
-C'est un générateur de signal (comme un oscillateur) mais il est lié à une Note (ET UNE SEULE NOTE !), le signal peut ne pas être périodique (et d'ailleurs ne doit pas l'être). (TODO : créer un attribut instrument vers lequel l'InstrumentVoice pourra tirer ces paramètres de configuration)
+Représente une note de musique : fréquence, vélocité, durée mais aussi quand 
+elle à été joué ! Quand une note est créée elle est envoyé à l'Instrument 
+(via la méthode playNote(Note & n)) qui l'affectera si il le peut à un 
+InstrumentVoice via la méthode beginNote(Note& n) qui lui même préviendra 
+la note via receivePlayedSignal(InstrumentVoice* v). Lorsqu'elle est terminé 
+la note doit prévenir l'InstrumentVoice (méthode sendStopSignal()) afin que 
+celui-ci démarre son Release Time (méthode endNote()) ainsi une note peut 
+être terminé mais l'InstrumentVoice continue d'être "utilisé" tant qu'il n'as 
+pas fini son release time. (TODO URGENT: ne plus définir une note par sa 
+fréquence mais par un identifiant (codé sur 8bits) faire une fonction qui
+convertir cet id en fréquence.)
 
-Instrument 
-----------
-Il regroupe plusieurs InstrumentVoice, et affecte chacuns d'entre eux à une note qu'il reçoit. Il fait également  le mixage final entre tous les signaux générés par ces InstrumentVoice. (TODO : Prendre en compte des paramètres génériques (booleen/entiers/floatant), un paramètre sera identifié par un unsigned int grace à un std::map<unsigned int, type_de_pramètre>)  
+InstrumentParameter (note.hpp)
+------------------------------
+Représente un paramètre de l'instrument codé sur un entier signé de 16 bits.
+A l'initialisation l'instrument donne la plage de valeur (que le paramètre 
+ne doit pas depasser), ensuite différentes méthodes peuvent modifier cette 
+valeur en utilisant une autre plage de valeurs (par exemple 
+setValueFromUnsigned), InstrumentParameter sert à faire la conversion... 
+(TODO : coder les getters/setters utiles, coder une méthode avec des 
+flottants)
 
-Note 
-----
-représente une note de musique : fréquence, vélocité, durée mais aussi quand elle à été joué ! Quand une note est créée elle est envoyé à l'Instrument (via la méthode playNote(Note & n)) qui l'affectera si il le peut à un InstrumentVoice via la méthode beginNote(Note& n) qui lui même préviendra la note via receivePlayedSignal(InstrumentVoice* v). Lorsqu'elle est terminé la note doit prévenir l'InstrumentVoice (méthode sendStopSignal()) afin que celui-ci démarre son Release Time (méthode endNote()) ainsi une note peut être terminé mais l'InstrumentVoice continue d'être "utilisé" tant qu'il n'as pas fini son release time.
 
-AudioStream 
------------
-Représente un flux, le son continu qui va sortir des haut parleurs, Il s'agit un buffer circulaire de type FIFO (c'est quasiment un copier coller du TP6 S5A d'asm), Le truc qu'il a en plus c'est qu'il est verrouillable et deverrouillable (méthodes lock() et unlock()) pour éviter que 2 threads l'utilise en même temps. Ah oui et il peut aussi ajouter directement un Signal entier. (TODO : coder la méthode bool readSignal(Signal& signal))
+AudioStream (audiostream.hpp)
+-----------------------------
+Représente un flux, le son continu qui va sortir des haut parleurs, Il s'agit 
+d'un buffer circulaire de type FIFO (c'est quasiment un copier coller du TP6 
+S5A d'asm), Le truc qu'il a en plus c'est qu'il est verrouillable et 
+deverrouillable (méthodes lock() et unlock()) pour éviter que 2 threads 
+l'utilise en même temps. Ah oui et il peut aussi ajouter directement un 
+Signal entier. (TODO : coder la méthode bool readSignal(Signal& signal), 
+et regarder ce que l'on peut faire avec SoundStream de la SFML)
 
-AudioDriver 
------------
-Représente le lien avec le Haut Parleur lors de son démarrage (méthode start) on lui passe un AudioStream qu'il devra lire (via la méthode read) lorsque la carte son à besoin de nouveaux samples. Pour l'instant il y a que 2 drivers possibles : BASS et BASSASIO (BASSASIO requiert windows et un driver asio d'installé (par exemple ASIO4ALL). (TODO mineur: Coder d'autres classes driver à l'aide d'autres librairies)
 
-Variant 
--------
-Représente quelque chose ! soit un string, soit un bool soit un nombre ! (TODO mineur: clean et optimisations)
+AudioDriver (audiodriver.hpp)
+-----------------------------
+Représente le lien avec le Haut Parleur lors de son démarrage (méthode start) 
+on lui passe un AudioStream qu'il devra lire (via la méthode read) lorsque la 
+carte son à besoin de nouveaux samples. Pour l'instant il y a que 2 drivers 
+possibles : BASS et BASSASIO (BASSASIO requiert windows et un driver asio 
+d'installé (par exemple ASIO4ALL). (TODO mineur: Coder d'autres classes 
+driver à l'aide d'autres librairies)
 
-Settings 
---------
-Veille Classe Singleton codé il y a longtemps, permet de charger des paramètre dans un fichier (regarder la fonction main pour voir comment ça marche c'est tout con) (TODO mineur: clean et optimisations)
+
+MouseCatcher (interface.hpp)
+----------------------------
+Représente un élément de l'interface graphique qui utilise la souris. 
+Dans un premier temps l'utilisateur clique sur l'élément (exemple potard)
+(méthode onMousePress) ce qui à pour effet "d'attraper la souris". 
+Une fois qu'un MouseCatcher à attrapé la souris, il faut attendre que 
+l'utilisateur relache le bouton de la souris pour en attraper un nouveau.
+C'est la fonction main qui s'en charge pour le moment.
+Un MouseCatcher doit être dessinable !
+
+
+Knob (interface.hpp)
+--------------------
+Knob veut dire potard en anglais. Cette classe est un MouseCatcher 
+Elle doit être lié à un InstrumentParameter pour agir directement dessus.
+(TODO: coder les getters/setters pour l'attribut InstrumentParameter)
+
+ScrollBar (interface.hpp)
+-------------------------
+Permet de gérer la vue d'une Interface si elle est trop petite pour afficher
+l'integralité de l'Interface. (TODO gérér les bugs quand la sf::View est plus 
+grande que l'Interface)
+
+
+Interface (interface.hpp)
+-------------------------
+Voilà la classe qui justifie le nom du fichier, Interface gére des 
+sf::Drawable (choses affichables) et des MouseCatcher. Elle s'occupe de les
+faire afficher dans l'espace que l'on lui donne ! (TODO : Getters/setters 
+trucs utiles) 
+
+
+
+Variant (variant.hpp)
+--------------------
+Représente quelque chose ! soit un string, soit un bool soit un nombre ! 
+(TODO mineur: clean et optimisations)
+
+Settings (settings.hpp)
+-----------------------
+Veille Classe Singleton codé il y a longtemps, permet de charger des paramètre 
+depuis un fichier (regarder la fonction main pour voir comment ça marche c'est 
+tout con), comme elle ne sait pas de quel type est le paramètre elle utilise 
+des Variant (TODO mineur: clean et optimisations)
 
 
 Voilà j'ai fait le tour... Il faudrait faire l'UML...
 
 D'autres TODO
 =============
- - NoteTranslator : une classe qui traduit quelque chose (par exemple touches de clavier) en Notes !
- - "Music" : une classe qui lit/écrit des notes dans un fichier et instancie/envoie les notes aux instruments
- - Boutons/Potards/Autres Conneries : pour gérer l'interface graphique 
- - AbstractInterface : une zone dans laquelle on peut dessiner et ou la souris peut fair des trucs
- - InstrumentInterface : contient les potards/boutons spécifiques à un instrument et envois leurs état à la classe Instrument associé
- - KeyboardInterface : affiche un clavier et envois les notes appuyés à la classe Instrument associé
-
+ - NoteTranslator : une classe qui traduit quelque chose (par exemple touches 
+ de clavier) en Notes !
+ - "Music" : une classe qui lit/écrit des notes dans un fichier et 
+ instancie/envoie les notes aux instruments
+ - Button et "Potentiomètre en ligne droite" héritant de MouseCatcher
+ - InstrumentInterface : contient les potards/boutons spécifiques à un 
+ instrument et envois leurs état à la classe Instrument associé
+ - KeyboardInterface : affiche un clavier et envois les notes appuyés à la 
+ classe Instrument associé
+ - Enveloppe : Comme un oscilateur mais qui génère une enveloppe (avec attack
+ decay, sustain et release)
+ - L'UML
+ - L'UML
+ - L'UML
+ - L'UML
+ - L'UML
+ - L'UML
+ - L'UML
 
