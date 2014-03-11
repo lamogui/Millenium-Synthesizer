@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Poo" version="3">
+  <DEPS>
+    <ID name="Poo" mc="AnalystProject" uid="0d9b4fe3-fc71-4983-92cd-c62910313005"/>
+    <COMPID name="Poo" mc="PropertyContainer" uid="3999a36f-7666-4ac3-a7b2-ce1eb05b0677"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="Poo" mc="AnalystProject" uid="0d9b4fe3-fc71-4983-92cd-c62910313005"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[Poo]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="PropertyRoot">
+        <COMPID name="Poo" mc="PropertyContainer" uid="3999a36f-7666-4ac3-a7b2-ce1eb05b0677"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
