@@ -1,4 +1,19 @@
 
+UML et MODELIO
+==============
+Les fichiers concernant la MIS sont dans le repertoire "mis" :
+ - Scénario.doc 
+ - Fichiers Modelio
+
+Pour faire l'uml il vous faut : Modelio 3.1.0, ensuite cliquez sur 
+File -> Switch Workspace -> Selectionner le dossier workspace dans 
+"Mes Documents\Github\POO\mis\workspace"
+
+Attention ne pas faire de commit si vous avez tout peter ! je ne sait pas 
+si on peut faire un reserve des fichiers binaires...
+
+
+
 Petite Méga explications des classes
 ====================================
 

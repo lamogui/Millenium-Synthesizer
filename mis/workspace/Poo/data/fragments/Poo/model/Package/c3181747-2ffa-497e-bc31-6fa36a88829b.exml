@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="use case : synthétiseur millenium" version="3">
+  <DEPS>
+    <ID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+    <COMPID name="Enregistrer une séquence de notes" mc="UseCase" uid="471e1297-5f56-47d3-8b5f-d5f86a8eacc7"/>
+    <COMPID name="Jouer des notes du son synthétisé" mc="UseCase" uid="eae23a7f-f99a-4311-898b-dc5308dc8640"/>
+    <COMPID name="Lire une séquence de notes" mc="UseCase" uid="63be2073-4f4e-4c47-aed5-92975617baa3"/>
+    <COMPID name="Modifier le son synthétisé" mc="UseCase" uid="e07204e8-bc86-4105-9fe5-a9bbc7153784"/>
+    <COMPID name="Utilisateur" mc="Actor" uid="2727018b-9e72-4b1b-9112-c8b7e59f78c8"/>
+    <COMPID name="poo Use Case diagram" mc="UseCaseDiagram" uid="67e78e72-03c6-4ebf-a41b-476edc1d4643"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[use case : synthétiseur millenium]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Template">
+        <OBJECT>
+          <ID name="use case" mc="TemplateParameter" uid="8489bf06-b6e1-482b-aea1-719569d89618"/>
+          <PID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+          <ATTRIBUTES>
+            <ATT name="DefaultValue"></ATT>
+            <ATT name="IsValueParameter">false</ATT>
+            <ATT name="IsElementary">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[use case]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="OwnedElement">
+        <COMPID name="Utilisateur" mc="Actor" uid="2727018b-9e72-4b1b-9112-c8b7e59f78c8"/>
+        <COMPID name="Jouer des notes du son synthétisé" mc="UseCase" uid="eae23a7f-f99a-4311-898b-dc5308dc8640"/>
+        <COMPID name="Modifier le son synthétisé" mc="UseCase" uid="e07204e8-bc86-4105-9fe5-a9bbc7153784"/>
+        <COMPID name="Enregistrer une séquence de notes" mc="UseCase" uid="471e1297-5f56-47d3-8b5f-d5f86a8eacc7"/>
+        <COMPID name="Lire une séquence de notes" mc="UseCase" uid="63be2073-4f4e-4c47-aed5-92975617baa3"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="poo Use Case diagram" mc="UseCaseDiagram" uid="67e78e72-03c6-4ebf-a41b-476edc1d4643"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

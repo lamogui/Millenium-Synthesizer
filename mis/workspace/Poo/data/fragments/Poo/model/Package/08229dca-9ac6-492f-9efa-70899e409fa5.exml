@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="class" version="3">
+  <DEPS>
+    <ID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+    <COMPID name="Interacteur" mc="Class" uid="9d0d91b0-466e-4c3c-939c-68281ac2725b"/>
+    <COMPID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <COMPID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <COMPID name="OscTriangulaire" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+    <COMPID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <COMPID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+    <COMPID name="sf::RectangleShape" mc="Class" uid="bd72fe78-8cbd-43af-8649-b240ed96523d"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[class]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+        <COMPID name="OscTriangulaire" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+        <COMPID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+        <COMPID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+        <COMPID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+        <COMPID name="Interacteur" mc="Class" uid="9d0d91b0-466e-4c3c-939c-68281ac2725b"/>
+        <COMPID name="sf::RectangleShape" mc="Class" uid="bd72fe78-8cbd-43af-8649-b240ed96523d"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
