@@ -53,6 +53,7 @@ class ScrollBar : public MouseCatcher
   private:
     sf::View *_view;
     sf::RectangleShape _bar;
+    sf::RectangleShape _decoration;
     float _catch;
     int _current_offset;
     int _zone_size;
