@@ -82,15 +82,16 @@ void Knob::update()
 ScrollBar::ScrollBar(sf::View& view, int zone,bool h):
 _view(&view),
 _bar(),
+_decoration(),
 _catch(0),
 _current_offset(0),
 _zone_size(zone),
 _horizontal(h)
 {
   _bar.setFillColor(sf::Color(242,42,42,140));
+  _decoration.setFillColor(sf::Color(42,42,42,140));
   if (_horizontal) {
     _current_offset = _view->getCenter().x-view.getSize().x/2;
-    
   }
   else {
     _current_offset = _view->getCenter().y-view.getSize().y/2;
@@ -143,7 +144,10 @@ void ScrollBar::draw (sf::RenderTarget &target, sf::RenderStates states) const
 {
   if ((_horizontal && _zone_size > _view->getSize().x) || 
       (!_horizontal && _zone_size > _view->getSize().y))
+  {
+    target.draw(_decoration);
     target.draw(_bar);
+  }
 }
 
 void ScrollBar::update()
@@ -159,7 +163,9 @@ void ScrollBar::update()
     _bar.setSize(sf::Vector2f(_view->getSize().x*_view->getSize().x/_zone_size,12));
     _view->setCenter(_current_offset+_view->getSize().x/2,_view->getCenter().y);
     _bar.setPosition(_current_offset + _current_offset*_view->getSize().x/(float)_zone_size,
-                      _view->getCenter().y+_view->getSize().y/2-12);
+                     _view->getCenter().y+_view->getSize().y/2-12);
+    _decoration.setPosition(_current_offset,_view->getCenter().y+_view->getSize().y/2.f-12.f);
+    _decoration.setSize(sf::Vector2f( _view->getSize().x, 12.f));
   }
   else
   {
@@ -167,6 +173,8 @@ void ScrollBar::update()
     _view->setCenter(_view->getCenter().x,_current_offset+_view->getSize().y/2);
     _bar.setPosition(_view->getCenter().x+_view->getSize().x/2-12,
                       _current_offset + _current_offset*_view->getSize().y/(float)_zone_size);
+    _decoration.setPosition(_view->getCenter().x+_view->getSize().x/2.f-12.f,_current_offset);
+    _decoration.setSize(sf::Vector2f( 12.f,_view->getSize().y));
   }              
 }
 
