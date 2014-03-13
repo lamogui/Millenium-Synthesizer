@@ -88,8 +88,8 @@ _current_offset(0),
 _zone_size(zone),
 _horizontal(h)
 {
-  _bar.setFillColor(sf::Color(242,42,42,140));
-  _decoration.setFillColor(sf::Color(42,42,42,140));
+  _bar.setFillColor(sf::Color(142,142,142,200));
+  _decoration.setFillColor(sf::Color(100,100,100,200));
   if (_horizontal) {
     _current_offset = _view->getCenter().x-view.getSize().x/2;
   }
@@ -112,7 +112,7 @@ bool ScrollBar::onMousePress(float x, float y)
   {
     if (_horizontal) _catch=x-_bar.getPosition().x;
     else _catch=y-_bar.getPosition().y;
-    _bar.setFillColor(sf::Color(242,42,42,255));
+    _bar.setFillColor(sf::Color(142,42,42,255));
     return true;
   }
   return false;
@@ -137,7 +137,7 @@ void ScrollBar::onMouseMove(float x, float y){
 }
 void ScrollBar::onMouseRelease(float x, float y)
 {
-  _bar.setFillColor(sf::Color(242,42,42,140));
+  _bar.setFillColor(sf::Color(142,142,142,200));
 }
 
 void ScrollBar::draw (sf::RenderTarget &target, sf::RenderStates states) const

@@ -5,8 +5,7 @@ InstrumentVoice(creator),
 _osc1(new SquareOscillator),
 _osc2(new SinusoidalOscillator),
 _lfo1(new SinusoidalOscillator),
-_lfo2(new SinusoidalOscillator),
-_modulation_mode(NELEAD6_FM)
+_lfo2(new SinusoidalOscillator)
 {
   
 }
@@ -41,15 +40,46 @@ void NELead6Voice::endNote()
 
 void NELead6Voice::step(Signal* output)
 {
-  if (_modulation_mode==NELEAD6_RM)
+  _osc1->step(output);
+}
+
+NELead6::NELead6() :
+Instrument()
+ {
+ }
+ 
+NELead6::~NELead6()
+{
+}
+
+InstrumentParameter* NELead6::getParameter(unsigned char id)
+{
+  return Instrument<NELead6Voice>::getParameter(id);
+}
+
+void NELead6::step(Signal* output)
+{
+  Instrument<NELead6Voice>::step(output);
+}
+
+NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
+Interface(sf::Vector2i(2048,360),size),
+_texture(),
+_back(),
+_instrument(instrument)
+{
+  if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
-    _osc1->step(output);
-    output->mix(_osc2->generate());
+    _back.setTexture(_texture);
+    _back.setTextureRect(sf::IntRect(0,0,2048,360));
+
+    addDrawable(&_back);
   }
-  else
-  {
-    //_osc2->step(_osc1->fm);
-    _osc1->step(output);
-  }
+
+}
+
+NELead6Interface::~NELead6Interface()
+{
+
 }
 
