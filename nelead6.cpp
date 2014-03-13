@@ -63,16 +63,27 @@ void NELead6::step(Signal* output)
 }
 
 NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
-Interface(sf::Vector2i(2048,360),size),
+Interface(sf::Vector2i(1792,360),size),
 _texture(),
 _back(),
-_instrument(instrument)
+_instrument(instrument),
+_outputKnob(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
     _back.setTexture(_texture);
-    _back.setTextureRect(sf::IntRect(0,0,2048,360));
+    _back.setTextureRect(sf::IntRect(0,0,1792,360));
 
+    _outputKnob =  new Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
+                           _texture,
+                           sf::IntRect(1792,0,128,128),
+                           sf::IntRect(1792,128,128,128));
+                           
+    _outputKnob->setScale(0.6f,0.6f);     
+    _outputKnob->overColor = sf::Color(255,255,255,255);
+    _outputKnob->setPosition(1146,30);
+    
+    addMouseCatcher(_outputKnob);
     addDrawable(&_back);
   }
 
@@ -80,6 +91,7 @@ _instrument(instrument)
 
 NELead6Interface::~NELead6Interface()
 {
+  if( _outputKnob ) delete _outputKnob;
 
 }
 
