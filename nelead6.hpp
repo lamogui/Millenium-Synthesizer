@@ -4,7 +4,7 @@
 
 #include "instrument.hpp"
 #include "oscillator.hpp"
-
+#include "interface.hpp"
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -25,7 +25,31 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _osc2;
     Oscillator* _lfo1;
     Oscillator* _lfo2;
-    unsigned char _modulation_mode;
 };
+
+
+class NELead6 : public Instrument<NELead6Voice>
+{
+  public: 
+    NELead6();
+    virtual ~NELead6();
+    
+    virtual InstrumentParameter* getParameter(unsigned char id);
+    virtual void step(Signal* output);
+}; 
+
+class NELead6Interface : public Interface
+{
+  public:
+    NELead6Interface(NELead6* instrument, const sf::Vector2f& size);
+    virtual ~NELead6Interface();
+    
+  protected:
+    sf::Texture _texture;
+    sf::Sprite _back;
+    NELead6* _instrument;
+};
+
+
 
 #endif
