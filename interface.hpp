@@ -28,6 +28,9 @@ class Knob : public MouseCatcher, public sf::Transformable
     virtual void onMouseRelease(float x, float y);
     virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
     virtual void update();
+    
+    sf::Color overColor;
+    
   private:
     sf::Sprite _back_sprite;
     sf::Sprite _knob_sprite;

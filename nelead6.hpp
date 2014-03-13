@@ -38,6 +38,11 @@ class NELead6 : public Instrument<NELead6Voice>
     virtual void step(Signal* output);
 }; 
 
+class NELead6Knob : public Knob
+{
+
+};
+
 class NELead6Interface : public Interface
 {
   public:
@@ -48,6 +53,7 @@ class NELead6Interface : public Interface
     sf::Texture _texture;
     sf::Sprite _back;
     NELead6* _instrument;
+    Knob* _outputKnob;
 };
 
 

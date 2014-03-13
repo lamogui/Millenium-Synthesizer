@@ -3,6 +3,7 @@
 #include <iostream>
 
 Knob::Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
+overColor(242,42,42,255),
 _back_sprite(texture,backRect),
 _knob_sprite(texture,knobRect),
 _param(p),
@@ -39,7 +40,7 @@ bool Knob::onMousePress(float x, float y)
     
     _catch_angle=_param->getValueToUnsigned(300);
     //std::cout << "catch angle " << _catch_angle << std::endl;
-    _knob_sprite.setColor(sf::Color(242,42,42,255));
+    _knob_sprite.setColor(overColor);
     
     return true;
   }
