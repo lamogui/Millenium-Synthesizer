@@ -50,8 +50,8 @@ int main()
   
   float dt=0.02;
   unsigned int time=0;
-  PureSquare lead;      
-  Interface* lolinterface = new PureSquareInterface(&lead,sf::Vector2f(720,360));    
+  NELead6 lead;      
+  Interface* lolinterface = new NELead6Interface(&lead,sf::Vector2f(720,360));    
   
   Signal output;
   bool sendSignalSuccess=true;

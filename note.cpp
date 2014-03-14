@@ -3,7 +3,7 @@
 #include "note.hpp"
 #include "instrument.hpp"
  
-float Note:: noteFrequency[88]={
+float Note::noteFrequency[88]={
 27.5,29.1353,30.8677,32.7032,34.6479,36.7081,38.8909,41.2035,43.6536,46.2493,48.9995,51.9130,
 55,  58.2705,61.7354,65.4064,69.2957,73.4162,77.7817,82.4069,87.3071,92.4986,97.9989,103.826,
 110, 116.541,123.471,130.813,138.591,146.832,155.563,164.814,174.614,184.997,195.998,207.652,
@@ -62,28 +62,36 @@ Note& Note::operator=(const Note& c)
 }
 
 InstrumentParameter::InstrumentParameter(short value, short min, short max) :
+_modified(true),
 _value(value),
 _min(min),
 _max(max)
 {
+  notify();
 }
 
 InstrumentParameter::InstrumentParameter(const InstrumentParameter& p) :
+_modified(true),
 _value(p._value),
 _min(p._min),
 _max(p._max)
 {
+  notify();
 }
 
 short InstrumentParameter::operator++(int) { 
-  _value++; 
-  if (_value > _max) {_value=_min; return _max;} 
+  _value++;
+
+  if (_value > _max) {_value=_min; notify(); return _max;}
+  else notify();
   return _value-1;
 }
 
 short InstrumentParameter::operator--(int){
   _value--; 
-  if (_value < _min) {_value=_max; return _min;}
+  
+  if (_value < _min) {_value=_max; notify(); return _min;}
+  else notify();
   return _value + 1;
 }
 
@@ -92,6 +100,7 @@ InstrumentParameter& InstrumentParameter::operator=(const InstrumentParameter& p
   _value = p._value;
   _min = p._min;
   _max = p._max;
+  notify();
   return *this;
 }
 
@@ -99,7 +108,9 @@ bool InstrumentParameter::setValue(short v)
 {
   if (v>=_min && v <= _max)
   {
-    _value=v; return true;
+    _value=v; 
+    notify();
+    return true;
   }
   return false;
 }

@@ -63,13 +63,14 @@ class InstrumentParameter
     InstrumentParameter& operator=(const InstrumentParameter& p);
   
     inline bool active() { return _value ? true : false; }
-    inline void toggle() { _value = _value ? 0 : _max; }
-    inline void on() { _value = _max; }
-    inline void off() { _value = 0; }
+    inline void toggle() { _value = _value ? 0 : _max; notify(); }
+    inline void on() { _value = _max; notify(); }
+    inline void off() { _value = 0; notify(); }
     
     //Set the value with an other value between 0 and max (from the GUI)
     inline void setValueFromUnsigned(unsigned v, unsigned max) { 
       _value = _min + (v*(_max - _min))/max;
+      notify();
       //_value = (v/(float)max)*(float)(_max - _min) + _min;
     }
     
@@ -90,6 +91,8 @@ class InstrumentParameter
     inline short getMin() { return _min; }
     inline short getMax() { return _max; }
     inline unsigned getRange() { return (_max-_min); }
+    inline bool newValue() { return _modified; }
+    inline void valueUsed() { _modified=false; }
     
     short operator++(int);
     short operator--(int);
@@ -97,6 +100,9 @@ class InstrumentParameter
     
     
   private:
+    inline void notify() { _modified=true; }
+  
+    bool _modified;
     short _value;
     short _min;
     short _max;
