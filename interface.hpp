@@ -31,7 +31,7 @@ class Knob : public MouseCatcher, public sf::Transformable
     
     sf::Color overColor;
     
-  private:
+  protected:
     sf::Sprite _back_sprite;
     sf::Sprite _knob_sprite;
     InstrumentParameter* _param;
