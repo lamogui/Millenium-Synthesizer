@@ -6,6 +6,17 @@
 #include "oscillator.hpp"
 #include "interface.hpp"
 
+//Param defines
+
+#define PARAM_NELEAD6_OSCMIX 0
+#define PARAM_NELEAD6_LFO1RATE 1
+#define PARAM_NELEAD6_LFO1AMOUNT 2
+#define PARAM_NELEAD6_LFO2RATE 3
+#define PARAM_NELEAD6_LFO2AMOUNT 4
+
+
+
+
 //modulation modes
 #define NELEAD6_FM 0
 #define NELEAD6_RM 1
@@ -25,6 +36,8 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _osc2;
     Oscillator* _lfo1;
     Oscillator* _lfo2;
+    Note _currentNote;
+    Signal _oscmix;
 };
 
 
@@ -36,6 +49,13 @@ class NELead6 : public Instrument<NELead6Voice>
     
     virtual InstrumentParameter* getParameter(unsigned char id);
     virtual void step(Signal* output);
+    
+  protected :
+    InstrumentParameter _oscmix;
+    InstrumentParameter _lfo1_amount;
+    InstrumentParameter _lfo1_rate;
+    InstrumentParameter _lfo2_amount;
+    InstrumentParameter _lfo2_rate; 
 }; 
 
 class NELead6Knob : public Knob
@@ -63,6 +83,11 @@ class NELead6Interface : public Interface
     sf::Sprite _back;
     NELead6* _instrument;
     NELead6Knob* _outputKnob;
+    NELead6Knob* _oscmixKnob;
+    NELead6Knob* _lfo1AmKnob;
+    NELead6Knob* _lfo1RateKnob;
+    NELead6Knob* _lfo2AmKnob;
+    NELead6Knob* _lfo2RateKnob;
 };
 
 
