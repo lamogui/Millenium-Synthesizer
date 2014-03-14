@@ -102,7 +102,7 @@ void SquareOscillator::step(Signal* output)
     else {
       samples[i]=-a[i];
     }
-    samples[i+1] = -samples[i];
+    samples[i+1] = samples[i];
     _time++;
   }
 }

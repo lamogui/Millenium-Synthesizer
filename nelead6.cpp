@@ -1,12 +1,13 @@
 #include "nelead6.hpp"
+#include <cmath>
 
 NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
-_osc1(new SquareOscillator),
-_osc2(new SinusoidalOscillator),
-_lfo1(new SinusoidalOscillator),
-_lfo2(new SinusoidalOscillator),
-_modulation_mode(NELEAD6_FM)
+_osc1(new SinusoidalOscillator),
+_osc2(new SquareOscillator),
+_lfo1(new SquareOscillator),
+_lfo2(new SquareOscillator),
+_currentNote(0,0)
 {
   
 }
@@ -21,15 +22,16 @@ NELead6Voice::~NELead6Voice()
 
 void NELead6Voice::beginNote(Note& n)
 {
+  _currentNote = n;
   _osc1->resetTime();
   _osc2->resetTime();
   _lfo1->resetTime();
   _lfo2->resetTime();
   
-  _osc1->setFrequency(n.frequency);
-  _osc1->setAmplitude(n.velocity);
-  _osc2->setFrequency(n.frequency*0.25);
-  _osc2->setAmplitude(0.5);
+  _osc1->setFrequency(_currentNote.frequency);
+  _osc1->setAmplitude(_currentNote.velocity);
+  _osc2->setFrequency(_currentNote.frequency);
+  _osc2->setAmplitude(_currentNote.velocity);
 
   _used=true;
 }
@@ -41,15 +43,202 @@ void NELead6Voice::endNote()
 
 void NELead6Voice::step(Signal* output)
 {
-  if (_modulation_mode==NELEAD6_RM)
+  output->reset();
+
+  float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/255.f;
+  
+  float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/255.f - 3.50f);
+  float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/255.f - 3.50f);
+  
+  float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/255.f;
+  float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/255.f;
+  
+  _lfo1->setAmplitude(lfo1_amount);
+  _lfo2->setAmplitude(lfo2_amount);
+  
+  _lfo1->setFrequency(lfo1_rate);
+  _lfo2->setFrequency(lfo2_rate);
+  
+  Signal* lfo1 = _lfo1->generate();
+  Signal* lfo2 = _lfo2->generate(); 
+  
+  lfo2->scale(0.5f);
+  
+  _osc2->setShape(0.5f);
+  _osc2->getShape().add(lfo2);
+  
+  //final mixing
+  
+  _oscmix.constant(oscmix);
+  lfo1->scale(0.5f);
+  _oscmix.add(lfo1);
+ 
+  _osc1->step(output);
+  Signal* osc2 = _osc2->generate();
+
+  output->mix(&_oscmix);
+  
+  _oscmix.scale(-1.f);
+  _oscmix.addOffset(1.f);
+  
+  osc2->mix(&_oscmix);
+  
+  output->add(osc2);
+}
+
+NELead6::NELead6() :
+Instrument(),
+_oscmix(0,0,255),
+_lfo1_amount(0,0,255),
+_lfo1_rate(0,0,255),
+_lfo2_amount(0,0,255),
+_lfo2_rate(0,0,255)
+{
+  
+}
+ 
+NELead6::~NELead6()
+{
+}
+
+InstrumentParameter* NELead6::getParameter(unsigned char id)
+{
+  switch (id)
   {
-    _osc1->step(output);
-    output->mix(_osc2->generate());
+    case PARAM_NELEAD6_OSCMIX: return &_oscmix;
+    case PARAM_NELEAD6_LFO1RATE: return &_lfo1_rate;
+    case PARAM_NELEAD6_LFO1AMOUNT: return &_lfo1_amount;
+    case PARAM_NELEAD6_LFO2RATE: return &_lfo2_rate;
+    case PARAM_NELEAD6_LFO2AMOUNT: return &_lfo2_amount; 
+    default : return Instrument<NELead6Voice>::getParameter(id);
   }
-  else
+}
+
+
+NELead6Knob::NELead6Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
+Knob( p, texture, backRect, knobRect),
+_selector(sf::Vector2f(17,8))
+{
+  overColor = sf::Color(255,255,255,255);
+  _selector.setOrigin(60,4);
+  _selector.setPosition(64,64);
+}
+
+NELead6Knob::~NELead6Knob()
+{
+  
+}
+
+
+void NELead6Knob::update()
+{
+  Knob::update();
+  unsigned angle = _param->getValueToUnsigned(14);
+  short val = _param->getValue();
+  
+  if (val) _selector.setFillColor(sf::Color(255,42,42,255));
+  else _selector.setFillColor(sf::Color(42,255,42,255));
+  
+  _selector.setRotation(angle*19.f - 42.f);
+  
+}
+
+
+void NELead6Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
+{
+  states.transform *= getTransform();
+  target.draw(_back_sprite,states);
+  target.draw(_knob_sprite,states);
+  target.draw(_selector,states);
+}
+
+
+
+
+void NELead6::step(Signal* output)
+{
+  Instrument<NELead6Voice>::step(output);
+}
+
+NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
+Interface(sf::Vector2i(1792,360),size),
+_texture(),
+_back(),
+_instrument(instrument),
+_outputKnob(0),
+_oscmixKnob(0),
+_lfo1AmKnob(0),
+_lfo1RateKnob(0),
+_lfo2AmKnob(0),
+_lfo2RateKnob(0)
+{
+  if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
-    //_osc2->step(_osc1->fm);
-    _osc1->step(output);
+    _back.setTexture(_texture);
+    _back.setTextureRect(sf::IntRect(0,0,1792,360));
+
+    _outputKnob =  new NELead6Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+                                   
+    _oscmixKnob  =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_OSCMIX),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+                                   
+    _lfo1AmKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+    _lfo1RateKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+
+    _lfo2AmKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+
+    _lfo2RateKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));    
+    sf::Vector2f scale(0.6f,0.6f);
+    _outputKnob->setScale(scale); 
+    _oscmixKnob->setScale(scale); 
+    _lfo1AmKnob->setScale(scale);  
+    _lfo1RateKnob->setScale(scale);
+    _lfo2AmKnob->setScale(scale);
+    _lfo2RateKnob->setScale(scale);
+    
+    
+    _outputKnob->setPosition(1146,30);
+    _oscmixKnob->setPosition(644,230);
+    _lfo1AmKnob->setPosition(362,26);
+    _lfo1RateKnob->setPosition(106,26);
+    _lfo2AmKnob->setPosition(362,126);    
+    _lfo2RateKnob->setPosition(106,126);
+    
+    addMouseCatcher(_outputKnob);
+    addMouseCatcher(_lfo1AmKnob);
+    addMouseCatcher(_lfo1RateKnob);
+    addMouseCatcher(_lfo2AmKnob);
+    addMouseCatcher(_lfo2RateKnob);
+    addMouseCatcher(_oscmixKnob);
+    addDrawable(&_back);
   }
+
+}
+
+NELead6Interface::~NELead6Interface()
+{
+  if( _outputKnob ) delete _outputKnob;
+  if( _oscmixKnob ) delete _oscmixKnob;
+  if( _lfo1AmKnob ) delete _lfo1AmKnob;
+  if( _lfo1RateKnob ) delete _lfo1RateKnob;
+  if( _lfo2AmKnob ) delete _lfo2AmKnob;
+  if( _lfo2RateKnob ) delete _lfo2RateKnob;
 }
 
