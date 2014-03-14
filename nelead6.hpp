@@ -40,7 +40,16 @@ class NELead6 : public Instrument<NELead6Voice>
 
 class NELead6Knob : public Knob
 {
-
+  public:
+    NELead6Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect);
+    virtual ~NELead6Knob();
+    
+    void update();
+    void draw (sf::RenderTarget &target, sf::RenderStates states) const;
+  
+  private:
+    sf::RectangleShape _selector;
+    
 };
 
 class NELead6Interface : public Interface
@@ -53,7 +62,7 @@ class NELead6Interface : public Interface
     sf::Texture _texture;
     sf::Sprite _back;
     NELead6* _instrument;
-    Knob* _outputKnob;
+    NELead6Knob* _outputKnob;
 };
 
 

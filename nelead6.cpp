@@ -57,6 +57,47 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
   return Instrument<NELead6Voice>::getParameter(id);
 }
 
+
+NELead6Knob::NELead6Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
+Knob( p, texture, backRect, knobRect),
+_selector(sf::Vector2f(17,8))
+{
+  overColor = sf::Color(255,255,255,255);
+  _selector.setOrigin(60,4);
+  _selector.setPosition(64,64);
+}
+
+NELead6Knob::~NELead6Knob()
+{
+  
+}
+
+
+void NELead6Knob::update()
+{
+  Knob::update();
+  unsigned angle = _param->getValueToUnsigned(14);
+  short val = _param->getValue();
+  
+  if (val) _selector.setFillColor(sf::Color(255,42,42,255));
+  else _selector.setFillColor(sf::Color(42,255,42,255));
+  
+  _selector.setRotation(angle*19.f - 42.f);
+  
+}
+
+
+void NELead6Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
+{
+  states.transform *= getTransform();
+  target.draw(_back_sprite,states);
+  target.draw(_knob_sprite,states);
+  target.draw(_selector,states);
+}
+
+
+
+
 void NELead6::step(Signal* output)
 {
   Instrument<NELead6Voice>::step(output);
@@ -74,10 +115,10 @@ _outputKnob(0)
     _back.setTexture(_texture);
     _back.setTextureRect(sf::IntRect(0,0,1792,360));
 
-    _outputKnob =  new Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
-                           _texture,
-                           sf::IntRect(1792,0,128,128),
-                           sf::IntRect(1792,128,128,128));
+    _outputKnob =  new NELead6Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
                            
     _outputKnob->setScale(0.6f,0.6f);     
     _outputKnob->overColor = sf::Color(255,255,255,255);
