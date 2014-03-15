@@ -108,28 +108,28 @@ int main()
           
         case sf::Event::KeyPressed:
           {
-            float f=0;
+            unsigned char id=NOT_A_NOTE;
             switch (event.key.code)
             {
-              case sf::Keyboard::Q: f=261.63; break;
-              case sf::Keyboard::Z: f=277.18; break;
-              case sf::Keyboard::S: f=293.66; break;
-              case sf::Keyboard::E: f=311.13; break;
-              case sf::Keyboard::D: f=329.63; break;
-              case sf::Keyboard::F: f=349.23; break;
-              case sf::Keyboard::T: f=369.99; break;
-              case sf::Keyboard::G: f=392.00; break;
-              case sf::Keyboard::Y: f=415.30; break;
-              case sf::Keyboard::H: f=440.00; break;
-              case sf::Keyboard::U: f=466.16; break;
-              case sf::Keyboard::J: f=493.88; break;
+              case sf::Keyboard::Q: id=DO_3; break;
+              case sf::Keyboard::Z: id=REb_3; break;
+              case sf::Keyboard::S: id=RE_3; break;
+              case sf::Keyboard::E: id=MIb_3; break;
+              case sf::Keyboard::D: id=MI_3; break;
+              case sf::Keyboard::F: id=FA_3; break;
+              case sf::Keyboard::T: id=SOLb_3; break;
+              case sf::Keyboard::G: id=SOL_3; break;
+              case sf::Keyboard::Y: id=LAb_3; break;
+              case sf::Keyboard::H: id=LA_4; break;
+              case sf::Keyboard::U: id=SIb_4; break;
+              case sf::Keyboard::J: id=SI_4; break;
               default: break;
             }
-            if (f)
+            if (id!=NOT_A_NOTE)
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                notes[event.key.code] = new Note(time,f,1.0);
+                notes[event.key.code] = new Note(time,id,1.0);
                 lead.playNote(*notes[event.key.code]);
               }  
             }
