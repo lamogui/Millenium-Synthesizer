@@ -7,7 +7,7 @@ _osc1(new SinusoidalOscillator),
 _osc2(new SquareOscillator),
 _lfo1(new SquareOscillator),
 _lfo2(new SquareOscillator),
-_currentNote(0,0)
+_currentNote(0,NOT_A_NOTE)
 {
   
 }
@@ -28,9 +28,9 @@ void NELead6Voice::beginNote(Note& n)
   _lfo1->resetTime();
   _lfo2->resetTime();
   
-  _osc1->setFrequency(_currentNote.frequency);
+  _osc1->setFrequency(_currentNote.frequency());
   _osc1->setAmplitude(_currentNote.velocity);
-  _osc2->setFrequency(_currentNote.frequency);
+  _osc2->setFrequency(_currentNote.frequency());
   _osc2->setAmplitude(_currentNote.velocity);
 
   _used=true;
@@ -56,8 +56,8 @@ void NELead6Voice::step(Signal* output)
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
   
-  _lfo1->setFrequency(lfo1_rate);
-  _lfo2->setFrequency(lfo2_rate);
+  _lfo1->setFrequency(lfo1_rate*_currentNote.frequency()/440.f);
+  _lfo2->setFrequency(lfo2_rate*_currentNote.frequency()/440.f);
   
   Signal* lfo1 = _lfo1->generate();
   Signal* lfo2 = _lfo2->generate(); 

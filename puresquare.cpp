@@ -17,7 +17,7 @@ void PureSquareVoice::beginNote(Note& n)
 {
   _osc.resetTime();
   _lfo.resetTime();
-  _osc.setFrequency(n.frequency);
+  _osc.setFrequency(n.frequency());
   _osc.setAmplitude(n.velocity);
   _used=true;
 }

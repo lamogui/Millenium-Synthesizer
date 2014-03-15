@@ -3,7 +3,7 @@
 #include "note.hpp"
 #include "instrument.hpp"
  
-float Note::noteFrequency[88]={
+float Note::noteFrequency[256]={
 27.5,29.1353,30.8677,32.7032,34.6479,36.7081,38.8909,41.2035,43.6536,46.2493,48.9995,51.9130,
 55,  58.2705,61.7354,65.4064,69.2957,73.4162,77.7817,82.4069,87.3071,92.4986,97.9989,103.826,
 110, 116.541,123.471,130.813,138.591,146.832,155.563,164.814,174.614,184.997,195.998,207.652,
@@ -13,12 +13,12 @@ float Note::noteFrequency[88]={
 1760,1864.66,1975.53,2093,2217.46,2349.32,2489.02,2637.02,2793.02,2959.96,3135.96,3322.44,
 3520,3729.31,3951.07,4186.01 };
  
-Note::Note(unsigned int st, float f, float v):
+Note::Note(unsigned int st, unsigned char i, float v):
 _voiceUsed(0),
 start(st),
 lenght(0),
-frequency(f),
-velocity(v)
+velocity(v),
+id(i)
 {
 }
 
@@ -26,8 +26,8 @@ Note::Note(const Note& c) :
 _voiceUsed(0),
 start(c.start),
 lenght(c.lenght),
-frequency(c.frequency),
-velocity(c.velocity)
+velocity(c.velocity),
+id(c.id)
 {
 
 }
@@ -57,7 +57,7 @@ Note& Note::operator=(const Note& c)
   _voiceUsed = 0;
   start = c.start;
   lenght = c.lenght;
-  frequency = c.frequency;
+  id = c.id;
   velocity = c.velocity;
 }
 

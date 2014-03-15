@@ -8,7 +8,7 @@ class InstrumentVoice;
 class Note
 {
   public:
-    Note(unsigned int st, float f, float v=1.0);
+    Note(unsigned int st, unsigned char id, float v=1.0);
     Note(const Note& c);
     virtual ~Note();
     
@@ -39,18 +39,24 @@ class Note
     // - when the note is finished she should tell it the voice actually used;
     void sendStopSignal();
     
+    inline float frequency() { return noteFrequency[id]; }
+    
+    static inline float getFrequencyFromID(unsigned char id)
+    {
+      return noteFrequency[id];
+    }
     
   
   private:
     InstrumentVoice* _voiceUsed;
-    static float noteFrequency[88];
+    static float noteFrequency[256];
     
   public:
     unsigned int start; //time where the note is appeared
     unsigned int lenght; //note duration
-    
-    float frequency;
+
     float velocity;
+    unsigned char id;
     
 };
 
@@ -205,5 +211,7 @@ class InstrumentParameter
 #define SIb_8  85
 #define SI_8   86
 #define DO_8   87
+
+#define NOT_A_NOTE 255
 
 #endif
