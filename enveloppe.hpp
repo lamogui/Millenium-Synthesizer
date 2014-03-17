@@ -20,6 +20,8 @@ class Enveloppe : public AbstractSignalGenerator {
        _time=0;
        _releaseTime=0;
      }
+
+     void beginRelease();
     
      unsigned int attack;
      unsigned int decay;
@@ -27,6 +29,7 @@ class Enveloppe : public AbstractSignalGenerator {
      unsigned int release;
      
    protected:
+     float _releaseLevel;
      unsigned int _releaseTime;
 };
 
