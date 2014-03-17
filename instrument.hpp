@@ -12,12 +12,7 @@
 #define PARAM_INSTRUMENT_PAN_ID 254
 #define PARAM_INSTRUMENT_VOLUME_ID 255
 
-//an instrument is divised in 2 part :
-// - what it represent for a note : InstrumentVoice (dependant of the note)
-// - what it represent for the whole sound : Instrument (dependant of global config)
-//even if an instrument has only one voici he should provide both inherited class :  Instrument AND InstrumentVoice
 
-std::vector< AbstractInstrument >
 
 //Class for manipulate a group of instrument
 //only describes the methods that all instruments must have
@@ -38,6 +33,11 @@ class AbstractInstrument : public AbstractSignalGenerator
       return false;
     }
 };
+
+//an instrument is divised in 2 part :
+// - what it represent for a note : InstrumentVoice (dependant of the note)
+// - what it represent for the whole sound : Instrument (dependant of global config)
+//even if an instrument has only one voici he should provide both inherited class :  Instrument AND InstrumentVoice
 
 
 //should represent all the material used by the instrument to produce one note
