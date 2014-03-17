@@ -93,7 +93,10 @@ _lfo1_amount(0,0,255),
 _lfo1_rate(0,0,255),
 _lfo2_amount(0,0,255),
 _lfo2_rate(0,0,255),
-_env_attack(0,0,255)
+_env_attack(0,0,255),
+_env_decay(0,0,255),
+_env_sustain(0,0,255),
+_env_release(0,0,255)
 {
   
 }
@@ -112,6 +115,9 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_LFO2RATE: return &_lfo2_rate;
     case PARAM_NELEAD6_LFO2AMOUNT: return &_lfo2_amount; 
     case PARAM_NELEAD6_ENVATTACK: return &_env_attack;
+    case PARAM_NELEAD6_ENVDECAY: return &_env_decay;
+    case PARAM_NELEAD6_ENVSUSTAIN: return &_env_sustain;
+    case PARAM_NELEAD6_ENVRELEASE: return &_env_release;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -173,7 +179,10 @@ _lfo1AmKnob(0),
 _lfo1RateKnob(0),
 _lfo2AmKnob(0),
 _lfo2RateKnob(0),
-_envAttackKnob(0)
+_envAttackKnob(0),
+_envDecayKnob(0),
+_envSustainKnob(0),
+_envReleaseKnob(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -213,6 +222,18 @@ _envAttackKnob(0)
                                    _texture,
                                    sf::IntRect(1792,0,128,128),
                                    sf::IntRect(1792,128,128,128));                                   
+     _envDecayKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_ENVDECAY),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));                                   
+     _envSustainKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));                                   
+     _envReleaseKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_ENVRELEASE),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));                                   
     sf::Vector2f scale(0.6f,0.6f);
     _outputKnob->setScale(scale); 
     _oscmixKnob->setScale(scale); 
@@ -221,6 +242,9 @@ _envAttackKnob(0)
     _lfo2AmKnob->setScale(scale);
     _lfo2RateKnob->setScale(scale);
     _envAttackKnob->setScale(scale);
+    _envDecayKnob->setScale(scale);
+    _envSustainKnob->setScale(scale);
+    _envReleaseKnob->setScale(scale);
     
     
     _outputKnob->setPosition(1146,30);
@@ -230,6 +254,9 @@ _envAttackKnob(0)
     _lfo2AmKnob->setPosition(362,126);    
     _lfo2RateKnob->setPosition(106,126);
     _envAttackKnob->setPosition(744,24);
+    _envDecayKnob->setPosition(832,24);
+    _envSustainKnob->setPosition(925,24);
+    _envReleaseKnob->setPosition(1020,24);
     
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_lfo1AmKnob);
@@ -238,6 +265,9 @@ _envAttackKnob(0)
     addMouseCatcher(_lfo2RateKnob);
     addMouseCatcher(_oscmixKnob);
     addMouseCatcher(_envAttackKnob);
+    addMouseCatcher(_envDecayKnob);
+    addMouseCatcher(_envSustainKnob);
+    addMouseCatcher(_envReleaseKnob);
     addDrawable(&_back);
   }
 
@@ -252,5 +282,8 @@ NELead6Interface::~NELead6Interface()
   if( _lfo2AmKnob ) delete _lfo2AmKnob;
   if( _lfo2RateKnob ) delete _lfo2RateKnob;
   if(_envAttackKnob ) delete _envAttackKnob;
+  if(_envDecayKnob ) delete _envDecayKnob;
+  if(_envSustainKnob ) delete _envSustainKnob;
+  if(_envReleaseKnob ) delete _envReleaseKnob;
 }
 

@@ -14,6 +14,9 @@
 #define PARAM_NELEAD6_LFO2RATE 3
 #define PARAM_NELEAD6_LFO2AMOUNT 4
 #define PARAM_NELEAD6_ENVATTACK 5
+#define PARAM_NELEAD6_ENVDECAY 6
+#define PARAM_NELEAD6_ENVSUSTAIN 7
+#define PARAM_NELEAD6_ENVRELEASE 8
 
 
 
@@ -57,6 +60,9 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _lfo2_amount;
     InstrumentParameter _lfo2_rate;
     InstrumentParameter _env_attack;
+    InstrumentParameter _env_decay;
+    InstrumentParameter _env_sustain;
+    InstrumentParameter _env_release;
 }; 
 
 class NELead6Knob : public Knob
@@ -90,6 +96,9 @@ class NELead6Interface : public Interface
     NELead6Knob* _lfo2AmKnob;
     NELead6Knob* _lfo2RateKnob;
     NELead6Knob* _envAttackKnob;
+    NELead6Knob* _envDecayKnob;
+    NELead6Knob* _envSustainKnob;
+    NELead6Knob* _envReleaseKnob;
 };
 
 
