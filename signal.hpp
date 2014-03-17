@@ -70,7 +70,7 @@ class AbstractSignalGenerator : public AbstractSignalModifier
       return &_output;
     }
     
-    inline void resetTime()
+    virtual inline void resetTime()
     {
       _time=0;
     }

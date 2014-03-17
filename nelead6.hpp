@@ -13,7 +13,7 @@
 #define PARAM_NELEAD6_LFO1AMOUNT 2
 #define PARAM_NELEAD6_LFO2RATE 3
 #define PARAM_NELEAD6_LFO2AMOUNT 4
-
+#define PARAM_NELEAD6_ENVATTACK 5
 
 
 
@@ -55,7 +55,8 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _lfo1_amount;
     InstrumentParameter _lfo1_rate;
     InstrumentParameter _lfo2_amount;
-    InstrumentParameter _lfo2_rate; 
+    InstrumentParameter _lfo2_rate;
+    InstrumentParameter _env_attack;
 }; 
 
 class NELead6Knob : public Knob
@@ -88,6 +89,7 @@ class NELead6Interface : public Interface
     NELead6Knob* _lfo1RateKnob;
     NELead6Knob* _lfo2AmKnob;
     NELead6Knob* _lfo2RateKnob;
+    NELead6Knob* _envAttackKnob;
 };
 
 
