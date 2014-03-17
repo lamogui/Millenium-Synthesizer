@@ -53,6 +53,8 @@ void NELead6Voice::step(Signal* output)
   float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/255.f;
   float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/255.f;
   
+  _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*10;
+  
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
   
@@ -84,6 +86,8 @@ void NELead6Voice::step(Signal* output)
   osc2->mix(&_oscmix);
   
   output->add(osc2);
+  
+  output->mix(_env.generate());
 }
 
 NELead6::NELead6() :
