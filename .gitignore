@@ -3,6 +3,9 @@
 *.lo
 *.o
 
+# remove executable
+test.exe
+
 # Compiled Dynamic libraries
 
 
@@ -24,3 +27,5 @@ POO.vcxproj
 POO.vcxproj.filters
 POO.vcxproj.user
 Release
+
+
