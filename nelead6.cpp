@@ -92,7 +92,8 @@ _oscmix(0,0,255),
 _lfo1_amount(0,0,255),
 _lfo1_rate(0,0,255),
 _lfo2_amount(0,0,255),
-_lfo2_rate(0,0,255)
+_lfo2_rate(0,0,255),
+_env_attack(0,0,255)
 {
   
 }
@@ -110,6 +111,7 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_LFO1AMOUNT: return &_lfo1_amount;
     case PARAM_NELEAD6_LFO2RATE: return &_lfo2_rate;
     case PARAM_NELEAD6_LFO2AMOUNT: return &_lfo2_amount; 
+    case PARAM_NELEAD6_ENVATTACK: return &_env_attack;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -170,7 +172,8 @@ _oscmixKnob(0),
 _lfo1AmKnob(0),
 _lfo1RateKnob(0),
 _lfo2AmKnob(0),
-_lfo2RateKnob(0)
+_lfo2RateKnob(0),
+_envAttackKnob(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -204,7 +207,12 @@ _lfo2RateKnob(0)
     _lfo2RateKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE),
                                    _texture,
                                    sf::IntRect(1792,0,128,128),
-                                   sf::IntRect(1792,128,128,128));    
+                                   sf::IntRect(1792,128,128,128));  
+                                   
+    _envAttackKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_ENVATTACK),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));                                   
     sf::Vector2f scale(0.6f,0.6f);
     _outputKnob->setScale(scale); 
     _oscmixKnob->setScale(scale); 
@@ -212,6 +220,7 @@ _lfo2RateKnob(0)
     _lfo1RateKnob->setScale(scale);
     _lfo2AmKnob->setScale(scale);
     _lfo2RateKnob->setScale(scale);
+    _envAttackKnob->setScale(scale);
     
     
     _outputKnob->setPosition(1146,30);
@@ -220,6 +229,7 @@ _lfo2RateKnob(0)
     _lfo1RateKnob->setPosition(106,26);
     _lfo2AmKnob->setPosition(362,126);    
     _lfo2RateKnob->setPosition(106,126);
+    _envAttackKnob->setPosition(744,24);
     
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_lfo1AmKnob);
@@ -227,6 +237,7 @@ _lfo2RateKnob(0)
     addMouseCatcher(_lfo2AmKnob);
     addMouseCatcher(_lfo2RateKnob);
     addMouseCatcher(_oscmixKnob);
+    addMouseCatcher(_envAttackKnob);
     addDrawable(&_back);
   }
 
@@ -240,5 +251,6 @@ NELead6Interface::~NELead6Interface()
   if( _lfo1RateKnob ) delete _lfo1RateKnob;
   if( _lfo2AmKnob ) delete _lfo2AmKnob;
   if( _lfo2RateKnob ) delete _lfo2RateKnob;
+  if(_envAttackKnob ) delete _envAttackKnob;
 }
 
