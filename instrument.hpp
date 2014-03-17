@@ -17,6 +17,8 @@
 // - what it represent for the whole sound : Instrument (dependant of global config)
 //even if an instrument has only one voici he should provide both inherited class :  Instrument AND InstrumentVoice
 
+std::vector< AbstractInstrument >
+
 //Class for manipulate a group of instrument
 //only describes the methods that all instruments must have
 //You should not inherit this class but inherit the Instrument class
@@ -45,7 +47,7 @@ class InstrumentVoice : public AbstractSignalGenerator
 {
   public:
     //Instruments Voice should only be created by instruments
-    InstrumentVoice(AbstractInstrument* creator): _instrument(creator), _used(false), _output()
+    InstrumentVoice(AbstractInstrument* creator): _instrument(creator), _used(false)
     {
     }
     
@@ -68,8 +70,8 @@ class InstrumentVoice : public AbstractSignalGenerator
   protected:
     AbstractInstrument* _instrument; //Use the owner instrument to get parameters from
     bool _used;
-    Signal _output;
 };
+
 
 //all instrument should inherit from this class with  
 //the instrument voice class as voiceClass
@@ -131,7 +133,7 @@ class Instrument : public AbstractInstrument
       if (id == PARAM_INSTRUMENT_VOLUME_ID) return &_volume;
       return NULL;
     }
-
+     
   protected:
     std::vector<voiceClass*> _voices;
     InstrumentParameter _volume;

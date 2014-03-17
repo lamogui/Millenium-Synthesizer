@@ -1,11 +1,12 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="OscSinusoidal" version="3">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="TriangleOscillator" version="3">
   <DEPS>
-    <ID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
-    <EXTID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <ID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
   <OBJECT>
-    <ID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <ID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -15,14 +16,14 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[OscSinusoidal]]></ATT>
+      <ATT name="Name"><![CDATA[TriangleOscillator]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="genere" mc="Operation" uid="2a7af253-6a91-4f86-acd7-2c93eb32476e"/>
-          <PID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+          <ID name="step" mc="Operation" uid="0fae5a6f-c5f1-4f41-91b8-343bbdf5db2f"/>
+          <PID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -30,16 +31,42 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[genere]]></ATT>
+            <ATT name="Name"><![CDATA[step]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
-          <DEPENDENCIES></DEPENDENCIES>
+          <DEPENDENCIES>
+            <COMP relation="IO">
+              <OBJECT>
+                <ID name="signal" mc="Parameter" uid="70b12c01-f74b-4621-aa6f-78d07bfc43d7"/>
+                <PID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">Out</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[signal]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="Parent">
         <OBJECT>
           <ID name="Generalization" mc="Generalization" uid="2beea336-0fb4-4f1f-b242-c3ccafc1c640"/>
-          <PID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+          <PID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
           <ATTRIBUTES>
             <ATT name="Discriminator"></ATT>
             <ATT name="Name"><![CDATA[Generalization]]></ATT>
@@ -47,7 +74,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="SuperType">
-              <ID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+              <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

@@ -53,27 +53,27 @@ void Signal::add(const Signal* s, unsigned int n)
   }
 }
 
-void Signal::addOffset(sample s)
+void Signal::addOffset(sample offset)
 {
   for (unsigned int i=0; i < Signal::size;i++)
   {
-    samples[i] += s;
+    samples[i] += offset;
   }
 }
 
-void Signal::scale(sample s)
+void Signal::scale(sample scale)
 {
   for (unsigned int i=0; i < Signal::size;i++)
   {
-    samples[i] *= s;
+    samples[i] *= scale;
   }
 }
 
-void Signal::constant(sample s)
+void Signal::constant(sample constant)
 {
   for (unsigned int i=0; i < Signal::size;i++)
   {
-    samples[i] = s;
+    samples[i] = constant;
   }
 }
 

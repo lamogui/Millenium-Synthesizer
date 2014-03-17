@@ -1,13 +1,14 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Oscillateur" version="3">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Oscillator" version="3">
   <DEPS>
-    <ID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
-    <FOREIGNID name="double" mc="DataType" uid="00000004-0000-0010-0000-000000000000"/>
-    <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
+    <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
+    <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
   </DEPS>
   <OBJECT>
-    <ID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -17,85 +18,56 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Oscillateur]]></ATT>
+      <ATT name="Name"><![CDATA[Oscillator]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="genere" mc="Operation" uid="fa872096-68c7-4957-b72b-54ab6c1d3110"/>
-          <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ID name="Oscillator" mc="Operation" uid="d31de099-0d75-4197-96be-609c7b2c9eba"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
             <ATT name="Passing">MethodOut</ATT>
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">true</ATT>
-            <ATT name="Name"><![CDATA[genere]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES></DEPENDENCIES>
-        </OBJECT>
-      </COMP>
-      <COMP relation="OwnedAttribute">
-        <OBJECT>
-          <ID name="frequence" mc="Attribute" uid="6c53689e-9615-4fcf-a15a-f11299c8fefc"/>
-          <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
-          <ATTRIBUTES>
-            <ATT name="TypeConstraint"></ATT>
-            <ATT name="Value"></ATT>
-            <ATT name="TargetIsClass">false</ATT>
-            <ATT name="Changeable">ReadWrite</ATT>
-            <ATT name="IsDerived">false</ATT>
-            <ATT name="IsOrdered">false</ATT>
-            <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[frequence]]></ATT>
+            <ATT name="Name"><![CDATA[Oscillator]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
-            <LINK relation="Type">
-              <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
+            <LINK relation="Extension">
+              <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="float" mc="Attribute" uid="32bbd55c-97a0-4e80-8b0d-48ba323a1789"/>
-          <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ID name="~Oscillator" mc="Operation" uid="d402ab43-7605-4e86-9ae6-35e2a57eea6c"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
           <ATTRIBUTES>
-            <ATT name="TypeConstraint"></ATT>
-            <ATT name="Value"></ATT>
-            <ATT name="TargetIsClass">false</ATT>
-            <ATT name="Changeable">ReadWrite</ATT>
-            <ATT name="IsDerived">false</ATT>
-            <ATT name="IsOrdered">false</ATT>
-            <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[float]]></ATT>
+            <ATT name="Name"><![CDATA[~Oscillator]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
-            <LINK relation="Type">
-              <FOREIGNID name="double" mc="DataType" uid="00000004-0000-0010-0000-000000000000"/>
+            <LINK relation="Extension">
+              <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="OwnedEnd">
         <OBJECT>
-          <ID name="signal" mc="AssociationEnd" uid="e746ef5a-112f-4b69-8b12-41c84cf8ec58"/>
-          <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ID name="amplitude" mc="AssociationEnd" uid="1a35d7db-34ca-4f59-bcce-af7ab7a28ace"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
           <ATTRIBUTES>
-            <ATT name="Aggregation">KindIsAggregation</ATT>
+            <ATT name="Aggregation">KindIsComposition</ATT>
             <ATT name="IsChangeable">true</ATT>
             <ATT name="Changeable">ReadWrite</ATT>
             <ATT name="IsDerived">false</ATT>
@@ -106,7 +78,7 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[signal]]></ATT>
+            <ATT name="Name"><![CDATA[amplitude]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
@@ -115,8 +87,8 @@
             </LINK>
             <COMP relation="Opposite">
               <OBJECT>
-                <ID name="" mc="AssociationEnd" uid="c34bbdde-01a7-4f48-bd9c-4e0294379188"/>
-                <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ID name="" mc="AssociationEnd" uid="2c05fce8-9112-4818-84fc-fcb102dadb47"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
                 <ATTRIBUTES>
                   <ATT name="Aggregation">KindIsAssociation</ATT>
                   <ATT name="IsChangeable">true</ATT>
@@ -134,12 +106,12 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <COMP relation="Opposite">
-                    <COMPID name="signal" mc="AssociationEnd" uid="e746ef5a-112f-4b69-8b12-41c84cf8ec58"/>
+                    <COMPID name="amplitude" mc="AssociationEnd" uid="1a35d7db-34ca-4f59-bcce-af7ab7a28ace"/>
                   </COMP>
                   <COMP relation="Association">
                     <OBJECT>
-                      <ID name="" mc="Association" uid="3f86a5fe-c21e-4dd7-9275-1ff9d665c87b"/>
-                      <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                      <ID name="" mc="Association" uid="a4d23b7a-3fcd-4eee-8f5e-9177a173dcd1"/>
+                      <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
                       <ATTRIBUTES>
                         <ATT name="Name"></ATT>
                         <ATT name="status">1970354901745664</ATT>
@@ -152,8 +124,8 @@
             </COMP>
             <COMP relation="Association">
               <OBJECT>
-                <ID name="" mc="Association" uid="3f86a5fe-c21e-4dd7-9275-1ff9d665c87b"/>
-                <PID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ID name="" mc="Association" uid="a4d23b7a-3fcd-4eee-8f5e-9177a173dcd1"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
                 <ATTRIBUTES>
                   <ATT name="Name"></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -161,6 +133,166 @@
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
             </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="frequency" mc="AssociationEnd" uid="e1a1322a-29ff-4019-be76-bbd1d975059f"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ATTRIBUTES>
+            <ATT name="Aggregation">KindIsComposition</ATT>
+            <ATT name="IsChangeable">true</ATT>
+            <ATT name="Changeable">ReadWrite</ATT>
+            <ATT name="IsDerived">false</ATT>
+            <ATT name="IsOrdered">false</ATT>
+            <ATT name="IsUnique">false</ATT>
+            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[frequency]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Target">
+              <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+            </LINK>
+            <COMP relation="Opposite">
+              <OBJECT>
+                <ID name="" mc="AssociationEnd" uid="b8f2b22a-db91-4939-8689-ba448ac59416"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ATTRIBUTES>
+                  <ATT name="Aggregation">KindIsAssociation</ATT>
+                  <ATT name="IsChangeable">true</ATT>
+                  <ATT name="Changeable">ReadWrite</ATT>
+                  <ATT name="IsDerived">false</ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="IsClass">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Opposite">
+                    <COMPID name="frequency" mc="AssociationEnd" uid="e1a1322a-29ff-4019-be76-bbd1d975059f"/>
+                  </COMP>
+                  <COMP relation="Association">
+                    <OBJECT>
+                      <ID name="" mc="Association" uid="023029cc-54db-4383-a635-22105bff79f7"/>
+                      <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES></DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Association">
+              <OBJECT>
+                <ID name="" mc="Association" uid="023029cc-54db-4383-a635-22105bff79f7"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="shape" mc="AssociationEnd" uid="b62bc413-121a-4f9f-9833-b5204e31c360"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ATTRIBUTES>
+            <ATT name="Aggregation">KindIsComposition</ATT>
+            <ATT name="IsChangeable">true</ATT>
+            <ATT name="Changeable">ReadWrite</ATT>
+            <ATT name="IsDerived">false</ATT>
+            <ATT name="IsOrdered">false</ATT>
+            <ATT name="IsUnique">false</ATT>
+            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[shape]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Target">
+              <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+            </LINK>
+            <COMP relation="Opposite">
+              <OBJECT>
+                <ID name="" mc="AssociationEnd" uid="2521b725-c51a-460c-8548-62b76a1300e4"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ATTRIBUTES>
+                  <ATT name="Aggregation">KindIsAssociation</ATT>
+                  <ATT name="IsChangeable">true</ATT>
+                  <ATT name="Changeable">ReadWrite</ATT>
+                  <ATT name="IsDerived">false</ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
+                  <ATT name="Visibility">Public</ATT>
+                  <ATT name="IsClass">false</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Opposite">
+                    <COMPID name="shape" mc="AssociationEnd" uid="b62bc413-121a-4f9f-9833-b5204e31c360"/>
+                  </COMP>
+                  <COMP relation="Association">
+                    <OBJECT>
+                      <ID name="" mc="Association" uid="6b32ff9e-2332-4f58-9d97-0c3a2d54c117"/>
+                      <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES></DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Association">
+              <OBJECT>
+                <ID name="" mc="Association" uid="6b32ff9e-2332-4f58-9d97-0c3a2d54c117"/>
+                <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Parent">
+        <OBJECT>
+          <ID name="Generalization" mc="Generalization" uid="f5a9e822-fd5b-4995-bd39-2534b071676f"/>
+          <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+          <ATTRIBUTES>
+            <ATT name="Discriminator"></ATT>
+            <ATT name="Name"><![CDATA[Generalization]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="SuperType">
+              <ID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+            </LINK>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>

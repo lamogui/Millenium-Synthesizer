@@ -2,17 +2,23 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="class" version="3">
   <DEPS>
     <ID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
-    <COMPID name="Interacteur" mc="Class" uid="9d0d91b0-466e-4c3c-939c-68281ac2725b"/>
-    <COMPID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
-    <COMPID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
-    <COMPID name="OscTriangulaire" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
-    <COMPID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <COMPID name="AbstractInstrument" mc="Class" uid="4875a30d-9937-491d-ab04-3c29c146dfd5"/>
+    <COMPID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+    <COMPID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+    <COMPID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+    <COMPID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
+    <COMPID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+    <COMPID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
+    <COMPID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <COMPID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
-    <COMPID name="sf::RectangleShape" mc="Class" uid="bd72fe78-8cbd-43af-8649-b240ed96523d"/>
+    <COMPID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+    <COMPID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <COMPID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <COMPID name="overview diagram" mc="ClassDiagram" uid="e5f2427a-62dc-4251-8f71-7278d9863e5b"/>
   </DEPS>
   <OBJECT>
     <ID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
-    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <PID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
     <ATTRIBUTES>
       <ATT name="IsInstantiable">false</ATT>
       <ATT name="IsAbstract">false</ATT>
@@ -24,13 +30,21 @@
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
-        <COMPID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
-        <COMPID name="OscTriangulaire" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
-        <COMPID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
-        <COMPID name="OscSinusoidal" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+        <COMPID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+        <COMPID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+        <COMPID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+        <COMPID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
         <COMPID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
-        <COMPID name="Interacteur" mc="Class" uid="9d0d91b0-466e-4c3c-939c-68281ac2725b"/>
-        <COMPID name="sf::RectangleShape" mc="Class" uid="bd72fe78-8cbd-43af-8649-b240ed96523d"/>
+        <COMPID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+        <COMPID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+        <COMPID name="AbstractInstrument" mc="Class" uid="4875a30d-9937-491d-ab04-3c29c146dfd5"/>
+        <COMPID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
+        <COMPID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
+        <COMPID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+        <COMPID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="overview diagram" mc="ClassDiagram" uid="e5f2427a-62dc-4251-8f71-7278d9863e5b"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

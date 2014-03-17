@@ -6,7 +6,7 @@
   </DEPS>
   <OBJECT>
     <ID name="Interaction" mc="Interaction" uid="ba8ca4e4-9b21-4c56-bbaf-65ea203b3dff"/>
-    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <PID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
     <ATTRIBUTES>
       <ATT name="IsReentrant">false</ATT>
       <ATT name="Name"><![CDATA[Interaction]]></ATT>

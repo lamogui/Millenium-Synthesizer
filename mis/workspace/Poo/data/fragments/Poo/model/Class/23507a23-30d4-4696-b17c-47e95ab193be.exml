@@ -1,46 +1,45 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SinusoidalOscillator" version="3">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractSignalModifier" version="3">
   <DEPS>
-    <ID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
-    <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <ID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
   <OBJECT>
-    <ID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+    <ID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
       <ATT name="IsElementary">false</ATT>
-      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsAbstract">true</ATT>
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[SinusoidalOscillator]]></ATT>
+      <ATT name="Name"><![CDATA[AbstractSignalModifier]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="step" mc="Operation" uid="29f45c07-ed9e-4dfd-92fe-132d9e61f601"/>
-          <PID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+          <ID name="step" mc="Operation" uid="83e2874f-b947-475d-96a5-b14ab7889b5c"/>
+          <PID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
             <ATT name="Passing">MethodOut</ATT>
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsAbstract">true</ATT>
             <ATT name="Name"><![CDATA[step]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="signal" mc="Parameter" uid="c4372555-a1ba-4538-a02e-c9710b551897"/>
-                <PID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+                <ID name="signal" mc="Parameter" uid="99a23f5a-5a66-4756-88c8-267fec8e96d2"/>
+                <PID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
                 <ATTRIBUTES>
-                  <ATT name="ParameterPassing">Out</ATT>
+                  <ATT name="ParameterPassing">Inout</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>
@@ -60,22 +59,6 @@
                 </DEPENDENCIES>
               </OBJECT>
             </COMP>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
-      <COMP relation="Parent">
-        <OBJECT>
-          <ID name="Generalization" mc="Generalization" uid="91598b15-405f-471e-90b4-a5560bb8d8da"/>
-          <PID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
-          <ATTRIBUTES>
-            <ATT name="Discriminator"></ATT>
-            <ATT name="Name"><![CDATA[Generalization]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="SuperType">
-              <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
-            </LINK>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
