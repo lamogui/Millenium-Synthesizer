@@ -12,7 +12,8 @@ class Enveloppe : public AbstractSignalGenerator {
 
      inline bool hasEnded()
      {
-       return _time > release + _releaseTime;
+       
+       return _releaseTime && _time > release + _releaseTime;
      }
      
      virtual inline void resetTime()
