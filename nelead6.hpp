@@ -5,6 +5,7 @@
 #include "instrument.hpp"
 #include "oscillator.hpp"
 #include "interface.hpp"
+#include "enveloppe.hpp"
 
 //Param defines
 
@@ -39,6 +40,7 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _osc2;
     Oscillator* _lfo1;
     Oscillator* _lfo2;
+    Enveloppe _env;
     Note _currentNote;
     Signal _oscmix;
 };
