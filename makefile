@@ -1,10 +1,10 @@
 
 TARGET_NAME=test
-OBJ=main.o signal.o audiostream.o oscillator.o note.o nelead6.o variant.o settings.o basserrorhandler.o bassdriver.o interface.o puresquare.o
+OBJ=main.o signal.o audiostream.o oscillator.o note.o nelead6.o variant.o settings.o basserrorhandler.o bassdriver.o interface.o puresquare.o enveloppe.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
-FILECPP=signal.cpp oscillator.cpp audiostream.cpp main.cpp note.cpp nelead6.cpp variant.cpp settings.cpp config.hpp basserrorhandler.cpp bassdriver.cpp interface.cpp puresquare.cpp
-HEADER=signal.hpp oscillator.hpp audiostream.hpp note.hpp instrument.hpp nelead6.hpp variant.hpp settings.hpp basserrorhandler.hpp audiodriver.hpp bassdriver.hpp interface.hpp puresquare.hpp
+FILECPP=signal.cpp oscillator.cpp audiostream.cpp main.cpp note.cpp nelead6.cpp variant.cpp settings.cpp config.hpp basserrorhandler.cpp bassdriver.cpp interface.cpp puresquare.cpp enveloppe.cpp
+HEADER=signal.hpp oscillator.hpp audiostream.hpp note.hpp instrument.hpp nelead6.hpp variant.hpp settings.hpp basserrorhandler.hpp audiodriver.hpp bassdriver.hpp interface.hpp puresquare.hpp enveloppe.hpp
 
 defaut:
 	@echo you must choose :
