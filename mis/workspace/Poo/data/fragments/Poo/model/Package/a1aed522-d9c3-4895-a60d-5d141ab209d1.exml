@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Son" version="3">
+  <DEPS>
+    <ID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
+    <COMPID name="Interaction" mc="Interaction" uid="ba8ca4e4-9b21-4c56-bbaf-65ea203b3dff"/>
+    <COMPID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+    <COMPID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
+    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Son]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="Interaction" mc="Interaction" uid="ba8ca4e4-9b21-4c56-bbaf-65ea203b3dff"/>
+      </COMP>
+      <COMP relation="OwnedElement">
+        <COMPID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+        <COMPID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

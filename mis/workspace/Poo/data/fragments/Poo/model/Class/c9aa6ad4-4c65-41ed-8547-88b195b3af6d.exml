@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="OscRectangulaire" version="3">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SquareOscillator" version="3">
   <DEPS>
-    <ID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
-    <EXTID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
-    <FOREIGNID name="string" mc="DataType" uid="00000004-0000-000d-0000-000000000000"/>
+    <ID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
   <OBJECT>
-    <ID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <ID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -16,14 +16,14 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[OscRectangulaire]]></ATT>
+      <ATT name="Name"><![CDATA[SquareOscillator]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="genere" mc="Operation" uid="507c70b3-e071-4611-a3ec-ddcfafdd2aa7"/>
-          <PID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+          <ID name="step" mc="Operation" uid="07e523fc-6bac-48a8-8c1b-c5a377de6c30"/>
+          <PID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -31,43 +31,42 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[genere]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES></DEPENDENCIES>
-        </OBJECT>
-      </COMP>
-      <COMP relation="OwnedAttribute">
-        <OBJECT>
-          <ID name="rapportCyclique" mc="Attribute" uid="ceccc755-ebb0-4825-b63c-1a97bc6033ac"/>
-          <PID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
-          <ATTRIBUTES>
-            <ATT name="TypeConstraint"></ATT>
-            <ATT name="Value"></ATT>
-            <ATT name="TargetIsClass">false</ATT>
-            <ATT name="Changeable">ReadWrite</ATT>
-            <ATT name="IsDerived">false</ATT>
-            <ATT name="IsOrdered">false</ATT>
-            <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[rapportCyclique]]></ATT>
+            <ATT name="Name"><![CDATA[step]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
-            <LINK relation="Type">
-              <FOREIGNID name="string" mc="DataType" uid="00000004-0000-000d-0000-000000000000"/>
-            </LINK>
+            <COMP relation="IO">
+              <OBJECT>
+                <ID name="signal" mc="Parameter" uid="f59cf88d-cc8e-4ab1-8f93-d9b591c42126"/>
+                <PID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">Out</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[signal]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="Parent">
         <OBJECT>
           <ID name="Generalization" mc="Generalization" uid="071c38aa-0180-4b99-b87a-f0f6f901f429"/>
-          <PID name="OscRectangulaire" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+          <PID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
           <ATTRIBUTES>
             <ATT name="Discriminator"></ATT>
             <ATT name="Name"><![CDATA[Generalization]]></ATT>
@@ -75,7 +74,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="SuperType">
-              <ID name="Oscillateur" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+              <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

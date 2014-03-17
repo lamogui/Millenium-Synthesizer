@@ -20,9 +20,9 @@ class Signal
 
     void mix(const Signal*, unsigned int n=1);
     void add(const Signal*, unsigned int n=1);
-    void addOffset(sample s);
-    void scale(sample s);
-    void constant(sample s);
+    void addOffset(sample offset);
+    void scale(sample scale);
+    void constant(sample constant);
     
     inline void reset()
     {

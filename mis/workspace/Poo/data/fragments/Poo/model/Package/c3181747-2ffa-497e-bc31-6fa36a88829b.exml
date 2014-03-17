@@ -11,7 +11,7 @@
   </DEPS>
   <OBJECT>
     <ID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
-    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <PID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
     <ATTRIBUTES>
       <ATT name="IsInstantiable">false</ATT>
       <ATT name="IsAbstract">false</ATT>
