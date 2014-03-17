@@ -27,6 +27,7 @@ void NELead6Voice::beginNote(Note& n)
   _osc2->resetTime();
   _lfo1->resetTime();
   _lfo2->resetTime();
+  _env.resetTime();
   
   _osc1->setFrequency(_currentNote.frequency());
   _osc1->setAmplitude(_currentNote.velocity);
@@ -38,7 +39,7 @@ void NELead6Voice::beginNote(Note& n)
 
 void NELead6Voice::endNote()
 {
-  _used=false;
+  _env.beginRelease();
 }
 
 void NELead6Voice::step(Signal* output)
@@ -53,7 +54,10 @@ void NELead6Voice::step(Signal* output)
   float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/255.f;
   float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/255.f;
   
-  _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*10;
+  _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/80;
+  _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/80;
+  _env.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN)->getValue()/255.f;
+  _env.release = _instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*Signal::frequency/80;
   
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
@@ -88,6 +92,8 @@ void NELead6Voice::step(Signal* output)
   output->add(osc2);
   
   output->mix(_env.generate());
+  
+  if (_env.hasEnded()) _used = false;
 }
 
 NELead6::NELead6() :
@@ -97,10 +103,10 @@ _lfo1_amount(0,0,255),
 _lfo1_rate(0,0,255),
 _lfo2_amount(0,0,255),
 _lfo2_rate(0,0,255),
-_env_attack(0,0,255),
-_env_decay(0,0,255),
-_env_sustain(0,0,255),
-_env_release(0,0,255)
+_env_attack(100,0,255),
+_env_decay(50,0,255),
+_env_sustain(200,0,255),
+_env_release(80,0,255)
 {
   
 }
