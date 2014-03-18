@@ -15,6 +15,8 @@
     <COMPID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
     <COMPID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
     <COMPID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <COMPID name="PureSquare" mc="Class" uid="ce99b07d-1a74-46c5-971c-91b23a52a521"/>
+    <COMPID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
     <COMPID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <COMPID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
     <COMPID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
@@ -52,6 +54,8 @@
         <COMPID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
         <COMPID name="BassDriver" mc="Class" uid="f5ce0d14-e855-4de2-9c36-401b0db4c2c9"/>
         <COMPID name="BassAsioDriver" mc="Class" uid="44034a69-5f50-4ee6-971b-a52070a06ff7"/>
+        <COMPID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
+        <COMPID name="PureSquare" mc="Class" uid="ce99b07d-1a74-46c5-971c-91b23a52a521"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="overview diagram" mc="ClassDiagram" uid="e5f2427a-62dc-4251-8f71-7278d9863e5b"/>

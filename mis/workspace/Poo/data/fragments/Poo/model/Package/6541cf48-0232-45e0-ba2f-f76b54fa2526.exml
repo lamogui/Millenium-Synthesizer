@@ -2,6 +2,9 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="IHM" version="3">
   <DEPS>
     <ID name="IHM" mc="Package" uid="6541cf48-0232-45e0-ba2f-f76b54fa2526"/>
+    <COMPID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <COMPID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+    <COMPID name="std" mc="Package" uid="f690d957-c1cf-46d0-9487-6fdf8b9bf5be"/>
   </DEPS>
   <OBJECT>
     <ID name="IHM" mc="Package" uid="6541cf48-0232-45e0-ba2f-f76b54fa2526"/>
@@ -15,6 +18,12 @@
       <ATT name="Name"><![CDATA[IHM]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
-    <DEPENDENCIES></DEPENDENCIES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+        <COMPID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+        <COMPID name="std" mc="Package" uid="f690d957-c1cf-46d0-9487-6fdf8b9bf5be"/>
+      </COMP>
+    </DEPENDENCIES>
   </OBJECT>
 </EXT>

@@ -21,8 +21,8 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="Son" mc="Package" uid="a1aed522-d9c3-4895-a60d-5d141ab209d1"/>
-        <COMPID name="IHM" mc="Package" uid="6541cf48-0232-45e0-ba2f-f76b54fa2526"/>
         <COMPID name="use case : synthétiseur millenium" mc="Package" uid="c3181747-2ffa-497e-bc31-6fa36a88829b"/>
+        <COMPID name="IHM" mc="Package" uid="6541cf48-0232-45e0-ba2f-f76b54fa2526"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
