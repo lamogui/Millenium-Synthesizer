@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="sf::Drawable" version="3">
+  <DEPS>
+    <ID name="sf::Drawable" mc="Class" uid="b9555875-706a-41bc-adf7-2e137230a5cf"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="sf::Drawable" mc="Class" uid="b9555875-706a-41bc-adf7-2e137230a5cf"/>
+    <PID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[sf::Drawable]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

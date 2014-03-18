@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="sf::IntRect" version="3">
+  <DEPS>
+    <ID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
+    <PID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[sf::IntRect]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

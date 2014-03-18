@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="std::vector" version="3">
+  <DEPS>
+    <ID name="std::vector" mc="Class" uid="92a357ab-2e67-4bdd-b9cc-70045510d6cc"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="std::vector" mc="Class" uid="92a357ab-2e67-4bdd-b9cc-70045510d6cc"/>
+    <PID name="std" mc="Package" uid="f690d957-c1cf-46d0-9487-6fdf8b9bf5be"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[std::vector]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Template">
+        <OBJECT>
+          <ID name="T" mc="TemplateParameter" uid="3ad7382c-3523-4490-8fa9-bec98eb2a60a"/>
+          <PID name="std::vector" mc="Class" uid="92a357ab-2e67-4bdd-b9cc-70045510d6cc"/>
+          <ATTRIBUTES>
+            <ATT name="DefaultValue"></ATT>
+            <ATT name="IsValueParameter">false</ATT>
+            <ATT name="IsElementary">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[T]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
