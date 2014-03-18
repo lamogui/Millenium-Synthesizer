@@ -97,7 +97,7 @@ void NELead6Voice::step(Signal* output)
 }
 
 NELead6::NELead6() :
-Instrument(),
+Instrument<NELead6Voice>(),
 _oscmix(0,0,255),
 _lfo1_amount(0,0,255),
 _lfo1_rate(0,0,255),
