@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="sfml" version="3">
+  <DEPS>
+    <ID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+    <COMPID name="sf::Color" mc="Class" uid="87b43e90-d097-487e-8b8e-4d1153d83090"/>
+    <COMPID name="sf::Drawable" mc="Class" uid="b9555875-706a-41bc-adf7-2e137230a5cf"/>
+    <COMPID name="sf::FloatRect" mc="Class" uid="ec95db85-33b8-400b-b6ed-12a4a33d4104"/>
+    <COMPID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
+    <COMPID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
+    <COMPID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
+    <COMPID name="sf::Sprite" mc="Class" uid="f74486b2-9428-442f-ab70-28b57a2119bd"/>
+    <COMPID name="sf::Texture" mc="Class" uid="73859c13-2616-4b0f-9ee8-2a8b06658fcf"/>
+    <COMPID name="sf::Transformable" mc="Class" uid="cefd1138-0d77-4222-8862-06af4913396e"/>
+    <COMPID name="sf::Vector2f" mc="Class" uid="fd8fa854-8de9-418a-9a2b-011d21da4fb0"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="sfml" mc="Package" uid="0ecbc02c-f0aa-499d-bad7-b148806ac69a"/>
+    <PID name="IHM" mc="Package" uid="6541cf48-0232-45e0-ba2f-f76b54fa2526"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[sfml]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="sf::FloatRect" mc="Class" uid="ec95db85-33b8-400b-b6ed-12a4a33d4104"/>
+        <COMPID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
+        <COMPID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
+        <COMPID name="sf::Vector2f" mc="Class" uid="fd8fa854-8de9-418a-9a2b-011d21da4fb0"/>
+        <COMPID name="sf::Transformable" mc="Class" uid="cefd1138-0d77-4222-8862-06af4913396e"/>
+        <COMPID name="sf::Texture" mc="Class" uid="73859c13-2616-4b0f-9ee8-2a8b06658fcf"/>
+        <COMPID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
+        <COMPID name="sf::Color" mc="Class" uid="87b43e90-d097-487e-8b8e-4d1153d83090"/>
+        <COMPID name="sf::Sprite" mc="Class" uid="f74486b2-9428-442f-ab70-28b57a2119bd"/>
+        <COMPID name="sf::Drawable" mc="Class" uid="b9555875-706a-41bc-adf7-2e137230a5cf"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
