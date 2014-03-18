@@ -28,15 +28,18 @@ int main()
   
   
   AudioDriver* driver;
+  #ifdef COMPILE_WINDOWS
   if (GetSettingsFor("ASIO/UseASIODriver",false))
   {
     driver = new BassAsioDriver();
   }
   else
   {
+    #endif
     driver = new BassDriver();
+    #ifdef COMPILE_WINDOWS
   }
-  
+  #endif
   if (!driver->init(Signal::frequency)) return 0xdead;
   AudioStream stream(Signal::size*2);
   

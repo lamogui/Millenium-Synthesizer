@@ -42,7 +42,7 @@ void PureSquareVoice::step(Signal* output)
 }
 
 PureSquare::PureSquare() :
-Instrument(),
+Instrument<PureSquareVoice>(),
 _lfo_amp(0,0,100),
 _lfo_frequency(0,0,100),
 _duty(127,0,255)
