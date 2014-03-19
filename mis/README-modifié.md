@@ -65,7 +65,7 @@ N.B : polyphonie = plusieurs notes.
 
 
 
-Note (note.hpp)
+Note 
 ---------------
 Elle représente une note de musique : fréquence, vélocité, durée mais aussi quand 
 elle a été jouée ! Quand une note est créée elle est envoyée à l'Instrument 
@@ -81,7 +81,7 @@ pas fini son release time.
 
 
 
-InstrumentParameter (note.hpp)
+InstrumentParameter 
 ------------------------------
 Elle représente un paramètre de l'instrument codé sur un entier signé de 16 bits.
 A l'initialisation l'instrument donne la plage de valeur (que le paramètre 
@@ -96,7 +96,7 @@ le poteniomètre et l'Instrument
 
 
 
-AudioStream (audiostream.hpp)
+AudioStream 
 -----------------------------
 Elle représente un flux, le son continu qui va sortir des haut parleurs. Il prend en entrée un objet Signal. Il s'occupe de convertir les données du signal en échantillons utilisables par le driver audio.
 D'un point de vu purement technique : Il s'agit d'un buffer circulaire de type FIFO. L'atout qu'il a en plus c'est qu'il hérite d'une classe mutex il est donc verrouillable et deverrouillable (méthodes lock() et unlock()) pour éviter que 2 threads l'utilise en même temps.
@@ -105,8 +105,8 @@ D'un point de vu purement technique : Il s'agit d'un buffer circulaire de type F
 
 
 
-AudioDriver (audiodriver.hpp)
------------------------------
+AudioDriver 
+----------------------------
 Elle représente le lien entre le Haut-Parleur et le signal converti par AudioStream lors de son démarrage (méthode start). 
 On lui passe un AudioStream qu'il devra lire (via la méthode read) lorsque la 
 carte son à besoin de nouveaux échantillons. 
@@ -146,7 +146,7 @@ l'integralité de l'Interface.
 
 
 
-Interface (interface.hpp)
+Interface 
 -------------------------
 Interface gère des sf::Drawable (choses affichables) et des MouseCatcher. Elle s'occupe de les
 faire afficher dans l'espace que l'on lui donne !
