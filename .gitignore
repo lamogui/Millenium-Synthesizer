@@ -29,3 +29,8 @@ POO.vcxproj.user
 Release
 
 clean.bat
+
+#fuckingfiles
+*.lock
+*.odt#
+
