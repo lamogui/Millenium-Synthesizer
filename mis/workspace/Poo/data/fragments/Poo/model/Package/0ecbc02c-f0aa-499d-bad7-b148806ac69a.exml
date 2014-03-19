@@ -8,6 +8,7 @@
     <COMPID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
     <COMPID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
     <COMPID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
+    <COMPID name="sf::RenderWindow" mc="Class" uid="4a545a31-286c-4be8-98c6-bbed54f3af7f"/>
     <COMPID name="sf::Sprite" mc="Class" uid="f74486b2-9428-442f-ab70-28b57a2119bd"/>
     <COMPID name="sf::Texture" mc="Class" uid="73859c13-2616-4b0f-9ee8-2a8b06658fcf"/>
     <COMPID name="sf::Transformable" mc="Class" uid="cefd1138-0d77-4222-8862-06af4913396e"/>
@@ -37,6 +38,7 @@
         <COMPID name="sf::Color" mc="Class" uid="87b43e90-d097-487e-8b8e-4d1153d83090"/>
         <COMPID name="sf::Sprite" mc="Class" uid="f74486b2-9428-442f-ab70-28b57a2119bd"/>
         <COMPID name="sf::Drawable" mc="Class" uid="b9555875-706a-41bc-adf7-2e137230a5cf"/>
+        <COMPID name="sf::RenderWindow" mc="Class" uid="4a545a31-286c-4be8-98c6-bbed54f3af7f"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
