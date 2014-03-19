@@ -17,6 +17,7 @@
 #include "bassdriver.hpp"
 #include "interface.hpp"
 #include "puresquare.hpp"
+#include "record.hpp"
 
 int main()
 {
@@ -52,7 +53,12 @@ int main()
   Interface* currentInterfaceCatcher=NULL;
   
   float dt=0.02;
-  unsigned int time=0;
+  unsigned int mytime=0;
+  time_t current;
+  time_t retard;
+  time (&current);
+  time (&retard);
+  double diff=0;
   NELead6 lead;      
   Interface* lolinterface = new NELead6Interface(&lead,sf::Vector2f(720,360));    
   
@@ -60,7 +66,10 @@ int main()
   bool sendSignalSuccess=true;
   
   std::map<sf::Keyboard::Key,Note*> notes;
-  
+
+  Record r;
+  r.init();
+
   if (!driver->start(&stream)) return 0xdead;
   while (window.isOpen())
   {
@@ -132,7 +141,8 @@ int main()
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                notes[event.key.code] = new Note(time,id,1.0);
+                r.writeNote(id, mytime);
+                notes[event.key.code] = new Note(0,id,1.0);
                 lead.playNote(*notes[event.key.code]);
               }  
             }
@@ -147,6 +157,12 @@ int main()
           break;
         default:
           break;
+      }
+      time (&current);
+      diff = difftime(current, retard);
+      if (diff >1) {
+        mytime++;
+        retard=current;
       }
     }
     
@@ -183,5 +199,6 @@ int main()
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   delete driver;
+  r.close();
   return 0;
 }
