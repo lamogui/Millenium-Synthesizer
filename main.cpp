@@ -53,12 +53,8 @@ int main()
   Interface* currentInterfaceCatcher=NULL;
   
   float dt=0.02;
-  unsigned int mytime=0;
-  time_t current;
-  time_t retard;
-  time (&current);
-  time (&retard);
-  double diff=0;
+  unsigned int time=0;
+  
   NELead6 lead;      
   Interface* lolinterface = new NELead6Interface(&lead,sf::Vector2f(720,360));    
   
@@ -141,8 +137,11 @@ int main()
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                r.writeNote(id, mytime);
-                notes[event.key.code] = new Note(0,id,1.0);
+                r.writeNote(id, time);
+                //notes[event.key.code] = reccord.createNote(time,id,1.0);
+                //vector.push_back(Note(time,id,1.0))
+                //return & (vector[vector.size-1]);
+                notes[event.key.code] = new Note(time,id,1.0);
                 lead.playNote(*notes[event.key.code]);
               }  
             }
@@ -151,20 +150,15 @@ int main()
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            delete notes[event.key.code];
+            notes[event.key.code]->lenght= time - notes[event.key.code]->start;
+            delete notes[event.key.code]; //a virer
             notes.erase(event.key.code);
           }
           break;
         default:
           break;
       }
-      time (&current);
-      diff = difftime(current, retard);
-      if (diff >1) {
-        mytime++;
-        retard=current;
       }
-    }
     
     
     
@@ -174,6 +168,7 @@ int main()
     if (sendSignalSuccess)
     {
       //std::cout << "generating output..." << std::endl;
+      time++;
       lead.step(&output);
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
@@ -198,6 +193,8 @@ int main()
     
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
+  
+  //
   delete driver;
   r.close();
   return 0;
