@@ -25,7 +25,7 @@ d'échantillons), c'est ce qu'un instrument doit générer.
 
 
 
-Oscillator
+Oscillator (Oscillateur)
 ----------
 l'Oscillator est un générateur de signal périodique. Il génère un signal grâce à la méthode 
 "generate". Cependant il est aussi possible de générer le signal sur un objet Signal 
@@ -34,7 +34,7 @@ exterieur grâce à la méthode "step".
 
 
 
-InstrumentVoice
+InstrumentVoice  
 ---------------
 l'InstrumentVoice un générateur de signal (comme un oscillateur) mais il n'est lié qu'à une seule note. Le signal peut ne pas être périodique (et d'ailleurs ne doit pas l'être). 
 
@@ -115,7 +115,7 @@ carte son à besoin de nouveaux échantillons.
 
 
 
-MouseCatcher (interface.hpp)
+MouseCatcher (information reçue par pa souris)
 ----------------------------
 Elle représente un élément de l'interface graphique qui utilise la souris. 
 Dans un premier temps l'utilisateur clique sur l'élément (exemple potard)
@@ -130,7 +130,7 @@ Un MouseCatcher doit être dessinable !
 
 
 
-Knob (interface.hpp)
+Knob 
 --------------------
 Knob veut dire potentiomètre en anglais. Cette classe est un MouseCatcher. 
 Elle doit être liée à un InstrumentParameter pour agir directement dessus.
@@ -139,7 +139,7 @@ Elle doit être liée à un InstrumentParameter pour agir directement dessus.
 
 
 
-ScrollBar (interface.hpp)
+ScrollBar (barre de défilement)
 -------------------------
 Elle permet de gérer la vue d'une Interface si elle est trop petite pour afficher
 l'integralité de l'Interface. 
