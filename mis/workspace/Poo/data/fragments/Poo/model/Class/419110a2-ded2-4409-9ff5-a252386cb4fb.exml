@@ -5,7 +5,7 @@
   </DEPS>
   <OBJECT>
     <ID name="sf::Vector2i" mc="Class" uid="419110a2-ded2-4409-9ff5-a252386cb4fb"/>
-    <PID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <PID name="class ihm" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>

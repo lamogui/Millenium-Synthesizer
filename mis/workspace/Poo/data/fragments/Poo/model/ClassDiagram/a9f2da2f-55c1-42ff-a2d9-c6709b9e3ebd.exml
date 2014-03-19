@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SquareOscillator Class diagram" version="3">
+  <DEPS>
+    <ID name="SquareOscillator Class diagram" mc="ClassDiagram" uid="a9f2da2f-55c1-42ff-a2d9-c6709b9e3ebd"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="SquareOscillator Class diagram" mc="ClassDiagram" uid="a9f2da2f-55c1-42ff-a2d9-c6709b9e3ebd"/>
+    <PID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">8</ATT>
+      <ATT name="UiData"><![CDATA[eJztmm1T4kgQx79Kirq3iSQ8n65bCpRHLQpF1Kq7N1QnaXDWScLNDKv46XcSCKtRYwgQLCsvLMnA9PRkfv/p7klOvj+6VPmFjBPf+1bStXJJ+X56MrB+oi0U4simkiIWM/xW8tlUc30HKfE1h8CUgauhQ4TPNC5AkHsNKbroCb68tqMfXbhmeN1ZXpcUF376bLwetFw6PRkyf4ZMLBQPXDkWhYU/Fx0QIL+7BTrHlRPenNLS0enJUdThVVdTLCiWXkzBSJoCD37PNdtnqC37pvCvDdwGB51osO6jGOEk5ShX0sSqp4KPomP1pI/hx+CDgxOYUxGb5NFyOkkTZ0hBoCP9iN2zy6BJ+RW0SM8pcL5aCQVaE8MBY6LWarauVo3JRAXDaal2vVFuWS2soOUk321pTfzw/AevDxbS2MCmYMSblk7N/+fAcMBtQqWLPlNCJ5TVvTk5CvskTs2n2PPavjvzORFyUd4ZKIWp9h2hDsPAQp9w8YKTSgbUbQpPTxLxcEpboT2SboA3DahYrVWlXD7Wm/Kvrh/X9Y2xr+4d+4D5pcASfWv3z0xzPOoOR11zfDnodGMz73pz9+9UTv7AxV8jnDHk8uZDQMKl7LK+Yeb16KZ9fTPqdtI4NBiOL0aDm+Ftz+yd9+NOnfsSOvDWtgWb415FqdgtgDo4VbVq12tqVUdHbdaqDbXZtPRWzarApL4PNX4e/dW21d+QERfY4ipkYqdSLB9nlmE9rQylqcfF1lqsFpAmQ3oJxAsI2RLWRgZYA6t8BjbeoVw6JrG9ilr+CVvyz42auQWJegFmMphLBFIY5Hf+w5jYrwzFQ9YEKI/HrLdM3ePiwWfODqwJsO/HXCBDf/Nw+pZr9I2l2NwUWFwwsEWGGa4pfaaZVrY4xTmZkFD17fXFCDl5AoviBfPns/zlr5fzjU7FJrDfFErPUq6DkINbc4HTAELJ51nUcCgqU1fsu6FSqqDAMhHLl0RkgfRo9S95a9Wz1OCBwbAYjPgdRA3b89vzpCyCxGy1oEZlc5pTF+IFzTmVACjufCczys/XNkvNuub1OaoH2GVzrkz1vZWm65uolBtYMyoTW61bYKvVJjTVpq1bql2DSqPhYN2uxNWRhU2Z4qYhZ4dB/yvk/Gl9y5j0/8EpXajJUsETGQ6YJ+chx7fFXGrjwu2t2syo7QBSTl3GFyEmnxATQbFtfMlSa6aC9ECpvZFzwSmV8RVI3SGZe87gjSwVaCpi//O9A2ytRt616NcAdo9ba8DBjvlNiXaW4pR4HrLw9C9kWl5s/6g4XpSqmz+VMoqi9JNhHbKxZbpgZClH3yH0UAlCzlWpUTwwPXDCkK0Oe5NZ5AdKEnKuvwpoP1eS8Pqr2DiE38orYsNuzzVio7x+DUZb0fVBAhE/1H5Tp5lKURemuH7tITzYCQQbtAavPphB65KQXeZDcXV8LOBKzmVpod8P9GvKuVJKRBoRF2ejOzkb/XB76RPvnifslLGfn087DB7kavZhIcX5Um/JpwTR9uEsDXCNBibkzvHCYj5hfrNeB3kLm8RZjVTUudD6Z/92R+Pzs/aP4GXXq86ug+K7Vp4v1R9qnjOQeLJSMLBrBq4Hw9wyot/9Jq9J]]></ATT>
+      <ATT name="PdeProperties"></ATT>
+      <ATT name="Name"><![CDATA[SquareOscillator Class diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

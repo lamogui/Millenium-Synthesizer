@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="TriangleOscillator Class diagram" version="3">
+  <DEPS>
+    <ID name="TriangleOscillator Class diagram" mc="ClassDiagram" uid="597fee06-5ebe-4364-b463-0161069a5e3a"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="TriangleOscillator Class diagram" mc="ClassDiagram" uid="597fee06-5ebe-4364-b463-0161069a5e3a"/>
+    <PID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">27</ATT>
+      <ATT name="UiData"><![CDATA[eJztmm1zqjoQx78K49y3ICg+3Xp6plWn16mtjrSdufeNE2CxOQ3gJPG09tPfgOJpqVVExE6HVy3RbDbJ75/djbR/vrhE+g2UYd/7UdIUtST9PG8PzV9gcQnboqkk8cUMfpR8OlVc3waCfcXGaEqRq4CNuU8VxhHHTwoQcMHjbPlsRV+6co3wubt8Lkku+uXTyXpQtXTeHlF/BpQvJA+5YiyCFv6cdxFH4rMHROawcsKbE1Iqn7fLUYcPXQ2+IFB6N4XKtimw4PtMsXwKyrJvAv86iFnIBjsarPfCx+AkHOVWmFj1lOCFd82+8DH8N/jHBgfNCY9NsryczraJUyCIgy38iK3ZTdAk/Q5ahOcEMbbaCanWajgAal2ugQmyXq3rsqnXq7Kq1TW13kI1qKLtqy2s8WvPf/YGyAQSG9jgFHvT0vkdxcibEhgyCxPhpE+l0A1ptTrtcthr6+R8An2v47szn2EutuWToRKY6jxiYlMILAww4+9IqaaA3SLo9VVAHk7pILjHwo1woda7VWm0ziqafqbVK2f1xt7g60cHP6B+KbGtvnUGF4YxGfdG454xuRl2e7GZ97y5+3ciJ69h8dcYZhSYWHwUkHAjuqwXzLgb33fu7se9bhKHhqPJ1Xh4P3roG/3LQdypS19Ah7y1bU7ncFRZSk3QqqbZtGS7Caqs2w6SkanasmVqTb3RqtVQo3oUPX4dBdYOVeCIYhfRxW1IRaZiVM/UtEKsJxWiMPWyOFiNeoHpLkxvEPYCRg7EtZEC18AqmyELHkFsHhXg3kYt/4Qt+WdIzdwCRb1AcxeaSwgSGGSP/vMEWx8MxQOXgwiLR65Npp5g8exTOwNrHFlPE8aBgr9/UN3kGtmwGfubQibjFFk8xQzXnL5RTStdrGIMOzjUfWf9MAaGX5FJ4Ir681n+B4Cm5huhimPg2ImUlqZwR1wMbs45TAMMBaEXUcOpuExcu2fDpdBBAeYOMN8zkQbT8urP9uNVS1ONBwbDsjAieBg1HE5w3xPCCNKzqDrfsVWbeE5ckhc851YKAH/07dQwv93dNNXrmti3sJ7gpM25RtWOVqSuF1FSHQQ1VHdkq+Zosu7omtzSzKZc1QW0tlOzzYqTAZ0i0U1CToaB/ztk/kl9S5n6/8EpWbBJU8ljERCoJ+Yhxrf4XGjjyu2v2oyo7QRSTlzOF0EmryATYXFohElTcybC9EQJfiXnwlNo4zuwmiGZR87iK2nq0ETE/ud7JzhcK3lXpN8D2KMergEJGROcEO40JSr2PKDhPWBItXg4/KfjeGkqa/uDXZSmXw7skI4DU4ZKmqL0E0ZPlSTkXJtWih9QT542pKvHNlIL7ESpQs51WIHtV0sVPn4UGwezB/GELZTtDUdslI+vxigrvnakEfHt3KjUVCWpi6awfhEivOIJJBu0Bi9DGEHrkpEss6K4PnZLuJpzeVooeKeCDTFbQjBPIuPinjSTe9KdB8wAe09sy1kZ+/rltEvRs9jNAVoIeb5X3Pb7gugAsZcGmEICE+LseGcxn1C/X6+TvJ+N46xGKupeKYOLf3vjyeVF5zp4Cfa2m3VY/NTK2636Q81bBrbesRQMZM3A3XCUW070P+FAuoE=]]></ATT>
+      <ATT name="PdeProperties"></ATT>
+      <ATT name="Name"><![CDATA[TriangleOscillator Class diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

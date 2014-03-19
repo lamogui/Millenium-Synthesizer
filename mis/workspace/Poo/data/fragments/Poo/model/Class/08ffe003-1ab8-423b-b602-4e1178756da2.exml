@@ -5,7 +5,7 @@
   </DEPS>
   <OBJECT>
     <ID name="sf::RectangleShape" mc="Class" uid="08ffe003-1ab8-423b-b602-4e1178756da2"/>
-    <PID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <PID name="class ihm" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>

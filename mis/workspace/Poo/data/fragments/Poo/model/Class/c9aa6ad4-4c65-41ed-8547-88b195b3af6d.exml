@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SquareOscillator" version="3">
   <DEPS>
     <ID name="SquareOscillator" mc="Class" uid="c9aa6ad4-4c65-41ed-8547-88b195b3af6d"/>
+    <COMPID name="SquareOscillator Class diagram" mc="ClassDiagram" uid="a9f2da2f-55c1-42ff-a2d9-c6709b9e3ebd"/>
     <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
@@ -78,6 +79,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="SquareOscillator Class diagram" mc="ClassDiagram" uid="a9f2da2f-55c1-42ff-a2d9-c6709b9e3ebd"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

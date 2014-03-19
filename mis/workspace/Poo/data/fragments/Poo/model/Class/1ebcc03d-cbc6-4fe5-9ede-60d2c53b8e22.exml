@@ -5,7 +5,7 @@
   </DEPS>
   <OBJECT>
     <ID name="sf::View" mc="Class" uid="1ebcc03d-cbc6-4fe5-9ede-60d2c53b8e22"/>
-    <PID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <PID name="class ihm" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>

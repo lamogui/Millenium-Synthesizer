@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractInstrument" version="3">
   <DEPS>
     <ID name="AbstractInstrument" mc="Class" uid="4875a30d-9937-491d-ab04-3c29c146dfd5"/>
+    <COMPID name="AbstractInstrument Class diagram" mc="ClassDiagram" uid="7b0a20f8-1d03-4285-ab06-9a3feaa31929"/>
     <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
     <EXTID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
     <EXTID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
@@ -187,6 +188,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="AbstractInstrument Class diagram" mc="ClassDiagram" uid="7b0a20f8-1d03-4285-ab06-9a3feaa31929"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

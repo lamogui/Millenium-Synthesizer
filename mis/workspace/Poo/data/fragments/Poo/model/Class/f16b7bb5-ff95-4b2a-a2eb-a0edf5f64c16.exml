@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="InstrumentParameter" version="3">
   <DEPS>
     <ID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
+    <COMPID name="InstrumentParameter Class diagram" mc="ClassDiagram" uid="22c5889d-aeff-4791-a55e-688f6c3a74a4"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
     <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
@@ -587,6 +588,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="InstrumentParameter Class diagram" mc="ClassDiagram" uid="22c5889d-aeff-4791-a55e-688f6c3a74a4"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

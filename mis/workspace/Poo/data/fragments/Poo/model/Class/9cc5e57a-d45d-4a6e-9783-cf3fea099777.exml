@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Oscillator" version="3">
   <DEPS>
     <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
+    <COMPID name="Oscillator Class diagram" mc="ClassDiagram" uid="d23029d5-a7e1-493d-b59b-d105934a85cd"/>
     <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
@@ -295,6 +296,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Oscillator Class diagram" mc="ClassDiagram" uid="d23029d5-a7e1-493d-b59b-d105934a85cd"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

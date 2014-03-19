@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Note" version="3">
   <DEPS>
     <ID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
+    <COMPID name="Note Class diagram" mc="ClassDiagram" uid="e49d2bfb-9356-45a6-bda2-4e63ca8d234a"/>
     <EXTID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
     <FOREIGNID name="byte" mc="DataType" uid="00000004-0000-0013-0000-000000000000"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
@@ -517,6 +518,9 @@
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Note Class diagram" mc="ClassDiagram" uid="e49d2bfb-9356-45a6-bda2-4e63ca8d234a"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Signal" version="3">
   <DEPS>
     <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+    <COMPID name="Signal Class diagram" mc="ClassDiagram" uid="cf9f211d-2e8a-479b-bb5a-2395b12714c3"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
     <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
     <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
@@ -351,6 +352,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Signal Class diagram" mc="ClassDiagram" uid="cf9f211d-2e8a-479b-bb5a-2395b12714c3"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

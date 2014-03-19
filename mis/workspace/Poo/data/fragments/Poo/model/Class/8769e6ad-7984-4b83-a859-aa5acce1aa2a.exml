@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Enveloppe" version="3">
   <DEPS>
     <ID name="Enveloppe" mc="Class" uid="8769e6ad-7984-4b83-a859-aa5acce1aa2a"/>
+    <COMPID name="Enveloppe Class diagram" mc="ClassDiagram" uid="17a2ea17-07b4-446f-b58b-587418309b05"/>
     <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
@@ -344,6 +345,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Enveloppe Class diagram" mc="ClassDiagram" uid="17a2ea17-07b4-446f-b58b-587418309b05"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
