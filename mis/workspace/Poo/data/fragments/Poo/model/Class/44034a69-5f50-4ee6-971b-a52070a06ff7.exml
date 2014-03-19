@@ -9,7 +9,7 @@
   </DEPS>
   <OBJECT>
     <ID name="BassAsioDriver" mc="Class" uid="44034a69-5f50-4ee6-971b-a52070a06ff7"/>
-    <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+    <PID name="driver" mc="Package" uid="4ec082b7-6dbf-46b4-9f0e-7c1c1214d4ef"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>

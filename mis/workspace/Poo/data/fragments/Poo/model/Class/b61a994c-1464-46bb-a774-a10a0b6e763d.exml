@@ -2,13 +2,14 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="MouseCatcher" version="3">
   <DEPS>
     <ID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
+    <COMPID name="MouseCatcher Class diagram" mc="ClassDiagram" uid="4402353f-62c8-4907-9d6f-e05c25cc513e"/>
     <EXTID name="sf::Drawable" mc="Class" uid="99f4fae9-ff22-4a19-98ba-ce22901b376d"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
   </DEPS>
   <OBJECT>
     <ID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
-    <PID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <PID name="class ihm" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
@@ -270,6 +271,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="MouseCatcher Class diagram" mc="ClassDiagram" uid="4402353f-62c8-4907-9d6f-e05c25cc513e"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

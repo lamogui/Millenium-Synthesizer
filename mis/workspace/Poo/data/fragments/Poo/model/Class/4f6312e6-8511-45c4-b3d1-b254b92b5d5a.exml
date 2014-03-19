@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractSignalGenerator" version="3">
   <DEPS>
     <ID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+    <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="e7878ec2-d30d-4a13-8a24-c7d8f0eeaf35"/>
     <EXTID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
@@ -256,6 +257,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="e7878ec2-d30d-4a13-8a24-c7d8f0eeaf35"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

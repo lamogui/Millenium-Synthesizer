@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AudioStream Class diagram" version="3">
+  <DEPS>
+    <ID name="AudioStream Class diagram" mc="ClassDiagram" uid="30887eec-8a18-463d-a3da-4330c7d19fae"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="AudioStream Class diagram" mc="ClassDiagram" uid="30887eec-8a18-463d-a3da-4330c7d19fae"/>
+    <PID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">17</ATT>
+      <ATT name="UiData"><![CDATA[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]]></ATT>
+      <ATT name="PdeProperties"></ATT>
+      <ATT name="Name"><![CDATA[AudioStream Class diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

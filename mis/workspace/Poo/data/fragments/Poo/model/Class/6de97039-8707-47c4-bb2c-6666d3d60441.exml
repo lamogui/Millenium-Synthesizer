@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SinusoidalOscillator" version="3">
   <DEPS>
     <ID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+    <COMPID name="SinusoidalOscillator Class diagram" mc="ClassDiagram" uid="d8b6de8a-6bcd-4f04-aac7-cc2eef02f2b0"/>
     <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
@@ -78,6 +79,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="SinusoidalOscillator Class diagram" mc="ClassDiagram" uid="d8b6de8a-6bcd-4f04-aac7-cc2eef02f2b0"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SinusoidalOscillator Class diagram" version="3">
+  <DEPS>
+    <ID name="SinusoidalOscillator Class diagram" mc="ClassDiagram" uid="d8b6de8a-6bcd-4f04-aac7-cc2eef02f2b0"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="SinusoidalOscillator Class diagram" mc="ClassDiagram" uid="d8b6de8a-6bcd-4f04-aac7-cc2eef02f2b0"/>
+    <PID name="SinusoidalOscillator" mc="Class" uid="6de97039-8707-47c4-bb2c-6666d3d60441"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">11</ATT>
+      <ATT name="UiData"><![CDATA[eJztmlFT4joUx79Kh7mvrW1hQa6sOwqMlxGFoerM7guTtqeYNW2YJKzip79poaxWxFJKcZz6Ig3NyUnzOznnH9r68eQT5Q8wjmnwvWJoekX5cdoa2L/BEQp2ZVNFEfMpfK9QNtF86gLBVHMxmjDka+BiQZnGBRL4QQMCPgSCL66d+KYL34quO4vriuKj35SNV4PqldPWkNEpMDFXAuTLsQia05noIIHkd3eIzGDpRDAjpHJ02jqKO7zpaok5gcqrKZibpsDD+7nmUAbaom8K/9qIO8gFNx6s+yRG4KUc5VqaWPZU4El07J70MfoYfnDBQzMiEpM8Wkxn08QZECTAlX4kntlV2KT8CVuk5wRxvlwJxT226y4cI7VuO65a8/SaipDTUB3HBPB00zNtffPTltbEZUAfgz6ygSQGtgTDwaRyauFgxil2ERlwBxPpJmVK5IiyfD6to6jfxulRAr2gTf0p5VjIhXlnsBSm2veYuAxCC33MxStWqhlwdwh6fpaYR1PaCe+RdAMFk5CM5XqZzeaJ0WicGHXzpF7bGv3a3tEPuV8E2Ubf2v0zyxqPusNR1xpfDTrdxMy7wcz/N5WTlzD/ZwRTBlw+fBSScCW7rB6YdTO6bd/cjrqdNA4NhuOL0eB2eNezeuf9pFPnVEKHgpVtwWaw18BUZDg2G3q1qR439IZaazg11bZNR63LP7fq1vVazdhTRH6eGPy2awwOGfYRm19HXOQajvqJnjUU62lDUZp6mu8cj0kHS1DXmL9COAgp2RHYRgZgQ6t8ihy4B7l8TKJ7Hbf8F7UUXycdF5Ys6iWcH8O5wCCFQX5PH8fYeWMomb48RHgyf60z9QDzR8rcHKwJ5DyMuQAGdPvUus41smY5tjeFbC4YckSGGa5IfRE3zWz5inPs4Sjy26uLEXD8jGwCF4zOpsVvAYZebJYqN4L9l1NGFgmPhBzcngmYhCBKRs/ihkORmVrF50OmkVS+JZprzL+mIguoR8t/m7dYI4suDw1GAjFmeBA37M5wL5ChERZpsU6vbk90anFeEl2gJABxT93MOL9c3yw6dsXsS1wPsNsWrFaNvcnV1UNUzKZX++ZINMFtglpzPVdtmh6oRtWUDXXDq+t58CnL3TTk5Jj8v0L9n9a3jALgL07p0k0WRY9lSmCBnIcc3xEzGRsXfm/ZZsVtBwjl1LK+TDPFpZkYjF1zTBbtmQrUA5X5ZsECVEbHV6A1RzL3XMmbWdRoKmJ/0eAA26tZtC79GsDueXsNWciZ4ZR4ZxGqOAiARSeCEdfyYvefkpMCVf1g1dahXQrUT4h2xMeOZYOZRZq+Q+mhCoWCFapZ/qD6CYqHbLpsLbfAD1QwFKzHSnA/X8Hw9qvEOJjfySvsoHzPOhKjvH1dRlsS9kExkTzsXhurmaSpjyawejUiOuwJgzZsDV+PsMLWBSV51kbbv8xTLVimljGcIoYtOV9CsEgTyOWZaS5nph9uMX0cPPANu2Xi9vNJh6FHuZp9NJcB+jrmNp8cxFuIuzDANRKakLvHK4vFpPvteh3kzW2cZDWOos6F1j/72R2Nz8/al+HLsdedvBPju1ZeLtVfal4ysPG0pWQgbwZuBsPCqqL/Aenruk0=]]></ATT>
+      <ATT name="PdeProperties"></ATT>
+      <ATT name="Name"><![CDATA[SinusoidalOscillator Class diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

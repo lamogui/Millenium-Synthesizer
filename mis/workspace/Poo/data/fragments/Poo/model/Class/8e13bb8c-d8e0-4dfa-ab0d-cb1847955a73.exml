@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="TriangleOscillator" version="3">
   <DEPS>
     <ID name="TriangleOscillator" mc="Class" uid="8e13bb8c-d8e0-4dfa-ab0d-cb1847955a73"/>
+    <COMPID name="TriangleOscillator Class diagram" mc="ClassDiagram" uid="597fee06-5ebe-4364-b463-0161069a5e3a"/>
     <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
@@ -78,6 +79,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="TriangleOscillator Class diagram" mc="ClassDiagram" uid="597fee06-5ebe-4364-b463-0161069a5e3a"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="PureSquare" version="3">
   <DEPS>
     <ID name="PureSquare" mc="Class" uid="ce99b07d-1a74-46c5-971c-91b23a52a521"/>
+    <COMPID name="PureSquare Class diagram" mc="ClassDiagram" uid="bf2cf5f4-7a02-42d2-87ca-9f91b666cb7c"/>
     <EXTID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
     <EXTID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
     <EXTID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
@@ -243,6 +244,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="PureSquare Class diagram" mc="ClassDiagram" uid="bf2cf5f4-7a02-42d2-87ca-9f91b666cb7c"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="InstrumentVoice" version="3">
   <DEPS>
     <ID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+    <COMPID name="InstrumentVoice Class diagram" mc="ClassDiagram" uid="5df130c5-4b1e-43d5-851e-0301fc6cfc16"/>
     <EXTID name="AbstractInstrument" mc="Class" uid="4875a30d-9937-491d-ab04-3c29c146dfd5"/>
     <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
     <EXTID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
@@ -302,6 +303,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="InstrumentVoice Class diagram" mc="ClassDiagram" uid="5df130c5-4b1e-43d5-851e-0301fc6cfc16"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

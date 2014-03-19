@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Knob" version="3">
   <DEPS>
     <ID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
+    <COMPID name="Knob Class diagram" mc="ClassDiagram" uid="323e4150-4272-48cb-85a7-3b9055b7e518"/>
     <EXTID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
     <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
     <EXTID name="sf::Color" mc="Class" uid="87b43e90-d097-487e-8b8e-4d1153d83090"/>
@@ -18,7 +19,7 @@
   </DEPS>
   <OBJECT>
     <ID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-    <PID name="class diagram" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
+    <PID name="class ihm" mc="Package" uid="467c893c-fe7a-4a6b-8ad8-0e70ac884bc8"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
@@ -572,8 +573,8 @@
                   <ATT name="IsDerived">false</ATT>
                   <ATT name="IsOrdered">false</ATT>
                   <ATT name="IsUnique">false</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
                   <ATT name="Visibility">Public</ATT>
                   <ATT name="IsClass">false</ATT>
                   <ATT name="IsAbstract">false</ATT>
@@ -644,8 +645,8 @@
                   <ATT name="IsDerived">false</ATT>
                   <ATT name="IsOrdered">false</ATT>
                   <ATT name="IsUnique">false</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
                   <ATT name="Visibility">Public</ATT>
                   <ATT name="IsClass">false</ATT>
                   <ATT name="IsAbstract">false</ATT>
@@ -716,8 +717,8 @@
                   <ATT name="IsDerived">false</ATT>
                   <ATT name="IsOrdered">false</ATT>
                   <ATT name="IsUnique">false</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
                   <ATT name="Visibility">Public</ATT>
                   <ATT name="IsClass">false</ATT>
                   <ATT name="IsAbstract">false</ATT>
@@ -788,8 +789,8 @@
                   <ATT name="IsDerived">false</ATT>
                   <ATT name="IsOrdered">false</ATT>
                   <ATT name="IsUnique">false</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
                   <ATT name="Visibility">Public</ATT>
                   <ATT name="IsClass">false</ATT>
                   <ATT name="IsAbstract">false</ATT>
@@ -857,6 +858,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Knob Class diagram" mc="ClassDiagram" uid="323e4150-4272-48cb-85a7-3b9055b7e518"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

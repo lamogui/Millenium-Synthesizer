@@ -2,6 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AudioStream" version="3">
   <DEPS>
     <ID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+    <COMPID name="AudioStream Class diagram" mc="ClassDiagram" uid="30887eec-8a18-463d-a3da-4330c7d19fae"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
@@ -12,7 +13,7 @@
   </DEPS>
   <OBJECT>
     <ID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
-    <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
+    <PID name="driver" mc="Package" uid="4ec082b7-6dbf-46b4-9f0e-7c1c1214d4ef"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>
@@ -526,6 +527,9 @@
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="AudioStream Class diagram" mc="ClassDiagram" uid="30887eec-8a18-463d-a3da-4330c7d19fae"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
