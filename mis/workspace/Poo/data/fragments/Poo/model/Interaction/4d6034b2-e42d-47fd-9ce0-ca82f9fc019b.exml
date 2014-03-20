@@ -2,7 +2,7 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Interaction" version="3">
   <DEPS>
     <ID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
-    <COMPID name="Interaction Sequence diagram" mc="SequenceDiagram" uid="de53df1f-3fff-4763-b28b-af36606c31ef"/>
+    <COMPID name="Instrument Sequence diagram" mc="SequenceDiagram" uid="de53df1f-3fff-4763-b28b-af36606c31ef"/>
     <EXTID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
     <EXTID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
     <EXTID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
@@ -550,7 +550,7 @@
           <ID name="" mc="ExecutionOccurenceSpecification" uid="a9a7baaf-b66b-4585-a867-d8c2644726ff"/>
           <PID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
           <ATTRIBUTES>
-            <ATT name="LineNumber">360</ATT>
+            <ATT name="LineNumber">374</ATT>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
@@ -588,7 +588,7 @@
           <ID name="" mc="ExecutionOccurenceSpecification" uid="74238d19-0d1f-499c-af1e-86ded28ade49"/>
           <PID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
           <ATTRIBUTES>
-            <ATT name="LineNumber">360</ATT>
+            <ATT name="LineNumber">374</ATT>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
@@ -611,7 +611,7 @@
           <ID name="" mc="ExecutionOccurenceSpecification" uid="15525dc9-184a-440a-b663-a6eca6d4c8ad"/>
           <PID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
           <ATTRIBUTES>
-            <ATT name="LineNumber">380</ATT>
+            <ATT name="LineNumber">394</ATT>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
@@ -649,7 +649,7 @@
           <ID name="" mc="ExecutionSpecification" uid="62bf2090-9443-4b07-ba88-3e54f72ae7fa"/>
           <PID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
           <ATTRIBUTES>
-            <ATT name="LineNumber">360</ATT>
+            <ATT name="LineNumber">374</ATT>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
@@ -672,7 +672,7 @@
           <ID name="" mc="ExecutionOccurenceSpecification" uid="411e9c1f-c9c6-4a56-9da5-6e871bba2f99"/>
           <PID name="Interaction" mc="Interaction" uid="4d6034b2-e42d-47fd-9ce0-ca82f9fc019b"/>
           <ATTRIBUTES>
-            <ATT name="LineNumber">380</ATT>
+            <ATT name="LineNumber">394</ATT>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
@@ -2713,7 +2713,7 @@
         </OBJECT>
       </COMP>
       <COMP relation="Product">
-        <COMPID name="Interaction Sequence diagram" mc="SequenceDiagram" uid="de53df1f-3fff-4763-b28b-af36606c31ef"/>
+        <COMPID name="Instrument Sequence diagram" mc="SequenceDiagram" uid="de53df1f-3fff-4763-b28b-af36606c31ef"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
