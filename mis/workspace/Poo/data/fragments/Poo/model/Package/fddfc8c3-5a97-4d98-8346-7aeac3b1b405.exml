@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="general" version="3">
+  <DEPS>
+    <ID name="general" mc="Package" uid="fddfc8c3-5a97-4d98-8346-7aeac3b1b405"/>
+    <COMPID name="Interaction" mc="Interaction" uid="efc4a3f7-bf22-4304-b460-17d85313593e"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="general" mc="Package" uid="fddfc8c3-5a97-4d98-8346-7aeac3b1b405"/>
+    <PID name="sequence" mc="Package" uid="40c2d0ec-0966-449d-965e-6c68ae6e2626"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[general]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="Interaction" mc="Interaction" uid="efc4a3f7-bf22-4304-b460-17d85313593e"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

@@ -12,7 +12,7 @@
   </DEPS>
   <OBJECT>
     <ID name="Interaction" mc="Interaction" uid="efc4a3f7-bf22-4304-b460-17d85313593e"/>
-    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <PID name="general" mc="Package" uid="fddfc8c3-5a97-4d98-8346-7aeac3b1b405"/>
     <ATTRIBUTES>
       <ATT name="IsReentrant">false</ATT>
       <ATT name="Name"><![CDATA[Interaction]]></ATT>
