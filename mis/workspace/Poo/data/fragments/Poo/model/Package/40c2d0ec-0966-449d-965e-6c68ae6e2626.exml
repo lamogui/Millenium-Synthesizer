@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="sequence" version="3">
+  <DEPS>
+    <ID name="sequence" mc="Package" uid="40c2d0ec-0966-449d-965e-6c68ae6e2626"/>
+    <COMPID name="general" mc="Package" uid="fddfc8c3-5a97-4d98-8346-7aeac3b1b405"/>
+    <COMPID name="instrument" mc="Package" uid="3973cd3a-fb91-4b34-8c7b-5ab4f5f7382e"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="sequence" mc="Package" uid="40c2d0ec-0966-449d-965e-6c68ae6e2626"/>
+    <PID name="poo" mc="Package" uid="5ab96bb9-4976-4215-97ec-765d6bad2ace"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[sequence]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="general" mc="Package" uid="fddfc8c3-5a97-4d98-8346-7aeac3b1b405"/>
+        <COMPID name="instrument" mc="Package" uid="3973cd3a-fb91-4b34-8c7b-5ab4f5f7382e"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
