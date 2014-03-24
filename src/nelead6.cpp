@@ -3,10 +3,10 @@
 
 NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
-_osc1(new SinusoidalOscillator),
-_osc2(new SquareOscillator),
-_lfo1(new SquareOscillator),
-_lfo2(new SquareOscillator),
+_osc1(new SawOscillator),
+_osc2(new TriangleOscillator),
+_lfo1(new SawOscillator),
+_lfo2(new TriangleOscillator),
 _currentNote(0,NOT_A_NOTE)
 {
   
@@ -54,6 +54,9 @@ void NELead6Voice::step(Signal* output)
   float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/255.f;
   float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/255.f;
   
+  float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/255.f;
+  float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/255.f;
+  
   _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/80;
   _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/80;
   _env.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN)->getValue()/255.f;
@@ -70,24 +73,27 @@ void NELead6Voice::step(Signal* output)
   
   lfo2->scale(0.5f);
   
-  _osc2->setShape(0.5f);
+  _osc1->setShape(osc1_shape);
+  _osc2->setShape(osc2_shape);
   _osc2->getShape().add(lfo2);
+  _osc2->getShape().saturate(0.f,1.f);
   
   //final mixing
   
   _oscmix.constant(oscmix);
   lfo1->scale(0.5f);
   _oscmix.add(lfo1);
- 
+  _oscmix.saturate(0.f,1.f);
+  
   _osc1->step(output);
   Signal* osc2 = _osc2->generate();
 
-  output->mix(&_oscmix);
+  osc2->mix(&_oscmix);
   
   _oscmix.scale(-1.f);
   _oscmix.addOffset(1.f);
   
-  osc2->mix(&_oscmix);
+  output->mix(&_oscmix);
   
   output->add(osc2);
   
@@ -106,7 +112,9 @@ _lfo2_rate(0,0,255),
 _env_attack(100,0,255),
 _env_decay(50,0,255),
 _env_sustain(200,0,255),
-_env_release(80,0,255)
+_env_release(80,0,255),
+_osc1_shape(0,0,255),
+_osc2_shape(0,0,255)
 {
   
 }
@@ -128,6 +136,8 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_ENVDECAY: return &_env_decay;
     case PARAM_NELEAD6_ENVSUSTAIN: return &_env_sustain;
     case PARAM_NELEAD6_ENVRELEASE: return &_env_release;
+    case PARAM_NELEAD6_OSC1SHAPE: return &_osc1_shape;
+    case PARAM_NELEAD6_OSC2SHAPE: return &_osc2_shape;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -176,7 +186,7 @@ void NELead6::step(Signal* output)
 }
 
 NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
-Interface(sf::Vector2i(1120,691),size),
+Interface(sf::Vector2i(1792,360),size),
 _texture(),
 _back(),
 _instrument(instrument),
@@ -189,7 +199,9 @@ _lfo2RateKnob(0),
 _envAttackKnob(0),
 _envDecayKnob(0),
 _envSustainKnob(0),
-_envReleaseKnob(0)
+_envReleaseKnob(0),
+_osc1ShapeKnob(0),
+_osc2ShapeKnob(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -240,8 +252,19 @@ _envReleaseKnob(0)
      _envReleaseKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_ENVRELEASE),
                                    _texture,
                                    sf::IntRect(1792,0,128,128),
-                                   sf::IntRect(1792,128,128,128));                                   
-    sf::Vector2f scale(0.6f,0.6f);
+                                   sf::IntRect(1792,128,128,128));
+
+
+    _osc1ShapeKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE),
+                                      _texture,
+                                      sf::IntRect(1792,0,128,128),
+                                       sf::IntRect(1792,128,128,128));
+    _osc2ShapeKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE),
+                                      _texture,
+                                      sf::IntRect(1792,0,128,128),
+                                      sf::IntRect(1792,128,128,128));
+                                       
+    sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
     _oscmixKnob->setScale(scale); 
     _lfo1AmKnob->setScale(scale);  
@@ -252,7 +275,8 @@ _envReleaseKnob(0)
     _envDecayKnob->setScale(scale);
     _envSustainKnob->setScale(scale);
     _envReleaseKnob->setScale(scale);
-    
+    _osc1ShapeKnob->setScale(scale);
+    _osc2ShapeKnob->setScale(scale);
     
     _outputKnob->setPosition(1146,30);
     _oscmixKnob->setPosition(644,230);
@@ -264,6 +288,8 @@ _envReleaseKnob(0)
     _envDecayKnob->setPosition(832,24);
     _envSustainKnob->setPosition(925,24);
     _envReleaseKnob->setPosition(1020,24);
+    _osc1ShapeKnob->setPosition(456,130);
+    _osc2ShapeKnob->setPosition(645,130);
     
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_lfo1AmKnob);
@@ -275,6 +301,8 @@ _envReleaseKnob(0)
     addMouseCatcher(_envDecayKnob);
     addMouseCatcher(_envSustainKnob);
     addMouseCatcher(_envReleaseKnob);
+    addMouseCatcher(_osc1ShapeKnob);
+    addMouseCatcher(_osc2ShapeKnob);
     addDrawable(&_back);
   }
 

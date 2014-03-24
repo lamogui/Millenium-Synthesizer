@@ -94,7 +94,6 @@ void SquareOscillator::step(Signal* output)
   
   for (int i=0;i < Signal::size-1;i+=2)
   {
-    //std::cout << "t=" << t << std::endl;
     t=fmod(_time/(float)Signal::frequency,1.0/f[i])*f[i];
     if (t>s[i]) {
       samples[i]=a[i];
@@ -106,4 +105,63 @@ void SquareOscillator::step(Signal* output)
     _time++;
   }
 }
+
+SawOscillator::SawOscillator()
+{
+}
+
+SawOscillator::~SawOscillator()
+{
+}
+
+
+void SawOscillator::step(Signal* output)
+{
+  sample* samples = output->samples;
+  sample* f = frequency->samples;
+  sample* a = amplitude->samples;
+  sample* u = unisson->samples;
+  sample* m = fm->samples;
+  sample* s = shape->samples;
+  
+  for (int i=0;i < Signal::size-1;i+=2)
+  {
+    samples[i]=-a[i]*(2.f*f[i]*fmod(_time/(float)Signal::frequency,1.f/f[i])-1.f);
+    samples[i+1] = samples[i];
+    _time++;
+  }
+}
+
+TriangleOscillator::TriangleOscillator()
+{
+}
+
+TriangleOscillator::~TriangleOscillator()
+{
+}
+
+
+void TriangleOscillator::step(Signal* output)
+{
+  float t;
+  sample* samples = output->samples;
+  sample* f = frequency->samples;
+  sample* a = amplitude->samples;
+  sample* u = unisson->samples;
+  sample* m = fm->samples;
+  sample* s = shape->samples;
+  
+  for (int i=0;i < Signal::size-1;i+=2)
+  {
+    t=fabs(4.f*f[i]*(1.f+s[i])*fmod(_time/(float)Signal::frequency,1.f/f[i])-2.f)-1.f;
+    /*if (t > 1.f - 0.5f*s[i]) t=1.f - 0.5f*s[i];
+    else if (t < -1.f + 0.5f*s[i]) t=-1.f + 0.5f*s[i];*/
+    if (t > 1.f)  t=1.f;
+    else if (t < -1.f)  t=-1.f;
+    samples[i]=a[i]*t;
+    samples[i+1]=samples[i];
+    _time++;
+  }
+}
+
 

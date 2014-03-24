@@ -87,4 +87,23 @@ class SquareOscillator : public Oscillator
     virtual void step(Signal* output);
 };
 
+class SawOscillator : public Oscillator
+{
+  public:
+    SawOscillator ();
+    virtual ~SawOscillator ();
+  
+    virtual void step(Signal* output);
+};
+
+class TriangleOscillator : public Oscillator
+{
+  public:
+    TriangleOscillator ();
+    virtual ~TriangleOscillator ();
+  
+    virtual void step(Signal* output);
+};
+
+;
 #endif
