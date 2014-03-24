@@ -13,7 +13,8 @@ OBJ=	build/main.o \
 	build/interface.o \
 	build/puresquare.o \
 	build/enveloppe.o \
-	build/record.o
+	build/record.o \
+	build/careme.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
 FILECPP=src/signal.cpp \
@@ -29,7 +30,8 @@ FILECPP=src/signal.cpp \
 	src/interface.cpp \
 	src/puresquare.cpp \
 	src/enveloppe.cpp \
-	src/record.cpp
+	src/record.cpp \
+	src/careme.cpp
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
 	include/audiostream.hpp \
@@ -45,7 +47,8 @@ HEADER=	include/signal.hpp \
 	include/puresquare.hpp \
 	include/enveloppe.hpp \
 	include/record.hpp \
-	include/config.hpp 
+	include/config.hpp \
+	include/careme.hpp
 
 defaut:
 	@echo you must choose :
@@ -76,5 +79,3 @@ linux32: $(HEADER) $(OBJ) $(FILECPP)
 linux64: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/libsfml-graphics.a" "./liblinux64/libsfml-window.a" "./liblinux64/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/libGLEW.a"
 	
-synth_exemple: synth.c
-	gcc -o synth.exe  synth.c  -I"include" -std=c99 "./libwin32/bass.lib"
