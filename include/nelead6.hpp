@@ -18,8 +18,8 @@
 #define PARAM_NELEAD6_ENVDECAY 6
 #define PARAM_NELEAD6_ENVSUSTAIN 7
 #define PARAM_NELEAD6_ENVRELEASE 8
-
-
+#define PARAM_NELEAD6_OSC1SHAPE 9
+#define PARAM_NELEAD6_OSC2SHAPE 10
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -65,6 +65,8 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _env_decay;
     InstrumentParameter _env_sustain;
     InstrumentParameter _env_release;
+    InstrumentParameter _osc1_shape;
+    InstrumentParameter _osc2_shape;
 }; 
 
 class NELead6Knob : public Knob
@@ -101,6 +103,8 @@ class NELead6Interface : public Interface
     NELead6Knob* _envDecayKnob;
     NELead6Knob* _envSustainKnob;
     NELead6Knob* _envReleaseKnob;
+    NELead6Knob* _osc1ShapeKnob;
+    NELead6Knob* _osc2ShapeKnob;
 };
 
 
