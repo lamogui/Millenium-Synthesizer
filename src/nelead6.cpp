@@ -170,16 +170,13 @@ void NELead6Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
   target.draw(_selector,states);
 }
 
-
-
-
 void NELead6::step(Signal* output)
 {
   Instrument<NELead6Voice>::step(output);
 }
 
 NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
-Interface(sf::Vector2i(1792,360),size),
+Interface(sf::Vector2i(1120,691),size),
 _texture(),
 _back(),
 _instrument(instrument),
