@@ -157,6 +157,8 @@ _envSustainKnob(0),
 {
   if (_instrument && _texture.loadFromFile("img/careme.png"))
   {
+    _back.setTexture(_texture);
+    _back.setTextureRect(sf::IntRect(0,0,1120,691));
 
     _envAttackKnob =  new CaremeKnob(_instrument->getParameter(PARAM_CAREME_ENVATTACK),
                                       _texture,
