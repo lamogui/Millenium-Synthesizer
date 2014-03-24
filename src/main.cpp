@@ -57,33 +57,33 @@ int main(int argc, char** argv)
   unsigned int time=0;
   
   
-  AbstractInstrument* instrument=NULL;      
-  Interface* interface=NULL;
+  AbstractInstrument* myInstrument=NULL;      
+  Interface* myInterface=NULL;
   
   if (argc == 2)
   {
     if (std::string("careme") == argv[1]) 
     {
-      instrument = new Instrument<CaremeVoice>;
-      interface = new Interface(sf::Vector2i(720,360),sf::Vector2f(720,360));
+      myInstrument = new Instrument<CaremeVoice>;
+      myInterface = new Interface(sf::Vector2i(720,360),sf::Vector2f(720,360));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
-      instrument = new PureSquare;
-      interface = new PureSquareInterface((PureSquare*) instrument,sf::Vector2f(720,360));
+      myInstrument = new PureSquare;
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(720,360));
     }
     else 
     {
-      instrument = new NELead6;
-      interface = new NELead6Interface((NELead6*) instrument,sf::Vector2f(720,360));
+      myInstrument = new NELead6;
+      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
       
     }
     
   }
   else 
   {
-    instrument = new NELead6;
-    interface = new NELead6Interface((NELead6*) instrument,sf::Vector2f(720,360));
+    myInstrument = new NELead6;
+    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
   }
 
   Signal output;
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
           break;
         case sf::Event::Resized:
           {
-            interface->setViewSize(event.size.width,event.size.height);
+            myInterface->setViewSize(event.size.width,event.size.height);
           }
           break;
         case sf::Event::MouseButtonPressed:
@@ -117,9 +117,9 @@ int main(int argc, char** argv)
           {
             if (!currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),interface->getView()); 	
-              currentMouseCatcher = interface->onMousePress(v.x,v.y);
-              currentInterfaceCatcher = interface;
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),myInterface->getView()); 	
+              currentMouseCatcher = myInterface->onMousePress(v.x,v.y);
+              currentInterfaceCatcher = myInterface;
             }
           }
           break;
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
                 //vector.push_back(Note(time,id,1.0))
                 //return & (vector[vector.size-1]);
                 notes[event.key.code] = new Note(time,id,1.0);
-                instrument->playNote(*notes[event.key.code]);
+                myInstrument->playNote(*notes[event.key.code]);
               }  
             }
           }
@@ -190,14 +190,14 @@ int main(int argc, char** argv)
     
     
     
-    interface->update();
+    myInterface->update();
 
     
     if (sendSignalSuccess)
     {
       //std::cout << "generating output..." << std::endl;
       time++;
-      instrument->step(&output);
+      myInstrument->step(&output);
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
       sendSignalSuccess = stream.writeSignal(output);
@@ -213,8 +213,8 @@ int main(int argc, char** argv)
     
     window.clear();
     
-    window.setView(interface->getView());
-    window.draw(*interface);
+    window.setView(myInterface->getView());
+    window.draw(*myInterface);
     
     // Update the window
     window.display();
