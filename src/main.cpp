@@ -18,8 +18,9 @@
 #include "interface.hpp"
 #include "puresquare.hpp"
 #include "record.hpp"
+#include "careme.hpp"
 
-int main()
+int main(int argc, char** argv)
 {
   srand(time(NULL));
   Settings::getInstance().loadFile("settings.ini");
@@ -55,16 +56,43 @@ int main()
   float dt=0.02;
   unsigned int time=0;
   
-  NELead6 lead;      
-  Interface* lolinterface = new NELead6Interface(&lead,sf::Vector2f(720,360));    
   
+  AbstractInstrument* instrument=NULL;      
+  Interface* interface=NULL;
+  
+  if (argc == 2)
+  {
+    if (std::string("careme") == argv[1]) 
+    {
+      instrument = new Instrument<CaremeVoice>;
+      interface = new Interface(sf::Vector2i(720,360),sf::Vector2f(720,360));
+    }
+    else if (std::string("puresquare") == argv[1]) 
+    {
+      instrument = new PureSquare;
+      interface = new PureSquareInterface((PureSquare*) instrument,sf::Vector2f(720,360));
+    }
+    else 
+    {
+      instrument = new NELead6;
+      interface = new NELead6Interface((NELead6*) instrument,sf::Vector2f(720,360));
+      
+    }
+    
+  }
+  else 
+  {
+    instrument = new NELead6;
+    interface = new NELead6Interface((NELead6*) instrument,sf::Vector2f(720,360));
+  }
+
   Signal output;
   bool sendSignalSuccess=true;
   
   std::map<sf::Keyboard::Key,Note*> notes;
 
   Record r;
-  r.init();
+  //r.init();
 
   if (!driver->start(&stream)) return 0xdead;
   while (window.isOpen())
@@ -81,7 +109,7 @@ int main()
           break;
         case sf::Event::Resized:
           {
-            lolinterface->setViewSize(event.size.width,event.size.height);
+            interface->setViewSize(event.size.width,event.size.height);
           }
           break;
         case sf::Event::MouseButtonPressed:
@@ -89,9 +117,9 @@ int main()
           {
             if (!currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),lolinterface->getView()); 	
-              currentMouseCatcher = lolinterface->onMousePress(v.x,v.y);
-              currentInterfaceCatcher = lolinterface;
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),interface->getView()); 	
+              currentMouseCatcher = interface->onMousePress(v.x,v.y);
+              currentInterfaceCatcher = interface;
             }
           }
           break;
@@ -137,12 +165,12 @@ int main()
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                r.writeNote(id, time);
+                //r.writeNote(id, time);
                 //notes[event.key.code] = reccord.createNote(time,id,1.0);
                 //vector.push_back(Note(time,id,1.0))
                 //return & (vector[vector.size-1]);
                 notes[event.key.code] = new Note(time,id,1.0);
-                lead.playNote(*notes[event.key.code]);
+                instrument->playNote(*notes[event.key.code]);
               }  
             }
           }
@@ -162,14 +190,14 @@ int main()
     
     
     
-    lolinterface->update();
+    interface->update();
 
     
     if (sendSignalSuccess)
     {
       //std::cout << "generating output..." << std::endl;
       time++;
-      lead.step(&output);
+      instrument->step(&output);
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
       sendSignalSuccess = stream.writeSignal(output);
@@ -185,8 +213,8 @@ int main()
     
     window.clear();
     
-    window.setView(lolinterface->getView());
-    window.draw(*lolinterface);
+    window.setView(interface->getView());
+    window.draw(*interface);
     
     // Update the window
     window.display();
@@ -196,6 +224,6 @@ int main()
   
   //
   delete driver;
-  r.close();
+  //r.close();
   return 0;
 }
