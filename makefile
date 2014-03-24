@@ -1,10 +1,51 @@
 
 TARGET_NAME=test
-OBJ=build/main.o build/signal.o build/audiostream.o build/oscillator.o build/note.o build/nelead6.o build/variant.o build/settings.o build/basserrorhandler.o build/bassdriver.o build/interface.o build/puresquare.o build/enveloppe.o build/record.o
+OBJ=	build/main.o \
+	build/signal.o \
+	build/audiostream.o \
+	build/oscillator.o \
+	build/note.o \
+	build/nelead6.o \
+	build/variant.o \
+	build/settings.o \
+	build/basserrorhandler.o \
+	build/bassdriver.o \
+	build/interface.o \
+	build/puresquare.o \
+	build/enveloppe.o \
+	build/record.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
-FILECPP=src/signal.cpp src/oscillator.cpp src/audiostream.cpp src/main.cpp src/note.cpp src/nelead6.cpp src/variant.cpp src/settings.cpp src/basserrorhandler.cpp src/bassdriver.cpp src/interface.cpp src/puresquare.cpp src/enveloppe.cpp src/record.cpp
-HEADER=include/signal.hpp include/oscillator.hpp include/audiostream.hpp include/note.hpp include/instrument.hpp include/nelead6.hpp include/variant.hpp include/settings.hpp include/basserrorhandler.hpp include/audiodriver.hpp include/bassdriver.hpp include/interface.hpp include/puresquare.hpp include/enveloppe.hpp include/record.hpp include/config.hpp 
+FILECPP=	src/signal.cpp \
+		src/oscillator.cpp \
+		src/audiostream.cpp \
+		src/main.cpp \
+		src/note.cpp \
+		src/nelead6.cpp \
+		src/variant.cpp \
+		src/settings.cpp \
+		src/basserrorhandler.cpp \
+		src/bassdriver.cpp \
+		src/interface.cpp \
+		src/puresquare.cpp \
+		src/enveloppe.cpp \
+		src/record.cpp
+HEADER=	include/signal.hpp \
+	include/oscillator.hpp \
+	include/audiostream.hpp \
+	include/note.hpp \
+	include/instrument.hpp \
+	include/nelead6.hpp \
+	include/variant.hpp \
+	include/settings.hpp \
+	include/basserrorhandler.hpp \
+	include/audiodriver.hpp \
+	include/bassdriver.hpp \
+	include/interface.hpp \
+	include/puresquare.hpp \
+	include/enveloppe.hpp \
+	include/record.hpp \
+	include/config.hpp 
 
 defaut:
 	@echo you must choose :
