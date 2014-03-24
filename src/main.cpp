@@ -64,8 +64,8 @@ int main(int argc, char** argv)
   {
     if (std::string("careme") == argv[1]) 
     {
-      myInstrument = new Instrument<CaremeVoice>;
-      myInterface = new Interface(sf::Vector2i(720,360),sf::Vector2f(720,360));
+      myInstrument = new Careme;
+      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(720,360));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
