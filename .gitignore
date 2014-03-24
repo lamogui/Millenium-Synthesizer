@@ -5,6 +5,10 @@
 
 # remove executable
 test.exe
+test.x64
+test.x32
+
+#build dir
 
 # Compiled Dynamic libraries
 
@@ -33,4 +37,5 @@ clean.bat
 #fuckingfiles
 *.lock
 *.odt#
+recordFile
 
