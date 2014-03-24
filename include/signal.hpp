@@ -23,6 +23,9 @@ class Signal
     void addOffset(sample offset);
     void scale(sample scale);
     void constant(sample constant);
+    void saturate(sample min, sample max);
+    
+    
     
     inline void reset()
     {
