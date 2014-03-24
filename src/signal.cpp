@@ -107,5 +107,13 @@ void Signal::globalConfiguration(unsigned int f,  unsigned int r)
   }
 }
 
+void Signal::saturate(sample min, sample max)
+{
+  for (unsigned int i=0; i < Signal::size;i++)
+  {
+    if (samples[i] > max) samples[i] = max;
+    else if (samples[i] < min) samples[i] = min;
+  }
+}
 
 

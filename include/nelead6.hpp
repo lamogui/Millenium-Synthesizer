@@ -78,7 +78,7 @@ class NELead6Knob : public Knob
   
   private:
     sf::RectangleShape _selector;
-    
+    sf::RectangleShape _movingSelector;
 };
 
 class NELead6Interface : public Interface
