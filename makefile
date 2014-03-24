@@ -16,20 +16,20 @@ OBJ=	build/main.o \
 	build/record.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
-FILECPP=	src/signal.cpp \
-		src/oscillator.cpp \
-		src/audiostream.cpp \
-		src/main.cpp \
-		src/note.cpp \
-		src/nelead6.cpp \
-		src/variant.cpp \
-		src/settings.cpp \
-		src/basserrorhandler.cpp \
-		src/bassdriver.cpp \
-		src/interface.cpp \
-		src/puresquare.cpp \
-		src/enveloppe.cpp \
-		src/record.cpp
+FILECPP=src/signal.cpp \
+	src/oscillator.cpp \
+	src/audiostream.cpp \
+	src/main.cpp \
+	src/note.cpp \
+	src/nelead6.cpp \
+	src/variant.cpp \
+	src/settings.cpp \
+	src/basserrorhandler.cpp \
+	src/bassdriver.cpp \
+	src/interface.cpp \
+	src/puresquare.cpp \
+	src/enveloppe.cpp \
+	src/record.cpp
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
 	include/audiostream.hpp \
