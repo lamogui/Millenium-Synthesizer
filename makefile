@@ -1,10 +1,10 @@
 
 TARGET_NAME=test
-OBJ=main.o signal.o audiostream.o oscillator.o note.o nelead6.o variant.o settings.o basserrorhandler.o bassdriver.o interface.o puresquare.o enveloppe.o record.o
+OBJ=build/main.o build/signal.o build/audiostream.o build/oscillator.o build/note.o build/nelead6.o build/variant.o build/settings.o build/basserrorhandler.o build/bassdriver.o build/interface.o build/puresquare.o build/enveloppe.o build/record.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
-FILECPP=signal.cpp oscillator.cpp audiostream.cpp main.cpp note.cpp nelead6.cpp variant.cpp settings.cpp config.hpp basserrorhandler.cpp bassdriver.cpp interface.cpp puresquare.cpp enveloppe.cpp record.cpp
-HEADER=signal.hpp oscillator.hpp audiostream.hpp note.hpp instrument.hpp nelead6.hpp variant.hpp settings.hpp basserrorhandler.hpp audiodriver.hpp bassdriver.hpp interface.hpp puresquare.hpp enveloppe.hpp record.hpp
+FILECPP=src/signal.cpp src/oscillator.cpp src/audiostream.cpp src/main.cpp src/note.cpp src/nelead6.cpp src/variant.cpp src/settings.cpp src/basserrorhandler.cpp src/bassdriver.cpp src/interface.cpp src/puresquare.cpp src/enveloppe.cpp src/record.cpp
+HEADER=include/signal.hpp include/oscillator.hpp include/audiostream.hpp include/note.hpp include/instrument.hpp include/nelead6.hpp include/variant.hpp include/settings.hpp include/basserrorhandler.hpp include/audiodriver.hpp include/bassdriver.hpp include/interface.hpp include/puresquare.hpp include/enveloppe.hpp include/record.hpp include/config.hpp 
 
 defaut:
 	@echo you must choose :
@@ -13,16 +13,16 @@ defaut:
 	@echo   - make linux64
 	
 
-%.o: %.c $(HEADER)
+build/%.o: src/%.c $(HEADER)
 	@echo Compilation C $< to $@
 	gcc -c $< -o $@ $(CFLAGS)
 
-%.o: %.cpp $(HEADER)
+build/%.o: src/%.cpp $(HEADER)
 	@echo Compilation C++ $< to $@
 	g++ -c $< -o $@ $(CXXFLAGS)
 
 #windows only
-%.o: %.rc
+build/%.o: src/%.rc
 	@echo RC compiling $< to $@
 	windres $< $@ -v
 
