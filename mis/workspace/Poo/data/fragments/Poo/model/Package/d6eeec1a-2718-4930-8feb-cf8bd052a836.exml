@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="record" version="3">
+  <DEPS>
+    <ID name="record" mc="Package" uid="d6eeec1a-2718-4930-8feb-cf8bd052a836"/>
+    <COMPID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="record" mc="Package" uid="d6eeec1a-2718-4930-8feb-cf8bd052a836"/>
+    <PID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[record]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

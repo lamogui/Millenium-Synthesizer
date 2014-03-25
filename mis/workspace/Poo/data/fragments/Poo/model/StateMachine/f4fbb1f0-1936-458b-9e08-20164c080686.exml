@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="State Machine" version="3">
+  <DEPS>
+    <ID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+    <COMPID name="State Machine State Machine diagram" mc="StateMachineDiagram" uid="e87c4fd7-1c60-4ca3-b5e3-baa8d6faf3c4"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+    <PID name="record" mc="Package" uid="d6eeec1a-2718-4930-8feb-cf8bd052a836"/>
+    <ATTRIBUTES>
+      <ATT name="Kind">Dynamic</ATT>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[State Machine]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Top">
+        <OBJECT>
+          <ID name="" mc="Region" uid="665f9fe1-240c-415e-a210-86c25584c882"/>
+          <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Sub">
+              <OBJECT>
+                <ID name="Idle" mc="State" uid="200a4130-398a-4ba6-a373-54c87f0094c8"/>
+                <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Idle]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Transition" uid="93ad3746-853a-4c14-b35a-52ad897f4a28"/>
+                      <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"><![CDATA[beginRecording]]></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Recording" mc="State" uid="39861858-26f3-42ba-aef0-d9a7ee21f288"/>
+                            <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Recording" mc="State" uid="39861858-26f3-42ba-aef0-d9a7ee21f288"/>
+                <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Recording]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Playing" mc="State" uid="9862ceaa-b277-419a-b554-9749092db3c7"/>
+                <PID name="State Machine" mc="StateMachine" uid="f4fbb1f0-1936-458b-9e08-20164c080686"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Playing]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="State Machine State Machine diagram" mc="StateMachineDiagram" uid="e87c4fd7-1c60-4ca3-b5e3-baa8d6faf3c4"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
