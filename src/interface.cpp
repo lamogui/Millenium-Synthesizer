@@ -179,6 +179,17 @@ void ScrollBar::update()
   }              
 }
 
+Fader::Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect) :
+  _param(p),
+  _back_sprite(texture, backRect),
+  _fader_sprite(texture, faderRect),
+  _catch_x(0),
+  _catch_y(0),
+  _catch_translation(0)
+{
+  _fader_sprite.setOrigin(faderRect.width/2.f,faderRect.height/2.f);
+  _fader_sprite.setPosition(backRect.width/2.f,backRect.height/2.f);
+}
 
 Interface::Interface(const sf::Vector2i& zone,const sf::Vector2f &size):
 _mouseCatcher(),
