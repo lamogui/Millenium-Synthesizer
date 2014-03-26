@@ -63,17 +63,36 @@ class ScrollBar : public MouseCatcher
     bool _horizontal;
 };
 
+class Fader : public MouseCatcher {
+  public:
+    Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect);
+    virtual ~Fader();
+    /*
+    virtual bool onMousePress(float x, float y);
+    virtual void onMouseMove(float x, float y);
+    virtual void onMouseRelease(float x, float y);
+    virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
+    */
+  protected:
+    sf::Sprite _back_sprite;
+    sf::Sprite _fader_sprite;
+    InstrumentParameter* _param;
+    float _catch_x;
+    float _catch_y;
+    float _catch_translation;
+};
+
 class Interface : public sf::Drawable
 {
   public:
     Interface(const sf::Vector2i& zone,const sf::Vector2f &size);
     virtual ~Interface();
-    
+
     //is the interface have an object to interact with
     //x and y in opengl coordinates
     MouseCatcher* onMousePress(float x, float y);
-    
-    
+
+
     inline void setViewport(const sf::FloatRect &viewport)
     {
       _view.setViewport(viewport);
@@ -82,14 +101,14 @@ class Interface : public sf::Drawable
     {
       return _view;
     }
-    
+
     void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void update();
-    
+
     void addMouseCatcher(MouseCatcher* c);
     void addDrawable(sf::Drawable* c);
-    
+
   protected:
     std::vector<MouseCatcher*> _mouseCatcher;
     std::vector<sf::Drawable*> _drawables;
