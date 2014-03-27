@@ -2,6 +2,18 @@
 
 #include <iostream>
 
+Knob::Knob() :
+overColor(242,42,42,255),
+_back_sprite(),
+_knob_sprite(),
+_param(0),
+_catch_x(0),
+_catch_y(0),
+_catch_angle(0)
+{
+   
+}
+
 Knob::Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
 overColor(242,42,42,255),
 _back_sprite(texture,backRect),
@@ -18,6 +30,18 @@ _catch_angle(0)
 
 Knob::~Knob()
 {
+}
+
+void Knob::setBackTexture(const sf::Texture &texture,const sf::IntRect &rect)
+{
+   _back_sprite.setTexture(texture);
+   _back_sprite.setTextureRect(rect);
+}
+
+void Knob::setKnobTexture(const sf::Texture &texture,const sf::IntRect &rect)
+{
+   _knob_sprite.setTexture(texture);
+   _knob_sprite.setTextureRect(rect);
 }
     
 bool Knob::onMousePress(float x, float y)

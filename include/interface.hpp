@@ -20,8 +20,14 @@ class MouseCatcher : public sf::Drawable
 class Knob : public MouseCatcher, public sf::Transformable
 {
   public:
+    Knob();
     Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect);
     virtual ~Knob();
+    
+    
+    inline void setParam(InstrumentParameter* p) {_param=p;}
+    void setBackTexture(const sf::Texture &texture,const sf::IntRect &rect);
+    void setKnobTexture(const sf::Texture &texture,const sf::IntRect &rect);
     
     virtual bool onMousePress(float x, float y);
     virtual void onMouseMove(float x, float y);
