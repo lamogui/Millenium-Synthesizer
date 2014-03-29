@@ -20,9 +20,31 @@
     {
       if (_time < attack)
       {
-        for (int i=0;i < Signal::size;i++)
+        unsigned int l = Signal::size;
+        if (attack < _time + l) l = attack-_time;
+        
+        if (expatk)
         {
-          samples[i]=1.f-exp(-5.f*_time/(float)attack);
+          for (int i=0;i < l;i++)
+          {
+            samples[i]=exp(5.f*(float)(_time-attack)/(float)attack);
+            _time++;
+          }
+        }
+        else
+        {
+          for (int i=0;i < l;i++)
+          {
+            //samples[i]=1.f-exp(-5.f*_time/(float)attack);
+            samples[i]=(float)_time/(float)attack;
+            _time++;
+          }
+        }
+        
+        const float sustain_1 = (1.f - sustain);
+        for (int i=l;i < Signal::size;i++)
+        {
+          samples[i]=sustain + sustain_1*exp(-5.f*(_time-attack)/(float)decay);
           _time++;
         }
       }
