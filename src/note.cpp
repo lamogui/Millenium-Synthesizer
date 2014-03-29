@@ -130,3 +130,33 @@ bool InstrumentParameter::setValue(short v)
   }
   return _auto;
 }
+
+InstrumentParameterEvent::InstrumentParameterEvent() :
+appear(0),
+value(0),
+id(0)
+{
+  
+}
+
+InstrumentParameterEvent::InstrumentParameterEvent(unsigned int  a, unsigned short v, unsigned char i):
+appear(a),
+value(v),
+id(i)
+{
+}
+
+InstrumentParameterEvent::InstrumentParameterEvent(const InstrumentParameterEvent& e):
+appear(e.appear),
+value(e.value),
+id(e.id)
+{
+  
+}
+
+InstrumentParameterEvent& InstrumentParameterEvent::operator=(const InstrumentParameterEvent& e)
+{
+  appear=e.appear;
+  value=e.value;
+  id=e.id;
+}

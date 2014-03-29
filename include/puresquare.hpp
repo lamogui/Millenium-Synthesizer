@@ -4,10 +4,10 @@
 #include "instrument.hpp"
 #include "oscillator.hpp"
 #include "interface.hpp"
-
-#define PARAM_PURESQUARE_LFOAMP_ID 1
-#define PARAM_PURESQUARE_LFOFREQUENCY_ID 2
-#define PARAM_PURESQUARE_DUTY_ID 3
+//          PARAM NAME                 MIDI ID         MIDI NAME
+#define PARAM_PURESQUARE_LFOAMP_ID       0x0C //Effect Control 1
+#define PARAM_PURESQUARE_LFOFREQUENCY_ID 0x0D //Effect Control 2
+#define PARAM_PURESQUARE_DUTY_ID         0x0B //Expression Controller
 
 class PureSquareVoice : public InstrumentVoice
 {

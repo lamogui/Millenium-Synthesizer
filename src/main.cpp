@@ -159,6 +159,11 @@ int main(int argc, char** argv)
               case sf::Keyboard::H: id=LA_4; break;
               case sf::Keyboard::U: id=SIb_4; break;
               case sf::Keyboard::J: id=SI_4; break;
+              case sf::Keyboard::K: id=DO_4; break;
+              case sf::Keyboard::O: id=REb_4; break;
+              case sf::Keyboard::L: id=RE_4; break;
+              case sf::Keyboard::P: id=MIb_4; break;
+              case sf::Keyboard::M: id=MI_4; break;
               default: break;
             }
             if (id!=NOT_A_NOTE)

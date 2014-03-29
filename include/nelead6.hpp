@@ -8,18 +8,18 @@
 #include "enveloppe.hpp"
 
 //Param defines
-
-#define PARAM_NELEAD6_OSCMIX 0
-#define PARAM_NELEAD6_LFO1RATE 1
-#define PARAM_NELEAD6_LFO1AMOUNT 2
-#define PARAM_NELEAD6_LFO2RATE 3
-#define PARAM_NELEAD6_LFO2AMOUNT 4
-#define PARAM_NELEAD6_ENVATTACK 5
-#define PARAM_NELEAD6_ENVDECAY 6
-#define PARAM_NELEAD6_ENVSUSTAIN 7
-#define PARAM_NELEAD6_ENVRELEASE 8
-#define PARAM_NELEAD6_OSC1SHAPE 9
-#define PARAM_NELEAD6_OSC2SHAPE 10
+//        PARAM NAME               MIDI ID   MIDI NAME
+#define PARAM_NELEAD6_OSCMIX       0x08  //Balance
+#define PARAM_NELEAD6_LFO1RATE     0x20  //LSB for controllers 0-31
+#define PARAM_NELEAD6_LFO1AMOUNT   0x0C  //Effect Control 1
+#define PARAM_NELEAD6_LFO2RATE     0x21  //LSB for controllers 0-31
+#define PARAM_NELEAD6_LFO2AMOUNT   0x0D  //Effect Control 2
+#define PARAM_NELEAD6_ENVATTACK    0x49  //Sound Controller 4 (default: Attack Time)
+#define PARAM_NELEAD6_ENVDECAY     0x4A  //Sound Controller 6
+#define PARAM_NELEAD6_ENVSUSTAIN   0x4B  //Sound Controller 7
+#define PARAM_NELEAD6_ENVRELEASE   0x48  //Sound Controller 3 (default: Release Time)
+#define PARAM_NELEAD6_OSC1SHAPE    0x46  //Sound Controller 1 (default: Timber Variation)
+#define PARAM_NELEAD6_OSC2SHAPE    0x47  //Sound Controller 2 (default: Timber/Harmonic Content)
 
 //modulation modes
 #define NELEAD6_FM 0

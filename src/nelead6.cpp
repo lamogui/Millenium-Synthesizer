@@ -45,21 +45,21 @@ void NELead6Voice::endNote()
 void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
 
-  float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/255.f;
+  float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
   
-  float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/255.f - 3.50f);
-  float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/255.f - 3.50f);
+  float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/127.f - 3.50f);
+  float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/127.f - 3.50f);
   
-  float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/255.f;
-  float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/255.f;
+  float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/127.f;
+  float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/127.f;
   
-  float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/255.f;
+  float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/127.f;
   float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/255.f;
   
-  _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/80;
-  _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/80;
-  _env.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN)->getValue()/255.f;
-  _env.release = _instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*Signal::frequency/80;
+  _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/40;
+  _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/40;
+  _env.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN)->getValue()/127.f;
+  _env.release = _instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*Signal::frequency/40;
   
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
@@ -110,25 +110,25 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   }
   else if (visualize)
   {
-    _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->setAuto(true,(1.f-_oscmix.samples[0])*255.f);
-    _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->setAuto(true,_osc1->getShape().samples[0]*255.f);
-    _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->setAuto(true,_osc2->getShape().samples[0]*255.f);
+    _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->setAuto(true,(1.f-_oscmix.samples[0])*127.f);
+    _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->setAuto(true,_osc1->getShape().samples[0]*127.f);
+    _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->setAuto(true,_osc2->getShape().samples[0]*127.f);
   }
 }
 
 NELead6::NELead6() :
 Instrument<NELead6Voice>(),
-_oscmix(0,0,255),
-_lfo1_amount(0,0,255),
-_lfo1_rate(0,0,255),
-_lfo2_amount(0,0,255),
-_lfo2_rate(0,0,255),
-_env_attack(100,0,255),
-_env_decay(50,0,255),
-_env_sustain(200,0,255),
-_env_release(80,0,255),
-_osc1_shape(0,0,255),
-_osc2_shape(0,0,255)
+_oscmix(0,0,127),
+_lfo1_amount(0,0,127),
+_lfo1_rate(0,0,127),
+_lfo2_amount(0,0,127),
+_lfo2_rate(0,0,127),
+_env_attack(100,0,127),
+_env_decay(50,0,127),
+_env_sustain(200,0,127),
+_env_release(80,0,127),
+_osc1_shape(0,0,127),
+_osc2_shape(0,0,127)
 {
   
 }

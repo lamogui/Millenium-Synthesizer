@@ -125,6 +125,22 @@ class InstrumentParameter
     
 };
 
+class InstrumentParameterEvent 
+{
+  public:
+    InstrumentParameterEvent();
+    InstrumentParameterEvent(unsigned int  a, unsigned short v, unsigned char i);
+    InstrumentParameterEvent(const InstrumentParameterEvent& e);
+    
+    InstrumentParameterEvent& operator=(const InstrumentParameterEvent&);
+    
+    
+    unsigned int appear;  //time when the event is appeared
+    unsigned short value; //Instrument Parameter Value
+    unsigned char id;     //Instrument Parameter ID
+    
+};
+
 #define LA_1   0
 #define SIb_1  1
 #define SI_1   2
