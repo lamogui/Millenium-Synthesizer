@@ -10,10 +10,9 @@
     if (_releaseTime)
     {
       //release
-      for (int i=0;i < Signal::size-1;i+=2)
+      for (int i=0;i < Signal::size;i++)
       {
         samples[i]=_releaseLevel*exp(-5.f*(_time-_releaseTime)/(float)release);
-        samples[i+1]=samples[i];
         _time++;
       }
     }
@@ -21,11 +20,9 @@
     {
       if (_time < attack)
       {
-        //attack
-        for (int i=0;i < Signal::size-1;i+=2)
+        for (int i=0;i < Signal::size;i++)
         {
           samples[i]=1.f-exp(-5.f*_time/(float)attack);
-          samples[i+1]=samples[i];
           _time++;
         }
       }
@@ -33,10 +30,9 @@
       {
         //decay
         const float sustain_1 = (1.f - sustain);
-        for (int i=0;i < Signal::size-1;i+=2)
+        for (int i=0;i < Signal::size;i++)
         {
           samples[i]=sustain + sustain_1*exp(-5.f*(_time-attack)/(float)decay);
-          samples[i+1]=samples[i];
           _time++;
         }
       }
