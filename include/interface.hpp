@@ -68,17 +68,17 @@ class ScrollBar : public MouseCatcher
     int _zone_size;
     bool _horizontal;
 };
-
+/*
 class Fader : public MouseCatcher {
   public:
     Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect);
     virtual ~Fader();
-    /*
+    
     virtual bool onMousePress(float x, float y);
     virtual void onMouseMove(float x, float y);
     virtual void onMouseRelease(float x, float y);
     virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
-    */
+    
   protected:
     sf::Sprite _back_sprite;
     sf::Sprite _fader_sprite;
@@ -87,7 +87,7 @@ class Fader : public MouseCatcher {
     float _catch_y;
     float _catch_translation;
 };
-
+*/
 class Interface : public sf::Drawable
 {
   public:
