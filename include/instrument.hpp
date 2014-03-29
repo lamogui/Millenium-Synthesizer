@@ -9,8 +9,9 @@
 #include <iostream>
 #include <cmath>
 
-#define PARAM_INSTRUMENT_PAN_ID 254
-#define PARAM_INSTRUMENT_VOLUME_ID 255
+//          PARAM NAME               MIDI ID   MIDI NAME
+#define PARAM_INSTRUMENT_PAN_ID         0x0A   //Pan
+#define PARAM_INSTRUMENT_VOLUME_ID      0x07   //Main Volume
 
 
 
@@ -86,7 +87,7 @@ class Instrument : public AbstractInstrument
 {
   public:
     Instrument(unsigned int nbVoice=24) :
-    _volume(150,0,255),
+    _volume(100,0,127),
     _pan(0,-127,127),
     _visu(0)
     {
@@ -155,7 +156,7 @@ class Instrument : public AbstractInstrument
           }
         }
       }
-      const float s = (float)_volume.getValue()/(float)(sqrt(_voices.size()+1.f)*255.f*255.f);
+      const float s = (float)_volume.getValue()/(float)(sqrt(_voices.size()+1.f)*127.f*127.f);
       leftout->scale(s*(127+_pan.getValue()));
       if (rightout)
         rightout->scale(s*(127-_pan.getValue()));
