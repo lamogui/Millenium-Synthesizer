@@ -48,7 +48,7 @@ class InstrumentVoice
 {
   public:
     //Instruments Voice should only be created by instruments
-    InstrumentVoice(AbstractInstrument* creator): _instrument(creator), _used(false)
+    InstrumentVoice(AbstractInstrument* creator): visualize(false),  _instrument(creator), _used(false)
     {
     }
     
@@ -68,6 +68,9 @@ class InstrumentVoice
     //if rightout then user want a mono signal
     virtual void step(Signal* leftout, Signal* rightout=0)=0;
     
+    //is this voice "visualized by something"
+    bool visualize;
+    
   protected:
     AbstractInstrument* _instrument; //Use the owner instrument to get parameters from
     bool _used;
@@ -84,7 +87,8 @@ class Instrument : public AbstractInstrument
   public:
     Instrument(unsigned int nbVoice=24) :
     _volume(150,0,255),
-    _pan(0,-127,127)
+    _pan(0,-127,127),
+    _visu(0)
     {
       for (unsigned int i=0; i < nbVoice; i++)
       {
@@ -108,6 +112,10 @@ class Instrument : public AbstractInstrument
         {
           _voices[i]->beginNote(n);
           n.receivePlayedSignal(_voices[i]);
+          for (unsigned int k=0; k < _voices.size(); k++)
+            _voices[i]->visualize=false;
+          _voices[i]->visualize=true;
+          _visu=_voices[i];
           return true;
         }
       }
@@ -162,11 +170,14 @@ class Instrument : public AbstractInstrument
         default: return NULL;
       }
     }
+    
+    inline voiceClass* getVisualVoice() {return _visu;}
      
   protected:
     std::vector<voiceClass*> _voices;
     InstrumentParameter _volume;
     InstrumentParameter _pan;
+    voiceClass* _visu; //voice that the use "want to see" (last started)
 };
 
 #endif

@@ -41,6 +41,7 @@ class Knob : public MouseCatcher, public sf::Transformable
     sf::Sprite _back_sprite;
     sf::Sprite _knob_sprite;
     InstrumentParameter* _param;
+    bool _catched;
     float _catch_x;
     float _catch_y;
     float _catch_angle;
