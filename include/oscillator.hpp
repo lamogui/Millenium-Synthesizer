@@ -25,10 +25,11 @@ class Oscillator : public AbstractSignalGenerator
     //set constant shape
     virtual void setShape(float s);
     
+    
     //Used signals for parameters must be non-NULL
     //Function generate MUST always use these pointers
     Signal* amplitude;
-    Signal* frequency; //
+    Signal* frequency; 
     Signal* unisson;
     Signal* fm;
     Signal* shape;

@@ -7,6 +7,7 @@ overColor(242,42,42,255),
 _back_sprite(),
 _knob_sprite(),
 _param(0),
+_catched(false),
 _catch_x(0),
 _catch_y(0),
 _catch_angle(0)
@@ -19,6 +20,7 @@ overColor(242,42,42,255),
 _back_sprite(texture,backRect),
 _knob_sprite(texture,knobRect),
 _param(p),
+_catched(false),
 _catch_x(0),
 _catch_y(0),
 _catch_angle(0)
@@ -66,6 +68,7 @@ bool Knob::onMousePress(float x, float y)
     //std::cout << "catch angle " << _catch_angle << std::endl;
     _knob_sprite.setColor(overColor);
     
+    _catched=true;
     return true;
   }
   return false;
@@ -73,7 +76,7 @@ bool Knob::onMousePress(float x, float y)
 
 void Knob::onMouseMove(float x, float y)
 {
-  if (_param )
+  if (_param && _catched)
   {
     sf::Vector2f v(getInverseTransform().transformPoint(x,y));
     float angle = _catch_angle + v.x - _catch_x;
@@ -86,8 +89,11 @@ void Knob::onMouseMove(float x, float y)
 }
 void Knob::onMouseRelease(float x, float y)
 {
-  if ( _param)
+  if ( _param && _catched)
+  {
+    _catched=false;
     _knob_sprite.setColor(sf::Color(255,255,255,255));
+  }
 }
 
 void Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
@@ -100,7 +106,16 @@ void Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
 void Knob::update()
 {
   if ( _param)
-    _knob_sprite.setRotation((float)_param->getValueToUnsigned(300));
+  {
+    if (_param->isAuto() && !_catched)
+    {
+      _knob_sprite.setRotation((float)_param->getAutoToUnsigned(300));
+    }
+    else
+    {
+      _knob_sprite.setRotation((float)_param->getValueToUnsigned(300));
+    }
+  }
 }
 
 

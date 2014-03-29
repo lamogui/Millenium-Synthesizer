@@ -25,6 +25,10 @@ void PureSquareVoice::beginNote(Note& n)
 void PureSquareVoice::endNote()
 {
   _used=false;
+  if (visualize)
+  {
+    _instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->setAuto(false,0);
+  }
 }
 
 void PureSquareVoice::step(Signal* leftout, Signal* rightout)
@@ -40,6 +44,11 @@ void PureSquareVoice::step(Signal* leftout, Signal* rightout)
   _osc.getShape().add(signal_duty);
   _osc.getShape().saturate(-0.99f, 0.99f);
   _osc.step(leftout);
+  
+  if (visualize)
+  {
+    _instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->setAuto(true,255.f*(_osc.getShape().samples[0]));
+  }
   
   if (rightout)
     *rightout=*leftout;

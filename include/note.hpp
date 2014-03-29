@@ -68,7 +68,7 @@ class InstrumentParameter
     InstrumentParameter(const InstrumentParameter& p);
     InstrumentParameter& operator=(const InstrumentParameter& p);
   
-    inline bool active() { return _value ? true : false; }
+    inline bool active() { _value ? true : false; }
     inline void toggle() { _value = _value ? 0 : _max; notify(); }
     inline void on() { _value = _max; notify(); }
     inline void off() { _value = 0; notify(); }
@@ -85,6 +85,11 @@ class InstrumentParameter
       return (_value-_min)*max/(_max-_min) ;
     }
     
+    //get automation value
+    inline unsigned getAutoToUnsigned(unsigned max) {
+      return (_autoval-_min)*max/(_max-_min) ;
+    }
+    
     //get value (for the instrument)
     inline short getValue() {
       return _value;
@@ -92,6 +97,8 @@ class InstrumentParameter
     
     //direct set (do checks)
     bool setValue(short v);
+    bool setAuto(bool a, short v);
+    
     
     //getters
     inline short getMin() { return _min; }
@@ -99,6 +106,7 @@ class InstrumentParameter
     inline unsigned getRange() { return (_max-_min); }
     inline bool newValue() { return _modified; }
     inline void valueUsed() { _modified=false; }
+    inline bool isAuto() { return _auto;}
     
     short operator++(int);
     short operator--(int);
@@ -107,9 +115,10 @@ class InstrumentParameter
     
   private:
     inline void notify() { _modified=true; }
-  
+    bool _auto; //parameter automatically controlled
     bool _modified;
     short _value;
+    short _autoval;
     short _min;
     short _max;
     

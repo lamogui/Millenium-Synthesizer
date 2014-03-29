@@ -64,6 +64,7 @@ Note& Note::operator=(const Note& c)
 
 InstrumentParameter::InstrumentParameter(short value, short min, short max) :
 _modified(true),
+_auto(false),
 _value(value),
 _min(min),
 _max(max)
@@ -73,7 +74,9 @@ _max(max)
 
 InstrumentParameter::InstrumentParameter(const InstrumentParameter& p) :
 _modified(true),
+_auto(false),
 _value(p._value),
+_autoval(p._value),
 _min(p._min),
 _max(p._max)
 {
@@ -114,4 +117,16 @@ bool InstrumentParameter::setValue(short v)
     return true;
   }
   return false;
+}
+
+ bool InstrumentParameter::setAuto(bool a, short v) {
+  _auto=a;
+  if (_auto && v>=_min && v <= _max) {
+    _autoval=v;
+  }
+  else
+  {
+    _auto=false;
+  }
+  return _auto;
 }
