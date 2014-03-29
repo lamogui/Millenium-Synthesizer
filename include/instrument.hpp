@@ -18,12 +18,13 @@
 //only describes the methods that all instruments must have
 //You should not inherit this class but inherit the Instrument class
 //Use this class only for containers templates (std::vector<AbstractInstrument*>, etc)
-class AbstractInstrument : public AbstractSignalGenerator
+class AbstractInstrument
 {
   public:
     virtual ~AbstractInstrument() {};
     virtual bool playNote(Note & n)=0;
-    virtual void step(Signal* output)=0;
+    //if rightout then user want a mono signal
+    virtual void step(Signal* leftout, Signal* rightout=0)=0;
     virtual InstrumentParameter* getParameter(unsigned char id)=0;
     inline bool setParameterValue(unsigned char id, short value)
     {
@@ -43,7 +44,7 @@ class AbstractInstrument : public AbstractSignalGenerator
 //should represent all the material used by the instrument to produce one note
 //To be sure that your voice class contains all requiert method copy paste this class
 //You need to inherit this class to provide an interface with notes... 
-class InstrumentVoice : public AbstractSignalGenerator
+class InstrumentVoice
 {
   public:
     //Instruments Voice should only be created by instruments
@@ -64,8 +65,8 @@ class InstrumentVoice : public AbstractSignalGenerator
     
     virtual void beginNote(Note& n)=0;
     virtual void endNote()=0;
-    
-    virtual void step(Signal* output)=0;
+    //if rightout then user want a mono signal
+    virtual void step(Signal* leftout, Signal* rightout=0)=0;
     
   protected:
     AbstractInstrument* _instrument; //Use the owner instrument to get parameters from
@@ -82,7 +83,8 @@ class Instrument : public AbstractInstrument
 {
   public:
     Instrument(unsigned int nbVoice=24) :
-    _volume(150,0,255)
+    _volume(150,0,255),
+    _pan(0,-127,127)
     {
       for (unsigned int i=0; i < nbVoice; i++)
       {
@@ -112,31 +114,59 @@ class Instrument : public AbstractInstrument
       return false;
     }
     
-    virtual void step(Signal* output)
+    //if rightout then user want a mono signal
+    virtual void step(Signal* leftout, Signal* rightout=0)
     {
       //reset output signal
-      output->reset();
+      leftout->reset();
+      if (rightout)
+        rightout->reset();
+      Signal current_left, current_right;
+      
       //simple final mixing exemple
-      for (unsigned int i=0; i < _voices.size(); i++)
+      if (rightout)
       {
-        if (_voices[i]->isUsed())
+        for (unsigned int i=0; i < _voices.size(); i++)
         {
-          //std::cout << "playing voice " << i << std::endl; 
-          output->add(_voices[i]->generate());
+          if (_voices[i]->isUsed())
+          {
+            _voices[i]->step(&current_left,&current_right);
+            leftout->add(&current_left);
+            rightout->add(&current_right);
+          }
         }
       }
-      output->scale(_volume.getValue()/(sqrt(_voices.size()+1.0)*255.0));
+      else 
+      {
+        for (unsigned int i=0; i < _voices.size(); i++)
+        {
+          if (_voices[i]->isUsed())
+          {
+            _voices[i]->step(&current_left,0);
+            leftout->add(&current_left);
+          }
+        }
+      }
+      const float s = (float)_volume.getValue()/(float)(sqrt(_voices.size()+1.f)*255.f*255.f);
+      leftout->scale(s*(127+_pan.getValue()));
+      if (rightout)
+        rightout->scale(s*(127-_pan.getValue()));
     }
     
     virtual InstrumentParameter* getParameter(unsigned char id)
     {
-      if (id == PARAM_INSTRUMENT_VOLUME_ID) return &_volume;
-      return NULL;
+      switch (id)
+      {
+        case PARAM_INSTRUMENT_PAN_ID: return &_pan;
+        case PARAM_INSTRUMENT_VOLUME_ID: return &_volume;
+        default: return NULL;
+      }
     }
      
   protected:
     std::vector<voiceClass*> _voices;
     InstrumentParameter _volume;
+    InstrumentParameter _pan;
 };
 
 #endif

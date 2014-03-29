@@ -40,6 +40,7 @@ class AudioStream : public sf::Mutex
     
     //try to write an entire signal into the buffer return true if succeed
     bool writeSignal(const Signal& signal); 
+    bool writeStereoSignal(const Signal& left,const Signal& right); 
     //try to read an entire signal from the buffer return true if succeed
     //bool readSignal(Signal& signal); //TODO
     

@@ -47,7 +47,7 @@ int main(int argc, char** argv)
   
   sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
   
-  window.setFramerateLimit(2*Signal::refreshRate);
+  window.setFramerateLimit(Signal::refreshRate<<1);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
@@ -86,7 +86,7 @@ int main(int argc, char** argv)
     myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
   }
 
-  Signal output;
+  Signal leftout, rightout;
   bool sendSignalSuccess=true;
   
   std::map<sf::Keyboard::Key,Note*> notes;
@@ -197,16 +197,16 @@ int main(int argc, char** argv)
     {
       //std::cout << "generating output..." << std::endl;
       time++;
-      myInstrument->step(&output);
+      myInstrument->step(&leftout, &rightout);
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
-      sendSignalSuccess = stream.writeSignal(output);
+      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
     else
     {
       //std::cout << "retry..." << std::endl;
       sf::Lock lock(stream);
-      sendSignalSuccess = stream.writeSignal(output);
+      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
     
    

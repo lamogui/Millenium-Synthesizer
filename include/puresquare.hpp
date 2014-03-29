@@ -19,7 +19,7 @@ class PureSquareVoice : public InstrumentVoice
     virtual void beginNote(Note& n);
     virtual void endNote();
     
-    virtual void step(Signal* output);
+    virtual void step(Signal* leftout, Signal* rightout=0);
     
   protected:
     SquareOscillator _osc;

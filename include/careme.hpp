@@ -6,6 +6,8 @@
 #include "interface.hpp"
 #include "enveloppe.hpp"
 
+#include "nelead6.hpp"
+
 #define PARAM_CAREME_ENVATTACK 1
 #define PARAM_CAREME_ENVDECAY 2
 #define PARAM_CAREME_ENVSUSTAIN 3
@@ -25,7 +27,8 @@ class CaremeVoice : public InstrumentVoice
     virtual void beginNote(Note& n);
     virtual void endNote();
     
-    virtual void step(Signal* output);
+    //if rightout then user want a mono signal
+    void step(Signal* leftout, Signal* rightout=0);
     
   protected:
     SinusoidalOscillator* _osc1;
@@ -41,7 +44,6 @@ class Careme : public Instrument<CaremeVoice>
     virtual ~Careme();
   
     virtual InstrumentParameter* getParameter(unsigned char id);
-    virtual void step(Signal* output);
   
   protected:
     InstrumentParameter _env_attack;
@@ -53,19 +55,6 @@ class Careme : public Instrument<CaremeVoice>
     InstrumentParameter _lfo_frequency;
     InstrumentParameter _duty;
     */
-};
-class CaremeKnob : public Knob
-{
-  public:
-    CaremeKnob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect);
-    virtual ~CaremeKnob();
-    
-    void update();
-    void draw (sf::RenderTarget &target, sf::RenderStates states) const;
-  
-  private:
-    sf::RectangleShape _selector;
-    sf::RectangleShape _movingSelector;
 };
 
 class CaremeInterface : public Interface
@@ -83,10 +72,10 @@ class CaremeInterface : public Interface
     CaremeKnob* _lfoFrequencyKnob;
     CaremeKnob* _dutyKnob; 
     */
-    CaremeKnob* _envAttackKnob;
-    CaremeKnob* _envDecayKnob;
-    CaremeKnob* _envSustainKnob;
-    CaremeKnob* _envReleaseKnob;
+    NELead6Knob* _envAttackKnob;
+    NELead6Knob* _envDecayKnob;
+    NELead6Knob* _envSustainKnob;
+    NELead6Knob* _envReleaseKnob;
 };
 
 #endif

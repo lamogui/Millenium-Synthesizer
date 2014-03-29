@@ -42,9 +42,8 @@ void NELead6Voice::endNote()
   _env.beginRelease();
 }
 
-void NELead6Voice::step(Signal* output)
+void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
-  output->reset();
 
   float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/255.f;
   
@@ -85,7 +84,7 @@ void NELead6Voice::step(Signal* output)
   _oscmix.add(lfo1);
   _oscmix.saturate(0.f,1.f);
   
-  _osc1->step(output);
+  _osc1->step(leftout);
   Signal* osc2 = _osc2->generate();
 
   osc2->mix(&_oscmix);
@@ -93,11 +92,13 @@ void NELead6Voice::step(Signal* output)
   _oscmix.scale(-1.f);
   _oscmix.addOffset(1.f);
   
-  output->mix(&_oscmix);
+  leftout->mix(&_oscmix);
   
-  output->add(osc2);
+  leftout->add(osc2);
   
-  output->mix(_env.generate());
+  leftout->mix(_env.generate());
+  if (rightout)
+    *rightout = *leftout;
   
   if (_env.hasEnded()) _used = false;
 }
@@ -180,9 +181,9 @@ void NELead6Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
   target.draw(_selector,states);
 }
 
-void NELead6::step(Signal* output)
+void NELead6::step(Signal* l, Signal* r)
 {
-  Instrument<NELead6Voice>::step(output);
+  Instrument<NELead6Voice>::step(l,r);
 }
 
 NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):

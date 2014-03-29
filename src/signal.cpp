@@ -1,9 +1,8 @@
 #include "signal.hpp"
 
 unsigned int Signal::frequency=44100;
-unsigned int Signal::refreshRate= 50;
-unsigned int Signal::channels=2;
-unsigned int Signal::size=Signal::frequency*Signal::channels/Signal::refreshRate;
+unsigned int Signal::refreshRate=50;
+unsigned int Signal::size=Signal::frequency/Signal::refreshRate;
 unsigned int Signal::byteSize=sizeof(sample)*Signal::size;
 
 std::set<Signal*> Signal::_instances;
@@ -94,11 +93,10 @@ void Signal::globalConfiguration(unsigned int f,  unsigned int r)
 {
   if (f>=8000)
     Signal::frequency = f;
-    
-  Signal::channels = 2; 
+
   if (r > 0)
     Signal::refreshRate = r; 
-  Signal::size = Signal::channels*Signal::frequency/Signal::refreshRate;
+  Signal::size = Signal::frequency/Signal::refreshRate;
   Signal::byteSize = sizeof(sample)*Signal::size;
   
   for (std::set<Signal*>::iterator it = _instances.begin(); it != _instances.end() ;it++)
