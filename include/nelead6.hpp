@@ -33,7 +33,7 @@ class NELead6Voice : public InstrumentVoice
 
     void beginNote(Note& n);
     void endNote();
-    void step(Signal* output);
+    void step(Signal* leftout, Signal* rightout=0);
     
   private:
     Oscillator* _osc1;
@@ -53,7 +53,7 @@ class NELead6 : public Instrument<NELead6Voice>
     virtual ~NELead6();
     
     virtual InstrumentParameter* getParameter(unsigned char id);
-    virtual void step(Signal* output);
+    void step(Signal* leftout, Signal* rightout=0);
     
   protected :
     InstrumentParameter _oscmix;

@@ -37,7 +37,6 @@ class Signal
     
       //Constants for all signals
   static unsigned int frequency;
-  static unsigned int channels; //stereo only supported yet
   static unsigned int refreshRate; //Le but c'est d'avoir 50 ici ! le plus possible sera le mieux
   static unsigned int size;
   static unsigned int byteSize;
@@ -82,7 +81,6 @@ class AbstractSignalGenerator : public AbstractSignalModifier
     Signal _output;
     unsigned int _time; //in (1/fe) secondes
 };
-
 
 
 #endif

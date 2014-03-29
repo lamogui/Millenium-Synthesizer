@@ -91,11 +91,11 @@ bool BassDriver::start(AudioStream* stream)
   }
   
   _stream=BASS_StreamCreate(Signal::frequency,
-                            Signal::channels,0,
+                            2,0,
                             _StreamProc,(void*) stream);                            
   if (_stream)
   {
-    std::cout << "BASS Stream Created [" << Signal::frequency << "Hz, " << Signal::channels << " Channels]" << std::endl;
+    std::cout << "BASS Stream Created [" << Signal::frequency << "Hz, " << 2 << " Channels]" << std::endl;
   }
   else
   {
@@ -290,7 +290,7 @@ bool BassAsioDriver::start(AudioStream* stream)
   }
    std::cout << count << " Channels available..." << std::endl;
   
-  if (count < Signal::channels)
+  if (count < 2)
   {
     MessageBox(NULL,"Error the driver not provide stereo channels", "Need 2 channels", MB_OK | MB_ICONERROR);
     return false;

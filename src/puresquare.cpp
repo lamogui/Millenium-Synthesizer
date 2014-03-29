@@ -27,7 +27,7 @@ void PureSquareVoice::endNote()
   _used=false;
 }
 
-void PureSquareVoice::step(Signal* output)
+void PureSquareVoice::step(Signal* leftout, Signal* rightout)
 {
   float lfo_f = _instrument->getParameter(PARAM_PURESQUARE_LFOFREQUENCY_ID)->getValue()/10.f;
   float lfo_a = _instrument->getParameter(PARAM_PURESQUARE_LFOAMP_ID)->getValue()/150.f;
@@ -39,7 +39,10 @@ void PureSquareVoice::step(Signal* output)
   _osc.setShape(duty);
   _osc.getShape().add(signal_duty);
   _osc.getShape().saturate(-0.99f, 0.99f);
-  _osc.step(output);
+  _osc.step(leftout);
+  
+  if (rightout)
+    *rightout=*leftout;
 }
 
 PureSquare::PureSquare() :
