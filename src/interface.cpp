@@ -202,7 +202,7 @@ void ScrollBar::update()
     _decoration.setSize(sf::Vector2f( 12.f,_view->getSize().y));
   }              
 }
-
+/*
 Fader::Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect) :
   _param(p),
   _back_sprite(texture, backRect),
@@ -214,7 +214,7 @@ Fader::Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRe
   _fader_sprite.setOrigin(faderRect.width/2.f,faderRect.height/2.f);
   _fader_sprite.setPosition(backRect.width/2.f,backRect.height/2.f);
 }
-
+*/
 Interface::Interface(const sf::Vector2i& zone,const sf::Vector2f &size):
 _mouseCatcher(),
 _drawables(),
