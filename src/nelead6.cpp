@@ -99,8 +99,21 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   leftout->mix(_env.generate());
   if (rightout)
     *rightout = *leftout;
+    
   
-  if (_env.hasEnded()) _used = false;
+  
+  if (_env.hasEnded()) {
+    _used = false;
+    _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->setAuto(false,0);
+    _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->setAuto(false,0);
+    _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->setAuto(false,0);
+  }
+  else if (visualize)
+  {
+    _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->setAuto(true,(1.f-_oscmix.samples[0])*255.f);
+    _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->setAuto(true,_osc1->getShape().samples[0]*255.f);
+    _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->setAuto(true,_osc2->getShape().samples[0]*255.f);
+  }
 }
 
 NELead6::NELead6() :
@@ -146,11 +159,15 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
 
 NELead6Knob::NELead6Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
 Knob( p, texture, backRect, knobRect),
-_selector(sf::Vector2f(17,8))
+_selector(sf::Vector2f(17.5f,8.5f)),
+_autoSelector(sf::Vector2f(17.5f,8))
 {
   overColor = sf::Color(255,255,255,255);
-  _selector.setOrigin(60,4);
+  _selector.setOrigin(60,4.1f);
   _selector.setPosition(64,64);
+  _autoSelector.setOrigin(60,4.1f);
+  _autoSelector.setPosition(64,64);
+  _autoSelector.setFillColor(sf::Color(30,74,193,255));
 }
 
 NELead6Knob::~NELead6Knob()
@@ -162,14 +179,19 @@ NELead6Knob::~NELead6Knob()
 void NELead6Knob::update()
 {
   Knob::update();
-  unsigned angle = _param->getValueToUnsigned(14);
-  short val = _param->getValue();
-  
-  if (val) _selector.setFillColor(sf::Color(255,42,42,255));
-  else _selector.setFillColor(sf::Color(42,255,42,255));
-  
-  _selector.setRotation(angle*19.f - 42.f);
-  
+  if (_param) {
+    unsigned angle = _param->getValueToUnsigned(14);
+    short val = _param->getValue();
+    
+    if (val) _selector.setFillColor(sf::Color(255,42,42,255));
+    else _selector.setFillColor(sf::Color(42,255,42,255));
+    
+    _selector.setRotation(angle*18.9f - 43.f);
+    if (_param->isAuto()){
+      unsigned auto_angle = _param->getAutoToUnsigned(14);
+      _autoSelector.setRotation(auto_angle*18.9f - 43.f);
+    }
+  }
 }
 
 
@@ -178,6 +200,8 @@ void NELead6Knob::draw (sf::RenderTarget &target, sf::RenderStates states) const
   states.transform *= getTransform();
   target.draw(_back_sprite,states);
   target.draw(_knob_sprite,states);
+  if (!_catched && _param && _param->isAuto())
+    target.draw(_autoSelector,states);
   target.draw(_selector,states);
 }
 
