@@ -5,7 +5,7 @@
 
 class Enveloppe : public AbstractSignalGenerator {
    public:
-     Enveloppe() : AbstractSignalGenerator(), _releaseTime(0) {};
+     Enveloppe() : AbstractSignalGenerator(), expatk(false), _releaseTime(0) {};
      virtual ~Enveloppe() {};
     
      virtual void step(Signal* output);
@@ -31,6 +31,8 @@ class Enveloppe : public AbstractSignalGenerator {
      unsigned int decay;
      float sustain;
      unsigned int release;
+     
+     bool expatk;
      
    protected:
      float _releaseLevel;
