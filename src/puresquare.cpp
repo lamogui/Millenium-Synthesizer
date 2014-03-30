@@ -35,7 +35,7 @@ void PureSquareVoice::step(Signal* leftout, Signal* rightout)
 {
   float lfo_f = _instrument->getParameter(PARAM_PURESQUARE_LFOFREQUENCY_ID)->getValue()/10.f;
   float lfo_a = _instrument->getParameter(PARAM_PURESQUARE_LFOAMP_ID)->getValue()/150.f;
-  float duty = _instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->getValue()/255.f;
+  float duty = (_instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->getValue() + 127)/255.f;
   _lfo.setFrequency(lfo_f);
   _lfo.setAmplitude(lfo_a);
   
@@ -58,7 +58,7 @@ PureSquare::PureSquare() :
 Instrument<PureSquareVoice>(),
 _lfo_amp(0,0,100),
 _lfo_frequency(0,0,100),
-_duty(127,0,255)
+_duty(0,-127,127)
 {
 
 }
