@@ -54,7 +54,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/127.f;
   
   float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/127.f;
-  float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/255.f;
+  float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/127.f;
   
   _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/40;
   _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/40;
