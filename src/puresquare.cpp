@@ -47,7 +47,7 @@ void PureSquareVoice::step(Signal* leftout, Signal* rightout)
   
   if (visualize)
   {
-    _instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->setAuto(true,255.f*(_osc.getShape().samples[0]));
+    _instrument->getParameter(PARAM_PURESQUARE_DUTY_ID)->setAuto(true,255.f*(_osc.getShape().samples[0])-127.f);
   }
   
   if (rightout)
