@@ -17,7 +17,7 @@ class Track
     
     
     //Try to load the track from midi file format
-    bool loadFromMidi(std::ifstream& file, WORD time_division);
+    bool loadFromMidi(std::ifstream& file, WORD time_division, float &bpm);
    
     //try to set the track at the time position 
     // return false is the time is out of bounds   
