@@ -1,13 +1,12 @@
 <?xml version="1.0" ?>
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractSignalModifier" version="3">
   <DEPS>
-    <ID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
-    <COMPID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="9b452caa-a0ba-488a-bd19-f55906bd1643"/>
-    <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+    <ID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
+    <COMPID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="a4c2e10d-7ec7-4dae-9ef8-02ed4fcfc63d"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
   </DEPS>
   <OBJECT>
-    <ID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+    <ID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -23,8 +22,8 @@
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="step" mc="Operation" uid="83e2874f-b947-475d-96a5-b14ab7889b5c"/>
-          <PID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+          <ID name="step" mc="Operation" uid="0ee6f5f3-8752-4b0a-82c3-11f8bf559e3c"/>
+          <PID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -38,8 +37,8 @@
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="signal" mc="Parameter" uid="99a23f5a-5a66-4756-88c8-267fec8e96d2"/>
-                <PID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+                <ID name="signal" mc="Parameter" uid="deb0d0f0-7a39-4357-a1ce-2b2071dd4e96"/>
+                <PID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">Inout</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
@@ -64,30 +63,8 @@
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
-      <COMP relation="InternalStructure">
-        <OBJECT>
-          <ID name="" mc="BindableInstance" uid="ede1ed48-bb1e-45d4-856b-41dbb867102c"/>
-          <PID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
-          <ATTRIBUTES>
-            <ATT name="IsConstant">false</ATT>
-            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-            <ATT name="Value"></ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="RepresentedFeature">
-              <REFOBJ>
-                <ID name="time" mc="Attribute" uid="2e016b0f-75c0-4c0d-af4f-df18ff605963"/>
-                <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
       <COMP relation="Product">
-        <COMPID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="9b452caa-a0ba-488a-bd19-f55906bd1643"/>
+        <COMPID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="a4c2e10d-7ec7-4dae-9ef8-02ed4fcfc63d"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

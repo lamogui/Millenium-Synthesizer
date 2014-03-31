@@ -147,7 +147,7 @@
           <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="step" mc="Operation" uid="776eea16-fbb4-4a6f-9581-310cb2a8e1f7"/>
+          <ID name="step" mc="Operation" uid="61530862-03bd-451f-b66c-ab896de11b1f"/>
           <PID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
@@ -162,10 +162,10 @@
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="output" mc="Parameter" uid="2bb50e8a-b0bb-4828-93d9-ee3352e99682"/>
+                <ID name="left" mc="Parameter" uid="947a9e8e-809d-40ae-bb4a-7790928e710c"/>
                 <PID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
                 <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="ParameterPassing">Inout</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>
@@ -175,7 +175,30 @@
                   <ATT name="IsException">false</ATT>
                   <ATT name="IsStream">false</ATT>
                   <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[output]]></ATT>
+                  <ATT name="Name"><![CDATA[left]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="right" mc="Parameter" uid="c62970ea-66be-430a-ac81-b9f3c1e1651d"/>
+                <PID name="PureSquareVoice" mc="Class" uid="0fc6d382-fc76-45ad-a1a5-f9262448bf09"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">Inout</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[right]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>

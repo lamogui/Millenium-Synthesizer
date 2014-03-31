@@ -1,15 +1,13 @@
 <?xml version="1.0" ?>
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractSignalGenerator" version="3">
   <DEPS>
-    <ID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-    <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="e7878ec2-d30d-4a13-8a24-c7d8f0eeaf35"/>
-    <EXTID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+    <ID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
+    <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="6112da1b-ae5c-45f9-96f5-385b039f1fdd"/>
+    <EXTID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
-    <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
-    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
   </DEPS>
   <OBJECT>
-    <ID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+    <ID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
     <PID name="class" mc="Package" uid="08229dca-9ac6-492f-9efa-70899e409fa5"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -25,64 +23,8 @@
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="generate" mc="Operation" uid="b0900e10-1b3f-4ae8-9f05-737a9efbb0fc"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-          <ATTRIBUTES>
-            <ATT name="Concurrency">false</ATT>
-            <ATT name="Final">false</ATT>
-            <ATT name="Passing">MethodOut</ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[generate]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="Return">
-              <OBJECT>
-                <ID name="" mc="Parameter" uid="17923db4-0815-4eef-8eec-33be3f9ff1bb"/>
-                <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="resetTime" mc="Operation" uid="176a6498-0a8d-42b5-b86d-bbe946512d9d"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-          <ATTRIBUTES>
-            <ATT name="Concurrency">false</ATT>
-            <ATT name="Final">false</ATT>
-            <ATT name="Passing">MethodOut</ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[resetTime]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES></DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="step" mc="Operation" uid="4a167369-6cf7-4b4b-a2b9-bfea193d4219"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+          <ID name="step" mc="Operation" uid="f8e5c20d-a68c-4bd6-af1c-59a0bede669b"/>
+          <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -96,8 +38,8 @@
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="signal" mc="Parameter" uid="c3b3f26b-fb29-4c79-8437-dafede4d23d5"/>
-                <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+                <ID name="signal" mc="Parameter" uid="766ff351-8034-4426-9e50-21196e915823"/>
+                <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">Out</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
@@ -122,8 +64,8 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="AbstractSignalGenerator" mc="Operation" uid="be95dd91-756a-4d2b-b671-a61d7e4d3a0f"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+          <ID name="generate" mc="Operation" uid="f30094a5-9547-4bec-9d75-486122ed9fb4"/>
+          <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -131,47 +73,42 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[AbstractSignalGenerator]]></ATT>
+            <ATT name="Name"><![CDATA[generate]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
-            <LINK relation="Extension">
-              <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
-      <COMP relation="OwnedAttribute">
-        <OBJECT>
-          <ID name="time" mc="Attribute" uid="2e016b0f-75c0-4c0d-af4f-df18ff605963"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
-          <ATTRIBUTES>
-            <ATT name="TypeConstraint"></ATT>
-            <ATT name="Value"></ATT>
-            <ATT name="TargetIsClass">false</ATT>
-            <ATT name="Changeable">ReadWrite</ATT>
-            <ATT name="IsDerived">false</ATT>
-            <ATT name="IsOrdered">false</ATT>
-            <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-            <ATT name="Visibility">Protected</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[time]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Type">
-              <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
-            </LINK>
+            <COMP relation="Return">
+              <OBJECT>
+                <ID name="" mc="Parameter" uid="47443bee-d367-4eed-b849-037ad271ec1d"/>
+                <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="OwnedEnd">
         <OBJECT>
-          <ID name="output" mc="AssociationEnd" uid="ae173965-99a9-49e1-9af0-248e2bb789fc"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+          <ID name="output" mc="AssociationEnd" uid="cd64f2d0-4646-41d7-ba58-625bb790d4a8"/>
+          <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
           <ATTRIBUTES>
             <ATT name="Aggregation">KindIsComposition</ATT>
             <ATT name="IsChangeable">true</ATT>
@@ -179,7 +116,7 @@
             <ATT name="IsDerived">false</ATT>
             <ATT name="IsOrdered">false</ATT>
             <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"></ATT>
+            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
             <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
@@ -193,8 +130,8 @@
             </LINK>
             <COMP relation="Opposite">
               <OBJECT>
-                <ID name="" mc="AssociationEnd" uid="e40d5c83-6b8a-408f-aa5d-019b456fc188"/>
-                <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+                <ID name="" mc="AssociationEnd" uid="b8d98197-5899-464d-aa81-49bf74ecea64"/>
+                <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
                 <ATTRIBUTES>
                   <ATT name="Aggregation">KindIsAssociation</ATT>
                   <ATT name="IsChangeable">true</ATT>
@@ -212,12 +149,12 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <COMP relation="Opposite">
-                    <COMPID name="output" mc="AssociationEnd" uid="ae173965-99a9-49e1-9af0-248e2bb789fc"/>
+                    <COMPID name="output" mc="AssociationEnd" uid="cd64f2d0-4646-41d7-ba58-625bb790d4a8"/>
                   </COMP>
                   <COMP relation="Association">
                     <OBJECT>
-                      <ID name="" mc="Association" uid="57461fad-08c9-45c5-9d55-dc880447f1b4"/>
-                      <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+                      <ID name="" mc="Association" uid="128eee29-2177-4aeb-b6f7-c52fe1fbfab2"/>
+                      <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
                       <ATTRIBUTES>
                         <ATT name="Name"></ATT>
                         <ATT name="status">1970354901745664</ATT>
@@ -230,8 +167,8 @@
             </COMP>
             <COMP relation="Association">
               <OBJECT>
-                <ID name="" mc="Association" uid="57461fad-08c9-45c5-9d55-dc880447f1b4"/>
-                <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+                <ID name="" mc="Association" uid="128eee29-2177-4aeb-b6f7-c52fe1fbfab2"/>
+                <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
                 <ATTRIBUTES>
                   <ATT name="Name"></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -244,8 +181,8 @@
       </COMP>
       <COMP relation="Parent">
         <OBJECT>
-          <ID name="Generalization" mc="Generalization" uid="223b86e6-c192-4216-b968-f665078a6fea"/>
-          <PID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+          <ID name="Generalization" mc="Generalization" uid="6fd0e783-7c19-4f37-8593-151d8c229a3b"/>
+          <PID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
           <ATTRIBUTES>
             <ATT name="Discriminator"></ATT>
             <ATT name="Name"><![CDATA[Generalization]]></ATT>
@@ -253,13 +190,13 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="SuperType">
-              <ID name="AbstractSignalModifier" mc="Class" uid="23507a23-30d4-4696-b17c-47e95ab193be"/>
+              <ID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="Product">
-        <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="e7878ec2-d30d-4a13-8a24-c7d8f0eeaf35"/>
+        <COMPID name="AbstractSignalGenerator Class diagram" mc="ClassDiagram" uid="6112da1b-ae5c-45f9-96f5-385b039f1fdd"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

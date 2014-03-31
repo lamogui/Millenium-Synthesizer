@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="AbstractSignalModifier Class diagram" version="3">
+  <DEPS>
+    <ID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="a4c2e10d-7ec7-4dae-9ef8-02ed4fcfc63d"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="AbstractSignalModifier Class diagram" mc="ClassDiagram" uid="a4c2e10d-7ec7-4dae-9ef8-02ed4fcfc63d"/>
+    <PID name="AbstractSignalModifier" mc="Class" uid="ce2d564e-9416-47e8-aa6a-c87ea5eda589"/>
+    <ATTRIBUTES>
+      <ATT name="UiDataVersion">51</ATT>
+      <ATT name="UiData"><![CDATA[eJztmu1TqkoYwP8VxrlfIcDXbp3OmDpdJ1MHqjv3fnFWeLA9Aevsrqfsrz8LSiWZESA2DZ+UFZ59dvf3vMrpz0fPlX4DZZj4Pyqaolakn2eno+kvsLiEbTFUkfhyDj8qhM4Uj9jgYqLYGM0o8hSwMSdUYRxxfK+ACx74nK2ureimC88Mr7ur64rkoV+ETp4nVStnp2NK5kD5UvKRJ+Zy0ZIseBdxJH67Re4C1kr4C9etHJ2dHkUPvHnU5EsXKhtL0HctgQX3M8UiFJTVswn06yBmIRvsaLLeIzfASTjLUIhYPynBI+9O+0LH8GvwxQYHLVweW+TRajm7Fk7BRRxsoUdsz66CIel3MCI0dxFj65OQUM3SQVNtuQlWU67ZCORjcFqyqoNdcyzHalTt3bstpPFLnzz4AzQFNzaxySn2Z5Wz9pRxiixu4pmP3CtiYwcDlUJVpPUOnR6FT+5cIHGh73eINycMc3E070yXQFTnDrs2hUDCADO+QUs1BfCWi56eBOjhkjIBbgg1kD8L2FifWPW4daJX1RNdrZ5oqvpp+mt7pz9Af2VnO3XrDNqmOekPr3vGsD0wb/u9f69G3V5sA3r+wvs7kaqXsPyr73OgAip2i+FBkPWybYO+eZ1EH6M3NnrmJLMmBswpMEEDCtDcUMW8Nm461zdGr5tEodF4cmGMbsa3fbN/PogrdU6EFSD/WTanC9irr5As0O16oyZcQ01ryLUmtGSEGki2Wk1AdbBRvXW8NyfxddxCPatbGFPsIbochmTk6iHUk/TeoZHUOwhRj8vMLqJWspqE1SuE/QCUjMw2UzAbSGVzZMEdiAOkgt5hNPJPOFJ8/tYqLII1SjyT4LkCIYFAdkceJth6IygexRwRweNhbJuoe1g+EGrnII0j637CRPIA5PMRdptq7pYD+bwotD66DFH/leEcp4tZjIXARIErvDCA4Sc0deGCksW8eB+gqcUGqtITFJFUaWm6C4iLyacLDrMARUFpOxo4FJuJGwz5sKnF07wSzu0TbHCRBtWj9cduN6ulaRkEAsNSMaJ4FA1kpzioimdBprY+1voHx7WN6cRtg5LpQisD4HfETg306xNOU9E+U/sa2AN43ILLVm1vdevzJkoqQMOpO1W51azrcm2qIrmlW1VZ05zW1KnXj6Fq5UCoyHmTkJNjAvAdioCkuqWsAl5wShZw0hT2OGqVivktvhC2ceFF7VMzGss17GgfNIS3GXbiWr8MO0WGnQiUrDEnTUWaCNwDpf56wWWpsI/vwGuOZO45t9fTVKiJiP2f+NncbTpgi65Vvwewe3ewAQ05U5wQ8DTFK/Z9oGGnMCRbXGT/5/tN9lD9PNxl0fol4Q4JyZg66GnK1Xc4PVSyUHDVqpf/tn6JFCJdtbaVXGAHShsKrstKdL9i2vD2p9g8mN2KK2yhfHsgsVnevlCjrBn7IKWIZxRbrTVVieqhGTy/ORE2gQKzDUaDtyfMYHTFSZ4ZUtxGPjbjasHlamnFiazYFCt2XcyTmHLZTc2lm/qhkxlg/57t8Jex289nXYoexGkO0FKY6KbV7e4hRE7EXglgihuIEP5jQ2IxIf9zTx3klXMcZzWyou6FMmj/1zMm5+3OZfAK7bCbd2h8V8rro3qh5jUDO/suJQN5M3A9GheWF/0BwhIGMg==]]></ATT>
+      <ATT name="PdeProperties"></ATT>
+      <ATT name="Name"><![CDATA[AbstractSignalModifier Class diagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>
