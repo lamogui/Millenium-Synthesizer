@@ -3,7 +3,7 @@
   <DEPS>
     <ID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
     <COMPID name="Oscillator Class diagram" mc="ClassDiagram" uid="d23029d5-a7e1-493d-b59b-d105934a85cd"/>
-    <EXTID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+    <EXTID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
     <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
     <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
@@ -283,7 +283,7 @@
       </COMP>
       <COMP relation="Parent">
         <OBJECT>
-          <ID name="Generalization" mc="Generalization" uid="f5a9e822-fd5b-4995-bd39-2534b071676f"/>
+          <ID name="Generalization" mc="Generalization" uid="e712c605-2b88-44af-8e52-4361bda43ece"/>
           <PID name="Oscillator" mc="Class" uid="9cc5e57a-d45d-4a6e-9783-cf3fea099777"/>
           <ATTRIBUTES>
             <ATT name="Discriminator"></ATT>
@@ -292,7 +292,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="SuperType">
-              <ID name="AbstractSignalGenerator" mc="Class" uid="4f6312e6-8511-45c4-b3d1-b254b92b5d5a"/>
+              <ID name="AbstractSignalGenerator" mc="Class" uid="98c1a9aa-6734-4c45-a34d-4e3bae5083fc"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
