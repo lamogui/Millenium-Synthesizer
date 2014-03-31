@@ -99,16 +99,17 @@ bool Track::tick()
   return true;
 }
 
-bool Track::loadFromMidi(std::ifstream& file, WORD time_division)
+bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
 {
   panic();
   
   unsigned int last_event=0;
   float multiplier=1.f;
-  float diviser=1.f;
+  //float bpm=1.f;
   if (time_division & 0x8000)
   {
     multiplier = Signal::rate * 60.f / (float) (time_division & 0x7FFF);
+    //bpm = 120.f; //default tempo
   }
   else
   {
@@ -116,8 +117,9 @@ bool Track::loadFromMidi(std::ifstream& file, WORD time_division)
     float fps_f = (float) fps;
     if (fps == 29) fps_f=29.97f;
     multiplier = (float) Signal::rate  / (fps_f * (float) (time_division & 0xFF));
-    diviser = 120.f; //default tempo
+    
   }
+  
   
   if (!file.is_open()) return false;
   
