@@ -42,7 +42,7 @@ void PureSquareVoice::step(Signal* leftout, Signal* rightout)
   Signal* signal_duty = _lfo.generate();
   _osc.setShape(duty);
   _osc.getShape().add(signal_duty);
-  _osc.getShape().saturate(-0.99f, 0.99f);
+  _osc.getShape().saturate(0.f, 0.99f);
   _osc.step(leftout);
   
   if (visualize)
