@@ -600,15 +600,7 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <OBJECT>
-                <ID name="" mc="Association" uid="3280e8cd-5292-444c-b622-db9870d8f4a9"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES></DEPENDENCIES>
-              </OBJECT>
+              <COMPID name="" mc="Association" uid="3280e8cd-5292-444c-b622-db9870d8f4a9"/>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -672,15 +664,7 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <OBJECT>
-                <ID name="" mc="Association" uid="af98a977-dd54-4f8c-9b83-855f4c53d557"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES></DEPENDENCIES>
-              </OBJECT>
+              <COMPID name="" mc="Association" uid="af98a977-dd54-4f8c-9b83-855f4c53d557"/>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -744,15 +728,7 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <OBJECT>
-                <ID name="" mc="Association" uid="117eeee2-2dc6-4267-9b60-0dde47076682"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES></DEPENDENCIES>
-              </OBJECT>
+              <COMPID name="" mc="Association" uid="117eeee2-2dc6-4267-9b60-0dde47076682"/>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -816,15 +792,7 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <OBJECT>
-                <ID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES></DEPENDENCIES>
-              </OBJECT>
+              <COMPID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
