@@ -6,15 +6,12 @@
     <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
     <EXTID name="ScrollBar" mc="Class" uid="0fca7167-cd1d-4664-8ab8-410199f1a905"/>
     <EXTID name="sf::Drawable" mc="Class" uid="99f4fae9-ff22-4a19-98ba-ce22901b376d"/>
-    <EXTID name="sf::FloatRect" mc="Class" uid="ec95db85-33b8-400b-b6ed-12a4a33d4104"/>
-    <EXTID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-    <EXTID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
-    <EXTID name="sf::Vector2f" mc="Class" uid="fd8fa854-8de9-418a-9a2b-011d21da4fb0"/>
     <EXTID name="sf::Vector2i" mc="Class" uid="419110a2-ded2-4409-9ff5-a252386cb4fb"/>
     <EXTID name="sf::View" mc="Class" uid="1ebcc03d-cbc6-4fe5-9ede-60d2c53b8e22"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
     <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
     <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
+    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
   </DEPS>
   <OBJECT>
     <ID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
@@ -48,7 +45,7 @@
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="zone" mc="Parameter" uid="32354c5b-f0b7-4f84-a12d-37b2bfab6808"/>
+                <ID name="x_zone" mc="Parameter" uid="32354c5b-f0b7-4f84-a12d-37b2bfab6808"/>
                 <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">In</ATT>
@@ -61,17 +58,17 @@
                   <ATT name="IsException">false</ATT>
                   <ATT name="IsStream">false</ATT>
                   <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[zone]]></ATT>
+                  <ATT name="Name"><![CDATA[x_zone]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="sf::Vector2i" mc="Class" uid="419110a2-ded2-4409-9ff5-a252386cb4fb"/>
+                    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="size" mc="Parameter" uid="3b5254be-5637-4b92-8549-c463c8fba1d8"/>
+                <ID name="x_size" mc="Parameter" uid="3b5254be-5637-4b92-8549-c463c8fba1d8"/>
                 <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">In</ATT>
@@ -84,12 +81,58 @@
                   <ATT name="IsException">false</ATT>
                   <ATT name="IsStream">false</ATT>
                   <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[size]]></ATT>
+                  <ATT name="Name"><![CDATA[x_size]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="sf::Vector2f" mc="Class" uid="fd8fa854-8de9-418a-9a2b-011d21da4fb0"/>
+                    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="y_zone" mc="Parameter" uid="f8573323-29e9-4bdd-b96b-d6fd5a5e041d"/>
+                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[y_zone]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="y_size" mc="Parameter" uid="fc2e6807-906a-4506-b25b-ab015c34dcc9"/>
+                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="MultiplicityMin"></ATT>
+                  <ATT name="MultiplicityMax"></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[y_size]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -208,88 +251,6 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="setViewport" mc="Operation" uid="d953d248-c1e1-4538-a5aa-bfd054a5578c"/>
-          <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-          <ATTRIBUTES>
-            <ATT name="Concurrency">false</ATT>
-            <ATT name="Final">false</ATT>
-            <ATT name="Passing">MethodOut</ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[setViewport]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="IO">
-              <OBJECT>
-                <ID name="viewport" mc="Parameter" uid="012eaa43-6799-4682-ab84-df8987068bd8"/>
-                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[viewport]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::FloatRect" mc="Class" uid="ec95db85-33b8-400b-b6ed-12a4a33d4104"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="getView" mc="Operation" uid="5a9870e1-5d15-4c43-87c4-e2f9f516a3ff"/>
-          <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-          <ATTRIBUTES>
-            <ATT name="Concurrency">false</ATT>
-            <ATT name="Final">false</ATT>
-            <ATT name="Passing">MethodOut</ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[getView]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="Return">
-              <OBJECT>
-                <ID name="" mc="Parameter" uid="ef55d5ab-039a-4727-9f02-70b7fd87f063"/>
-                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::View" mc="Class" uid="1ebcc03d-cbc6-4fe5-9ede-60d2c53b8e22"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
           <ID name="setViewSize" mc="Operation" uid="cc09ba3c-e467-40b7-af5f-adcf647d332b"/>
           <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
           <ATTRIBUTES>
@@ -366,56 +327,7 @@
             <ATT name="Name"><![CDATA[draw]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="IO">
-              <OBJECT>
-                <ID name="target" mc="Parameter" uid="2936b489-bb9a-433f-8f87-9cb6bbe6387d"/>
-                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[target]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="states" mc="Parameter" uid="e53c67d3-48a4-478a-8210-59b0deaa41d4"/>
-                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[states]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
+          <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <OBJECT>
           <ID name="addMouseCatcher" mc="Operation" uid="60fa93da-27aa-4db7-9044-5e636d85f0fd"/>
@@ -452,47 +364,6 @@
                 <DEPENDENCIES>
                   <LINK relation="Type">
                     <ID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="addDrawable" mc="Operation" uid="1f1e5088-29dc-48af-8581-5c340f1dfcc5"/>
-          <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-          <ATTRIBUTES>
-            <ATT name="Concurrency">false</ATT>
-            <ATT name="Final">false</ATT>
-            <ATT name="Passing">MethodOut</ATT>
-            <ATT name="Visibility">Public</ATT>
-            <ATT name="IsClass">false</ATT>
-            <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[addDrawable]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="IO">
-              <OBJECT>
-                <ID name="c" mc="Parameter" uid="3d5e5dda-628c-499f-a2b6-4379b14c7450"/>
-                <PID name="Interface" mc="Class" uid="5f0516ad-f2eb-407e-afda-0b5ee8719bde"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[c]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::Drawable" mc="Class" uid="99f4fae9-ff22-4a19-98ba-ce22901b376d"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>

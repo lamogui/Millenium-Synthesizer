@@ -243,7 +243,7 @@
                 <ID name="left" mc="Parameter" uid="05299c84-e97f-44ca-8210-3738fbd5f61d"/>
                 <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
                 <ATTRIBUTES>
-                  <ATT name="ParameterPassing">Inout</ATT>
+                  <ATT name="ParameterPassing">Out</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>
@@ -266,7 +266,7 @@
                 <ID name="right" mc="Parameter" uid="a4636c72-371e-4860-80a2-db55bc4bbc1a"/>
                 <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
                 <ATTRIBUTES>
-                  <ATT name="ParameterPassing">Inout</ATT>
+                  <ATT name="ParameterPassing">Out</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>

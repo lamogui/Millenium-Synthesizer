@@ -6,11 +6,7 @@
     <EXTID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
     <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
     <EXTID name="sf::Color" mc="Class" uid="87b43e90-d097-487e-8b8e-4d1153d83090"/>
-    <EXTID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
-    <EXTID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-    <EXTID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
     <EXTID name="sf::Sprite" mc="Class" uid="f74486b2-9428-442f-ab70-28b57a2119bd"/>
-    <EXTID name="sf::Texture" mc="Class" uid="73859c13-2616-4b0f-9ee8-2a8b06658fcf"/>
     <EXTID name="sf::Transformable" mc="Class" uid="cefd1138-0d77-4222-8862-06af4913396e"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
@@ -68,75 +64,6 @@
                 <DEPENDENCIES>
                   <LINK relation="Type">
                     <ID name="InstrumentParameter" mc="Class" uid="f16b7bb5-ff95-4b2a-a2eb-a0edf5f64c16"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="texture" mc="Parameter" uid="63128b9c-9e61-454b-8b97-b8add4d8c4b7"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[texture]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::Texture" mc="Class" uid="73859c13-2616-4b0f-9ee8-2a8b06658fcf"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="backRect" mc="Parameter" uid="76426e27-a81f-4f09-9aaf-ea75ba43293b"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[backRect]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="knobRect" mc="Parameter" uid="28db14c0-9b72-45ad-89f7-a322a36bbe6e"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[knobRect]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::IntRect" mc="Class" uid="2b65bb0f-7c2b-407e-8fe9-daf3189684b6"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -395,56 +322,7 @@
             <ATT name="Name"><![CDATA[draw]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="IO">
-              <OBJECT>
-                <ID name="target" mc="Parameter" uid="352daef0-e417-40fa-a418-13d023b989af"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[target]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="states" mc="Parameter" uid="7a479c6e-3384-435a-a98f-1ba7f459a8e1"/>
-                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[states]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
+          <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <OBJECT>
           <ID name="update" mc="Operation" uid="e3af2b34-cbb5-476a-b155-c8cac51999ab"/>
@@ -600,7 +478,15 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <COMPID name="" mc="Association" uid="3280e8cd-5292-444c-b622-db9870d8f4a9"/>
+              <OBJECT>
+                <ID name="" mc="Association" uid="3280e8cd-5292-444c-b622-db9870d8f4a9"/>
+                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -664,7 +550,15 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <COMPID name="" mc="Association" uid="af98a977-dd54-4f8c-9b83-855f4c53d557"/>
+              <OBJECT>
+                <ID name="" mc="Association" uid="af98a977-dd54-4f8c-9b83-855f4c53d557"/>
+                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -728,7 +622,15 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <COMPID name="" mc="Association" uid="117eeee2-2dc6-4267-9b60-0dde47076682"/>
+              <OBJECT>
+                <ID name="" mc="Association" uid="117eeee2-2dc6-4267-9b60-0dde47076682"/>
+                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
@@ -792,7 +694,15 @@
               </OBJECT>
             </COMP>
             <COMP relation="Association">
-              <COMPID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
+              <OBJECT>
+                <ID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
+                <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>

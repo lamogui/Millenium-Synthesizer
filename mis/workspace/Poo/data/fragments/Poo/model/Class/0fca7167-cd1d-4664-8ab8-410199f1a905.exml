@@ -5,14 +5,13 @@
     <COMPID name="ScrollBar Class diagram" mc="ClassDiagram" uid="c56c3d47-8977-4f20-b4c3-52e2e3af1275"/>
     <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
     <EXTID name="sf::RectangleShape" mc="Class" uid="08ffe003-1ab8-423b-b602-4e1178756da2"/>
-    <EXTID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-    <EXTID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
     <EXTID name="sf::View" mc="Class" uid="1ebcc03d-cbc6-4fe5-9ede-60d2c53b8e22"/>
     <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="create" mc="Stereotype" uid="00700680-0000-0204-0000-000000000000"/>
     <FOREIGNID name="destroy" mc="Stereotype" uid="00700680-0000-0206-0000-000000000000"/>
     <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
     <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
+    <FOREIGNID name="view" mc="AssociationEnd" uid="14ff5b80-b86f-4c9d-a9d3-20de0eeffe02"/>
   </DEPS>
   <OBJECT>
     <ID name="ScrollBar" mc="Class" uid="0fca7167-cd1d-4664-8ab8-410199f1a905"/>
@@ -369,56 +368,7 @@
             <ATT name="Name"><![CDATA[draw]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="IO">
-              <OBJECT>
-                <ID name="target" mc="Parameter" uid="99ed02b9-8eb7-4cc4-b0e5-190f4353e130"/>
-                <PID name="ScrollBar" mc="Class" uid="0fca7167-cd1d-4664-8ab8-410199f1a905"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[target]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderTarget" mc="Class" uid="61f81125-585e-4a5f-aa86-7f5d3a0b5b5a"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="states" mc="Parameter" uid="34d1a2d4-03b2-4eb3-88cf-bc0433ae81b9"/>
-                <PID name="ScrollBar" mc="Class" uid="0fca7167-cd1d-4664-8ab8-410199f1a905"/>
-                <ATTRIBUTES>
-                  <ATT name="ParameterPassing">In</ATT>
-                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
-                  <ATT name="TypeConstraint"></ATT>
-                  <ATT name="DefaultValue"></ATT>
-                  <ATT name="IsOrdered">false</ATT>
-                  <ATT name="IsUnique">false</ATT>
-                  <ATT name="IsException">false</ATT>
-                  <ATT name="IsStream">false</ATT>
-                  <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[states]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Type">
-                    <ID name="sf::RenderStates" mc="Class" uid="65fb3349-7b86-4d13-a057-87763a1dbb0c"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-          </DEPENDENCIES>
+          <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <OBJECT>
           <ID name="update" mc="Operation" uid="21b012c8-5ce3-422b-bc54-9e92d24f0bb4"/>
@@ -683,10 +633,7 @@
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
-        <REFOBJ>
-          <ID name="view" mc="AssociationEnd" uid="14ff5b80-b86f-4c9d-a9d3-20de0eeffe02"/>
-          <PID name="sf::View" mc="Class" uid="1ebcc03d-cbc6-4fe5-9ede-60d2c53b8e22"/>
-        </REFOBJ>
+        <FOREIGNID name="view" mc="AssociationEnd" uid="14ff5b80-b86f-4c9d-a9d3-20de0eeffe02"/>
       </COMP>
       <COMP relation="Parent">
         <OBJECT>
