@@ -1,0 +1,311 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="InstrumentVoice" version="3">
+  <DEPS>
+    <ID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+    <COMPID name="InstrumentVoice Machine diagram" mc="StateMachineDiagram" uid="6c71e41e-348a-48cd-943c-154d148f57c4"/>
+    <EXTID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+    <EXTID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+    <PID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
+    <ATTRIBUTES>
+      <ATT name="Kind">Dynamic</ATT>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[InstrumentVoice]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Top">
+        <OBJECT>
+          <ID name="" mc="Region" uid="5531c838-e18f-4da0-97da-bb64046c1789"/>
+          <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Sub">
+              <OBJECT>
+                <ID name="free" mc="State" uid="877b8b64-ec87-43a1-9c67-3d40c78043a3"/>
+                <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[free]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="" mc="Transition" uid="9b995f27-1b34-4133-a79a-7aa3cddc85d1"/>
+                      <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"><![CDATA[keyPressed]]></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Processed">
+                          <REFOBJ>
+                            <ID name="playNote" mc="Operation" uid="fa7d66b1-9caa-4b40-b004-fb79d293ada4"/>
+                            <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="used" mc="State" uid="28be4b73-e658-4e19-9c0b-06dd16d0a364"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="used" mc="State" uid="28be4b73-e658-4e19-9c0b-06dd16d0a364"/>
+                <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[used]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OwnedRegion">
+                    <OBJECT>
+                      <ID name="Region" mc="Region" uid="4ed79517-6c02-4390-bdeb-07dce8a8ecb3"/>
+                      <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"><![CDATA[Region]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="Sub">
+                          <OBJECT>
+                            <ID name="played" mc="State" uid="efc06abb-c3df-4cae-9c4a-fa2ec14d99dd"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[played]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="InternalTransition" uid="067a1240-ffbd-4fef-9f14-2ef2feeb46b2"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Processed">
+                                      <REFOBJ>
+                                        <ID name="step" mc="Operation" uid="c05bc785-df15-4dd0-8215-06c81db4ef6b"/>
+                                        <PID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Transition" uid="22966423-453f-44aa-a002-035091fc3315"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"><![CDATA[keyReleased]]></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="released" mc="State" uid="3c4e3c19-6fe8-4e02-8bba-6913fb3ab09f"/>
+                                        <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="released" mc="State" uid="3c4e3c19-6fe8-4e02-8bba-6913fb3ab09f"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[released]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="InternalTransition" uid="b544099d-a0a4-47ed-a7b7-fb88a844c1ed"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Processed">
+                                      <REFOBJ>
+                                        <ID name="step" mc="Operation" uid="c05bc785-df15-4dd0-8215-06c81db4ef6b"/>
+                                        <PID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Transition" uid="b79d89af-fbf6-40e2-b695-0b345e70322a"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[after(releasedTime)]]></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Final State" mc="FinalState" uid="a762cfb9-9321-4696-939b-44b50dd503b0"/>
+                                        <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Initial State" mc="InitialPseudoState" uid="0ac4b8a4-f56c-46d5-81ba-2b32d32af4c9"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Initial State]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Transition" uid="e0847137-ff24-404a-a0bf-a53b911e6890"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="played" mc="State" uid="efc06abb-c3df-4cae-9c4a-fa2ec14d99dd"/>
+                                        <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Final State" mc="FinalState" uid="a762cfb9-9321-4696-939b-44b50dd503b0"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Final State]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES></DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Transition" uid="5550c9cc-e4d2-4d13-8996-9585c15053e0"/>
+                      <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="free" mc="State" uid="877b8b64-ec87-43a1-9c67-3d40c78043a3"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Initial State" mc="InitialPseudoState" uid="d0a65c1f-dfe4-4ca4-8771-0f9de78dff22"/>
+                <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial State]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Transition" uid="e48ac6a4-038a-4758-a7c1-d5aae3136f4b"/>
+                      <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="free" mc="State" uid="877b8b64-ec87-43a1-9c67-3d40c78043a3"/>
+                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="InstrumentVoice Machine diagram" mc="StateMachineDiagram" uid="6c71e41e-348a-48cd-943c-154d148f57c4"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
