@@ -54,27 +54,6 @@
                         </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
-                    <OBJECT>
-                      <ID name="Transition" mc="Transition" uid="6d77d1a7-1ea1-4ee9-95d8-22ad0464060c"/>
-                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                      <ATTRIBUTES>
-                        <ATT name="Effect"></ATT>
-                        <ATT name="ReceivedEvents"><![CDATA[delete]]></ATT>
-                        <ATT name="SentEvents"></ATT>
-                        <ATT name="Guard"></ATT>
-                        <ATT name="PostCondition"></ATT>
-                        <ATT name="Name"><![CDATA[Transition]]></ATT>
-                        <ATT name="status">1970354901745664</ATT>
-                      </ATTRIBUTES>
-                      <DEPENDENCIES>
-                        <LINK relation="Target">
-                          <REFOBJ>
-                            <ID name="Final State" mc="FinalState" uid="0bddd1e9-340d-45e9-b569-a822b5fb3b44"/>
-                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                          </REFOBJ>
-                        </LINK>
-                      </DEPENDENCIES>
-                    </OBJECT>
                   </COMP>
                 </DEPENDENCIES>
               </OBJECT>
@@ -188,48 +167,6 @@
                         <ATT name="Guard"></ATT>
                         <ATT name="PostCondition"><![CDATA[stop]]></ATT>
                         <ATT name="Name"></ATT>
-                        <ATT name="status">1970354901745664</ATT>
-                      </ATTRIBUTES>
-                      <DEPENDENCIES>
-                        <LINK relation="Target">
-                          <REFOBJ>
-                            <ID name="Idle" mc="State" uid="59702987-a47b-4e06-bff4-8019147557d7"/>
-                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                          </REFOBJ>
-                        </LINK>
-                      </DEPENDENCIES>
-                    </OBJECT>
-                  </COMP>
-                </DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="Final State" mc="FinalState" uid="0bddd1e9-340d-45e9-b569-a822b5fb3b44"/>
-                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Final State]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES></DEPENDENCIES>
-              </OBJECT>
-              <OBJECT>
-                <ID name="Initial State" mc="InitialPseudoState" uid="b783f979-dcae-4961-aeb3-a6a26a94fc4b"/>
-                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Initial State]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <COMP relation="OutGoing">
-                    <OBJECT>
-                      <ID name="Transition" mc="Transition" uid="1c5f6ff4-d510-44a8-91e8-1e72a81d4746"/>
-                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-                      <ATTRIBUTES>
-                        <ATT name="Effect"></ATT>
-                        <ATT name="ReceivedEvents"></ATT>
-                        <ATT name="SentEvents"></ATT>
-                        <ATT name="Guard"></ATT>
-                        <ATT name="PostCondition"></ATT>
-                        <ATT name="Name"><![CDATA[Transition]]></ATT>
                         <ATT name="status">1970354901745664</ATT>
                       </ATTRIBUTES>
                       <DEPENDENCIES>

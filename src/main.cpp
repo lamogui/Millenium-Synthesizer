@@ -197,15 +197,15 @@ int main(int argc, char** argv)
     
     myInterface->update();
 
-    
-    if (sendSignalSuccess)
+    //sendSignalSuccess = as t'on utilisé le verre d'eau ?
+    if (sendSignalSuccess) 
     {
       //std::cout << "generating output..." << std::endl;
       time++;
-      myInstrument->step(&leftout, &rightout);
+      myInstrument->step(&leftout, &rightout); //le verre d'eau est vide donc on le rempli
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
+      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);//on essai de verser le verre d'eau dans l'entonoir
     }
     else
     {
