@@ -2,8 +2,9 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="etat-transition" version="3">
   <DEPS>
     <ID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
-    <COMPID name="driver" mc="Package" uid="ebd3d2eb-1628-46ab-8519-9c08289aa66f"/>
-    <COMPID name="record" mc="Package" uid="d6eeec1a-2718-4930-8feb-cf8bd052a836"/>
+    <COMPID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+    <COMPID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+    <COMPID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
   </DEPS>
   <OBJECT>
     <ID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
@@ -18,9 +19,10 @@
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
-      <COMP relation="OwnedElement">
-        <COMPID name="driver" mc="Package" uid="ebd3d2eb-1628-46ab-8519-9c08289aa66f"/>
-        <COMPID name="record" mc="Package" uid="d6eeec1a-2718-4930-8feb-cf8bd052a836"/>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+        <COMPID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+        <COMPID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

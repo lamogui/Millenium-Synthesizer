@@ -1,23 +1,23 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="State Machine" version="3">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="driver" version="3">
   <DEPS>
-    <ID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-    <COMPID name="State Machine State Machine diagram" mc="StateMachineDiagram" uid="442ddaa7-ce71-4714-aa25-7dd0cde004b8"/>
+    <ID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+    <COMPID name="driver Machine diagram" mc="StateMachineDiagram" uid="442ddaa7-ce71-4714-aa25-7dd0cde004b8"/>
   </DEPS>
   <OBJECT>
-    <ID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
-    <PID name="driver" mc="Package" uid="ebd3d2eb-1628-46ab-8519-9c08289aa66f"/>
+    <ID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+    <PID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
     <ATTRIBUTES>
       <ATT name="Kind">Dynamic</ATT>
       <ATT name="IsReentrant">false</ATT>
-      <ATT name="Name"><![CDATA[State Machine]]></ATT>
+      <ATT name="Name"><![CDATA[driver]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="Top">
         <OBJECT>
           <ID name="" mc="Region" uid="adb10da8-5ebf-489b-b364-680801f033a1"/>
-          <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+          <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
           <ATTRIBUTES>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
@@ -26,7 +26,7 @@
             <COMP relation="Sub">
               <OBJECT>
                 <ID name="Idle" mc="State" uid="59702987-a47b-4e06-bff4-8019147557d7"/>
-                <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                 <ATTRIBUTES>
                   <ATT name="Name"><![CDATA[Idle]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -35,7 +35,7 @@
                   <COMP relation="OutGoing">
                     <OBJECT>
                       <ID name="" mc="Transition" uid="535fdcc8-4e75-48f0-96fe-61622080d7d8"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[init]]></ATT>
@@ -49,14 +49,14 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Ready" mc="State" uid="ece6ca0f-d4ff-4732-8586-3190d898ba4b"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
                     <OBJECT>
                       <ID name="Transition" mc="Transition" uid="6d77d1a7-1ea1-4ee9-95d8-22ad0464060c"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[delete]]></ATT>
@@ -70,7 +70,7 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Final State" mc="FinalState" uid="0bddd1e9-340d-45e9-b569-a822b5fb3b44"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
@@ -80,7 +80,7 @@
               </OBJECT>
               <OBJECT>
                 <ID name="Ready" mc="State" uid="ece6ca0f-d4ff-4732-8586-3190d898ba4b"/>
-                <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                 <ATTRIBUTES>
                   <ATT name="Name"><![CDATA[Ready]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -89,7 +89,7 @@
                   <COMP relation="OutGoing">
                     <OBJECT>
                       <ID name="" mc="Transition" uid="3232fdb1-0c9f-43e5-bb64-887cb0465e77"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[start]]></ATT>
@@ -103,14 +103,14 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Playing" mc="State" uid="4c0f0f80-d2cb-478a-bdf9-b3ed87337183"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
                     <OBJECT>
                       <ID name="Transition" mc="Transition" uid="4ce11747-2509-47d6-b65c-7562bbe9bbdf"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[free]]></ATT>
@@ -124,7 +124,7 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Idle" mc="State" uid="59702987-a47b-4e06-bff4-8019147557d7"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
@@ -134,7 +134,7 @@
               </OBJECT>
               <OBJECT>
                 <ID name="Playing" mc="State" uid="4c0f0f80-d2cb-478a-bdf9-b3ed87337183"/>
-                <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                 <ATTRIBUTES>
                   <ATT name="Name"><![CDATA[Playing]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -143,7 +143,7 @@
                   <COMP relation="Internal">
                     <OBJECT>
                       <ID name="Do" mc="InternalTransition" uid="34aa6abc-31b6-4913-a72e-1c17f11c5ff5"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"><![CDATA[callback]]></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
@@ -159,7 +159,7 @@
                   <COMP relation="OutGoing">
                     <OBJECT>
                       <ID name="" mc="Transition" uid="5e049ebf-b4c8-4c0e-b8b0-9b9c8c9b9b2f"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[stop]]></ATT>
@@ -173,14 +173,14 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Ready" mc="State" uid="ece6ca0f-d4ff-4732-8586-3190d898ba4b"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
                     <OBJECT>
                       <ID name="" mc="Transition" uid="54cade49-15c8-4564-9d08-0129d05e8195"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"><![CDATA[free]]></ATT>
@@ -194,7 +194,7 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Idle" mc="State" uid="59702987-a47b-4e06-bff4-8019147557d7"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
@@ -204,7 +204,7 @@
               </OBJECT>
               <OBJECT>
                 <ID name="Final State" mc="FinalState" uid="0bddd1e9-340d-45e9-b569-a822b5fb3b44"/>
-                <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                 <ATTRIBUTES>
                   <ATT name="Name"><![CDATA[Final State]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -213,7 +213,7 @@
               </OBJECT>
               <OBJECT>
                 <ID name="Initial State" mc="InitialPseudoState" uid="b783f979-dcae-4961-aeb3-a6a26a94fc4b"/>
-                <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                 <ATTRIBUTES>
                   <ATT name="Name"><![CDATA[Initial State]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
@@ -222,7 +222,7 @@
                   <COMP relation="OutGoing">
                     <OBJECT>
                       <ID name="Transition" mc="Transition" uid="1c5f6ff4-d510-44a8-91e8-1e72a81d4746"/>
-                      <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                      <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                       <ATTRIBUTES>
                         <ATT name="Effect"></ATT>
                         <ATT name="ReceivedEvents"></ATT>
@@ -236,7 +236,7 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="Idle" mc="State" uid="59702987-a47b-4e06-bff4-8019147557d7"/>
-                            <PID name="State Machine" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
+                            <PID name="driver" mc="StateMachine" uid="c1d96cba-e325-4a90-a0bf-b7871de1b0ff"/>
                           </REFOBJ>
                         </LINK>
                       </DEPENDENCIES>
@@ -249,7 +249,7 @@
         </OBJECT>
       </COMP>
       <COMP relation="Product">
-        <COMPID name="State Machine State Machine diagram" mc="StateMachineDiagram" uid="442ddaa7-ce71-4714-aa25-7dd0cde004b8"/>
+        <COMPID name="driver Machine diagram" mc="StateMachineDiagram" uid="442ddaa7-ce71-4714-aa25-7dd0cde004b8"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
