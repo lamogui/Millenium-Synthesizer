@@ -1,0 +1,163 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="MouseCatcher" version="3">
+  <DEPS>
+    <ID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+    <COMPID name="MousCatcher diagram" mc="StateMachineDiagram" uid="b69bc84e-0a5c-4749-a53a-6459e2474581"/>
+    <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+    <PID name="etat-transition" mc="Package" uid="ae9a66a4-bf2c-4739-9a16-c7e2561a48e4"/>
+    <ATTRIBUTES>
+      <ATT name="Kind">Dynamic</ATT>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[MouseCatcher]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Top">
+        <OBJECT>
+          <ID name="" mc="Region" uid="e6481ce7-e800-4cab-b02f-0c12238bcc29"/>
+          <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Sub">
+              <OBJECT>
+                <ID name="idle" mc="State" uid="a5e61236-3ba7-4edd-a333-644de45f0305"/>
+                <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[idle]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="" mc="Transition" uid="df0a26f3-cb5c-423d-afa5-b02bcab980ac"/>
+                      <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"><![CDATA[mousePressed]]></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="catched" mc="State" uid="2b6dd3e7-ebd2-4e30-9ce4-b7c51c5cf894"/>
+                            <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="catched" mc="State" uid="2b6dd3e7-ebd2-4e30-9ce4-b7c51c5cf894"/>
+                <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[catched]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Transition" uid="6d79383e-13fd-48b9-aba1-0c73bc552f26"/>
+                      <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"><![CDATA[mouseMove]]></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Processed">
+                          <REFOBJ>
+                            <ID name="onMouseMove" mc="Operation" uid="52f73f5a-7097-4ef2-b29d-94e06a437f75"/>
+                            <PID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="catched" mc="State" uid="2b6dd3e7-ebd2-4e30-9ce4-b7c51c5cf894"/>
+                            <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="Transition1" mc="Transition" uid="ca8e95b9-246b-4c6e-a53c-dc0c55d54543"/>
+                      <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"><![CDATA[MouseReleased]]></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="idle" mc="State" uid="a5e61236-3ba7-4edd-a333-644de45f0305"/>
+                            <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Initial State" mc="InitialPseudoState" uid="64763aa1-111c-49bb-8e21-4431cb1b4273"/>
+                <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial State]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Transition" uid="1fcd7602-8807-4d1d-9a30-11609575b140"/>
+                      <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="idle" mc="State" uid="a5e61236-3ba7-4edd-a333-644de45f0305"/>
+                            <PID name="MouseCatcher" mc="StateMachine" uid="80d9ed29-ab19-4a27-b3fd-096bd6cbf99b"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="MousCatcher diagram" mc="StateMachineDiagram" uid="b69bc84e-0a5c-4749-a53a-6459e2474581"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
