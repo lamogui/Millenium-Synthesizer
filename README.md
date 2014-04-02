@@ -1,3 +1,10 @@
+Aperçus
+=======
+
+![](https://raw.githubusercontent.com/lamogui/POO/master/mis/img/capture%20puresquare.png "Pure Square Synth")
+
+![](https://raw.githubusercontent.com/lamogui/POO/master/mis/img/capture%20inro.png "NELead6 (inspiré du nord lead 3")
+
 
 UML et MODELIO
 ==============
@@ -21,16 +28,14 @@ Signal (signal.hpp)
 -------------------
 
 Unité de "son", tout son continu est décomposé en signaux (un tableau 
-d'échantillons), c'est ce qu'un instrument doit générer. (TODO : Coder la 
-méthode "pan" comme scale mais avec un facteur différent selon si c'est le 
-haut parleur droit ou gauche)
+d'échantillons), c'est ce qu'un instrument doit générer. 
 
 Oscillator (oscillator.hpp)
 ---------------------------
 Générateur de signal périodique il genere un signal grâce à la méthode 
 "generate", mais il est aussi possible de generer le signal sur un objet Signal 
-exterieur grâce à "step". (TODO: Coder les différents oscillateurs car seul le 
-Sinusoidal et le Carré est codé)
+exterieur grâce à "step". (TODO: Coder les oscillateurs : random, smooth random
+noise et triple sin)
 
 InstrumentVoice (instrument.hpp)
 --------------------------------
@@ -64,9 +69,7 @@ la note via receivePlayedSignal(InstrumentVoice* v). Lorsqu'elle est terminé
 la note doit prévenir l'InstrumentVoice (méthode sendStopSignal()) afin que 
 celui-ci démarre son Release Time (méthode endNote()) ainsi une note peut 
 être terminé mais l'InstrumentVoice continue d'être "utilisé" tant qu'il n'as 
-pas fini son release time. (TODO URGENT: ne plus définir une note par sa 
-fréquence mais par un identifiant (codé sur 8bits) faire une fonction qui
-convertir cet id en fréquence.)
+pas fini son release time. 
 
 InstrumentParameter (note.hpp)
 ------------------------------
@@ -154,18 +157,8 @@ D'autres TODO
  de clavier) en Notes !
  - "Music" : une classe qui lit/écrit des notes dans un fichier et 
  instancie/envoie les notes aux instruments
- - Button et "Potentiomètre en ligne droite" héritant de MouseCatcher
- - InstrumentInterface : contient les potards/boutons spécifiques à un 
- instrument et envois leurs état à la classe Instrument associé
+ - Button et Fader héritant de MouseCatcher
  - KeyboardInterface : affiche un clavier et envois les notes appuyés à la 
  classe Instrument associé
- - Enveloppe : Comme un oscilateur mais qui génère une enveloppe (avec attack
- decay, sustain et release)
- - L'UML
- - L'UML
- - L'UML
- - L'UML
- - L'UML
- - L'UML
- - L'UML
+ - L'UML et le WIKI
 
