@@ -56,7 +56,7 @@
                         </LINK>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="used" mc="State" uid="28be4b73-e658-4e19-9c0b-06dd16d0a364"/>
+                            <ID name="played" mc="State" uid="efc06abb-c3df-4cae-9c4a-fa2ec14d99dd"/>
                             <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
                           </REFOBJ>
                         </LINK>
@@ -192,6 +192,27 @@
                                     </LINK>
                                   </DEPENDENCIES>
                                 </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition" mc="Transition" uid="5550c9cc-e4d2-4d13-8996-9585c15053e0"/>
+                                  <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[after(releaseTime)]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="free" mc="State" uid="877b8b64-ec87-43a1-9c67-3d40c78043a3"/>
+                                        <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
                               </COMP>
                             </DEPENDENCIES>
                           </OBJECT>
@@ -238,29 +259,6 @@
                             <DEPENDENCIES></DEPENDENCIES>
                           </OBJECT>
                         </COMP>
-                      </DEPENDENCIES>
-                    </OBJECT>
-                  </COMP>
-                  <COMP relation="OutGoing">
-                    <OBJECT>
-                      <ID name="Transition" mc="Transition" uid="5550c9cc-e4d2-4d13-8996-9585c15053e0"/>
-                      <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
-                      <ATTRIBUTES>
-                        <ATT name="Effect"></ATT>
-                        <ATT name="ReceivedEvents"></ATT>
-                        <ATT name="SentEvents"></ATT>
-                        <ATT name="Guard"></ATT>
-                        <ATT name="PostCondition"></ATT>
-                        <ATT name="Name"><![CDATA[Transition]]></ATT>
-                        <ATT name="status">1970354901745664</ATT>
-                      </ATTRIBUTES>
-                      <DEPENDENCIES>
-                        <LINK relation="Target">
-                          <REFOBJ>
-                            <ID name="free" mc="State" uid="877b8b64-ec87-43a1-9c67-3d40c78043a3"/>
-                            <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
-                          </REFOBJ>
-                        </LINK>
                       </DEPENDENCIES>
                     </OBJECT>
                   </COMP>
