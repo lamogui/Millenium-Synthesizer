@@ -197,7 +197,7 @@
                                   <PID name="InstrumentVoice" mc="StateMachine" uid="7fb4ddf6-e432-44ad-8654-93cd64edd82e"/>
                                   <ATTRIBUTES>
                                     <ATT name="Effect"></ATT>
-                                    <ATT name="ReceivedEvents"><![CDATA[after(releaseTime)]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[after(release)]]></ATT>
                                     <ATT name="SentEvents"></ATT>
                                     <ATT name="Guard"></ATT>
                                     <ATT name="PostCondition"></ATT>
