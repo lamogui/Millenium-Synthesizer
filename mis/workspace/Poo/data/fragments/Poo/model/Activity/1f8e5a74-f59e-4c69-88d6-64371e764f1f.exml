@@ -4,6 +4,7 @@
     <ID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
     <COMPID name="Note Activity diagram" mc="ActivityDiagram" uid="542274d0-0de8-483c-b0b0-8496d839137b"/>
     <COMPID name="Parametre Activity diagram" mc="ActivityDiagram" uid="3e583c89-290d-4b69-b19c-dfe69b3ba9d9"/>
+    <EXTID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
     <EXTID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
     <EXTID name="InstrumentVoice" mc="Class" uid="bf3213cc-4d74-4c20-a147-aade73179540"/>
     <EXTID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
@@ -1007,6 +1008,101 @@
                         <LINK relation="Target">
                           <REFOBJ>
                             <ID name="note affectée à une voie" mc="AcceptSignalAction" uid="59dde8b6-b14d-49b0-81c7-581234d3e755"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Instrument" mc="ActivityPartition" uid="3fe9bb9a-d045-45c2-908d-6edd306d74e6"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[Instrument]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="AudioStream" mc="ActivityPartition" uid="45edd671-5cd0-43b8-95b3-14b268fd52e7"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[AudioStream]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Represented">
+              <ID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+            </LINK>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Remplir le buffer" mc="OpaqueAction" uid="33c33cb7-e034-44db-95a0-50d84933f974"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Body"></ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Remplir le buffer]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Decision-Merge" mc="DecisionMergeNode" uid="17a37996-ec3a-41df-88dc-1eb79567b151"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="DecisionKind">ExclusiveDecision</ATT>
+                  <ATT name="DecisionInputBehavior"><![CDATA[driverVide]]></ATT>
+                  <ATT name="Name"><![CDATA[Decision-Merge]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="main" mc="ActivityPartition" uid="bb4ed599-f6fb-4e2a-aab6-a6fe90a80ba1"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[main]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Initial Node" mc="InitialNode" uid="6640e6bb-a057-4f48-b3d8-4a0651f526d1"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial Node]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="Y-a-t'il de la place dans le buffer du driver ?" mc="ControlFlow" uid="8de794d2-d0ce-450e-9c49-7d7374573b30"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[Y-a-t'il de la place dans le buffer du driver ?]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Decision-Merge" mc="DecisionMergeNode" uid="17a37996-ec3a-41df-88dc-1eb79567b151"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
