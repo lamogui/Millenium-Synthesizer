@@ -69,7 +69,7 @@ class ScrollBar : public MouseCatcher
     int _zone_size;
     bool _horizontal;
 };
-/*
+
 class Fader : public MouseCatcher {
   public:
     Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect);
@@ -88,7 +88,7 @@ class Fader : public MouseCatcher {
     float _catch_y;
     float _catch_translation;
 };
-*/
+
 class Interface : public sf::Drawable
 {
   public:
