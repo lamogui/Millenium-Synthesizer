@@ -635,16 +635,16 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="param" mc="AssociationEnd" uid="0032e7e1-811c-452b-8523-0500d318e05e"/>
+          <ID name="param" mc="AssociationEnd" uid="f27b7b21-1a2a-4e47-9ab0-965584f322d0"/>
           <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
           <ATTRIBUTES>
-            <ATT name="Aggregation">KindIsComposition</ATT>
+            <ATT name="Aggregation">KindIsAssociation</ATT>
             <ATT name="IsChangeable">true</ATT>
             <ATT name="Changeable">ReadWrite</ATT>
             <ATT name="IsDerived">false</ATT>
             <ATT name="IsOrdered">false</ATT>
             <ATT name="IsUnique">false</ATT>
-            <ATT name="MultiplicityMin"></ATT>
+            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
             <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
             <ATT name="Visibility">Protected</ATT>
             <ATT name="IsClass">false</ATT>
@@ -658,7 +658,7 @@
             </LINK>
             <COMP relation="Opposite">
               <OBJECT>
-                <ID name="" mc="AssociationEnd" uid="bc646846-950e-430c-b052-da962c4e8bbc"/>
+                <ID name="" mc="AssociationEnd" uid="988d6440-605e-44e5-87ee-99e070f74490"/>
                 <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
                 <ATTRIBUTES>
                   <ATT name="Aggregation">KindIsAssociation</ATT>
@@ -677,11 +677,11 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <COMP relation="Opposite">
-                    <COMPID name="param" mc="AssociationEnd" uid="0032e7e1-811c-452b-8523-0500d318e05e"/>
+                    <COMPID name="param" mc="AssociationEnd" uid="f27b7b21-1a2a-4e47-9ab0-965584f322d0"/>
                   </COMP>
                   <COMP relation="Association">
                     <OBJECT>
-                      <ID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
+                      <ID name="" mc="Association" uid="aa82a7a8-ddbf-4940-a37a-d0e7559078a6"/>
                       <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
                       <ATTRIBUTES>
                         <ATT name="Name"></ATT>
@@ -695,7 +695,7 @@
             </COMP>
             <COMP relation="Association">
               <OBJECT>
-                <ID name="" mc="Association" uid="5bb9ed69-30ba-4de5-9257-53fa1794cd98"/>
+                <ID name="" mc="Association" uid="aa82a7a8-ddbf-4940-a37a-d0e7559078a6"/>
                 <PID name="Knob" mc="Class" uid="2e353fa5-cfa4-4f9c-9387-7b23d7681156"/>
                 <ATTRIBUTES>
                   <ATT name="Name"></ATT>
