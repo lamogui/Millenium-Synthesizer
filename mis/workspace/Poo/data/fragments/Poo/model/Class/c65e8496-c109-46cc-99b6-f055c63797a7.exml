@@ -363,7 +363,7 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="instrumentVoice" mc="AssociationEnd" uid="f5fabf01-11b9-4287-a4cd-b5b69c5855ab"/>
+          <ID name="voices" mc="AssociationEnd" uid="f5fabf01-11b9-4287-a4cd-b5b69c5855ab"/>
           <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
           <ATTRIBUTES>
             <ATT name="Aggregation">KindIsComposition</ATT>
@@ -373,11 +373,11 @@
             <ATT name="IsOrdered">false</ATT>
             <ATT name="IsUnique">false</ATT>
             <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
-            <ATT name="MultiplicityMax"><![CDATA[*]]></ATT>
+            <ATT name="MultiplicityMax"><![CDATA[n]]></ATT>
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[instrumentVoice]]></ATT>
+            <ATT name="Name"><![CDATA[voices]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
@@ -405,7 +405,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <COMP relation="Opposite">
-                    <COMPID name="instrumentVoice" mc="AssociationEnd" uid="f5fabf01-11b9-4287-a4cd-b5b69c5855ab"/>
+                    <COMPID name="voices" mc="AssociationEnd" uid="f5fabf01-11b9-4287-a4cd-b5b69c5855ab"/>
                   </COMP>
                   <COMP relation="Association">
                     <OBJECT>
