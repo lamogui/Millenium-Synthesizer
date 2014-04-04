@@ -4,11 +4,11 @@
 
 Oscillator::Oscillator() 
 {
-  frequency=&_frequency;
+  /*frequency=&_frequency;
   amplitude=&_amplitude;
   unisson=&_unisson;
   fm=&_fm;
-  shape=&_shape;
+  shape=&_shape;*/
 }
 
 Oscillator::~Oscillator()
@@ -19,31 +19,31 @@ Oscillator::~Oscillator()
 void Oscillator::setFrequency(float f)
 {
   _frequency.constant(f);
-  frequency=&_frequency;
+  //frequency=&_frequency;
 }
 
 void Oscillator::setAmplitude(float a)
 {
   _amplitude.constant(a);
-  amplitude=&_amplitude;
+  //amplitude=&_amplitude;
 }
 
 void Oscillator::setUnisson(float u)
 {
   _unisson.constant(u);
-  unisson=&_unisson;
+  //unisson=&_unisson;
 }
 
 void Oscillator::setFM(float myfm)
 {
   _fm.constant(myfm);
-  fm=&_fm;
+  //fm=&_fm;
 }
 
 void Oscillator::setShape(float myshape)
 {
   _shape.constant(myshape);
-  shape=&_shape;
+  //shape=&_shape;
 }
 
 SinusoidalOscillator::SinusoidalOscillator()
@@ -57,10 +57,10 @@ SinusoidalOscillator::~SinusoidalOscillator()
 void SinusoidalOscillator::step(Signal* output)
 {
   sample* samples = output->samples;
-  sample* f = frequency->samples;
-  sample* a = amplitude->samples;
-  sample* u = unisson->samples;
-  sample* m = fm->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
   
   const float k=(2.0*3.1415/(float)Signal::frequency);
   for (int i=0;i < Signal::size;i++)
@@ -85,11 +85,11 @@ void SquareOscillator::step(Signal* output)
 {
   float t;
   sample* samples = output->samples;
-  sample* f = frequency->samples;
-  sample* a = amplitude->samples;
-  sample* u = unisson->samples;
-  sample* m = fm->samples;
-  sample* s = shape->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
   
   for (int i=0;i < Signal::size;i++)
   {
@@ -116,11 +116,11 @@ SawOscillator::~SawOscillator()
 void SawOscillator::step(Signal* output)
 {
   sample* samples = output->samples;
-  sample* f = frequency->samples;
-  sample* a = amplitude->samples;
-  sample* u = unisson->samples;
-  sample* m = fm->samples;
-  sample* s = shape->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
   
   for (int i=0;i < Signal::size;i++)
   {
@@ -142,11 +142,11 @@ void TriangleOscillator::step(Signal* output)
 {
   float t;
   sample* samples = output->samples;
-  sample* f = frequency->samples;
-  sample* a = amplitude->samples;
-  sample* u = unisson->samples;
-  sample* m = fm->samples;
-  sample* s = shape->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
   
   for (int i=0;i < Signal::size;i++)
   {
