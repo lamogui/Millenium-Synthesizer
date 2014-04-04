@@ -6,6 +6,7 @@
 #include "oscillator.hpp"
 #include "interface.hpp"
 #include "enveloppe.hpp"
+#include "filter.hpp"
 
 //Param defines
 //        PARAM NAME               MIDI ID   MIDI NAME
@@ -20,6 +21,8 @@
 #define PARAM_NELEAD6_ENVRELEASE   0x48  //Sound Controller 3 (default: Release Time)
 #define PARAM_NELEAD6_OSC1SHAPE    0x46  //Sound Controller 1 (default: Timber Variation)
 #define PARAM_NELEAD6_OSC2SHAPE    0x47  //Sound Controller 2 (default: Timber/Harmonic Content)
+#define PARAM_NELEAD6_FILTER1RATE  0x4C  //Sound Controller 8
+#define PARAM_NELEAD6_FILTER1RES   0x4D  //Sound Controller 9
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -40,6 +43,7 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _osc2;
     Oscillator* _lfo1;
     Oscillator* _lfo2;
+    Filter* _filter1;
     Enveloppe _env;
     Note _currentNote;
     Signal _oscmix;
@@ -67,6 +71,8 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _env_release;
     InstrumentParameter _osc1_shape;
     InstrumentParameter _osc2_shape;
+    InstrumentParameter _filter1_rate;
+    InstrumentParameter _filter1_resonance;
 }; 
 
 class NELead6Knob : public Knob
@@ -105,6 +111,8 @@ class NELead6Interface : public Interface
     NELead6Knob* _envReleaseKnob;
     NELead6Knob* _osc1ShapeKnob;
     NELead6Knob* _osc2ShapeKnob;
+    NELead6Knob* _filter1RateKnob;
+    NELead6Knob* _filter1ResKnob;
 };
 
 
