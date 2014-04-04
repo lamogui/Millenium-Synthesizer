@@ -7,6 +7,7 @@ _osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
 _lfo1(new SawOscillator),
 _lfo2(new TriangleOscillator),
+_filter1(new LowPassFilter2),
 _currentNote(0,NOT_A_NOTE)
 {
   
@@ -33,7 +34,7 @@ void NELead6Voice::beginNote(Note& n)
   _osc1->setAmplitude(_currentNote.velocity);
   _osc2->setFrequency(_currentNote.frequency());
   _osc2->setAmplitude(_currentNote.velocity);
-
+  
   _used=true;
 }
 
@@ -45,21 +46,28 @@ void NELead6Voice::endNote()
 void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
 
-  float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
+  const float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
   
-  float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/127.f - 3.50f);
-  float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/127.f - 3.50f);
+  const float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/127.f - 3.50f);
+  const float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/127.f - 3.50f);
   
-  float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/127.f;
-  float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/127.f;
+  const float lfo1_amount = _instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT)->getValue()/127.f;
+  const float lfo2_amount = _instrument->getParameter(PARAM_NELEAD6_LFO2AMOUNT)->getValue()/127.f;
   
-  float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/127.f;
-  float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/127.f;
+  const float osc1_shape = _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->getValue()/127.f;
+  const float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/127.f;
+  
+  const float filter1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->getValue()*7.423f/127.f + 2.48);
+  const float filter1_res = 50.f/(float)(_instrument->getParameter(PARAM_NELEAD6_FILTER1RES)->getValue());
   
   _env.attack = _instrument->getParameter(PARAM_NELEAD6_ENVATTACK)->getValue()*Signal::frequency/40;
   _env.decay = _instrument->getParameter(PARAM_NELEAD6_ENVDECAY)->getValue()*Signal::frequency/40;
   _env.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVSUSTAIN)->getValue()/127.f;
   _env.release = _instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*Signal::frequency/40;
+  
+  
+  _filter1->setFrequency(filter1_rate);
+  _filter1->setResonance(filter1_res);
   
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
@@ -96,7 +104,12 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   
   leftout->add(osc2);
   
+  _filter1->step(leftout);
+  
   leftout->mix(_env.generate());
+  
+  
+  
   if (rightout)
     *rightout = *leftout;
     
@@ -128,7 +141,9 @@ _env_decay(50,0,127),
 _env_sustain(200,0,127),
 _env_release(80,0,127),
 _osc1_shape(0,0,127),
-_osc2_shape(0,0,127)
+_osc2_shape(0,0,127),
+_filter1_rate(64,0,127),
+_filter1_resonance(50,50,400)
 {
   
 }
@@ -152,6 +167,8 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_ENVRELEASE: return &_env_release;
     case PARAM_NELEAD6_OSC1SHAPE: return &_osc1_shape;
     case PARAM_NELEAD6_OSC2SHAPE: return &_osc2_shape;
+    case PARAM_NELEAD6_FILTER1RATE: return &_filter1_rate;
+    case PARAM_NELEAD6_FILTER1RES: return &_filter1_resonance;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -288,6 +305,17 @@ _osc2ShapeKnob(0)
                                       _texture,
                                       sf::IntRect(1792,0,128,128),
                                       sf::IntRect(1792,128,128,128));
+                                      
+                                      
+    _filter1RateKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE),
+                                      _texture,
+                                      sf::IntRect(1792,0,128,128),
+                                      sf::IntRect(1792,128,128,128));
+                                      
+    _filter1ResKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_FILTER1RES),
+                                      _texture,
+                                      sf::IntRect(1792,0,128,128),
+                                      sf::IntRect(1792,128,128,128));
                                        
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
@@ -302,6 +330,8 @@ _osc2ShapeKnob(0)
     _envReleaseKnob->setScale(scale);
     _osc1ShapeKnob->setScale(scale);
     _osc2ShapeKnob->setScale(scale);
+    _filter1RateKnob->setScale(scale);
+    _filter1ResKnob->setScale(scale);
     
     _outputKnob->setPosition(1146,30);
     _oscmixKnob->setPosition(644,230);
@@ -315,6 +345,8 @@ _osc2ShapeKnob(0)
     _envReleaseKnob->setPosition(1020,24);
     _osc1ShapeKnob->setPosition(456,130);
     _osc2ShapeKnob->setPosition(645,130);
+    _filter1RateKnob->setPosition(738,232);
+    _filter1ResKnob->setPosition(936,232);
     
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_lfo1AmKnob);
@@ -328,6 +360,8 @@ _osc2ShapeKnob(0)
     addMouseCatcher(_envReleaseKnob);
     addMouseCatcher(_osc1ShapeKnob);
     addMouseCatcher(_osc2ShapeKnob);
+    addMouseCatcher(_filter1RateKnob);
+    addMouseCatcher(_filter1ResKnob);
     addDrawable(&_back);
   }
 
@@ -345,5 +379,9 @@ NELead6Interface::~NELead6Interface()
   if(_envDecayKnob ) delete _envDecayKnob;
   if(_envSustainKnob ) delete _envSustainKnob;
   if(_envReleaseKnob ) delete _envReleaseKnob;
+  if(_osc1ShapeKnob ) delete _osc1ShapeKnob;
+  if(_osc2ShapeKnob ) delete _osc2ShapeKnob;
+  if(_filter1RateKnob ) delete _filter1RateKnob;
+  if(_filter1ResKnob ) delete _filter1ResKnob;
 }
 
