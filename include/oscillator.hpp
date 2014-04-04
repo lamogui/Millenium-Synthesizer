@@ -15,24 +15,25 @@ class Oscillator : public AbstractSignalGenerator
 
     
     //set constant frequency
-    virtual void setFrequency(float f);
+    void setFrequency(float f);
     //set constant amplitude
-    virtual void setAmplitude(float a);
+    void setAmplitude(float a);
     //set constant unisson
-    virtual void setUnisson(float u);
+    void setUnisson(float u);
     //set constant fm
-    virtual void setFM(float fm);
+    void setFM(float fm);
     //set constant shape
-    virtual void setShape(float s);
+    void setShape(float s);
     
     
     //Used signals for parameters must be non-NULL
     //Function generate MUST always use these pointers
-    Signal* amplitude;
+    //On doit virer ça... ça marche sans pour l'instant
+    /*Signal* amplitude;
     Signal* frequency; 
     Signal* unisson;
     Signal* fm;
-    Signal* shape;
+    Signal* shape;*/
     
     //if the user want use the internal Signal for 
     //with specific wave and not constant
@@ -61,7 +62,7 @@ class Oscillator : public AbstractSignalGenerator
       return _shape;
     }
  
-  private:
+  protected:
     Signal _amplitude; //Oscillator "constant" amplitude;
     Signal _frequency; //Oscillator "constant" frequency;
     Signal _unisson; //Oscillator "constant" unison;
