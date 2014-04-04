@@ -14,7 +14,8 @@ OBJ=	build/main.o \
 	build/puresquare.o \
 	build/enveloppe.o \
 	build/record.o \
-	build/careme.o
+	build/careme.o \
+	build/filter.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
 FILECPP=src/signal.cpp \
@@ -31,7 +32,8 @@ FILECPP=src/signal.cpp \
 	src/puresquare.cpp \
 	src/enveloppe.cpp \
 	src/record.cpp \
-	src/careme.cpp
+	src/careme.cpp \
+	src/filter.cpp
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
 	include/audiostream.hpp \
@@ -48,7 +50,8 @@ HEADER=	include/signal.hpp \
 	include/enveloppe.hpp \
 	include/record.hpp \
 	include/config.hpp \
-	include/careme.hpp
+	include/careme.hpp \
+	include/filter.hpp
 
 defaut:
 	@echo you must choose :
