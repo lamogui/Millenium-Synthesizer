@@ -7,7 +7,7 @@ _osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
 _lfo1(new SawOscillator),
 _lfo2(new TriangleOscillator),
-_filter1(new LowPassFilter2),
+_filter1(new LowPassFilter),
 _currentNote(0,NOT_A_NOTE)
 {
   
@@ -47,7 +47,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
 
   const float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
-  const float oscmod = _instrument->getParameter(PARAM_NELEAD6_OSCMOD)->getValue()/(127.f*100.f);
+  const float oscmod = _instrument->getParameter(PARAM_NELEAD6_OSCMOD)->getValue()/(127.f*440.f*10.f);
   
   const int finetune = _instrument->getParameter(PARAM_NELEAD6_FINETUNE)->getValue();
   const int coarsetune = _instrument->getParameter(PARAM_NELEAD6_COARSETUNE)->getValue();
