@@ -53,6 +53,19 @@ class LowPassFilter2 : public Filter
   private:
     sample _y_1; //y(n-1)
     sample _y_2; //y(n-2)
+};
+
+class BandPassFilter2 : public Filter
+{
+  public:
+    BandPassFilter2();
+    BandPassFilter2(float f, float m=0.5f);
+    virtual ~BandPassFilter2();
+    virtual void step(Signal* inout);
+    
+  private:
+    sample _y_1; //y(n-1)
+    sample _y_2; //y(n-2)
     sample _x_1; //x(n-1)
 };
 
