@@ -11,6 +11,9 @@
 //Param defines
 //        PARAM NAME               MIDI ID   MIDI NAME
 #define PARAM_NELEAD6_OSCMIX       0x08  //Balance
+#define PARAM_NELEAD6_OSCMOD       0x01  //Modulation
+#define PARAM_NELEAD6_FINETUNE     0x5E  //Effects 4 Depth (formerly Celeste Detune)
+#define PARAM_NELEAD6_COARSETUNE   0x5D  //Effects 3 Depth (formerly Chorus Depth)
 #define PARAM_NELEAD6_LFO1RATE     0x20  //LSB for controllers 0-31
 #define PARAM_NELEAD6_LFO1AMOUNT   0x0C  //Effect Control 1
 #define PARAM_NELEAD6_LFO2RATE     0x21  //LSB for controllers 0-31
@@ -61,6 +64,9 @@ class NELead6 : public Instrument<NELead6Voice>
     
   protected :
     InstrumentParameter _oscmix;
+    InstrumentParameter _oscmod;
+    InstrumentParameter _finetune;
+    InstrumentParameter _coarsetune;
     InstrumentParameter _lfo1_amount;
     InstrumentParameter _lfo1_rate;
     InstrumentParameter _lfo2_amount;
@@ -101,6 +107,9 @@ class NELead6Interface : public Interface
     NELead6* _instrument;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
+    NELead6Knob* _oscmodKnob;
+    NELead6Knob* _finetuneKnob;
+    NELead6Knob* _coarsetuneKnob;
     NELead6Knob* _lfo1AmKnob;
     NELead6Knob* _lfo1RateKnob;
     NELead6Knob* _lfo2AmKnob;
