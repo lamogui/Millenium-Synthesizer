@@ -47,6 +47,10 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
 
   const float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
+  const float oscmod = _instrument->getParameter(PARAM_NELEAD6_OSCMOD)->getValue()/(127.f*100.f);
+  
+  const int finetune = _instrument->getParameter(PARAM_NELEAD6_FINETUNE)->getValue();
+  const int coarsetune = _instrument->getParameter(PARAM_NELEAD6_COARSETUNE)->getValue();
   
   const float lfo1_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO1RATE)->getValue()*9.70f/127.f - 3.50f);
   const float lfo2_rate = exp(_instrument->getParameter(PARAM_NELEAD6_LFO2RATE)->getValue()*9.70f/127.f - 3.50f);
@@ -72,6 +76,8 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
   
+  
+  //begin with LFO
   _lfo1->setFrequency(lfo1_rate*_currentNote.frequency()/440.f);
   _lfo2->setFrequency(lfo2_rate*_currentNote.frequency()/440.f);
   
@@ -85,16 +91,30 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   _osc2->getShape().add(lfo2);
   _osc2->getShape().saturate(0.f,1.f);
   
-  //final mixing
+  const int id = _currentNote.id + coarsetune;
+  float osc2f = Note::getFrequencyFromID(id);
+  if (finetune > 0)
+  {
+    osc2f += (Note::getFrequencyFromID(id+1) - osc2f)*finetune/128.f;
+  }
+  else if (finetune < 0)
+  {
+    osc2f += (osc2f - Note::getFrequencyFromID(id))*finetune/128.f;
+  }
+  _osc2->setFrequency(osc2f);
+  
   
   _oscmix.constant(oscmix);
   lfo1->scale(0.5f);
   _oscmix.add(lfo1);
   _oscmix.saturate(0.f,1.f);
   
-  _osc1->step(leftout);
+  
   Signal* osc2 = _osc2->generate();
-
+  _osc1->getFM()=*osc2;
+  _osc1->getFM().scale(_currentNote.frequency()*oscmod);
+  _osc1->getFM().addOffset(_currentNote.frequency()*oscmod);
+  _osc1->step(leftout);
   osc2->mix(&_oscmix);
   
   _oscmix.scale(-1.f);
@@ -132,6 +152,9 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
 NELead6::NELead6() :
 Instrument<NELead6Voice>(),
 _oscmix(0,0,127),
+_oscmod(0,0,127),
+_finetune(0,-64,64),
+_coarsetune(0,-24,24),
 _lfo1_amount(0,0,127),
 _lfo1_rate(0,0,127),
 _lfo2_amount(0,0,127),
@@ -157,6 +180,9 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
   switch (id)
   {
     case PARAM_NELEAD6_OSCMIX: return &_oscmix;
+    case PARAM_NELEAD6_OSCMOD: return &_oscmod; 
+    case PARAM_NELEAD6_FINETUNE: return &_finetune; 
+    case PARAM_NELEAD6_COARSETUNE: return &_coarsetune; 
     case PARAM_NELEAD6_LFO1RATE: return &_lfo1_rate;
     case PARAM_NELEAD6_LFO1AMOUNT: return &_lfo1_amount;
     case PARAM_NELEAD6_LFO2RATE: return &_lfo2_rate;
@@ -234,6 +260,9 @@ _back(),
 _instrument(instrument),
 _outputKnob(0),
 _oscmixKnob(0),
+_oscmodKnob(0),
+_finetuneKnob(0),
+_coarsetuneKnob(0),
 _lfo1AmKnob(0),
 _lfo1RateKnob(0),
 _lfo2AmKnob(0),
@@ -243,7 +272,9 @@ _envDecayKnob(0),
 _envSustainKnob(0),
 _envReleaseKnob(0),
 _osc1ShapeKnob(0),
-_osc2ShapeKnob(0)
+_osc2ShapeKnob(0),
+_filter1RateKnob(0),
+_filter1ResKnob(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -260,6 +291,22 @@ _osc2ShapeKnob(0)
                                    sf::IntRect(1792,0,128,128),
                                    sf::IntRect(1792,128,128,128));
                                    
+    _oscmodKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_OSCMOD),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+                                   
+                                   
+    _finetuneKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_FINETUNE),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+      
+    _coarsetuneKnob = new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_COARSETUNE),
+                                   _texture,
+                                   sf::IntRect(1792,0,128,128),
+                                   sf::IntRect(1792,128,128,128));
+      
     _lfo1AmKnob =  new NELead6Knob(_instrument->getParameter(PARAM_NELEAD6_LFO1AMOUNT),
                                    _texture,
                                    sf::IntRect(1792,0,128,128),
@@ -320,6 +367,9 @@ _osc2ShapeKnob(0)
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
     _oscmixKnob->setScale(scale); 
+    _oscmodKnob->setScale(scale);
+    _finetuneKnob->setScale(scale);
+    _coarsetuneKnob->setScale(scale);
     _lfo1AmKnob->setScale(scale);  
     _lfo1RateKnob->setScale(scale);
     _lfo2AmKnob->setScale(scale);
@@ -333,8 +383,12 @@ _osc2ShapeKnob(0)
     _filter1RateKnob->setScale(scale);
     _filter1ResKnob->setScale(scale);
     
+    
     _outputKnob->setPosition(1146,30);
     _oscmixKnob->setPosition(644,230);
+    _oscmodKnob->setPosition(458,230);
+    _finetuneKnob->setPosition(552,178);
+    _coarsetuneKnob->setPosition(552,92);
     _lfo1AmKnob->setPosition(362,26);
     _lfo1RateKnob->setPosition(106,26);
     _lfo2AmKnob->setPosition(362,126);    
@@ -348,12 +402,16 @@ _osc2ShapeKnob(0)
     _filter1RateKnob->setPosition(738,232);
     _filter1ResKnob->setPosition(936,232);
     
+    
     addMouseCatcher(_outputKnob);
+    addMouseCatcher(_oscmixKnob);
+    addMouseCatcher(_oscmodKnob);
+    addMouseCatcher(_finetuneKnob);
+    addMouseCatcher(_coarsetuneKnob);
     addMouseCatcher(_lfo1AmKnob);
     addMouseCatcher(_lfo1RateKnob);
     addMouseCatcher(_lfo2AmKnob);
     addMouseCatcher(_lfo2RateKnob);
-    addMouseCatcher(_oscmixKnob);
     addMouseCatcher(_envAttackKnob);
     addMouseCatcher(_envDecayKnob);
     addMouseCatcher(_envSustainKnob);
@@ -371,6 +429,9 @@ NELead6Interface::~NELead6Interface()
 {
   if( _outputKnob ) delete _outputKnob;
   if( _oscmixKnob ) delete _oscmixKnob;
+  if (_oscmodKnob) delete _oscmodKnob;
+  if (_finetuneKnob ) delete _finetuneKnob;
+  if (_coarsetuneKnob ) delete _coarsetuneKnob;
   if( _lfo1AmKnob ) delete _lfo1AmKnob;
   if( _lfo1RateKnob ) delete _lfo1RateKnob;
   if( _lfo2AmKnob ) delete _lfo2AmKnob;
