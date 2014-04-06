@@ -82,4 +82,19 @@ class HighPassFilter : public Filter
     sample _x_1; //x(n-1)
 };
 
+class HighPassFilter2 : public Filter
+{
+  public:
+    HighPassFilter2();
+    HighPassFilter2(float f, float m=0.5f);
+    virtual ~HighPassFilter2();
+    virtual void step(Signal* inout);
+
+  private:
+    sample _y_1; //y(n-1)
+    sample _y_2; //y(n-2)
+    sample _x_1; //x(n-1)
+    sample _x_2; //x(n-2)
+};
+
 #endif
