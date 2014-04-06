@@ -99,3 +99,27 @@ void BandPassFilter2::step(Signal* inout)
     _x_1 = save_x_1;
   }
 }
+
+HighPassFilter::HighPassFilter() : Filter(), _y_1(0), _x_1(0) {}
+HighPassFilter::HighPassFilter(float f, float m) : Filter(f, m), _y_1(0), _x_1(0) {}
+HighPassFilter::~HighPassFilter() {}
+void HighPassFilter::step(Signal* inout)
+{
+  sample* samples = inout->samples;
+  sample* f = getFrequency().samples;
+  const float pi_2 = 3.1415f*2.f;
+  const float te = 1.f/(float)Signal::frequency;
+  for (int i=0; i<Signal::size;i++)
+  {
+    const float w0=f[i]*pi_2;
+    const float w0te=w0*te;
+    float d=1.f+w0te;
+    d=1.f/d;
+    const float save_x_1=samples[i];
+    samples[i]=_y_1*d+samples[i]*d-_x_1*d;
+    _y_1= samples[i];
+    _x_1=save_x_1;
+  }
+}
+
+

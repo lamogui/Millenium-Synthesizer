@@ -69,4 +69,17 @@ class BandPassFilter2 : public Filter
     sample _x_1; //x(n-1)
 };
 
+class HighPassFilter : public Filter
+{
+  public:
+    HighPassFilter();
+    HighPassFilter(float f, float m=0.5f);
+    virtual ~HighPassFilter();
+    virtual void step(Signal* inout);
+
+  private:
+    sample _y_1; //y(n-1)
+    sample _x_1; //x(n-1)
+};
+
 #endif
