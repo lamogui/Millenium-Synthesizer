@@ -1,4 +1,5 @@
 #include "filter.hpp"
+#include <iostream>
 
 Filter::Filter()
 {
@@ -50,24 +51,26 @@ LowPassFilter2::LowPassFilter2(float f, float m) : Filter(f,m), _y_1(0), _y_2(0)
 LowPassFilter2::~LowPassFilter2() {}
 void LowPassFilter2::step(Signal* inout)
 {
-  sample* samples = inout->samples;
+sample* samples = inout->samples;
   sample* f = getFrequency().samples;
   sample* m = getResonance().samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
-  for (int i=0;i < Signal::size;i++)
+  const float _2te=te*2.f;
+  for (int i=0; i<Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
-    const float mw0te=w0te*2.f*m[i];
-    const float w0te2=w0te*w0te;
-    const float d=1.f+mw0te+w0te2;
-    const float a0=mw0te/d;
-    const float b1=(2.f + mw0te)/d;
-    const float b2=-1.f/d;
-    samples[i] = a0*samples[i]+b1*_y_1+b2*_y_2;
-    _y_2 = _y_1;
-    _y_1 = samples[i];
+    const float w02te=w0*_2te;
+    const float w02te2=w0te*w0te;
+    const float _2mw0te=m[i]*w02te;
+    float a=w02te2+_2mw0te+1.f;
+    a=1.f/a;
+    const float b=_2mw0te+2.f;
+    samples[i]=a*(_y_1*b-_y_2+samples[i]);
+    std::cout << samples[i+1]<<std::endl;
+    _y_2=_y_1;
+    _y_1=samples[i];
   }
 }
 
@@ -133,7 +136,6 @@ void HighPassFilter2::step(Signal* inout)
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
   const float _2te=te*2.f;
-  const float te2=te*te;
   for (int i=0; i<Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
@@ -143,10 +145,11 @@ void HighPassFilter2::step(Signal* inout)
     const float _2mw0te=m[i]*w02te;
     float a=w02te2+_2mw0te+1.f;
     a=1.f/a;
-    const float b=_2mw0te+te+1.f;
+    const float b=_2mw0te+2.f;
     const float _2_x_1=2*_x_1;
     const float save_x_1=samples[i];
-    samples[i]=a*(_y_1*b+_y_2+samples[i]-_2_x_1+_x_2);
+    samples[i]=a*(_y_1*b-_y_2+samples[i]-_2_x_1+_x_2);
+    //std::cout << samples[i]<<std::endl;
     _y_2=_y_1;
     _y_1=samples[i];
     _x_2=_x_1;
