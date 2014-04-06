@@ -7,7 +7,7 @@ _osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
 _lfo1(new SawOscillator),
 _lfo2(new TriangleOscillator),
-_filter1(new LowPassFilter),
+_filter1(new BandPassFilter2),
 _currentNote(0,NOT_A_NOTE)
 {
   
@@ -70,7 +70,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   _env.release = _instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*Signal::frequency/40;
   
   
-  _filter1->setFrequency(filter1_rate);
+  _filter1->setFrequency(filter1_rate*_currentNote.frequency()/440.f);
   _filter1->setResonance(filter1_res);
   
   _lfo1->setAmplitude(lfo1_amount);
