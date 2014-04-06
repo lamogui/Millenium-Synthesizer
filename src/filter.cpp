@@ -122,4 +122,36 @@ void HighPassFilter::step(Signal* inout)
   }
 }
 
+HighPassFilter2::HighPassFilter2() : Filter(), _y_1(0), _y_2(0), _x_1(0), _x_2(0) {}
+HighPassFilter2::HighPassFilter2(float f, float m) : Filter(f, m), _y_1(0), _y_2(0), _x_1(0), _x_2(0) {}
+HighPassFilter2::~HighPassFilter2() {}
+void HighPassFilter2::step(Signal* inout)
+{
+  sample* samples = inout->samples;
+  sample* f = getFrequency().samples;
+  sample* m = getResonance().samples;
+  const float pi_2 = 3.1415f*2.f;
+  const float te = 1.f/(float)Signal::frequency;
+  const float _2te=te*2.f;
+  const float te2=te*te;
+  for (int i=0; i<Signal::size;i++)
+  {
+    const float w0=f[i]*pi_2;
+    const float w0te=w0*te;
+    const float w02te=w0*_2te;
+    const float w02te2=w0te*w0te;
+    const float _2mw0te=m[i]*w02te;
+    float a=w02te2+_2mw0te+1.f;
+    a=1.f/a;
+    const float b=_2mw0te+te+1.f;
+    const float _2_x_1=2*_x_1;
+    const float save_x_1=samples[i];
+    samples[i]=a*(_y_1*b+_y_2+samples[i]-_2_x_1+_x_2);
+    _y_2=_y_1;
+    _y_1=samples[i];
+    _x_2=_x_1;
+    _x_1=save_x_1;
+  }
+}
+
 

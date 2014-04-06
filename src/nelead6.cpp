@@ -7,7 +7,7 @@ _osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
 _lfo1(new SawOscillator),
 _lfo2(new TriangleOscillator),
-_filter1(new HighPassFilter),
+_filter1(new HighPassFilter2),
 _currentNote(0,NOT_A_NOTE)
 {
   
