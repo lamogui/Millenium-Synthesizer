@@ -97,4 +97,19 @@ class HighPassFilter2 : public Filter
     sample _x_2; //x(n-2)
 };
 
+class Rejector : public Filter
+{
+  public:
+    Rejector();
+    Rejector(float f, float m=0.5f);
+    virtual ~Rejector();
+    virtual void step(Signal*  inout);
+  private:
+    sample _y_1; //y(n-1)
+    sample _y_2; //y(n-2)
+    sample _x_1; //x(n-1)
+    sample _x_2; //x(n-2)
+
+};
+
 #endif

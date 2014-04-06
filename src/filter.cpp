@@ -157,4 +157,30 @@ void HighPassFilter2::step(Signal* inout)
   }
 }
 
+Rejector::Rejector() : Filter(), _y_1(0), _y_2(0), _x_1(0), _x_2(0) {}
+Rejector::Rejector(float f, float m) : Filter(f, m), _y_1(0), _y_2(0), _x_1(0), _x_2(0) {}
+Rejector::~Rejector() {}
+void Rejector::step(Signal* inout) {
+  sample* samples = inout->samples;
+  sample* f = getFrequency().samples;
+  sample* m = getResonance().samples;
+  const float pi_2 = 3.1415f*2.f;
+  const float te = 1.f/(float)Signal::frequency;
+  for (int i=0; i<Signal::size; i++)
+  {
+    const float w0te=f[i]*te;
+    const float w02te2=w0te*w0te;
+    const float mw0te=m[i]*w0te;
+    const float a=1.f/(w02te2+2.f*mw0te+1.f);
+    const float b=2.f*mw0te+2.f;
+    const float c=w02te2+1.f;
+    const float save_x_1=samples[i];
+    samples[i]=a*(_y_1*b-_y_2+samples[i]*c-2.f*_x_1+_x_2);
+    _y_2=_y_1;
+    _y_1=samples[i];
+    _x_2=_x_1;
+    _x_1=save_x_1;
+  }
+}
+
 
