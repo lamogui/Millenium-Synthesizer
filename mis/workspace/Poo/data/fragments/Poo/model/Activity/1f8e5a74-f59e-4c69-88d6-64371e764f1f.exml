@@ -2,9 +2,12 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="activité" version="3">
   <DEPS>
     <ID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+    <COMPID name="Driver Activity diagram" mc="ActivityDiagram" uid="b9065cf3-873f-44f8-bed6-9733205da71a"/>
     <COMPID name="Note Activity diagram" mc="ActivityDiagram" uid="542274d0-0de8-483c-b0b0-8496d839137b"/>
     <COMPID name="Parametre Activity diagram" mc="ActivityDiagram" uid="3e583c89-290d-4b69-b19c-dfe69b3ba9d9"/>
+    <COMPID name="main Activity diagram" mc="ActivityDiagram" uid="b1507278-e599-4d58-9239-56ee3513ecb4"/>
     <EXTID name="AbstractInstrument" mc="Class" uid="4875a30d-9937-491d-ab04-3c29c146dfd5"/>
+    <EXTID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
     <EXTID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
     <EXTID name="Enveloppe" mc="Class" uid="8769e6ad-7984-4b83-a859-aa5acce1aa2a"/>
     <EXTID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
@@ -16,8 +19,11 @@
     <EXTID name="MouseCatcher" mc="Class" uid="b61a994c-1464-46bb-a774-a10a0b6e763d"/>
     <EXTID name="Note" mc="Class" uid="5ab8f2b3-5251-4cc4-9f68-f84954d4414e"/>
     <EXTID name="ScrollBar" mc="Class" uid="0fca7167-cd1d-4664-8ab8-410199f1a905"/>
+    <EXTID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+    <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
     <FOREIGNID name="float" mc="DataType" uid="00000004-0000-000b-0000-000000000000"/>
     <FOREIGNID name="integer" mc="DataType" uid="00000004-0000-0009-0000-000000000000"/>
+    <FOREIGNID name="string" mc="DataType" uid="00000004-0000-000d-0000-000000000000"/>
   </DEPS>
   <OBJECT>
     <ID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
@@ -202,13 +208,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="bouge le curseur de la souris" mc="OpaqueAction" uid="9877dc75-1427-40b3-8194-e04c054a368c"/>
+                <ID name="Bouge le curseur de la souris" mc="OpaqueAction" uid="9877dc75-1427-40b3-8194-e04c054a368c"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="Body"></ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[bouge le curseur de la souris]]></ATT>
+                  <ATT name="Name"><![CDATA[Bouge le curseur de la souris]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -303,7 +309,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="bouge le curseur de la souris" mc="OpaqueAction" uid="9877dc75-1427-40b3-8194-e04c054a368c"/>
+                            <ID name="Bouge le curseur de la souris" mc="OpaqueAction" uid="9877dc75-1427-40b3-8194-e04c054a368c"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -335,7 +341,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="relache le bouton de la souris" mc="OpaqueAction" uid="952fe923-932e-45ba-80de-0434d4df4222"/>
+                            <ID name="Relache le bouton de la souris" mc="OpaqueAction" uid="952fe923-932e-45ba-80de-0434d4df4222"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -345,13 +351,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="relache le bouton de la souris" mc="OpaqueAction" uid="952fe923-932e-45ba-80de-0434d4df4222"/>
+                <ID name="Relache le bouton de la souris" mc="OpaqueAction" uid="952fe923-932e-45ba-80de-0434d4df4222"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="Body"></ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[relache le bouton de la souris]]></ATT>
+                  <ATT name="Name"><![CDATA[Relache le bouton de la souris]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -423,13 +429,13 @@
             </LINK>
             <COMP relation="ContainedNode">
               <OBJECT>
-                <ID name="regarde la position de du curseur" mc="CallOperationAction" uid="9553910e-1d6f-41a4-b879-2574d696dc2d"/>
+                <ID name="Regarde la position du curseur" mc="CallOperationAction" uid="9553910e-1d6f-41a4-b879-2574d696dc2d"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[regarde la position de du curseur]]></ATT>
+                  <ATT name="Name"><![CDATA[Regarde la position du curseur]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -584,7 +590,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="capture la souris" mc="CallOperationAction" uid="27ad78b6-2aec-4679-8fd7-534682402f39"/>
+                            <ID name="Capture la souris" mc="CallOperationAction" uid="27ad78b6-2aec-4679-8fd7-534682402f39"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -638,13 +644,13 @@
             </LINK>
             <COMP relation="ContainedNode">
               <OBJECT>
-                <ID name="modifie sa valeur" mc="CallOperationAction" uid="94542ca7-b3b0-49a6-a0f4-d57500441fe0"/>
+                <ID name="Modifie sa valeur" mc="CallOperationAction" uid="94542ca7-b3b0-49a6-a0f4-d57500441fe0"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[modifie sa valeur]]></ATT>
+                  <ATT name="Name"><![CDATA[Modifie sa valeur]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -731,13 +737,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="modifie sa valeur" mc="CallOperationAction" uid="442ae374-ab9e-4eda-9548-49dbbd236e77"/>
+                <ID name="Modifie sa valeur" mc="CallOperationAction" uid="442ae374-ab9e-4eda-9548-49dbbd236e77"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[modifie sa valeur]]></ATT>
+                  <ATT name="Name"><![CDATA[Modifie sa valeur]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -874,13 +880,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="attendre la durée de la note" mc="OpaqueAction" uid="67745a8a-0c38-4b46-b2e3-61a440345901"/>
+                <ID name="Attendre la durée de la note" mc="OpaqueAction" uid="67745a8a-0c38-4b46-b2e3-61a440345901"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="Body"></ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[attendre la durée de la note]]></ATT>
+                  <ATT name="Name"><![CDATA[Attendre la durée de la note]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -897,7 +903,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="relachement de la note" mc="OpaqueAction" uid="ff10aaee-6bfa-4988-bd6f-205db3854ac8"/>
+                            <ID name="Relachement de la note" mc="OpaqueAction" uid="ff10aaee-6bfa-4988-bd6f-205db3854ac8"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -957,13 +963,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="relachement de la note" mc="OpaqueAction" uid="ff10aaee-6bfa-4988-bd6f-205db3854ac8"/>
+                <ID name="Relachement de la note" mc="OpaqueAction" uid="ff10aaee-6bfa-4988-bd6f-205db3854ac8"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="Body"></ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[relachement de la note]]></ATT>
+                  <ATT name="Name"><![CDATA[Relachement de la note]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -1051,7 +1057,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="attendre la durée de la note" mc="OpaqueAction" uid="67745a8a-0c38-4b46-b2e3-61a440345901"/>
+                            <ID name="Attendre la durée de la note" mc="OpaqueAction" uid="67745a8a-0c38-4b46-b2e3-61a440345901"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -1118,7 +1124,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="lacher la note" mc="CallOperationAction" uid="3e517f87-c9ff-4e59-ad54-fc4031aa8b52"/>
+                            <ID name="Lacher la note" mc="CallOperationAction" uid="3e517f87-c9ff-4e59-ad54-fc4031aa8b52"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -1205,13 +1211,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="affectation à une voie" mc="CallOperationAction" uid="fefc5c17-1b77-45e6-ae88-3a7e66e46e0b"/>
+                <ID name="Affectation à une voie" mc="CallOperationAction" uid="fefc5c17-1b77-45e6-ae88-3a7e66e46e0b"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[affectation à une voie]]></ATT>
+                  <ATT name="Name"><![CDATA[Affectation à une voie]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -1272,13 +1278,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="lacher la note" mc="CallOperationAction" uid="3e517f87-c9ff-4e59-ad54-fc4031aa8b52"/>
+                <ID name="Lacher la note" mc="CallOperationAction" uid="3e517f87-c9ff-4e59-ad54-fc4031aa8b52"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[lacher la note]]></ATT>
+                  <ATT name="Name"><![CDATA[Lacher la note]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -1350,7 +1356,7 @@
                       <DEPENDENCIES>
                         <LINK relation="Target">
                           <REFOBJ>
-                            <ID name="affectation note" mc="CallOperationAction" uid="5d56e40c-77fd-44ae-95c3-bffb3ef55b42"/>
+                            <ID name="Affectation note" mc="CallOperationAction" uid="5d56e40c-77fd-44ae-95c3-bffb3ef55b42"/>
                             <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                           </REFOBJ>
                         </LINK>
@@ -1387,13 +1393,13 @@
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="ajouter une note" mc="CallOperationAction" uid="a93f45bd-ed23-47fb-8cef-48d03bba99be"/>
+                <ID name="Ajouter une note" mc="CallOperationAction" uid="a93f45bd-ed23-47fb-8cef-48d03bba99be"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[ajouter une note]]></ATT>
+                  <ATT name="Name"><![CDATA[Ajouter une note]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -1602,13 +1608,13 @@
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="affectation note" mc="CallOperationAction" uid="5d56e40c-77fd-44ae-95c3-bffb3ef55b42"/>
+                <ID name="Affectation note" mc="CallOperationAction" uid="5d56e40c-77fd-44ae-95c3-bffb3ef55b42"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[affectation note]]></ATT>
+                  <ATT name="Name"><![CDATA[Affectation note]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -1915,13 +1921,13 @@
             </LINK>
             <COMP relation="ContainedNode">
               <OBJECT>
-                <ID name="capture la souris" mc="CallOperationAction" uid="27ad78b6-2aec-4679-8fd7-534682402f39"/>
+                <ID name="Capture la souris" mc="CallOperationAction" uid="27ad78b6-2aec-4679-8fd7-534682402f39"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[capture la souris]]></ATT>
+                  <ATT name="Name"><![CDATA[Capture la souris]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -2008,13 +2014,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="modifie la valeur du parametre" mc="CallOperationAction" uid="4a86f0e3-df42-434a-90db-fe983942e2a0"/>
+                <ID name="Modifie la valeur du paramètre" mc="CallOperationAction" uid="4a86f0e3-df42-434a-90db-fe983942e2a0"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[modifie la valeur du parametre]]></ATT>
+                  <ATT name="Name"><![CDATA[Modifie la valeur du paramètre]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -2129,13 +2135,13 @@
                 </DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="relache l'element" mc="CallOperationAction" uid="e70dc4f5-c94f-4507-bc1d-eed654b8c692"/>
+                <ID name="Relache l'élément" mc="CallOperationAction" uid="e70dc4f5-c94f-4507-bc1d-eed654b8c692"/>
                 <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
                 <ATTRIBUTES>
                   <ATT name="IsSynchronous">true</ATT>
                   <ATT name="IsMultipleInstance">false</ATT>
                   <ATT name="IsCompensation">false</ATT>
-                  <ATT name="Name"><![CDATA[relache l'element]]></ATT>
+                  <ATT name="Name"><![CDATA[Relache l'élément]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
@@ -2252,6 +2258,1064 @@
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
+        <OBJECT>
+          <ID name="instrument" mc="ActivityPartition" uid="2abeb74e-8f4f-4612-b399-e71876ca4de2"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[instrument]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Represented">
+              <ID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+            </LINK>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Créer le son provenant de l'instrument" mc="CallOperationAction" uid="70180eb4-8247-43b6-b0bc-f90fb3976d1a"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Créer le son provenant de l'instrument]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="step" mc="Operation" uid="3ed90b46-50a5-40dc-80dd-dbfda29c7e58"/>
+                      <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Output">
+                    <OBJECT>
+                      <ID name="left " mc="OutputPin" uid="2cab542f-7dd9-4515-b88f-549c8163db5a"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[left ]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="left" mc="Parameter" uid="05299c84-e97f-44ca-8210-3738fbd5f61d"/>
+                            <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                        </LINK>
+                        <COMP relation="Outgoing">
+                          <OBJECT>
+                            <ID name="ObjectFlow" mc="ObjectFlow" uid="9871d4e4-f046-4960-a9b0-3942314ebd2f"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                            <ATTRIBUTES>
+                              <ATT name="TransformationBehavior"></ATT>
+                              <ATT name="SelectionBehavior"></ATT>
+                              <ATT name="IsMultiCast">false</ATT>
+                              <ATT name="IsMultiReceive">false</ATT>
+                              <ATT name="Effect">ReadFlow</ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="Weight"><![CDATA[1]]></ATT>
+                              <ATT name="Name"><![CDATA[ObjectFlow]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="left" mc="InputPin" uid="e34d53dd-1a16-4a37-97ab-a344d45b260a"/>
+                                  <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="right" mc="OutputPin" uid="d79e0ab7-0575-43fd-b898-7d9fc8efe5aa"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[right]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="right" mc="Parameter" uid="a4636c72-371e-4860-80a2-db55bc4bbc1a"/>
+                            <PID name="Instrument" mc="Class" uid="c65e8496-c109-46cc-99b6-f055c63797a7"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                        </LINK>
+                        <COMP relation="Outgoing">
+                          <OBJECT>
+                            <ID name="ObjectFlow" mc="ObjectFlow" uid="0adeda3c-94dc-49b8-9a6f-4cc79269c7d8"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                            <ATTRIBUTES>
+                              <ATT name="TransformationBehavior"></ATT>
+                              <ATT name="SelectionBehavior"></ATT>
+                              <ATT name="IsMultiCast">false</ATT>
+                              <ATT name="IsMultiReceive">false</ATT>
+                              <ATT name="Effect">ReadFlow</ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="Weight"><![CDATA[1]]></ATT>
+                              <ATT name="Name"><![CDATA[ObjectFlow]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="right" mc="InputPin" uid="ab8290f1-b880-45be-8bf0-fab45bc6de69"/>
+                                  <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="stream" mc="ActivityPartition" uid="d68e1d00-d39c-4d3b-b4f8-5797291bd86c"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[stream]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Represented">
+              <ID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+            </LINK>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Préparer le signal pour la carte son" mc="CallOperationAction" uid="417e11ba-f7a4-4c7d-bcf0-43e27068fda5"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Préparer le signal pour la carte son]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="writeStereoSignal" mc="Operation" uid="3faf6b11-f104-4af1-b642-efd2e0ce12f5"/>
+                      <PID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Output">
+                    <OBJECT>
+                      <ID name="signal envoye" mc="OutputPin" uid="c2c6e755-5b1c-4063-bc70-c116282fb8ea"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[signal envoye]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Type">
+                          <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
+                        </LINK>
+                        <COMP relation="Outgoing">
+                          <OBJECT>
+                            <ID name="ObjectFlow" mc="ObjectFlow" uid="5357251d-9ab0-40f2-a476-18c579867d18"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                            <ATTRIBUTES>
+                              <ATT name="TransformationBehavior"></ATT>
+                              <ATT name="SelectionBehavior"></ATT>
+                              <ATT name="IsMultiCast">false</ATT>
+                              <ATT name="IsMultiReceive">false</ATT>
+                              <ATT name="Effect">ReadFlow</ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="Weight"><![CDATA[1]]></ATT>
+                              <ATT name="Name"><![CDATA[ObjectFlow]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="Decision-Merge" mc="DecisionMergeNode" uid="5a173845-13ea-49d4-8255-4145e7b9f056"/>
+                                  <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Input">
+                    <OBJECT>
+                      <ID name="left" mc="InputPin" uid="e34d53dd-1a16-4a37-97ab-a344d45b260a"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsSelf">false</ATT>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[left]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="left" mc="Parameter" uid="598d72e6-c81e-4478-acdc-730e5912f7ae"/>
+                            <PID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="right" mc="InputPin" uid="ab8290f1-b880-45be-8bf0-fab45bc6de69"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsSelf">false</ATT>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[right]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="right" mc="Parameter" uid="1cf538ff-c50e-41e9-a645-44045a774f6f"/>
+                            <PID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <ID name="Signal" mc="Class" uid="55d9425e-b8d7-4b93-bd95-a81da7f97704"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="main" mc="ActivityPartition" uid="f7a41ce7-7bf3-4621-bb84-2def9789cdc5"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[main]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Initial Node" mc="InitialNode" uid="de5c62b0-ee6c-4a64-b0f2-28fbdf6273fc"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial Node]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="A t'on reussi à envoyer le dernier Signal ?" mc="ControlFlow" uid="f342e346-caac-4395-b068-1d775107d390"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[A t'on reussi à envoyer le dernier Signal ?]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Decision-Merge" mc="DecisionMergeNode" uid="5a173845-13ea-49d4-8255-4145e7b9f056"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Decision-Merge" mc="DecisionMergeNode" uid="5a173845-13ea-49d4-8255-4145e7b9f056"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="DecisionKind">ExclusiveDecision</ATT>
+                  <ATT name="DecisionInputBehavior"></ATT>
+                  <ATT name="Name"><![CDATA[Decision-Merge]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="7a9c3ef5-c772-48bd-a7ab-9c57e600b9e4"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[oui]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Créer le son provenant de l'instrument" mc="CallOperationAction" uid="70180eb4-8247-43b6-b0bc-f90fb3976d1a"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="f46d211e-4767-4514-a7a3-74de082b7db9"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[non]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Préparer le signal pour la carte son" mc="CallOperationAction" uid="417e11ba-f7a4-4c7d-bcf0-43e27068fda5"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="main" mc="ActivityPartition" uid="9d7a1624-7c38-452f-884c-14333bcddba8"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[main]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Initial Node" mc="InitialNode" uid="a1db4c40-3189-4acb-9e30-62545596c474"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial Node]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="9c7e4ee9-83dc-4cee-837f-5cc3647d5e37"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Initialisation des variables" mc="OpaqueAction" uid="57af2c38-19a6-481b-9db6-107f5bef56d8"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Initialisation des variables" mc="OpaqueAction" uid="57af2c38-19a6-481b-9db6-107f5bef56d8"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Body"></ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Initialisation des variables]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Output">
+                    <OBJECT>
+                      <ID name="stream" mc="OutputPin" uid="64c383e3-dd72-40f8-a4bd-8c062be2ebc5"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[stream]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="Outgoing">
+                          <OBJECT>
+                            <ID name="ObjectFlow" mc="ObjectFlow" uid="5be0fd37-a926-4bca-8285-579fe4f88d40"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                            <ATTRIBUTES>
+                              <ATT name="TransformationBehavior"></ATT>
+                              <ATT name="SelectionBehavior"></ATT>
+                              <ATT name="IsMultiCast">false</ATT>
+                              <ATT name="IsMultiReceive">false</ATT>
+                              <ATT name="Effect">ReadFlow</ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="Weight"><![CDATA[1]]></ATT>
+                              <ATT name="Name"><![CDATA[ObjectFlow]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="stream" mc="InputPin" uid="7727bf3c-069c-45a2-8e6d-6556b315f866"/>
+                                  <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="6a37568d-5039-465a-a0de-ebeaf8e728d3"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Initialisation du driver" mc="CallOperationAction" uid="d585b010-1201-45b1-99b7-d6f40febdf29"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Decision-Merge" mc="DecisionMergeNode" uid="c460441e-4e8f-42ee-833b-bd7ce0c9d93a"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="DecisionKind">ExclusiveDecision</ATT>
+                  <ATT name="DecisionInputBehavior"></ATT>
+                  <ATT name="Name"><![CDATA[Decision-Merge]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="bbb31bc2-b5df-4599-ab3f-12f2078a9587"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[non]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Afficher erreur" mc="OpaqueAction" uid="9cd912ca-988d-4db8-9e37-890e66490965"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="543d9748-a6f2-4b3d-8194-1c64ecdd434c"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[oui]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Afficher la fenêtre" mc="OpaqueAction" uid="db77ba02-ab12-4727-8979-844747462536"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Afficher erreur" mc="OpaqueAction" uid="9cd912ca-988d-4db8-9e37-890e66490965"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Body"></ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Afficher erreur]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="02d29e52-601c-4e39-b1ef-e59850cfb8cf"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Détruire le driver" mc="CallOperationAction" uid="062c5f0d-3754-4af1-b9f4-31c78668744d"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Afficher la fenêtre" mc="OpaqueAction" uid="db77ba02-ab12-4727-8979-844747462536"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Body"></ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Afficher la fenêtre]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="l'utilisateur a t'il fermer la fenetre ?" mc="ControlFlow" uid="05f0221e-2e78-455d-ba46-6640b567baa0"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[l'utilisateur a t'il fermer la fenetre ?]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Decision-Merge1" mc="DecisionMergeNode" uid="f1d4b675-d494-4293-9b10-2d1a117a685c"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Détruire les variables" mc="OpaqueAction" uid="f2b58975-9562-4164-a1dc-01bf9cc2bfba"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Body"></ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Détruire les variables]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="0acd91d0-5bc0-4c63-a357-9c2abca445ca"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Activity Final Node" mc="ActivityFinalNode" uid="1889eb2c-c0c3-48c4-a28a-abbe9994b1dc"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Activity Final Node" mc="ActivityFinalNode" uid="1889eb2c-c0c3-48c4-a28a-abbe9994b1dc"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Activity Final Node]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Jouer une note" mc="CallBehaviorAction" uid="050f7302-ba73-4ba5-8e1d-9a1a23683450"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Jouer une note]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="1522cc01-fe78-44b8-bb08-5dd45c03f8bd"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Decision-Merge1" mc="DecisionMergeNode" uid="f1d4b675-d494-4293-9b10-2d1a117a685c"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Modifier paramètre" mc="CallBehaviorAction" uid="e0294328-8154-4f1a-9f35-476f9b851cbd"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Modifier paramètre]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="82792ee3-90b9-43b5-8c4b-a5d80ab9fade"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Jouer une note" mc="CallBehaviorAction" uid="050f7302-ba73-4ba5-8e1d-9a1a23683450"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Générer le son" mc="CallBehaviorAction" uid="61727b99-c526-4030-b37b-8b4d913d010f"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Générer le son]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Decision-Merge1" mc="DecisionMergeNode" uid="f1d4b675-d494-4293-9b10-2d1a117a685c"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="DecisionKind">ExclusiveDecision</ATT>
+                  <ATT name="DecisionInputBehavior"></ATT>
+                  <ATT name="Name"><![CDATA[Decision-Merge1]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="39d3c7ba-691d-4924-bd20-f2576b870be1"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[non]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Modifier paramètre" mc="CallBehaviorAction" uid="e0294328-8154-4f1a-9f35-476f9b851cbd"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="c836a1b2-4c2d-4950-836b-e4e4f84a1c28"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"><![CDATA[oui]]></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Détruire les variables" mc="OpaqueAction" uid="f2b58975-9562-4164-a1dc-01bf9cc2bfba"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="driver" mc="ActivityPartition" uid="ff896d7d-25c1-4696-8465-5ec3d90274e1"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="IsDimension">false</ATT>
+            <ATT name="IsExternal">false</ATT>
+            <ATT name="Name"><![CDATA[driver]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Represented">
+              <ID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+            </LINK>
+            <COMP relation="ContainedNode">
+              <OBJECT>
+                <ID name="Initialisation du driver" mc="CallOperationAction" uid="d585b010-1201-45b1-99b7-d6f40febdf29"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Initialisation du driver]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="init" mc="Operation" uid="a220be24-fa69-415c-a5f0-cc494f9db4a1"/>
+                      <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="0d95de9d-8f5c-42d4-8a4e-144c0069f67b"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Démarrage du driver" mc="CallOperationAction" uid="74723310-cc7e-4d46-a013-f9cfb59bd8a6"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Démarrage du driver" mc="CallOperationAction" uid="74723310-cc7e-4d46-a013-f9cfb59bd8a6"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Démarrage du driver]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="start" mc="Operation" uid="ac64be43-4169-4c6f-af18-67528770ef30"/>
+                      <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Output">
+                    <OBJECT>
+                      <ID name="démarrage réussi" mc="OutputPin" uid="f512dc86-b474-47c3-b181-1cbb97993beb"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[démarrage réussi]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="" mc="Parameter" uid="7259efa9-989b-4648-940f-c4111edd2b7f"/>
+                            <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <FOREIGNID name="boolean" mc="DataType" uid="00000004-0000-0005-0000-000000000000"/>
+                        </LINK>
+                        <COMP relation="Outgoing">
+                          <OBJECT>
+                            <ID name="ObjectFlow" mc="ObjectFlow" uid="fefb8e9a-0e61-42d5-ab18-b021daa0333d"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                            <ATTRIBUTES>
+                              <ATT name="TransformationBehavior"></ATT>
+                              <ATT name="SelectionBehavior"></ATT>
+                              <ATT name="IsMultiCast">false</ATT>
+                              <ATT name="IsMultiReceive">false</ATT>
+                              <ATT name="Effect">ReadFlow</ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="Weight"><![CDATA[1]]></ATT>
+                              <ATT name="Name"><![CDATA[ObjectFlow]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="Decision-Merge" mc="DecisionMergeNode" uid="c460441e-4e8f-42ee-833b-bd7ce0c9d93a"/>
+                                  <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Input">
+                    <OBJECT>
+                      <ID name="stream" mc="InputPin" uid="7727bf3c-069c-45a2-8e6d-6556b315f866"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="IsSelf">false</ATT>
+                        <ATT name="IsControl">false</ATT>
+                        <ATT name="IsExpansion">false</ATT>
+                        <ATT name="IsControlType">false</ATT>
+                        <ATT name="Ordering">FIFO</ATT>
+                        <ATT name="SelectionBehavior"></ATT>
+                        <ATT name="UpperBound"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[stream]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Matched">
+                          <REFOBJ>
+                            <ID name="stream" mc="Parameter" uid="b169e8ae-dc1a-4e88-ad83-b8aaae6cc62b"/>
+                            <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Type">
+                          <ID name="AudioStream" mc="Class" uid="dd96fc46-c8ea-43bf-bdc5-9b49817cc633"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="9d9df9e5-5c73-4da3-8faa-f76a8d65b030"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Générer le son" mc="CallBehaviorAction" uid="61727b99-c526-4030-b37b-8b4d913d010f"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Stopper le driver" mc="CallOperationAction" uid="02af0feb-35c0-4b5c-8771-c39e1bf8ffcc"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Stopper le driver]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="stop" mc="Operation" uid="0bd24248-d48e-4c93-b797-39f52b8a8ac7"/>
+                      <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="67cb2da2-6e80-4886-b4b7-e49f4af6dc8e"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Détruire le driver" mc="CallOperationAction" uid="062c5f0d-3754-4af1-b9f4-31c78668744d"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Détruire le driver" mc="CallOperationAction" uid="062c5f0d-3754-4af1-b9f4-31c78668744d"/>
+                <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsSynchronous">true</ATT>
+                  <ATT name="IsMultipleInstance">false</ATT>
+                  <ATT name="IsCompensation">false</ATT>
+                  <ATT name="Name"><![CDATA[Détruire le driver]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Called">
+                    <REFOBJ>
+                      <ID name="free" mc="Operation" uid="bf2fb840-0ec8-46c0-9fc2-55e14b11c9aa"/>
+                      <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+                    </REFOBJ>
+                  </LINK>
+                  <COMP relation="Outgoing">
+                    <OBJECT>
+                      <ID name="ControlFlow" mc="ControlFlow" uid="f2b0409e-05c4-49e2-97cd-0236d4bc9863"/>
+                      <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                      <ATTRIBUTES>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="Weight"><![CDATA[1]]></ATT>
+                        <ATT name="Name"><![CDATA[ControlFlow]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Détruire les variables" mc="OpaqueAction" uid="f2b58975-9562-4164-a1dc-01bf9cc2bfba"/>
+                            <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Parameter">
+        <OBJECT>
+          <ID name="" mc="BehaviorParameter" uid="79896382-8b94-4ba0-9c4f-3bb9a00ee5c6"/>
+          <PID name="activité" mc="Activity" uid="1f8e5a74-f59e-4c69-88d6-64371e764f1f"/>
+          <ATTRIBUTES>
+            <ATT name="ParameterPassing">In</ATT>
+            <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+            <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+            <ATT name="TypeConstraint"></ATT>
+            <ATT name="DefaultValue"></ATT>
+            <ATT name="IsOrdered">false</ATT>
+            <ATT name="IsUnique">false</ATT>
+            <ATT name="IsException">false</ATT>
+            <ATT name="IsStream">false</ATT>
+            <ATT name="Effect">ReadEffect</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Mapped">
+              <REFOBJ>
+                <ID name="" mc="Parameter" uid="7259efa9-989b-4648-940f-c4111edd2b7f"/>
+                <PID name="AudioDriver" mc="Class" uid="5f8c21a2-56fb-4197-b8c4-36a8d0e3aa8f"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Type">
+              <FOREIGNID name="string" mc="DataType" uid="00000004-0000-000d-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
       </COMP>
       <COMP relation="OwnedCollaboration">
         <OBJECT>
@@ -2327,6 +3391,8 @@
       <COMP relation="Product">
         <COMPID name="Parametre Activity diagram" mc="ActivityDiagram" uid="3e583c89-290d-4b69-b19c-dfe69b3ba9d9"/>
         <COMPID name="Note Activity diagram" mc="ActivityDiagram" uid="542274d0-0de8-483c-b0b0-8496d839137b"/>
+        <COMPID name="Driver Activity diagram" mc="ActivityDiagram" uid="b9065cf3-873f-44f8-bed6-9733205da71a"/>
+        <COMPID name="main Activity diagram" mc="ActivityDiagram" uid="b1507278-e599-4d58-9239-56ee3513ecb4"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
