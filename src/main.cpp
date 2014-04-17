@@ -19,6 +19,7 @@
 #include "puresquare.hpp"
 #include "record.hpp"
 #include "careme.hpp"
+#include "scope.hpp"
 
 int main(int argc, char** argv)
 {
