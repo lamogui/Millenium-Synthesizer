@@ -19,16 +19,7 @@
 #include "puresquare.hpp"
 #include "record.hpp"
 #include "careme.hpp"
-<<<<<<< Updated upstream
 #include "scope.hpp"
-=======
-<<<<<<< HEAD
-#include "test.hpp"
-
-=======
-#include "scope.hpp"
->>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
->>>>>>> Stashed changes
 
 int main(int argc, char** argv)
 {
@@ -62,6 +53,7 @@ int main(int argc, char** argv)
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
   Interface* currentInterfaceCatcher=NULL;
+  Scope myScope(sf::Vector2i(window.getSize().x,window.getSize().y/2));
   
   float dt=0.02;
   unsigned int time=0;
@@ -75,17 +67,17 @@ int main(int argc, char** argv)
     if (std::string("careme") == argv[1]) 
     {
       myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(720,360));
+      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
       myInstrument = new PureSquare;
-      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(720,360));
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
     }
     else 
     {
       myInstrument = new NELead6;
-      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
+      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
       
     }
     
@@ -95,9 +87,13 @@ int main(int argc, char** argv)
     myInstrument = new NELead6;
     myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
   }
+  myInterface->setViewport(sf::FloatRect(0,0,1,0.5));
+  myScope.setViewport(sf::FloatRect(0,0.5,1,1));
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
+  
+  myScope.setSignal(&leftout);
   
   std::map<sf::Keyboard::Key,Note*> notes;
 
@@ -119,7 +115,10 @@ int main(int argc, char** argv)
           break;
         case sf::Event::Resized:
           {
-            myInterface->setViewSize(event.size.width,event.size.height);
+            myInterface->setViewSize(event.size.width,event.size.height*0.5f);
+            myInterface->setViewport(sf::FloatRect(0,0,1,0.5));
+            myScope.setViewSize(event.size.width,event.size.height*0.5f);
+            myScope.setViewport(sf::FloatRect(0,0.5,1,1));
           }
           break;
         case sf::Event::MouseButtonPressed:
@@ -224,12 +223,14 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
     
-   
+   myScope.update();
     
     window.clear();
     
     window.setView(myInterface->getView());
     window.draw(*myInterface);
+    window.setView(myScope.getView());
+    window.draw(myScope);
     
     // Update the window
     window.display();
