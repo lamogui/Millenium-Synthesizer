@@ -15,7 +15,8 @@ OBJ=	build/main.o \
 	build/enveloppe.o \
 	build/record.o \
 	build/careme.o \
-	build/filter.o
+	build/filter.o \
+	build/scope.o
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
 FILECPP=src/signal.cpp \
@@ -33,7 +34,8 @@ FILECPP=src/signal.cpp \
 	src/enveloppe.cpp \
 	src/record.cpp \
 	src/careme.cpp \
-	src/filter.cpp
+	src/filter.cpp \
+	src/scope.cpp
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
 	include/audiostream.hpp \
@@ -51,8 +53,8 @@ HEADER=	include/signal.hpp \
 	include/record.hpp \
 	include/config.hpp \
 	include/careme.hpp \
-	include/filter.hpp
-
+	include/filter.hpp \
+	include/scope.hpp
 defaut:
 	@echo you must choose :
 	@echo   - make win32
