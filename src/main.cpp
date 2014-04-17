@@ -19,7 +19,16 @@
 #include "puresquare.hpp"
 #include "record.hpp"
 #include "careme.hpp"
+<<<<<<< Updated upstream
 #include "scope.hpp"
+=======
+<<<<<<< HEAD
+#include "test.hpp"
+
+=======
+#include "scope.hpp"
+>>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
+>>>>>>> Stashed changes
 
 int main(int argc, char** argv)
 {
