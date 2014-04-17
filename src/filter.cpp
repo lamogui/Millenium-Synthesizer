@@ -68,7 +68,7 @@ sample* samples = inout->samples;
     a=1.f/a;
     const float b=_2mw0te+2.f;
     samples[i]=a*(_y_1*b-_y_2+w02te2*samples[i]);
-    std::cout << samples[i+1]<<std::endl;
+    //std::cout << samples[i+1]<<std::endl;
     _y_2=_y_1;
     _y_1=samples[i];
   }
