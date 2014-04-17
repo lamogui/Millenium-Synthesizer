@@ -7,7 +7,15 @@ _osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
 _lfo1(new SawOscillator),
 _lfo2(new TriangleOscillator),
+<<<<<<< Updated upstream
 _filter1(new LowPassFilter2),
+=======
+<<<<<<< HEAD
+_filter1(new BandPassFilter2),
+=======
+_filter1(new LowPassFilter2),
+>>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
+>>>>>>> Stashed changes
 _currentNote(0,NOT_A_NOTE)
 {
   

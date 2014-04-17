@@ -15,8 +15,18 @@ OBJ=	build/main.o \
 	build/enveloppe.o \
 	build/record.o \
 	build/careme.o \
+<<<<<<< Updated upstream
 	build/filter.o \
 	build/scope.o
+=======
+<<<<<<< HEAD
+	build/test.o \
+	build/filter.o
+=======
+	build/filter.o \
+	build/scope.o
+>>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
+>>>>>>> Stashed changes
 CFLAGS= --std=c99 -W -Wall -I"include"
 CXXFLAGS= -I"include" -Os -s
 FILECPP=src/signal.cpp \
@@ -34,8 +44,18 @@ FILECPP=src/signal.cpp \
 	src/enveloppe.cpp \
 	src/record.cpp \
 	src/careme.cpp \
+<<<<<<< Updated upstream
 	src/filter.cpp \
 	src/scope.cpp
+=======
+<<<<<<< HEAD
+	src/test.cpp \
+	src/filter.cpp
+=======
+	src/filter.cpp \
+	src/scope.cpp
+>>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
+>>>>>>> Stashed changes
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
 	include/audiostream.hpp \
@@ -53,8 +73,19 @@ HEADER=	include/signal.hpp \
 	include/record.hpp \
 	include/config.hpp \
 	include/careme.hpp \
+<<<<<<< Updated upstream
 	include/filter.hpp \
 	include/scope.hpp
+=======
+<<<<<<< HEAD
+	include/test.hpp \
+	include/filter.hpp
+
+=======
+	include/filter.hpp \
+	include/scope.hpp
+>>>>>>> 394b9c2d0487aee0348d47187540131f954d1e78
+>>>>>>> Stashed changes
 defaut:
 	@echo you must choose :
 	@echo   - make win32
