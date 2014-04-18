@@ -44,9 +44,9 @@ void Scope::setSignal(Signal* s)
       _pixels = (sf::Uint8*) malloc(p);
       for (unsigned int i=0; i < p;)
       {
-         _pixels[i++]=i%256;
-         _pixels[i++]=i%256;
-         _pixels[i++]=i%256;
+         _pixels[i++]=255;
+         _pixels[i++]=0;
+         _pixels[i++]=0;
          _pixels[i++]=255;
       }
       
@@ -67,17 +67,21 @@ void Scope::update()
       }
       
       const int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
-      std::cout << "l" << l  << "signal size " << Signal::size << "y" << _texture.getSize().y << "x"  << _texture.getSize().x << std::endl;
+      //std::cout << "l" << l  << "signal size " << Signal::size << "y" << _texture.getSize().y << "x"  << _texture.getSize().x << std::endl;
       for (unsigned int x=0; x < l;x++)
       {
          const int y = _signal->samples[x]*_y_zoom*_texture.getSize().x*0.5;
-         if (y > -_texture.getSize().x/2 && y < _texture.getSize().x/2)
+         
+         if (y-1 >= -(int)(_texture.getSize().x>>1) && y+1 < (int)(_texture.getSize().x>>1))
          {
-            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4] = 255;
-            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 1] = 255;
-            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 2] = 255;
             _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 3] = 255;
+            _pixels[(x*_texture.getSize().x + y + 1 + _texture.getSize().x/2)*4 + 3] = 120;
+            _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;
          }
+         else {
+          std::cout << "y" << y << std::endl;
+         }
+
       }
       _texture.update(_pixels);
    }
