@@ -108,6 +108,11 @@ class Interface : public sf::Drawable
     {
       return _view;
     }
+    
+    virtual inline sf::Vector2i getIdealSize() //pas forcement la "zone occupé"
+    {
+      return _zone;
+    }
 
     void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;

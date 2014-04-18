@@ -48,12 +48,12 @@ int main(int argc, char** argv)
   
   sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
   
-  window.setFramerateLimit(Signal::refreshRate<<1);
+  window.setFramerateLimit(Signal::refreshRate*1.5f);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
   Interface* currentInterfaceCatcher=NULL;
-  Scope myScope(sf::Vector2i(window.getSize().x,window.getSize().y/2));
+  Scope myScope(sf::Vector2f(window.getSize().x,window.getSize().y/4));
   
   float dt=0.02;
   unsigned int time=0;
@@ -67,17 +67,17 @@ int main(int argc, char** argv)
     if (std::string("careme") == argv[1]) 
     {
       myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
+      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
       myInstrument = new PureSquare;
-      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
     }
     else 
     {
       myInstrument = new NELead6;
-      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y/2));
+      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
       
     }
     
@@ -87,12 +87,11 @@ int main(int argc, char** argv)
     myInstrument = new NELead6;
     myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
   }
-  myInterface->setViewport(sf::FloatRect(0,0,1,0.5));
-  myScope.setViewport(sf::FloatRect(0,0.5,1,1));
+  myInterface->setViewport(sf::FloatRect(0,0,1,0.75f));
+  myScope.setViewport(sf::FloatRect(0,0.75f,myScope.getIdealSize().x/720.f,0.25f));
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
-  bool scopeUpdated=false;
   myScope.setSignal(&leftout);
   
   std::map<sf::Keyboard::Key,Note*> notes;
@@ -115,10 +114,36 @@ int main(int argc, char** argv)
           break;
         case sf::Event::Resized:
           {
-            myInterface->setViewSize(event.size.width,event.size.height*0.5f);
-            myInterface->setViewport(sf::FloatRect(0,0,1,0.5));
-            myScope.setViewSize(event.size.width,event.size.height*0.5f);
-            myScope.setViewport(sf::FloatRect(0,0.5,1,1));
+            // Toute la place est disponible 
+            if (event.size.height > myInterface->getIdealSize().y + myScope.getIdealSize().y)
+            {
+              myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y);
+              float x = myInterface->getIdealSize().x / (float) event.size.width;
+              if (x > 1) x =1;
+              float y1 = myInterface->getIdealSize().y/(float)event.size.height;
+              myInterface->setViewport(sf::FloatRect(0,0,x,y1));
+              myScope.setViewSize(event.size.width,myScope.getIdealSize().y);
+              float y2 = myScope.getIdealSize().y/(float)event.size.height;
+              x = myScope.getIdealSize().x / (float) event.size.width;
+              if (x > 1) x =1;
+              myScope.setViewport(sf::FloatRect(0,y1,x,y2));
+              y1+=y2;
+            }
+            else //on alloue proportionellement à la place dispo
+            {
+              float tot = myInterface->getIdealSize().y + myScope.getIdealSize().y;
+              myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y*event.size.height/tot);
+              float y1 = myInterface->getIdealSize().y/tot;
+              float x = myInterface->getIdealSize().x / (float) event.size.width;
+              if (x > 1) x =1;
+              myInterface->setViewport(sf::FloatRect(0,0,x,y1));
+              myScope.setViewSize(event.size.width,myScope.getIdealSize().y*event.size.height/tot);
+              float y2 = myScope.getIdealSize().y/tot;
+              x = myScope.getIdealSize().x / (float) event.size.width;
+              if (x > 1) x =1;
+              myScope.setViewport(sf::FloatRect(0,y1,x,y2));
+              y1+=y2;
+            }
           }
           break;
         case sf::Event::MouseButtonPressed:
@@ -129,6 +154,12 @@ int main(int argc, char** argv)
               sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),myInterface->getView()); 	
               currentMouseCatcher = myInterface->onMousePress(v.x,v.y);
               currentInterfaceCatcher = myInterface;
+              if (!currentMouseCatcher)
+              {
+                v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),myScope.getView()); 	
+                currentMouseCatcher = myScope.onMousePress(v.x,v.y);
+                currentInterfaceCatcher = &myScope;
+              }
             }
           }
           break;
@@ -212,17 +243,7 @@ int main(int argc, char** argv)
       //std::cout << "generating output..." << std::endl;
       time++;
       myInstrument->step(&leftout, &rightout); //le verre d'eau est vide donc on le rempli
-      if (scopeUpdated)
-      {
-         scopeUpdated=false;
-      }
-      else
-      {
-         myScope.update();
-         //remove "wrong dephasing effect"
-         scopeUpdated=true;
-      }
-      
+      myScope.update();     
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);//on essai de verser le verre d'eau dans l'entonoir

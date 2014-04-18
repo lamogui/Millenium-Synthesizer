@@ -1,7 +1,8 @@
 #include "scope.hpp"
+#include <iostream>
 
-Scope::Scope(const sf::Vector2i& zone) :
-Interface(zone, sf::Vector2f(Signal::size,100.f)),
+Scope::Scope(const sf::Vector2f& size) :
+Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
 _texture(),
@@ -11,8 +12,8 @@ _y_zoom(1)
    addDrawable(&_sprite);
 }
 
-Scope::Scope(const sf::Vector2i& zone,Signal* s) :
-Interface(zone, sf::Vector2f(Signal::size,100.f)),
+Scope::Scope(const sf::Vector2f& size,Signal* s) :
+Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
 _texture(),
@@ -38,12 +39,20 @@ void Scope::setSignal(Signal* s)
    if (_pixels) free(_pixels);
    if (_signal)
    {
-      _zone=sf::Vector2i(100.f,Signal::size);
-      _texture.create(_zone.x, _zone.y);
-      _pixels = (sf::Uint8*) malloc(_zone.x* _zone.y*4);
+      _texture.create(_zone.y, _zone.x);
+      unsigned p = _texture.getSize().x* _texture.getSize().y*4;
+      _pixels = (sf::Uint8*) malloc(p);
+      for (unsigned int i=0; i < p;)
+      {
+         _pixels[i++]=i%256;
+         _pixels[i++]=i%256;
+         _pixels[i++]=i%256;
+         _pixels[i++]=255;
+      }
+      
       _sprite.setTexture(_texture,true);
-      _sprite.setOrigin(_zone.x/2,_zone.y/2);
-      //_sprite.setPosition(_zone.x/2,_zone.y/2);
+      _sprite.setOrigin(_zone.y/2,_zone.x/2);
+      _sprite.setPosition(_zone.x/2,_zone.y/2);
       _sprite.setRotation(90);
    }
 }
@@ -51,20 +60,23 @@ void Scope::update()
 {
    if (_pixels)
    {
-      for (unsigned int i=0; i < _zone.x*_zone.y;)
+      const int s = _texture.getSize().x*_texture.getSize().y*4;
+      for (unsigned int i=3; i < s;i+=4)
       {
-         _pixels[i++]=0;
-         _pixels[i++]=0;
-         _pixels[i++]=0;
-         _pixels[i++]=255;
+         _pixels[i]=0;
       }
       
-      for (unsigned int x=0; x < Signal::size;x++)
+      const int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
+      std::cout << "l" << l  << "signal size " << Signal::size << "y" << _texture.getSize().y << "x"  << _texture.getSize().x << std::endl;
+      for (unsigned int x=0; x < l;x++)
       {
-         const int y = _signal->samples[x]*_y_zoom*_zone.x*0.5;
-         if (y > -_zone.x/2 && y < _zone.x/2)
+         const int y = _signal->samples[x]*_y_zoom*_texture.getSize().x*0.5;
+         if (y > -_texture.getSize().x/2 && y < _texture.getSize().x/2)
          {
-            _pixels[(x*_zone.x + y + _zone.x/2)*4] = 255;
+            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4] = 255;
+            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 1] = 255;
+            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 2] = 255;
+            _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 3] = 255;
          }
       }
       _texture.update(_pixels);
