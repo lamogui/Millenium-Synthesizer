@@ -23,7 +23,7 @@ bool AudioStream::setBufferLength(unsigned int buffer_length)
 {
   if (_count) return false;
   _length = buffer_length;
-  _buffer=(unsigned short*) realloc((void*) _buffer,_length*2);
+  _buffer=(unsigned short*) realloc((void*) _buffer,_length<<2);
   _pread = _pwrite = _buffer;
   _end = _buffer + _length;
   return true;
@@ -70,14 +70,14 @@ bool AudioStream::writeSignal(const Signal& signal)
   unsigned int i=0;
   while (_pwrite != _end && Signal::size > i)
   {
-    const short v = signal.samples[i++]*32000;
+    const short v = (short)(signal.samples[i++]*32000.f);
     *_pwrite++ = v;
     *_pwrite++ = v;
   }
   if (_pwrite == _end) _pwrite = _buffer;
   while (Signal::size > i)
   {
-    const short v = signal.samples[i++]*32000;
+    const short v = (signal.samples[i++]*32000.f);
     *_pwrite++ = v;
     *_pwrite++ = v;
   }
@@ -91,14 +91,14 @@ bool AudioStream::writeStereoSignal(const Signal& left,const Signal& right)
   unsigned int i=0;
   while (_pwrite != _end && Signal::size > i )
   {
-    *_pwrite++ = left.samples[i]*32000;
-    *_pwrite++ = right.samples[i++]*32000;
+    *_pwrite++ = (short)(left.samples[i]*32000.f);
+    *_pwrite++ = (short)(right.samples[i++]*32000.f);
   }
   if (_pwrite == _end) _pwrite = _buffer;
   while (Signal::size > i)
   {
-    *_pwrite++ = left.samples[i]*32000;
-    *_pwrite++ = right.samples[i++]*32000;
+    *_pwrite++ = (short)(left.samples[i]*32000.f);
+    *_pwrite++ = (short)(right.samples[i++]*32000.f);
   }
   _count += Signal::size << 1;
   return true;

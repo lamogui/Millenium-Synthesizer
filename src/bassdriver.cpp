@@ -148,14 +148,14 @@ DWORD CALLBACK BassDriver::_StreamProc(HSTREAM handle,
                                        void *user)
 {
   sf::Lock(*((AudioStream*) user));
-  unsigned c = 2*(((AudioStream*) user)->read((unsigned short*)buffer,length/2));
-  /*if (!c)
+  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length >> 1)) << 1;
+  if (!c)
   {
-    std::cout << "Critical here: BASS want " << length << " but there is no data in queue" << std::endl;
-  }*/
-  /*if (c<length)
+    std::cerr << "Critical here: BASS want " << length << " but there is no data in queue" << std::endl;
+  }
+  /*else if (c<length)
   {
-    std::cout << "Critical here: BASS want " << length << " but there is only " << c << std::endl;
+    std::cerr << "Critical here: BASS want " << length << " but there is only " << c << std::endl;
   }*/
   return c;
 }
@@ -346,11 +346,11 @@ DWORD CALLBACK BassAsioDriver::_AsioProc(BOOL input,
 {
   if (input) return 0;
   sf::Lock lock(*((AudioStream*) user));
-  unsigned c = 2*(((AudioStream*) user)->read((unsigned short*)buffer,length/2));
-  /*if (!c)
+  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length>>1)) << 1;
+  if (!c)
   {
-    std::cout << "Critical here: ASIO want " << length << " but there is no data in queue" << std::endl;
-  }*/
+    std::cerr << "Critical here: ASIO want " << length << " but there is no data in queue" << std::endl;
+  }
   return c;
 }
 

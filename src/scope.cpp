@@ -78,9 +78,9 @@ void Scope::update()
             _pixels[(x*_texture.getSize().x + y + 1 + _texture.getSize().x/2)*4 + 3] = 120;
             _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;
          }
-         else {
+        /* else {
           std::cout << "y" << y << std::endl;
-         }
+         }*/
 
       }
       _texture.update(_pixels);
