@@ -118,15 +118,11 @@ int main(int argc, char** argv)
             if (event.size.height > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
               myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y);
-              float x = myInterface->getIdealSize().x / (float) event.size.width;
-              if (x > 1) x =1;
               float y1 = myInterface->getIdealSize().y/(float)event.size.height;
-              myInterface->setViewport(sf::FloatRect(0,0,x,y1));
+              myInterface->setViewport(sf::FloatRect(0,0,1,y1));
               myScope.setViewSize(event.size.width,myScope.getIdealSize().y);
               float y2 = myScope.getIdealSize().y/(float)event.size.height;
-              x = myScope.getIdealSize().x / (float) event.size.width;
-              if (x > 1) x =1;
-              myScope.setViewport(sf::FloatRect(0,y1,x,y2));
+              myScope.setViewport(sf::FloatRect(0,y1,1,y2));
               y1+=y2;
             }
             else //on alloue proportionellement à la place dispo
@@ -134,14 +130,10 @@ int main(int argc, char** argv)
               float tot = myInterface->getIdealSize().y + myScope.getIdealSize().y;
               myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y*event.size.height/tot);
               float y1 = myInterface->getIdealSize().y/tot;
-              float x = myInterface->getIdealSize().x / (float) event.size.width;
-              if (x > 1) x =1;
-              myInterface->setViewport(sf::FloatRect(0,0,x,y1));
+              myInterface->setViewport(sf::FloatRect(0,0,1,y1));
               myScope.setViewSize(event.size.width,myScope.getIdealSize().y*event.size.height/tot);
               float y2 = myScope.getIdealSize().y/tot;
-              x = myScope.getIdealSize().x / (float) event.size.width;
-              if (x > 1) x =1;
-              myScope.setViewport(sf::FloatRect(0,y1,x,y2));
+              myScope.setViewport(sf::FloatRect(0,y1,1,y2));
               y1+=y2;
             }
           }

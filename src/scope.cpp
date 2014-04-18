@@ -85,4 +85,8 @@ void Scope::update()
       }
       _texture.update(_pixels);
    }
+   for (unsigned int i=0; i < _mouseCatcher.size();i++)
+  {
+    _mouseCatcher[i]->update(); 
+  }
 }

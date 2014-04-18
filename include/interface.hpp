@@ -116,7 +116,7 @@ class Interface : public sf::Drawable
 
     void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-    void update();
+    virtual void update();
 
     void addMouseCatcher(MouseCatcher* c);
     void addDrawable(sf::Drawable* c);

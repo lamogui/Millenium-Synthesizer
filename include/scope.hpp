@@ -13,7 +13,7 @@ class Scope : public Interface
       
       void setYZoom(float z);
       void setSignal(Signal* s);
-      void update();
+      virtual void update();
       
       
    protected:

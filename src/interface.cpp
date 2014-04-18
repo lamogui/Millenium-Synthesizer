@@ -213,10 +213,10 @@ void ScrollBar::update()
   {
     _bar.setSize(sf::Vector2f(12,_view->getSize().y*_view->getSize().y/_zone_size));
     _view->setCenter(_view->getCenter().x,_current_offset+_view->getSize().y/2);
-    _bar.setPosition(_view->getCenter().x+_view->getSize().x/2-12,
+    _bar.setPosition(_view->getCenter().x+(_view->getSize().x/2.f)-12,
                       _current_offset + _current_offset*_view->getSize().y/(float)_zone_size);
     //La decoration est au bord de la vue                 
-    _decoration.setPosition(_view->getCenter().x+_view->getSize().x/2.f-12.f,_current_offset);
+    _decoration.setPosition(_view->getCenter().x+(_view->getSize().x/2.f)-12.f,_current_offset);
     //La decoration fait la largeur de la vue
     _decoration.setSize(sf::Vector2f( 12.f,_view->getSize().y));
   }              
@@ -267,6 +267,11 @@ void Interface::setViewSize(float x, float y)
   _view.setCenter(x*0.5f,y*0.5f);
   _verticalBar.update();
   _horizontalBar.update();
+  
+  if (x > _zone.x)
+    _view.setCenter(x/2.f,_view.getCenter().y);
+  if (y > _zone.y)
+    _view.setCenter(_view.getCenter().x,y/2.f);
 }
 
 void Interface::draw(sf::RenderTarget &target, sf::RenderStates states) const
