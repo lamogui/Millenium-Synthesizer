@@ -92,7 +92,7 @@ int main(int argc, char** argv)
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
-  
+  bool scopeUpdated=false;
   myScope.setSignal(&leftout);
   
   std::map<sf::Keyboard::Key,Note*> notes;
@@ -212,6 +212,17 @@ int main(int argc, char** argv)
       //std::cout << "generating output..." << std::endl;
       time++;
       myInstrument->step(&leftout, &rightout); //le verre d'eau est vide donc on le rempli
+      if (scopeUpdated)
+      {
+         scopeUpdated=false;
+      }
+      else
+      {
+         myScope.update();
+         //remove "wrong dephasing effect"
+         scopeUpdated=true;
+      }
+      
       sf::Lock lock(stream);
       //std::cout << "try..." << std::endl;
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);//on essai de verser le verre d'eau dans l'entonoir
@@ -223,7 +234,7 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
     
-   myScope.update();
+   
     
     window.clear();
     
