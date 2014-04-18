@@ -18,8 +18,8 @@ OBJ=	build/main.o \
 	build/filter.o \
 	build/scope.o
 
-CFLAGS= --std=c99 -W -Wall -I"include"
-CXXFLAGS= -I"include" -Os -s
+CFLAGS= --std=c99 -W -Wall -I"include" -g
+CXXFLAGS= -I"include" -g
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \

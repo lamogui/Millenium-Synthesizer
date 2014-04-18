@@ -7,8 +7,8 @@
 class Scope : public Interface
 {
    public:
-      Scope(const sf::Vector2i& zone);
-      Scope(const sf::Vector2i& zone,Signal* s);
+      Scope(const sf::Vector2f& size);
+      Scope(const sf::Vector2f& size,Signal* s);
       virtual ~Scope();
       
       void setYZoom(float z);

@@ -204,7 +204,9 @@ void ScrollBar::update()
     _view->setCenter(_current_offset+_view->getSize().x/2,_view->getCenter().y);
     _bar.setPosition(_current_offset + _current_offset*_view->getSize().x/(float)_zone_size,
                      _view->getCenter().y+_view->getSize().y/2-12);
+    //La decoration est au bord de la vue     
     _decoration.setPosition(_current_offset,_view->getCenter().y+_view->getSize().y/2.f-12.f);
+    //La decoration fait la largeur de la vue
     _decoration.setSize(sf::Vector2f( _view->getSize().x, 12.f));
   }
   else
@@ -213,7 +215,9 @@ void ScrollBar::update()
     _view->setCenter(_view->getCenter().x,_current_offset+_view->getSize().y/2);
     _bar.setPosition(_view->getCenter().x+_view->getSize().x/2-12,
                       _current_offset + _current_offset*_view->getSize().y/(float)_zone_size);
+    //La decoration est au bord de la vue                 
     _decoration.setPosition(_view->getCenter().x+_view->getSize().x/2.f-12.f,_current_offset);
+    //La decoration fait la largeur de la vue
     _decoration.setSize(sf::Vector2f( 12.f,_view->getSize().y));
   }              
 }
@@ -260,6 +264,7 @@ MouseCatcher* Interface::onMousePress(float x, float y)
 void Interface::setViewSize(float x, float y)
 {
   _view.setSize(x,y);
+  _view.setCenter(x*0.5f,y*0.5f);
   _verticalBar.update();
   _horizontalBar.update();
 }
