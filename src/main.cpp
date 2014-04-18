@@ -48,7 +48,7 @@ int main(int argc, char** argv)
   
   sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
   
-  window.setFramerateLimit(Signal::refreshRate*1.5f);
+  //window.setFramerateLimit(Signal::refreshRate*1.5f);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
@@ -85,10 +85,10 @@ int main(int argc, char** argv)
   else 
   {
     myInstrument = new NELead6;
-    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(720,360));
+    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
   }
   myInterface->setViewport(sf::FloatRect(0,0,1,0.75f));
-  myScope.setViewport(sf::FloatRect(0,0.75f,myScope.getIdealSize().x/720.f,0.25f));
+  myScope.setViewport(sf::FloatRect(0,0.75f,myScope.getIdealSize().x/(float)window.getSize().x,0.25f));
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
