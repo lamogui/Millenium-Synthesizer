@@ -47,7 +47,7 @@ void Scope::setSignal(Signal* s)
          _pixels[i++]=255;
          _pixels[i++]=0;
          _pixels[i++]=0;
-         _pixels[i++]=255;
+         _pixels[i++]=0;
       }
       
       _sprite.setTexture(_texture,true);
@@ -74,9 +74,11 @@ void Scope::update()
          
          if (y-1 >= -(int)(_texture.getSize().x>>1) && y+1 < (int)(_texture.getSize().x>>1))
          {
+            
             _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 3] = 255;
             _pixels[(x*_texture.getSize().x + y + 1 + _texture.getSize().x/2)*4 + 3] = 120;
             _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;
+            
          }
         /* else {
           std::cout << "y" << y << std::endl;
