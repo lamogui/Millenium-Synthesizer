@@ -54,10 +54,10 @@ class AudioStream : public sf::Mutex
     }
 
   protected:
-    unsigned short* _buffer;
-    unsigned short* _end; //end of the buffer
-    unsigned short* _pwrite; // pointeur d’écriture
-    unsigned short* _pread; // pointeur de lecture
+    short* _buffer;
+    short* _end; //end of the buffer
+    short* _pwrite; // pointeur d’écriture
+    short* _pread; // pointeur de lecture
     unsigned int _length; //size in samples
     unsigned int _count; //nombre de samples disponibles
   

@@ -2,6 +2,8 @@
 #include "audiostream.hpp"
 #include <iostream>
 
+#define MULTIPLIER_16 (0.22*32768)
+
 AudioStream::AudioStream(unsigned int buffer_length) :
 _buffer(0),
 _pwrite(0),
@@ -9,7 +11,7 @@ _pread(0),
 _length(buffer_length), 
 _count(0)
 {
-  _buffer=(unsigned short*) malloc(_length*2);
+  _buffer=(short*) malloc(_length*sizeof(short));
   _pread = _pwrite = _buffer;
   _end = _buffer + _length;
 }
@@ -23,7 +25,7 @@ bool AudioStream::setBufferLength(unsigned int buffer_length)
 {
   if (_count) return false;
   _length = buffer_length;
-  _buffer=(unsigned short*) realloc((void*) _buffer,_length<<2);
+  _buffer=(short*) realloc((void*) _buffer,_length*sizeof(short));
   _pread = _pwrite = _buffer;
   _end = _buffer + _length;
   return true;
@@ -70,14 +72,14 @@ bool AudioStream::writeSignal(const Signal& signal)
   unsigned int i=0;
   while (_pwrite != _end && Signal::size > i)
   {
-    const short v = (short)(signal.samples[i++]*32000.f);
+    const short v = (short)(signal.samples[i++]*MULTIPLIER_16);
     *_pwrite++ = v;
     *_pwrite++ = v;
   }
   if (_pwrite == _end) _pwrite = _buffer;
   while (Signal::size > i)
   {
-    const short v = (signal.samples[i++]*32000.f);
+    const short v = (signal.samples[i++]*MULTIPLIER_16);
     *_pwrite++ = v;
     *_pwrite++ = v;
   }
@@ -91,14 +93,14 @@ bool AudioStream::writeStereoSignal(const Signal& left,const Signal& right)
   unsigned int i=0;
   while (_pwrite != _end && Signal::size > i )
   {
-    *_pwrite++ = (short)(left.samples[i]*32000.f);
-    *_pwrite++ = (short)(right.samples[i++]*32000.f);
+    *_pwrite++ = (short)(left.samples[i]*MULTIPLIER_16);
+    *_pwrite++ = (short)(right.samples[i++]*MULTIPLIER_16);
   }
   if (_pwrite == _end) _pwrite = _buffer;
   while (Signal::size > i)
   {
-    *_pwrite++ = (short)(left.samples[i]*32000.f);
-    *_pwrite++ = (short)(right.samples[i++]*32000.f);
+    *_pwrite++ = (short)(left.samples[i]*MULTIPLIER_16);
+    *_pwrite++ = (short)(right.samples[i++]*MULTIPLIER_16);
   }
   _count += Signal::size << 1;
   return true;
