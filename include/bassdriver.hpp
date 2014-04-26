@@ -20,6 +20,8 @@ class BassDriver : public AudioDriver
     bool start(AudioStream* stream);
     void stop();
     
+    //bool haveStalled();
+    
   protected:
     HSTREAM _stream;
     
@@ -44,6 +46,8 @@ class BassAsioDriver : public AudioDriver
     void free();
     bool start(AudioStream* stream);
     void stop();
+    
+    //bool haveStalled();
     
   protected:
     bool _initialized;
