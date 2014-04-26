@@ -31,6 +31,8 @@ int main(int argc, char** argv)
   
   
   AudioDriver* driver;
+  
+  
   #ifdef COMPILE_WINDOWS
   if (GetSettingsFor("ASIO/UseASIODriver",false))
   {
@@ -44,7 +46,12 @@ int main(int argc, char** argv)
   }
   #endif
   if (!driver->init(Signal::frequency)) return 0xdead;
-  AudioStream stream(Signal::size*2);
+  
+  unsigned int streamSize=Signal::size<<1;
+  #ifdef COMPILE_WINDOWS
+  if (GetSettingsFor("ASIO/UseASIODriver",false)) streamSize=Signal::size<<2;
+  #endif
+  AudioStream stream(streamSize);
   
   sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
   
