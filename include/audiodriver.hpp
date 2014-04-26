@@ -32,6 +32,12 @@ class AudioDriver : public sf::NonCopyable
     
     //stop the audio thread
     virtual void stop()=0;
+    
+    
+    //Check if the driver has stalled since the last time it has stalled
+    //Stalled mean décrocher in french the driver, it happen when the driver have not enough samples.
+    //virtual bool haveStalled()=0;
+   
 };
 
 #endif
