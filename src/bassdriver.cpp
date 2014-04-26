@@ -297,15 +297,15 @@ bool BassAsioDriver::start(AudioStream* stream)
   }
   if (_right >= count || _left >= count)
   {
-    _right=0;
-    _left=1;
+    _right=1;
+    _left=0;
   }
   
-  if (!BASS_ASIO_ChannelEnable(0,_right,&_AsioProc,(void*)stream))// enable 1st output channel...
-    std::cerr << "Cannot enable channel right (Device ID: " << _right << ")" << std::endl;
-  if (!BASS_ASIO_ChannelJoin(0,_left,_right)) // and join the next channel to it (stereo)
+  if (!BASS_ASIO_ChannelEnable(0,_left,&_AsioProc,(void*)stream))// enable 1st output channel...
     std::cerr << "Cannot enable channel left (Device ID: " << _left << ")" << std::endl;
-  BASS_ASIO_ChannelSetFormat(0,_right,BASS_ASIO_FORMAT_16BIT); // set the source format (16-bit)
+  if (!BASS_ASIO_ChannelJoin(0,_right,_left)) // and join the next channel to it (stereo)
+    std::cerr << "Cannot enable channel right (Device ID: " << _right << ")" << std::endl;
+  BASS_ASIO_ChannelSetFormat(0,_left,BASS_ASIO_FORMAT_16BIT); // set the source format (16-bit)
   // start the ASIO device
   if (!BASS_ASIO_Start(0,0))
   {
@@ -346,10 +346,14 @@ DWORD CALLBACK BassAsioDriver::_AsioProc(BOOL input,
 {
   if (input) return 0;
   sf::Lock lock(*((AudioStream*) user));
-  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length>>1)) << 1;
+  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length>>1))<<1;
   if (!c)
   {
     std::cerr << "Critical here: ASIO want " << length << " but there is no data in queue" << std::endl;
+  }
+  else if (c!=length)
+  {
+    std::cerr << "Critical here: ASIO fill " << length-c << " bytes with silence" << std::endl;
   }
   return c;
 }
