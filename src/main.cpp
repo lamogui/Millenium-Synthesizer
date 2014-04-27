@@ -86,10 +86,11 @@ int main(int argc, char** argv)
   float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
   float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
   
-  sf::Texture backTexture;
+  sf::Texture backTexture, titleTexture;
   backTexture.loadFromFile("img/sangoten_back.bmp");
+  titleTexture.loadFromFile("img/titre.png");
   
-  sf::Sprite backSprite(backTexture);
+  sf::Sprite backSprite(backTexture), titleSprite(titleTexture);
   backSprite.setOrigin(205,423);
   backSprite.setPosition(window.getSize().x,window.getSize().y);
   //window.setFramerateLimit(Signal::refreshRate*1.5f);
@@ -352,6 +353,7 @@ int main(int argc, char** argv)
     window.setView(winView);
     window.draw(backSprite);
     window.draw(resizeTriangle);
+    window.draw(titleSprite);
     
     for (unsigned int i =0; i < _interfaces.size(); i++)
     {
