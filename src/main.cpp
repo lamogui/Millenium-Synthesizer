@@ -47,20 +47,61 @@ int main(int argc, char** argv)
   #endif
   if (!driver->init(Signal::frequency)) return 0xdead;
   
-  unsigned int streamSize=Signal::size<<1;
+  unsigned int streamSize=Signal::size<<2;
   #ifdef COMPILE_WINDOWS
   if (GetSettingsFor("ASIO/UseASIODriver",false)) streamSize=Signal::size<<2;
   #endif
   AudioStream stream(streamSize);
   
-  sf::RenderWindow window(sf::VideoMode(720, 360), "Millenium Synth");
+  //Window Borders
+  float clientWinSize_x=Signal::size+205-40;
+  float clientWinSize_y=480;
+  float borderWinSize_up=40;
+  float borderWinSize_down=20;
+  float borderWinSize_right=20;
+  float borderWinSize_left=20;
+  bool onMoveWin=false;
+  bool onResizeWin=false;
   
+  
+  sf::Vector2i previousWinPos;
+  sf::Vector2i previousMousePos;
+  sf::Vector2u previousWinSize;
+  sf::ConvexShape resizeTriangle;
+  resizeTriangle.setPointCount(3);
+  resizeTriangle.setPoint(0, sf::Vector2f(15, 0));
+  resizeTriangle.setPoint(1, sf::Vector2f(15, 15));
+  resizeTriangle.setPoint(2, sf::Vector2f(0, 15));
+  resizeTriangle.setOrigin(0,0);
+  resizeTriangle.setFillColor(sf::Color(142,142,142,255));
+  resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
+  
+  sf::RenderWindow window(sf::VideoMode(clientWinSize_x+borderWinSize_right+borderWinSize_left,
+                                        clientWinSize_y+borderWinSize_up+borderWinSize_down), 
+                                        "Millenium Synth",0);
+                                        
+  sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
+  float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
+  float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
+  float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
+  float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  
+  sf::Texture backTexture;
+  backTexture.loadFromFile("img/sangoten_back.bmp");
+  
+  sf::Sprite backSprite(backTexture);
+  backSprite.setOrigin(205,423);
+  backSprite.setPosition(window.getSize().x,window.getSize().y);
   //window.setFramerateLimit(Signal::refreshRate*1.5f);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
   Interface* currentInterfaceCatcher=NULL;
-  Scope myScope(sf::Vector2f(window.getSize().x,window.getSize().y/4));
+  std::vector<Interface*> _interfaces;
+  
+  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
+  _interfaces.push_back(&myScope);
+  
   
   float dt=0.02;
   unsigned int time=0;
@@ -74,17 +115,17 @@ int main(int argc, char** argv)
     if (std::string("careme") == argv[1]) 
     {
       myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
+      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
       myInstrument = new PureSquare;
-      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
     }
     else 
     {
       myInstrument = new NELead6;
-      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
+      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
       
     }
     
@@ -92,10 +133,12 @@ int main(int argc, char** argv)
   else 
   {
     myInstrument = new NELead6;
-    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(window.getSize().x,window.getSize().y*3.f/4.f));
+    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
   }
-  myInterface->setViewport(sf::FloatRect(0,0,1,0.75f));
-  myScope.setViewport(sf::FloatRect(0,0.75f,myScope.getIdealSize().x/(float)window.getSize().x,0.25f));
+  _interfaces.push_back(myInterface);
+  
+  myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,0.75f*viewPortMax_y));
+  myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+0.75f*viewPortMax_y,viewPortMax_x,0.25f*viewPortMax_y));
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
@@ -121,44 +164,70 @@ int main(int argc, char** argv)
           break;
         case sf::Event::Resized:
           {
+            float clientWinSize_x=window.getSize().x-borderWinSize_left-borderWinSize_right;
+            float clientWinSize_y=window.getSize().y-borderWinSize_up-borderWinSize_down;
+            winView = sf::View(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
+            float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
+            float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
+            float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
+            float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+          
+            resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
+          
             // Toute la place est disponible 
-            if (event.size.height > myInterface->getIdealSize().y + myScope.getIdealSize().y)
+            if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
-              myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y);
-              float y1 = myInterface->getIdealSize().y/(float)event.size.height;
-              myInterface->setViewport(sf::FloatRect(0,0,1,y1));
-              myScope.setViewSize(event.size.width,myScope.getIdealSize().y);
-              float y2 = myScope.getIdealSize().y/(float)event.size.height;
-              myScope.setViewport(sf::FloatRect(0,y1,1,y2));
+              myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y);
+              float y1 = myInterface->getIdealSize().y/(float)clientWinSize_y;
+              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
+              myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y);
+              float y2 = myScope.getIdealSize().y/(float)clientWinSize_y;
+              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
               y1+=y2;
             }
             else //on alloue proportionellement à la place dispo
             {
               float tot = myInterface->getIdealSize().y + myScope.getIdealSize().y;
-              myInterface->setViewSize(event.size.width,myInterface->getIdealSize().y*event.size.height/tot);
+              myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y*clientWinSize_y/tot);
               float y1 = myInterface->getIdealSize().y/tot;
-              myInterface->setViewport(sf::FloatRect(0,0,1,y1));
-              myScope.setViewSize(event.size.width,myScope.getIdealSize().y*event.size.height/tot);
+              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
+              myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y*clientWinSize_y/tot);
               float y2 = myScope.getIdealSize().y/tot;
-              myScope.setViewport(sf::FloatRect(0,y1,1,y2));
+              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
               y1+=y2;
             }
+            
+            backSprite.setPosition(window.getSize().x,window.getSize().y);
           }
           break;
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
+            previousMousePos=sf::Vector2i(event.mouseButton.x,event.mouseButton.y);
+            previousWinPos=window.getPosition();
+            previousWinSize=window.getSize();
             if (!currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),myInterface->getView()); 	
-              currentMouseCatcher = myInterface->onMousePress(v.x,v.y);
-              currentInterfaceCatcher = myInterface;
-              if (!currentMouseCatcher)
+              for (unsigned int i =0; i < _interfaces.size(); i++)
               {
-                v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),myScope.getView()); 	
-                currentMouseCatcher = myScope.onMousePress(v.x,v.y);
-                currentInterfaceCatcher = &myScope;
+                sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),_interfaces[i]->getView()); 
+                if (currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y))
+                {
+                  currentInterfaceCatcher = _interfaces[i];
+                  break;
+                }
               }
+            }
+            if (!currentMouseCatcher)
+            {
+              if (event.mouseButton.x > window.getSize().x - borderWinSize_right && 
+                  event.mouseButton.y > window.getSize().y - borderWinSize_down)
+              {
+                onResizeWin=true;
+                resizeTriangle.setFillColor(sf::Color(142,42,42,255));
+              }
+              else
+                onMoveWin=true;
             }
           }
           break;
@@ -170,6 +239,16 @@ int main(int argc, char** argv)
               sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),currentInterfaceCatcher->getView()); 
               currentMouseCatcher->onMouseRelease(v.x,v.y);
               currentMouseCatcher=NULL;
+              currentInterfaceCatcher=NULL;
+            }
+            else if (onResizeWin)
+            {
+              onResizeWin=false;
+              resizeTriangle.setFillColor(sf::Color(142,142,142,255));
+            }
+            else if (onMoveWin)
+            {
+              onMoveWin=false;
             }
           }
           break;
@@ -178,6 +257,18 @@ int main(int argc, char** argv)
           {
             sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),currentInterfaceCatcher->getView());
             currentMouseCatcher->onMouseMove(v.x,v.y);
+          }
+          else if (onMoveWin)
+          {
+            window.setPosition(sf::Vector2i(event.mouseMove.x,event.mouseMove.y) - previousMousePos + previousWinPos);
+            previousWinPos=window.getPosition();
+          }
+          else if (onResizeWin)
+          {
+            sf::Vector2u newSize = sf::Vector2u(event.mouseMove.x-previousMousePos.x + previousWinSize.x,event.mouseMove.y-previousMousePos.y + previousWinSize.y);
+            if (newSize.x < 400) newSize.x = 400;
+            if (newSize.y < 200) newSize.y = 200;
+            window.setSize(newSize);
           }
           break;
           
@@ -256,13 +347,17 @@ int main(int argc, char** argv)
     
    
     
-    window.clear();
+    window.clear(sf::Color(42,42,42,255));
     
-    window.setView(myInterface->getView());
-    window.draw(*myInterface);
-    window.setView(myScope.getView());
-    window.draw(myScope);
+    window.setView(winView);
+    window.draw(backSprite);
+    window.draw(resizeTriangle);
     
+    for (unsigned int i =0; i < _interfaces.size(); i++)
+    {
+      window.setView(_interfaces[i]->getView());
+      window.draw(*(_interfaces[i]));
+    }
     // Update the window
     window.display();
     
