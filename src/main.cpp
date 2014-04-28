@@ -1,4 +1,8 @@
 
+#ifdef _MSC_VER
+#    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#endif
+
 #include "config.hpp"
 
 #include <cstdio>

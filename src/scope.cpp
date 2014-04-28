@@ -60,13 +60,13 @@ void Scope::update()
 {
    if (_pixels)
    {
-      const int s = _texture.getSize().x*_texture.getSize().y*4;
+      const unsigned int s = (_texture.getSize().x*_texture.getSize().y) << 2;
       for (unsigned int i=3; i < s;i+=4)
       {
          _pixels[i]=0;
       }
       
-      const int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
+      const unsigned int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
       //std::cout << "l" << l  << "signal size " << Signal::size << "y" << _texture.getSize().y << "x"  << _texture.getSize().x << std::endl;
       for (unsigned int x=0; x < l;x++)
       {

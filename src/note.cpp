@@ -60,6 +60,7 @@ Note& Note::operator=(const Note& c)
   lenght = c.lenght;
   id = c.id;
   velocity = c.velocity;
+  return *this;
 }
 
 InstrumentParameter::InstrumentParameter(short value, short min, short max) :
