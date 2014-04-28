@@ -77,6 +77,16 @@ File -> Switch Workspace -> Selectionner le dossier workspace dans
 "Mes Documents\Github\POO\mis\workspace"
 
 
+S'impliquer dans le projet
+==========================
+
+Vous voulez coder quelquechose pour le projet ? permettez moi de vous rediriger vers 
+ce merveilleux wiki pour savoir où commencer... Une fois que vous maitrisez le code 
+vous pouvez par exemple faire un TODO voir ci-dessous
+Procédez par un classique Fork puis Pull Request et je vous ajouterai sur les contributeurs
+
+
+
 TODO
 ====
 
