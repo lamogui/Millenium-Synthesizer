@@ -1,9 +1,9 @@
 Aperçus
 =======
 
-![](https://raw.githubusercontent.com/lamogui/POO/master/mis/img/capture%20puresquare.png "Pure Square Synth")
+![](https://github.com/lamogui/Millenium-Synthesizer/raw/master/mis/img/capture%20puresquare.png "Pure Square Synth")
 
-![](https://raw.githubusercontent.com/lamogui/POO/master/mis/img/capture%20inro.png "NELead6 (inspiré du nord lead 3")
+![](https://github.com/lamogui/Millenium-Synthesizer/raw/master/mis/img/capture%20inro.png "NELead6 (inspiré du nord lead 3")
 
 
 Installation
