@@ -63,7 +63,7 @@ void SinusoidalOscillator::step(Signal* output)
   sample* m = getFM().samples;
   
   const float k=(2.0*3.1415/(float)Signal::frequency);
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     const float x=k*f[i]*_time;
     samples[i] = a[i]*sin(x + m[i]);
@@ -91,7 +91,7 @@ void SquareOscillator::step(Signal* output)
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
     if (t>s[i]) {
@@ -122,7 +122,7 @@ void SawOscillator::step(Signal* output)
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     samples[i]=-a[i]*(2.f*f[i]*fmod(_time/(float)Signal::frequency + m[i],1.f/f[i])-1.f);
     _time++;
@@ -148,7 +148,7 @@ void TriangleOscillator::step(Signal* output)
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     t=(1.f+2.f*s[i])*(fabs(4.f*f[i]*fmod(_time/(float)Signal::frequency + m[i],1.f/f[i])-2.f)-(1.f));
     /*if (t > 1.f - 0.5f*s[i]) t=1.f - 0.5f*s[i];

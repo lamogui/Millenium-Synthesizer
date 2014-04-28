@@ -34,7 +34,7 @@ void LowPassFilter::step(Signal* inout)
   sample* f = getFrequency().samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
@@ -57,7 +57,7 @@ sample* samples = inout->samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
   const float _2te=te*2.f;
-  for (int i=0; i<Signal::size;i++)
+  for (unsigned int i=0; i<Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
@@ -84,7 +84,7 @@ void BandPassFilter2::step(Signal* inout)
   sample* m = getResonance().samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
-  for (int i=0;i < Signal::size;i++)
+  for (unsigned int i=0;i < Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
@@ -112,7 +112,7 @@ void HighPassFilter::step(Signal* inout)
   sample* f = getFrequency().samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
-  for (int i=0; i<Signal::size;i++)
+  for (unsigned int i=0; i<Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
@@ -136,7 +136,7 @@ void HighPassFilter2::step(Signal* inout)
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
   const float _2te=te*2.f;
-  for (int i=0; i<Signal::size;i++)
+  for (unsigned int i=0; i<Signal::size;i++)
   {
     const float w0=f[i]*pi_2;
     const float w0te=w0*te;
@@ -166,7 +166,7 @@ void Rejector::step(Signal* inout) {
   sample* m = getResonance().samples;
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
-  for (int i=0; i<Signal::size; i++)
+  for (unsigned int i=0; i<Signal::size; i++)
   {
     const float w0te=f[i]*te;
     const float w02te2=w0te*w0te;

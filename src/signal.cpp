@@ -79,6 +79,7 @@ void Signal::constant(sample constant)
 Signal& Signal::operator=(const Signal& s)
 {
   memcpy((void*) samples,(void*) s.samples,Signal::byteSize);
+  return *this;
 }
 
 void Signal::_reset()

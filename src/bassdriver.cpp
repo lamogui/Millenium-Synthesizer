@@ -30,7 +30,7 @@ bool BassDriver::init(unsigned int rate)
 
   if (HIWORD(BASS_GetVersion())!=BASSVERSION) {
 		#if defined(COMPILE_WINDOWS)
-    MessageBox(NULL,"An incorrect version of BASS was loaded", "BASS Load Error", MB_OK | MB_ICONERROR);
+    MessageBoxA(NULL,"An incorrect version of BASS was loaded", "BASS Load Error", MB_OK | MB_ICONERROR);
     #endif
     std::cerr << "Incorrect BASS version loaded excepted " << BASSVERSION << " got " << HIWORD(BASS_GetVersion()) << std::endl;
     return false;
@@ -41,7 +41,7 @@ bool BassDriver::init(unsigned int rate)
     std::string error = "Error at BASS initialisation: ";
     error += handleBassInitError();
     #if defined(COMPILE_WINDOWS)
-    MessageBox(NULL,error.c_str(), "BASS Init Error", MB_OK | MB_ICONERROR);
+    MessageBoxA(NULL,error.c_str(), "BASS Init Error", MB_OK | MB_ICONERROR);
     #endif
     std::cerr << error << std::endl;
     return false;
@@ -102,7 +102,7 @@ bool BassDriver::start(AudioStream* stream)
     std::string error = "Error at BASS Stream Creation: ";
     error += handleBassStreamCreateError();
     #if defined(COMPILE_WINDOWS)
-    MessageBox(NULL,error.c_str(), "BASS Stream Create Error", MB_OK | MB_ICONERROR);
+    MessageBoxA(NULL,error.c_str(), "BASS Stream Create Error", MB_OK | MB_ICONERROR);
     #endif
     std::cerr << error << std::endl;
     return false;
@@ -118,7 +118,7 @@ bool BassDriver::start(AudioStream* stream)
       std::string error = "Failed to start channel: ";
       error += handleBassChannelPlayError();
       #if defined(COMPILE_WINDOWS)
-      MessageBox(NULL,error.c_str(), "BASS Channel Error", MB_OK | MB_ICONERROR);
+      MessageBoxA(NULL,error.c_str(), "BASS Channel Error", MB_OK | MB_ICONERROR);
       #endif
       std::cerr << error << std::endl;
       BASS_StreamFree(_stream);
@@ -228,7 +228,7 @@ bool BassAsioDriver::init(unsigned int rate)
   {
     if (selected_driver == -1)
     {
-      MessageBox(NULL,"The ASIO driver selected in the settings file doesn't exists, now load default driver", "Missing ASIO Driver", MB_OK | MB_ICONWARNING);
+      MessageBoxA(NULL,"The ASIO driver selected in the settings file doesn't exists, now load default driver", "Missing ASIO Driver", MB_OK | MB_ICONWARNING);
       std::cout << "The ASIO driver selected in the settings file doesn't exists, now load default driver" << std::endl;
       selected_driver=0;
     }
@@ -237,7 +237,7 @@ bool BassAsioDriver::init(unsigned int rate)
     {
       std::string error="Error BASS ASIO initialisation failed: ";
       error+=handleBassAsioInitError();
-      MessageBox(NULL,error.c_str(), "BASS ASIO Init Error", MB_OK | MB_ICONERROR);
+      MessageBoxA(NULL,error.c_str(), "BASS ASIO Init Error", MB_OK | MB_ICONERROR);
       std::cerr << error << std::endl;
       return false;
     }
@@ -259,7 +259,7 @@ bool BassAsioDriver::init(unsigned int rate)
   }
   else
   {
-    MessageBox(NULL,"Unable to find an ASIO driver, now start without", "No ASIO Driver Founds", MB_OK | MB_ICONWARNING);
+    MessageBoxA(NULL,"Unable to find an ASIO driver, now start without", "No ASIO Driver Founds", MB_OK | MB_ICONWARNING);
     std::cout << "Unable to find an ASIO driver start without" << std::endl;
     return false;
   }
@@ -292,7 +292,7 @@ bool BassAsioDriver::start(AudioStream* stream)
   
   if (count < 2)
   {
-    MessageBox(NULL,"Error the driver not provide stereo channels", "Need 2 channels", MB_OK | MB_ICONERROR);
+    MessageBoxA(NULL,"Error the driver not provide stereo channels", "Need 2 channels", MB_OK | MB_ICONERROR);
     return false;
   }
   if (_right >= count || _left >= count)
@@ -310,7 +310,7 @@ bool BassAsioDriver::start(AudioStream* stream)
   if (!BASS_ASIO_Start(0,0))
   {
     std::string error = handleBassAsioStartError();
-    MessageBox(NULL,error.c_str(), "Can't start ASIO device", MB_OK | MB_ICONERROR);
+    MessageBoxA(NULL,error.c_str(), "Can't start ASIO device", MB_OK | MB_ICONERROR);
     std::cerr << "Can't start ASIO device: " << error << std::endl;
     return false;
   }

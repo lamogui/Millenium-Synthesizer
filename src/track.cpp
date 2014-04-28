@@ -46,21 +46,21 @@ bool Track::seek(unsigned int time)
   bool found = false;
   for (unsigned int i=0;i<_notes.size();i++)
   {
-    if (_notes.start >= time) {
+    if (_notes[i].start >= time) {
       _currentNote=i;
       found=true;
       _time=time;
       break;
     }
-    else if (_notes.start + _notes.lenght >= time) {
+    else if (_notes[i].start + _notes[i].lenght >= time) {
       _currentNote=i;
-      _time=_notes.start
+      _time=_notes[i].start;
       found=true;
     }
   }
   for (unsigned int i=0;i<_events.size();i++)
   {
-    if (_events.appear >= _time) {
+    if (_events[i].appear >= _time) {
       _currentEvent=i;
       break;
     }
@@ -108,7 +108,7 @@ bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
   //float bpm=1.f;
   if (time_division & 0x8000)
   {
-    multiplier = Signal::rate * 60.f / (float) (time_division & 0x7FFF);
+    multiplier = Signal::frequency * 60.f / (float) (time_division & 0x7FFF);
     //bpm = 120.f; //default tempo
   }
   else
@@ -116,7 +116,7 @@ bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
     unsigned fps = (time_division & 0x7F00) >> 8;
     float fps_f = (float) fps;
     if (fps == 29) fps_f=29.97f;
-    multiplier = (float) Signal::rate  / (fps_f * (float) (time_division & 0xFF));
+    multiplier = (float) Signal::frequency  / (fps_f * (float) (time_division & 0xFF));
     
   }
   
@@ -125,7 +125,7 @@ bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
   
   bool errorfile=false;
   char magic[5] = {0};
-  if (file.read(magic,4) && std::string("MTrk") == magic) {
+  if (file.read(magic,4) && strcmp("MTrk",magic) == 0) {
     DWORD size=0;
     if (!file>>size) errorfile=true;
     std::cout << "Track chunk size: " << size <<std::endl;
