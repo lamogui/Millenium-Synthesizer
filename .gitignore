@@ -43,8 +43,8 @@ clean.bat
 recordFile
 
 #settings files
-./settings.ini
+settings.ini
 
 #dll
-./bass.dll
-./bassasio.dll
+bass.dll
+bassasio.dll
