@@ -81,7 +81,7 @@ S'impliquer dans le projet
 ==========================
 
 Vous voulez coder quelquechose pour le projet ? permettez moi de vous rediriger vers 
-ce merveilleux wiki pour savoir où commencer... Une fois que vous maitrisez le code 
+ce merveilleux [wiki](https://github.com/lamogui/Millenium-Synthesizer/wiki) pour savoir où commencer... Une fois que vous maitrisez le code 
 vous pouvez par exemple faire un TODO voir ci-dessous
 Procédez par un classique Fork puis Pull Request et je vous ajouterai sur les contributeurs
 
