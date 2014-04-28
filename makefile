@@ -61,7 +61,9 @@ HEADER=	include/signal.hpp \
 defaut:
 	@echo you must choose :
 	@echo   - make win32
-	@echo   - make linux64enib
+	@echo   - make linux32
+	@echo   - make linux64
+	@echo   - make linux64enib (special ENIB)
 	
 
 build/%.o: src/%.c $(HEADER)
@@ -79,6 +81,12 @@ build/%.o: src/%.rc
 
 win32: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).exe $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
+	
+linux32: $(HEADER) $(OBJ) $(FILECPP)
+	g++ -o $(TARGET_NAME).x32 $(OBJ) $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
+	
+linux64: $(HEADER) $(OBJ) $(FILECPP)
+	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 
 linux64enib: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).enib $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/libsfml-graphics.a" "./liblinux64/libsfml-window.a" "./liblinux64/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/libGLEW.a"
