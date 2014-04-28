@@ -33,6 +33,7 @@ Release
 *.lastbuildstate
 *.tlog
 *.log
+visual/visual.opensdf
 
 clean.bat
 
