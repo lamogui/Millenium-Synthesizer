@@ -34,8 +34,9 @@ Linux
    Vous devez avoir la version officielle (non compatible ENIB) de la SFML 2.1 
    
  - 64 bits ENIB : lancez la commande "make linux64enib" puis lancez "./test.enib"
-   Attention la version 2.1 sans support des fonts (sans freetype) est utilisé lors de 
-   la compilation. Elle est incluse dans le répértoire SFML (à recompiler au besoin)
+   Attention la version 2.1 statique sans support des fonts (sans freetype) est utilisé 
+   lors de la compilation. Elle est incluse dans le répértoire liblinux64/ENIB 
+   Plus d'infos sur cette version modifié de la SFML 2.1 ici https://github.com/lamogui/SFML_2.1_ENIB
    
  Sous linux le son semble bugué (c'est ennuyeux c'est vrai).
  
