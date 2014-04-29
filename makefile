@@ -89,5 +89,5 @@ linux64: $(HEADER) $(OBJ) $(FILECPP)
 	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 
 linux64enib: $(HEADER) $(OBJ) $(FILECPP)
-	g++ -o $(TARGET_NAME).enib $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/libsfml-graphics.a" "./liblinux64/libsfml-window.a" "./liblinux64/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/libGLEW.a"
+	g++ -o $(TARGET_NAME).enib $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
 	
