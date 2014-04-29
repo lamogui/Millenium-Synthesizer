@@ -72,7 +72,7 @@ build/%.o: src/%.c $(HEADER)
 
 build/%.o: src/%.cpp $(HEADER)
 	@echo Compilation C++ $< to $@
-	g++ -c $< -o $@ $(CXXFLAGS)
+	g++ -std=c++11 -c $< -o $@ $(CXXFLAGS)
 
 #windows only
 build/%.o: src/%.rc

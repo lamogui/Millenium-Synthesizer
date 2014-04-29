@@ -1,6 +1,7 @@
 
 #include "oscillator.hpp"
 #include <cmath>
+#include <random>
 
 Oscillator::Oscillator() 
 {
@@ -156,6 +157,27 @@ void TriangleOscillator::step(Signal* output)
     if (t > 1.f)  t=1.f;
     else if (t < -1.f)  t=-1.f;
     samples[i]=a[i]*t;
+    _time++;
+  }
+}
+
+WhiteNoiseOscillator::WhiteNoiseOscillator()
+{
+}
+
+WhiteNoiseOscillator::~WhiteNoiseOscillator()
+{
+}
+
+void WhiteNoiseOscillator::step(Signal* output)
+{
+  sample* samples = output->samples;
+  std::default_random_engine generator;
+  std::uniform_int_distribution<int> distribution(-1,1); 
+
+  for (unsigned int i=0;i < Signal::size;i++)
+  {
+    samples[i]= distribution(generator);
     _time++;
   }
 }
