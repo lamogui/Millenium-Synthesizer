@@ -107,5 +107,13 @@ class TriangleOscillator : public Oscillator
     virtual void step(Signal* output);
 };
 
-;
+class WhiteNoiseOscillator : public Oscillator
+{
+  public:
+    WhiteNoiseOscillator ();
+    virtual ~WhiteNoiseOscillator ();
+  
+    virtual void step(Signal* output);
+};
+
 #endif
