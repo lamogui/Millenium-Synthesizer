@@ -38,12 +38,12 @@ Linux
    lors de la compilation. Elle est incluse dans le répértoire liblinux64/ENIB 
    Plus d'infos sur cette version modifié de la SFML 2.1 ici https://github.com/lamogui/SFML_2.1_ENIB
    
- Sous linux le son semble bugué (c'est ennuyeux c'est vrai).
+Sous linux le son semble bugué (c'est ennuyeux c'est vrai).
  
 MACOSX
 ------
 
- Trololol
+ Désolé d'être pauvre Trololol
  
 Utilisation
 ===========
@@ -56,12 +56,10 @@ Repertoires
 ===========
 
  - build : contient les fichiers compilés par mingw/gcc
- - glew-1.7.0 : contient la lib GLEW pour compiler la SFML à l'ENIB
  - img : contient les textures et captures d'écrans
  - include : contient les déclarations (hpp) et les en-têtes des librairies
  - libXXXX : contints les librairies pour la platforme XXXX
  - mis : contient lUML
- - SFML : contient une version modifié de la SFML pour qu'elle soit compatible à l'ENIB
  - src : contient les fichiers sources du projet
  - visual : contient les fichiers pour compiler avec visual studio 11 (2012) en 64bits.
  
