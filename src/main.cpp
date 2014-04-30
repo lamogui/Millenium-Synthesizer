@@ -270,10 +270,13 @@ int main(int argc, char** argv)
           }
           else if (onResizeWin)
           {
-            sf::Vector2u newSize = sf::Vector2u(event.mouseMove.x-previousMousePos.x + previousWinSize.x,event.mouseMove.y-previousMousePos.y + previousWinSize.y);
-            if (newSize.x < 400) newSize.x = 400;
-            if (newSize.y < 200) newSize.y = 200;
-            window.setSize(newSize);
+            if (event.mouseMove.x > 0 && event.mouseMove.y > 0)
+            {
+              sf::Vector2u newSize = sf::Vector2u(event.mouseMove.x-previousMousePos.x + previousWinSize.x,event.mouseMove.y-previousMousePos.y + previousWinSize.y);
+              if (newSize.x < 400) newSize.x = 400;
+              if (newSize.y < 200) newSize.y = 200;
+              window.setSize(newSize);
+            }
           }
           break;
           
