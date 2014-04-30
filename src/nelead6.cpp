@@ -3,9 +3,9 @@
 
 NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
-_osc1(new WhiteNoiseOscillator),
+_osc1(new SawOscillator),
 _osc2(new TriangleOscillator),
-_lfo1(new SawOscillator),
+_lfo1(new RandomSmoothOscillator),
 _lfo2(new TriangleOscillator),
 _filter1(new LowPassFilter2),
 _currentNote(0,NOT_A_NOTE)
