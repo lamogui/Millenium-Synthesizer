@@ -116,4 +116,24 @@ class WhiteNoiseOscillator : public Oscillator
     virtual void step(Signal* output);
 };
 
+class RandomOscillator : public Oscillator
+{
+  public:
+    RandomOscillator ();
+    virtual ~RandomOscillator ();
+  
+    virtual void step(Signal* output);
+};
+
+class RandomSmoothOscillator : public Oscillator
+{
+  public:
+    RandomSmoothOscillator ();
+    virtual ~RandomSmoothOscillator ();
+  
+    virtual void step(Signal* output);
+  private:
+    float _y_1;
+};
+
 #endif

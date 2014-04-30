@@ -2,6 +2,9 @@
 #include "oscillator.hpp"
 #include <cmath>
 #include <random>
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 Oscillator::Oscillator() 
 {
@@ -182,4 +185,88 @@ void WhiteNoiseOscillator::step(Signal* output)
   }
 }
 
+RandomOscillator::RandomOscillator()
+{
+  setShape(0.5);
+}
+
+RandomOscillator::~RandomOscillator()
+{
+}
+
+
+void RandomOscillator::step(Signal* output)
+{
+  float t;
+  sample* samples = output->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
+  
+  /* initialize random seed: */
+  srand (time(NULL));
+  float number=0;
+  for (unsigned int i=0;i < Signal::size;i++)
+  {
+    t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
+    number = ((double)rand()/(double)RAND_MAX);
+    if (t>s[i]) {
+      samples[i]=number*a[i];
+    }
+    else {
+      samples[i]=-a[i]*number;
+    }
+    //std::cout << samples[i]<< std::endl;
+    _time++;
+  }
+}
+
+RandomSmoothOscillator::RandomSmoothOscillator():
+  _y_1(0)
+{
+  setShape(0.5);
+}
+
+RandomSmoothOscillator::~RandomSmoothOscillator()
+{
+}
+
+
+void RandomSmoothOscillator::step(Signal* output)
+{
+  float t;
+  sample* samples = output->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
+  
+  /* initialize random seed: */
+  srand (time(NULL));
+  float number=0;
+  const float pi_2 = 3.1415f*2.f;
+  const float te = 1.f/(float)Signal::frequency;
+  for (unsigned int i=0;i < Signal::size;i++)
+  {
+    const float w0=f[i]*pi_2;
+    const float w0te=w0*te;
+    const float d=1.f+w0te;
+    const float a0=w0te/d;
+    const float b1=1.f/d;
+    
+    t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
+    number = (rand()/(double)RAND_MAX);
+    if (t>s[i]) {
+      samples[i]=number*a[i];
+    }
+    else {
+      samples[i]=-a[i]*number;
+    }
+    _y_1 = samples[i] = a0*samples[i]+b1*_y_1;
+    _time++;
+  }
+}
 
