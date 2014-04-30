@@ -68,11 +68,11 @@ defaut:
 
 build/%.o: src/%.c $(HEADER)
 	@echo Compilation C $< to $@
-	gcc -c $< -o $@ $(CFLAGS)
+	gcc -c $< -o $@ -std=c99 $(CFLAGS)
 
 build/%.o: src/%.cpp $(HEADER)
 	@echo Compilation C++ $< to $@
-	g++ -std=c++11 -c $< -o $@ $(CXXFLAGS)
+	g++  -c $< -o $@ $(CXXFLAGS)
 
 #windows only
 build/%.o: src/%.rc
