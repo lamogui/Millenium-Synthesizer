@@ -123,6 +123,11 @@ class RandomOscillator : public Oscillator
     virtual ~RandomOscillator ();
   
     virtual void step(Signal* output);
+    
+  private:
+    bool _flipped;
+    float _last_value;
+    
 };
 
 class RandomSmoothOscillator : public Oscillator
@@ -133,6 +138,8 @@ class RandomSmoothOscillator : public Oscillator
   
     virtual void step(Signal* output);
   private:
+    bool _flipped;
+    float _last_value;
     float _y_1;
 };
 

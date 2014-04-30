@@ -1,7 +1,6 @@
 
 #include "oscillator.hpp"
 #include <cmath>
-#include <random>
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -155,8 +154,6 @@ void TriangleOscillator::step(Signal* output)
   for (unsigned int i=0;i < Signal::size;i++)
   {
     t=(1.f+2.f*s[i])*(fabs(4.f*f[i]*fmod(_time/(float)Signal::frequency + m[i],1.f/f[i])-2.f)-(1.f));
-    /*if (t > 1.f - 0.5f*s[i]) t=1.f - 0.5f*s[i];
-    else if (t < -1.f + 0.5f*s[i]) t=-1.f + 0.5f*s[i];*/
     if (t > 1.f)  t=1.f;
     else if (t < -1.f)  t=-1.f;
     samples[i]=a[i]*t;
@@ -175,17 +172,18 @@ WhiteNoiseOscillator::~WhiteNoiseOscillator()
 void WhiteNoiseOscillator::step(Signal* output)
 {
   sample* samples = output->samples;
-  std::default_random_engine generator;
-  std::uniform_real_distribution<float> distribution(-1.0,1.0); 
+  sample* a = getAmplitude().samples;
 
   for (unsigned int i=0;i < Signal::size;i++)
   {
-    samples[i]= distribution(generator);
+    samples[i]= a[i]*(((double)rand()/(double)(RAND_MAX>>1))-1.f);
     _time++;
   }
 }
 
-RandomOscillator::RandomOscillator()
+RandomOscillator::RandomOscillator() :
+_flipped(false),
+_last_value(0)
 {
   setShape(0.5);
 }
@@ -205,26 +203,23 @@ void RandomOscillator::step(Signal* output)
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  /* initialize random seed: */
-  srand (time(NULL));
   float number=0;
   for (unsigned int i=0;i < Signal::size;i++)
   {
     t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
-    number = ((double)rand()/(double)RAND_MAX);
-    if (t>s[i]) {
-      samples[i]=number*a[i];
+    if ((t>s[i] && !_flipped) || (t<=s[i] && _flipped)){
+      _last_value = ((double)rand()/(double)(RAND_MAX>>1))-1.f;
+      _flipped=!_flipped;
     }
-    else {
-      samples[i]=-a[i]*number;
-    }
-    //std::cout << samples[i]<< std::endl;
+    samples[i]=_last_value*a[i];
     _time++;
   }
 }
 
 RandomSmoothOscillator::RandomSmoothOscillator():
-  _y_1(0)
+_flipped(false),
+_last_value(0),
+_y_1(0)
 {
   setShape(0.5);
 }
@@ -244,9 +239,7 @@ void RandomSmoothOscillator::step(Signal* output)
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  /* initialize random seed: */
-  srand (time(NULL));
-  float number=0;
+
   const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
   for (unsigned int i=0;i < Signal::size;i++)
@@ -258,14 +251,11 @@ void RandomSmoothOscillator::step(Signal* output)
     const float b1=1.f/d;
     
     t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
-    number = (rand()/(double)RAND_MAX);
-    if (t>s[i]) {
-      samples[i]=number*a[i];
+    if ((t>s[i] && !_flipped) || (t<=s[i] && _flipped)) {
+      _last_value = ((double)rand()/(double)(RAND_MAX>>1))-1.f;
+      _flipped=!_flipped;
     }
-    else {
-      samples[i]=-a[i]*number;
-    }
-    _y_1 = samples[i] = a0*samples[i]+b1*_y_1;
+    _y_1 = samples[i] = a0*a[i]*_last_value+b1*_y_1;
     _time++;
   }
 }
