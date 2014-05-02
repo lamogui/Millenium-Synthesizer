@@ -23,6 +23,8 @@ class AbstractInstrument
 {
   public:
     virtual ~AbstractInstrument() {};
+    
+    virtual void notify(InstrumentParameter* p) = 0; //notification d'un changement de valeur de parametre 
     virtual bool playNote(Note & n)=0;
     //if rightout then user want a mono signal
     virtual void step(Signal* leftout, Signal* rightout=0)=0;
@@ -103,6 +105,11 @@ class Instrument : public AbstractInstrument
       {
         delete _voices[i];
       }
+    }
+    
+    virtual void notify(InstrumentParameter* p)
+    {
+      //nothing to do
     }
     
     virtual bool playNote(Note & n)

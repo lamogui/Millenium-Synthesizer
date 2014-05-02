@@ -64,6 +64,7 @@ Note& Note::operator=(const Note& c)
 }
 
 InstrumentParameter::InstrumentParameter(short value, short min, short max) :
+_instrument(NULL),
 _modified(true),
 _auto(false),
 _value(value),
@@ -74,6 +75,7 @@ _max(max)
 }
 
 InstrumentParameter::InstrumentParameter(const InstrumentParameter& p) :
+_instrument(NULL),
 _modified(true),
 _auto(false),
 _value(p._value),
@@ -132,6 +134,11 @@ bool InstrumentParameter::setValue(short v)
   return _auto;
 }
 
+inline void InstrumentParameter::notify() {
+  _modified=true; 
+  if (_instrument) _instrument->notify(this);
+}
+
 InstrumentParameterEvent::InstrumentParameterEvent() :
 appear(0),
 value(0),
@@ -161,3 +168,5 @@ InstrumentParameterEvent& InstrumentParameterEvent::operator=(const InstrumentPa
   value=e.value;
   id=e.id;
 }
+
+

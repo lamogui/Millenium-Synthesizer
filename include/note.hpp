@@ -2,9 +2,11 @@
 #define ___NOTES
 
 
-//a music note
-class InstrumentVoice;
 
+class InstrumentVoice;
+class AbstractInstrument;
+
+//a music note
 class Note
 {
   public:
@@ -60,7 +62,6 @@ class Note
     
 };
 
-
 class InstrumentParameter
 {
   public:
@@ -95,6 +96,12 @@ class InstrumentParameter
       return _value;
     }
     
+    //Set a notification receiver
+    inline void notifyOnChange(AbstractInstrument* i) {
+      _instrument=i;
+    }
+    
+    
     //direct set (do checks)
     bool setValue(short v);
     bool setAuto(bool a, short v);
@@ -114,7 +121,8 @@ class InstrumentParameter
     
     
   private:
-    inline void notify() { _modified=true; }
+    void notify(); 
+    AbstractInstrument* _instrument;
     bool _auto; //parameter automatically controlled
     bool _modified;
     short _value;
