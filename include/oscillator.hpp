@@ -143,4 +143,14 @@ class RandomSmoothOscillator : public Oscillator
     float _y_1;
 };
 
+class TriplePeakOscillator : public Oscillator
+{
+  public:
+    TriplePeakOscillator ();
+    virtual ~TriplePeakOscillator ();
+  
+    virtual void step(Signal* output);
+
+};
+
 #endif

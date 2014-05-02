@@ -260,3 +260,30 @@ void RandomSmoothOscillator::step(Signal* output)
   }
 }
 
+TriplePeakOscillator::TriplePeakOscillator()
+{
+  setShape(1.f);
+}
+
+TriplePeakOscillator::~TriplePeakOscillator()
+{
+}
+
+void TriplePeakOscillator::step(Signal* output)
+{
+  sample* samples = output->samples;
+  sample* f = getFrequency().samples;
+  sample* a = getAmplitude().samples;
+  sample* u = getUnisson().samples;
+  sample* m = getFM().samples;
+  sample* s = getShape().samples;
+  
+  const float k=(2.0*3.1415/(float)Signal::frequency);
+  for (unsigned int i=0;i < Signal::size;i++)
+  {
+    const float x=k*f[i]*_time;
+    samples[i] = (a[i]/3.f)*(sin(x + m[i]) + sin(2*x + m[i]) + (1+s[i])*sin(3*x + m[i]));
+    _time++;
+  }
+}
+
