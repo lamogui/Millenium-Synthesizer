@@ -112,6 +112,26 @@ class NELead6Knob : public Knob
     sf::RectangleShape _autoSelector;
 };
 
+class NELead6TriangleLED : public MouseCatcher, public sf::Transformable
+{
+  public:
+    NELead6TriangleLED(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &rect);
+    virtual ~NELead6TriangleLED();
+    
+    
+    virtual void update();
+    virtual bool onMousePress(float x, float y);
+    virtual void onMouseMove(float x, float y);
+    virtual void onMouseRelease(float x, float y);
+    void draw (sf::RenderTarget &target, sf::RenderStates states) const;
+    
+  private:
+    InstrumentParameter* _param;
+    sf::Sprite _sprite;
+    sf::ConvexShape _light;
+};
+
+
 class NELead6Interface : public Interface
 {
   public:
@@ -122,6 +142,10 @@ class NELead6Interface : public Interface
     sf::Texture _texture;
     sf::Sprite _back;
     NELead6* _instrument;
+    NELead6TriangleLED* _osc1TypeLED;
+    NELead6TriangleLED* _osc2TypeLED;
+    NELead6TriangleLED* _lfo1TypeLED;
+    NELead6TriangleLED* _lfo2TypeLED;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
     NELead6Knob* _oscmodKnob;
