@@ -119,6 +119,183 @@ void Knob::update()
 }
 
 
+Button::Button(const sf::Vector2f& size, const sf::String text) :
+_idleColor(75,75,75,255),
+_clickedColor(142,142,142,255),
+_shape(size),
+_text(),
+_idleRect(),
+_clickedRect(),
+_param(NULL), 
+_val(NULL),
+_catched(false),
+_mode(ButtonMode::toggle)
+{
+  setText(text);
+  _shape.setFillColor(_idleColor);
+  _shape.setOutlineThickness(1.f);
+  _shape.setOutlineColor(sf::Color(255,255,255,255));
+}
+
+Button::Button(InstrumentParameter* p, const sf::Texture &texture
+                                     , const sf::IntRect &idle
+                                     , const sf::IntRect &clicked
+                                     , ButtonMode::Mode mode) :
+_idleColor(255,255,255,255),
+_clickedColor(255,255,255,255),
+_shape(sf::Vector2f(idle.width,idle.height)),
+_idleRect(idle),
+_clickedRect(clicked),
+_param(p), 
+_val(NULL),
+_catched(false),
+_mode(mode)
+{
+  _shape.setFillColor(_idleColor);
+  //_shape.setOutlineThickness(1.f);
+  //_shape.setOutlineColor(sf::Color(255,255,255,255));
+  _shape.setTexture(&texture);
+  _shape.setTextureRect(_idleRect);
+}
+
+
+Button::~Button()
+{
+}
+
+void Button::setText(const sf::String& t)
+{
+  _text.setString(t);
+}
+
+void Button::setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked)
+{
+  _idleRect = idle;
+  _clickedRect = clicked;
+
+  _shape.setTexture(&texture);
+  if (_catched)
+    _shape.setTextureRect(_clickedRect);
+  else
+    _shape.setTextureRect(_idleRect);
+}
+
+bool Button::onMousePress(float x, float y)
+{
+  if (_param || _val)
+  {
+    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
+    
+    float x = v.x - _shape.getPosition().x;
+    float y = v.y - _shape.getPosition().y;
+    
+    if (x > _shape.getSize().x ||
+        x < 0 ||
+        y > _shape.getSize().y ||
+        y < 0 ) 
+        
+        return false;
+    
+    
+    _catched=true;
+    _shape.setFillColor(_clickedColor);
+    _shape.setTextureRect(_clickedRect);
+    return true;
+  }
+  return false;
+}
+
+void Button::onMouseMove(float x, float y)
+{
+}
+
+void Button::onMouseRelease(float x, float y)
+{
+  _catched=false;
+  _shape.setFillColor(_idleColor);
+  _shape.setTextureRect(_idleRect);
+
+  if (_param || _val)
+  {
+    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
+    
+    float x = v.x - _shape.getPosition().x;
+    float y = v.y - _shape.getPosition().y;
+    if (x > _shape.getSize().x ||
+        x < 0 ||
+        y > _shape.getSize().y ||
+        y < 0 ) 
+        return;
+    
+    if (_val)
+    {
+      switch (_mode)
+      {
+        case ButtonMode::toggle:
+          if (*_val) *_val=0;
+          else *_val=1;
+          break;
+          
+        case ButtonMode::increment:
+          *_val++;
+          break;
+
+        case ButtonMode::decrement:
+          *_val--;
+          break;
+        
+        case ButtonMode::interrupt:
+        case ButtonMode::on:
+          *_val=1;
+          break;
+          
+        case ButtonMode::off:
+          *_val=0;
+          break;
+      }
+    
+    }
+    if (_param)
+    {
+      switch (_mode)
+      {
+        case ButtonMode::toggle:
+          _param->toggle();
+          break;
+          
+        case ButtonMode::increment:
+          *_param++;
+          break;
+
+        case ButtonMode::decrement:
+          *_param--;
+          break;
+          
+        case ButtonMode::on:
+          _param->on();
+          break;
+          
+        case ButtonMode::off:
+          _param->off();
+          break;
+      }
+    }
+  }
+}
+
+void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+  states.transform *= getTransform();
+  target.draw(_shape,states);
+  target.draw(_text,states);
+}
+
+void Button::update()
+{
+
+}
+
+
 ScrollBar::ScrollBar(sf::View& view, int zone,bool h):
 _view(&view),
 _bar(),

@@ -66,20 +66,27 @@ int main(int argc, char** argv)
   float borderWinSize_left=20;
   bool onMoveWin=false;
   bool onResizeWin=false;
+  int onClose=0;
+  
   
   
   sf::Vector2i previousWinPos;
   sf::Vector2i previousMousePos;
   sf::Vector2u previousWinSize;
+  Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,borderWinSize_up*0.5f),"X");
+  
   sf::ConvexShape resizeTriangle;
   resizeTriangle.setPointCount(3);
   resizeTriangle.setPoint(0, sf::Vector2f(15, 0));
   resizeTriangle.setPoint(1, sf::Vector2f(15, 15));
   resizeTriangle.setPoint(2, sf::Vector2f(0, 15));
   resizeTriangle.setOrigin(0,0);
-  resizeTriangle.setFillColor(sf::Color(142,142,142,255));
+  resizeTriangle.setFillColor(sf::Color(75,75,75,255));
   resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
-  
+  closeButton.setPosition(clientWinSize_x,1.f);
+  closeButton.linkTo(&onClose);
+  closeButton.setOutlineThickness(0);
+  closeButton.setClickedColor(sf::Color(142,42,42,255));
   sf::RenderWindow window(sf::VideoMode(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                                         clientWinSize_y+borderWinSize_up+borderWinSize_down), 
                                         "Millenium Synth",0);
@@ -97,16 +104,17 @@ int main(int argc, char** argv)
   sf::Sprite backSprite(backTexture), titleSprite(titleTexture);
   backSprite.setOrigin(205,423);
   backSprite.setPosition(window.getSize().x,window.getSize().y);
-  //window.setFramerateLimit(Signal::refreshRate*1.5f);
+  window.setFramerateLimit(Signal::refreshRate);
   
   //Current mouse catcher
   MouseCatcher* currentMouseCatcher=NULL;
   Interface* currentInterfaceCatcher=NULL;
   std::vector<Interface*> _interfaces;
+  std::vector<MouseCatcher*> _mouseCatchers;
   
   Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
   _interfaces.push_back(&myScope);
-  
+  _mouseCatchers.push_back(&closeButton);
   
   float dt=0.02;
   unsigned int time=0;
@@ -178,7 +186,7 @@ int main(int argc, char** argv)
             float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
           
             resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
-          
+            closeButton.setPosition(clientWinSize_x,1.f);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
@@ -225,11 +233,24 @@ int main(int argc, char** argv)
             }
             if (!currentMouseCatcher)
             {
+              for (unsigned int i =0; i < _mouseCatchers.size(); i++)
+              {
+                sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
+                if (_mouseCatchers[i]->onMousePress(v.x,v.y))
+                {
+                  currentMouseCatcher=_mouseCatchers[i];
+                  currentInterfaceCatcher = 0;
+                  break;
+                }
+              }
+            }
+            if (!currentMouseCatcher)
+            {
               if (event.mouseButton.x > window.getSize().x - borderWinSize_right && 
                   event.mouseButton.y > window.getSize().y - borderWinSize_down)
               {
                 onResizeWin=true;
-                resizeTriangle.setFillColor(sf::Color(142,42,42,255));
+                resizeTriangle.setFillColor(sf::Color(142,142,142,255));
               }
               else
                 onMoveWin=true;
@@ -246,10 +267,17 @@ int main(int argc, char** argv)
               currentMouseCatcher=NULL;
               currentInterfaceCatcher=NULL;
             }
+            else if (currentMouseCatcher)
+            {
+              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
+              currentMouseCatcher->onMouseRelease(v.x,v.y);
+              currentMouseCatcher=NULL;
+              currentInterfaceCatcher=NULL;
+            }
             else if (onResizeWin)
             {
               onResizeWin=false;
-              resizeTriangle.setFillColor(sf::Color(142,142,142,255));
+              resizeTriangle.setFillColor(sf::Color(75,75,75,255));
             }
             else if (onMoveWin)
             {
@@ -261,6 +289,11 @@ int main(int argc, char** argv)
           if (currentMouseCatcher && currentInterfaceCatcher)
           {
             sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),currentInterfaceCatcher->getView());
+            currentMouseCatcher->onMouseMove(v.x,v.y);
+          }
+          else if (currentMouseCatcher)
+          {
+            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
             currentMouseCatcher->onMouseMove(v.x,v.y);
           }
           else if (onMoveWin)
@@ -331,7 +364,7 @@ int main(int argc, char** argv)
       }
       }
     
-    
+    if (onClose) window.close();
     
     myInterface->update();
 
@@ -361,12 +394,18 @@ int main(int argc, char** argv)
     window.draw(backSprite);
     window.draw(resizeTriangle);
     window.draw(titleSprite);
+    for (unsigned int i =0; i < _mouseCatchers.size(); i++)
+    {
+      window.draw(*(_mouseCatchers[i]));
+    }
     
     for (unsigned int i =0; i < _interfaces.size(); i++)
     {
       window.setView(_interfaces[i]->getView());
       window.draw(*(_interfaces[i]));
     }
+    
+    
     // Update the window
     window.display();
     
