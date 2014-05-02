@@ -245,11 +245,11 @@ void Button::onMouseRelease(float x, float y)
           break;
           
         case ButtonMode::increment:
-          *_val++;
+         ( *_val)++;
           break;
 
         case ButtonMode::decrement:
-          *_val--;
+          (*_val)--;
           break;
         
         case ButtonMode::interrupt:
@@ -272,11 +272,12 @@ void Button::onMouseRelease(float x, float y)
           break;
           
         case ButtonMode::increment:
-          *_param++;
+          //std::cout << _param->getValue() << std::endl;
+          (*_param)++;
           break;
 
         case ButtonMode::decrement:
-          *_param--;
+          (*_param)--;
           break;
           
         case ButtonMode::on:

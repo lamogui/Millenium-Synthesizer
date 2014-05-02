@@ -26,6 +26,10 @@
 #define PARAM_NELEAD6_OSC2SHAPE    0x47  //Sound Controller 2 (default: Timber/Harmonic Content)
 #define PARAM_NELEAD6_FILTER1RATE  0x4C  //Sound Controller 8
 #define PARAM_NELEAD6_FILTER1RES   0x4D  //Sound Controller 9
+#define PARAM_NELEAD6_OSC1TYPE     0x50  //General-Purpose Controllers 5-8
+#define PARAM_NELEAD6_OSC2TYPE     0x51  //General-Purpose Controllers 5-8
+#define PARAM_NELEAD6_LFO1TYPE     0x52  //General-Purpose Controllers 5-8
+#define PARAM_NELEAD6_LFO2TYPE     0x53  //General-Purpose Controllers 5-8
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -40,6 +44,11 @@ class NELead6Voice : public InstrumentVoice
     void beginNote(Note& n);
     void endNote();
     void step(Signal* leftout, Signal* rightout=0);
+    
+    inline void replaceOsc1(Oscillator* o) { delete _osc1; _osc1=o;}
+    inline void replaceOsc2(Oscillator* o) { delete _osc2; _osc2=o;}
+    inline void replaceLfo1(Oscillator* o) { delete _lfo1; _lfo1=o;}
+    inline void replaceLfo2(Oscillator* o) { delete _lfo2; _lfo2=o;}
     
   private:
     Oscillator* _osc1;
@@ -62,6 +71,8 @@ class NELead6 : public Instrument<NELead6Voice>
     virtual InstrumentParameter* getParameter(unsigned char id);
     void step(Signal* leftout, Signal* rightout=0);
     
+    void notify(InstrumentParameter* p);
+    
   protected :
     InstrumentParameter _oscmix;
     InstrumentParameter _oscmod;
@@ -79,6 +90,12 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _osc2_shape;
     InstrumentParameter _filter1_rate;
     InstrumentParameter _filter1_resonance;
+    InstrumentParameter _osc1_type;
+    InstrumentParameter _osc2_type;
+    InstrumentParameter _lfo1_type;
+    InstrumentParameter _lfo2_type;
+    short _oldosc1_shape_value;
+    short _oldosc2_shape_value;
 }; 
 
 class NELead6Knob : public Knob
@@ -122,6 +139,10 @@ class NELead6Interface : public Interface
     NELead6Knob* _osc2ShapeKnob;
     NELead6Knob* _filter1RateKnob;
     NELead6Knob* _filter1ResKnob;
+    Button* _osc1TypeButton;
+    Button* _osc2TypeButton;
+    Button* _lfo1TypeButton;
+    Button* _lfo2TypeButton;
 };
 
 

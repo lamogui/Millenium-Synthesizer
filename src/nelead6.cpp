@@ -3,10 +3,10 @@
 
 NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
-_osc1(new WhiteNoiseOscillator),
-_osc2(new TriangleOscillator),
-_lfo1(new RandomSmoothOscillator),
-_lfo2(new RandomOscillator),
+_osc1(new SawOscillator),
+_osc2(new SawOscillator),
+_lfo1(new TriangleOscillator),
+_lfo2(new TriangleOscillator),
 _filter1(new LowPassFilter2),
 _currentNote(0,NOT_A_NOTE)
 {
@@ -30,10 +30,10 @@ void NELead6Voice::beginNote(Note& n)
   _lfo2->resetTime();
   _env.resetTime();
   
-  _osc1->setFrequency(_currentNote.frequency());
+  /*_osc1->setFrequency(_currentNote.frequency());
   _osc1->setAmplitude(_currentNote.velocity);
   _osc2->setFrequency(_currentNote.frequency());
-  _osc2->setAmplitude(_currentNote.velocity);
+  _osc2->setAmplitude(_currentNote.velocity);*/
   
   _used=true;
 }
@@ -86,6 +86,8 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   
   lfo2->scale(0.5f);
   
+  _osc1->setAmplitude(_currentNote.velocity);
+  _osc1->setFrequency(_currentNote.frequency());
   _osc1->setShape(osc1_shape);
   _osc2->setShape(osc2_shape);
   _osc2->getShape().add(lfo2);
@@ -102,6 +104,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
     osc2f += (osc2f - Note::getFrequencyFromID(id))*finetune/128.f;
   }
   _osc2->setFrequency(osc2f);
+  _osc2->setAmplitude(_currentNote.velocity);
   
   
   _oscmix.constant(oscmix);
@@ -166,13 +169,128 @@ _env_release(80,0,127),
 _osc1_shape(0,0,127),
 _osc2_shape(0,0,127),
 _filter1_rate(64,0,127),
-_filter1_resonance(50,50,400)
+_filter1_resonance(50,50,400),
+_osc1_type(1,1,6),
+_osc2_type(1,1,6),
+_lfo1_type(1,1,5),
+_lfo2_type(1,1,5),
+_oldosc1_shape_value(0),
+_oldosc2_shape_value(0)
 {
-  
+  _osc1_type.notifyOnChange(this);
+  _osc2_type.notifyOnChange(this);
+  _lfo1_type.notifyOnChange(this);
+  _lfo2_type.notifyOnChange(this);
 }
  
 NELead6::~NELead6()
 {
+}
+
+void NELead6::notify(InstrumentParameter* p)
+{
+  if (p==&_osc1_type)
+  {
+    switch (p->getValue())
+    {
+      case 1:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new SawOscillator);
+        break;
+      case 2:
+        _oldosc1_shape_value=_osc1_shape.getValue();
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new SquareOscillator);
+        _osc1_shape.setValue(64);
+        break;
+      case 3:
+        _osc1_shape.setValue(_oldosc1_shape_value);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new TriangleOscillator);
+        break;
+      case 4:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new SinusoidalOscillator);
+        break;
+      case 5:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new WhiteNoiseOscillator);
+        break;
+      case 6:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new RandomSmoothOscillator);
+        break;
+    }
+  }
+  else if (p==&_osc2_type)
+  {
+    switch (p->getValue())
+    {
+      case 1:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new SawOscillator);
+        break;
+      case 2:
+        _oldosc2_shape_value=_osc2_shape.getValue();
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new SquareOscillator);
+        _osc2_shape.setValue(64);
+        break;
+      case 3:
+        _osc2_shape.setValue(_oldosc2_shape_value);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new TriangleOscillator);
+        break;
+      case 4:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new SinusoidalOscillator);
+        break;
+      case 5:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new WhiteNoiseOscillator);
+        break;
+      case 6:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new RandomSmoothOscillator);
+        break;
+    }
+  }
+  else if (p==&_lfo1_type)
+  {
+    switch (p->getValue())
+    {
+      case 1:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new TriangleOscillator);
+        break;
+      case 2:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new SawOscillator);
+        break;
+      case 3:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new SquareOscillator);
+        break;
+      case 4:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new RandomOscillator);
+        break;
+      case 5:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new RandomSmoothOscillator);
+        break;
+    }
+  }
+  else if (p==&_lfo2_type)
+  {
+    switch (p->getValue())
+    {
+      case 1:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new TriangleOscillator);
+        break;
+      case 2:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new SawOscillator);
+        break;
+      case 3:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new SquareOscillator);
+        break;
+      case 4:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new RandomOscillator);
+        break;
+      case 5:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new RandomSmoothOscillator);
+        break;
+    }
+  }
+  else 
+  {
+    return;
+  }
+  
+  p->valueUsed();
 }
 
 InstrumentParameter* NELead6::getParameter(unsigned char id)
@@ -195,6 +313,10 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_OSC2SHAPE: return &_osc2_shape;
     case PARAM_NELEAD6_FILTER1RATE: return &_filter1_rate;
     case PARAM_NELEAD6_FILTER1RES: return &_filter1_resonance;
+    case PARAM_NELEAD6_OSC1TYPE: return &_osc1_type;
+    case PARAM_NELEAD6_OSC2TYPE: return &_osc2_type;
+    case PARAM_NELEAD6_LFO1TYPE: return &_lfo1_type;
+    case PARAM_NELEAD6_LFO2TYPE: return &_lfo2_type;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -274,7 +396,11 @@ _envReleaseKnob(0),
 _osc1ShapeKnob(0),
 _osc2ShapeKnob(0),
 _filter1RateKnob(0),
-_filter1ResKnob(0)
+_filter1ResKnob(0),
+_osc1TypeButton(0),
+_osc2TypeButton(0),
+_lfo1TypeButton(0),
+_lfo2TypeButton(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -363,6 +489,31 @@ _filter1ResKnob(0)
                                       _texture,
                                       sf::IntRect(1792,0,128,128),
                                       sf::IntRect(1792,128,128,128));
+                                      
+    _osc1TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_OSC1TYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
+                                 
+    _osc2TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_OSC2TYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
+                                 
+                                 
+    _lfo1TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_LFO1TYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
+                                 
+    _lfo2TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_LFO2TYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
                                        
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
@@ -401,7 +552,10 @@ _filter1ResKnob(0)
     _osc2ShapeKnob->setPosition(645,130);
     _filter1RateKnob->setPosition(738,232);
     _filter1ResKnob->setPosition(936,232);
-    
+    _osc1TypeButton->setPosition(470,78);
+    _osc2TypeButton->setPosition(668,78);
+    _lfo1TypeButton->setPosition(202,68);
+    _lfo2TypeButton->setPosition(202,170);
     
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_oscmixKnob);
@@ -420,6 +574,10 @@ _filter1ResKnob(0)
     addMouseCatcher(_osc2ShapeKnob);
     addMouseCatcher(_filter1RateKnob);
     addMouseCatcher(_filter1ResKnob);
+    addMouseCatcher(_osc1TypeButton);
+    addMouseCatcher(_osc2TypeButton);
+    addMouseCatcher(_lfo1TypeButton);
+    addMouseCatcher(_lfo2TypeButton);
     addDrawable(&_back);
   }
 
@@ -444,5 +602,7 @@ NELead6Interface::~NELead6Interface()
   if(_osc2ShapeKnob ) delete _osc2ShapeKnob;
   if(_filter1RateKnob ) delete _filter1RateKnob;
   if(_filter1ResKnob ) delete _filter1ResKnob;
+  if (_osc1TypeButton) delete _osc1TypeButton;
+  if (_osc2TypeButton) delete _osc2TypeButton;
 }
 
