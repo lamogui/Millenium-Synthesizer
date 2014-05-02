@@ -25,6 +25,8 @@
 #include "careme.hpp"
 #include "scope.hpp"
 
+sf::Font globalfont; 
+
 int main(int argc, char** argv)
 {
   srand(time(NULL));
@@ -69,6 +71,8 @@ int main(int argc, char** argv)
   int onClose=0;
   
   
+  globalfont.loadFromFile("fonts/unispace rg.ttf");
+  
   
   sf::Vector2i previousWinPos;
   sf::Vector2i previousMousePos;
@@ -87,21 +91,23 @@ int main(int argc, char** argv)
   closeButton.linkTo(&onClose);
   closeButton.setOutlineThickness(0);
   closeButton.setClickedColor(sf::Color(142,42,42,255));
+  closeButton.setIdleColor(sf::Color(100,42,42,255));
   sf::RenderWindow window(sf::VideoMode(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                                         clientWinSize_y+borderWinSize_up+borderWinSize_down), 
-                                        "Millenium Synth",0);
+                                        "Millenium Synthesizer",0);
                                         
   sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
   float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
   float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
   float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
   float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  sf::Text winTitle("Millenium Synthesizer",globalfont,11);
+  winTitle.setPosition(borderWinSize_left,5.f);
   
-  sf::Texture backTexture, titleTexture;
+  sf::Texture backTexture;
   backTexture.loadFromFile("img/sangoten_back.bmp");
-  titleTexture.loadFromFile("img/titre.png");
   
-  sf::Sprite backSprite(backTexture), titleSprite(titleTexture);
+  sf::Sprite backSprite(backTexture);
   backSprite.setOrigin(205,423);
   backSprite.setPosition(window.getSize().x,window.getSize().y);
   window.setFramerateLimit(Signal::refreshRate);
@@ -141,6 +147,8 @@ int main(int argc, char** argv)
       myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
       
     }
+    window.setTitle(sf::String("Millenium Synthesizer - ") + argv[1]);
+    winTitle.setString(sf::String("Millenium Synthesizer - ") + argv[1]);
     
   }
   else 
@@ -393,7 +401,7 @@ int main(int argc, char** argv)
     window.setView(winView);
     window.draw(backSprite);
     window.draw(resizeTriangle);
-    window.draw(titleSprite);
+    window.draw(winTitle);
     for (unsigned int i =0; i < _mouseCatchers.size(); i++)
     {
       window.draw(*(_mouseCatchers[i]));

@@ -6,6 +6,8 @@
 
 #include "note.hpp"
 
+
+
 class MouseCatcher : public sf::Drawable
 {
   public:
@@ -79,15 +81,16 @@ class Button : public MouseCatcher, public sf::Transformable
     
     //Shape setters    
     inline void setOutlineThickness(float f) {_shape.setOutlineThickness(f);}
-    inline void setOutlineColor(const sf::Color& c) {_shape.setOutlineColor(c);}
+    inline void setOutlineColor(const sf::Color& c) {_shape.setOutlineColor(c); _text.setColor(c);}
 
     //Color setters
     inline void setColors(const sf::Color& i, const sf::Color& c) {setClickedColor(c);setIdleColor(i);}
     inline void setClickedColor(const sf::Color& c) {_clickedColor=c;}
-    inline void setIdleColor(const sf::Color& i) {_idleColor=i;}
+    inline void setIdleColor(const sf::Color& i) {_idleColor=i; _shape.setFillColor(_idleColor);}
     
     //Text setter
     void setText(const sf::String& t);
+    inline sf::Text& getText() { return _text; }
     
     //Texture setter         
     void setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked);
