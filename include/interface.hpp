@@ -47,6 +47,71 @@ class Knob : public MouseCatcher, public sf::Transformable
     float _catch_angle;
 };
 
+namespace ButtonMode {
+  typedef enum {
+    toggle,
+    increment,
+    decrement,
+    on,
+    off,
+    interrupt
+  } Mode;
+}
+
+class Button : public MouseCatcher, public sf::Transformable
+{
+  public:
+    Button(const sf::Vector2f& size, const sf::String text);
+    Button(InstrumentParameter* p, const sf::Texture &texture
+                                 , const sf::IntRect &idle
+                                 , const sf::IntRect &clicked
+                                 , ButtonMode::Mode mode=ButtonMode::toggle);
+    virtual ~Button();
+    
+    inline void setParam(InstrumentParameter* p,
+                         ButtonMode::Mode mode=ButtonMode::toggle) {
+                            _param=p;
+                            _mode=mode;
+                         }
+    
+    //Val setter
+    inline void linkTo(int* v) { _val=v;}
+    
+    //Shape setters    
+    inline void setOutlineThickness(float f) {_shape.setOutlineThickness(f);}
+    inline void setOutlineColor(const sf::Color& c) {_shape.setOutlineColor(c);}
+
+    //Color setters
+    inline void setColors(const sf::Color& i, const sf::Color& c) {setClickedColor(c);setIdleColor(i);}
+    inline void setClickedColor(const sf::Color& c) {_clickedColor=c;}
+    inline void setIdleColor(const sf::Color& i) {_idleColor=i;}
+    
+    //Text setter
+    void setText(const sf::String& t);
+    
+    //Texture setter         
+    void setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked);
+    
+    virtual bool onMousePress(float x, float y);
+    virtual void onMouseMove(float x, float y);
+    virtual void onMouseRelease(float x, float y);
+    virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
+    virtual void update();
+    
+    
+  protected:
+    sf::Color _idleColor;
+    sf::Color _clickedColor;
+    sf::RectangleShape _shape;
+    sf::Text _text;
+    sf::IntRect _idleRect;
+    sf::IntRect _clickedRect;
+    InstrumentParameter* _param;
+    int* _val; 
+    bool _catched;
+    ButtonMode::Mode _mode;
+};
+
 class ScrollBar : public MouseCatcher
 {
   public:

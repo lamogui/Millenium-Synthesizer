@@ -63,7 +63,7 @@ defaut:
 	@echo   - make win32
 	@echo   - make linux32
 	@echo   - make linux64
-	@echo   - make linux64enib (special ENIB)
+	@echo   - make linux64enib ENIB only
 	
 
 build/%.o: src/%.c $(HEADER)
