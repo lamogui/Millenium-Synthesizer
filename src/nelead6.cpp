@@ -191,9 +191,9 @@ void NELead6::notify(InstrumentParameter* p)
 {
   if (p==&_osc1_type)
   {
-    if (p->getValue() == 2 || p->getValue() == 6)
+    _oldosc1_shape_value=_osc1_shape.getValue();
+    if (p->getValue() == 2)
     {
-      _oldosc1_shape_value=_osc1_shape.getValue();
       _osc1_shape.setValue(64);
     }
     else 
@@ -219,20 +219,20 @@ void NELead6::notify(InstrumentParameter* p)
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new WhiteNoiseOscillator);
         break;
       case 6:
-        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new RandomSmoothOscillator);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new TriplePeakOscillator);
         break;
     }
   }
   else if (p==&_osc2_type)
   {
-    if (p->getValue() == 2 || p->getValue() == 6)
+    _oldosc2_shape_value=_osc2_shape.getValue();
+    if (p->getValue() == 2)
     {
-      _oldosc1_shape_value=_osc1_shape.getValue();
-      _osc1_shape.setValue(64);
+      _osc2_shape.setValue(64);
     }
     else 
     {
-      _osc1_shape.setValue(_oldosc1_shape_value);
+      _osc2_shape.setValue(_oldosc2_shape_value);
     }
   
     switch (p->getValue())
@@ -253,7 +253,7 @@ void NELead6::notify(InstrumentParameter* p)
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new WhiteNoiseOscillator);
         break;
       case 6:
-        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new RandomSmoothOscillator);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new TriplePeakOscillator);
         break;
     }
   }
@@ -277,7 +277,7 @@ void NELead6::notify(InstrumentParameter* p)
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new RandomSmoothOscillator);
         break;
       case 6:
-        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new SinusoidalOscillator);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo1(new TriplePeakOscillator);
         break;
     }
   }
@@ -301,7 +301,7 @@ void NELead6::notify(InstrumentParameter* p)
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new RandomSmoothOscillator);
         break;
       case 6:
-        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new SinusoidalOscillator);
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceLfo2(new TriplePeakOscillator);
         break;
     }
   }
