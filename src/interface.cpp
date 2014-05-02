@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+extern sf::Font globalfont; 
+
 Knob::Knob() :
 overColor(242,42,42,255),
 _back_sprite(),
@@ -131,10 +133,12 @@ _val(NULL),
 _catched(false),
 _mode(ButtonMode::toggle)
 {
+  _text.setFont(globalfont);
+  _text.setCharacterSize(11);
   setText(text);
   _shape.setFillColor(_idleColor);
   _shape.setOutlineThickness(1.f);
-  _shape.setOutlineColor(sf::Color(255,255,255,255));
+  setOutlineColor(sf::Color(255,255,255,255));
 }
 
 Button::Button(InstrumentParameter* p, const sf::Texture &texture
@@ -151,9 +155,11 @@ _val(NULL),
 _catched(false),
 _mode(mode)
 {
+  _text.setFont(globalfont);
+  _text.setCharacterSize(11);
   _shape.setFillColor(_idleColor);
   //_shape.setOutlineThickness(1.f);
-  //_shape.setOutlineColor(sf::Color(255,255,255,255));
+  setOutlineColor(sf::Color(255,255,255,255));
   _shape.setTexture(&texture);
   _shape.setTextureRect(_idleRect);
 }
@@ -166,6 +172,8 @@ Button::~Button()
 void Button::setText(const sf::String& t)
 {
   _text.setString(t);
+  _text.setPosition(_shape.getSize().x/2.f - _text.getLocalBounds().width/2.f,
+                    _shape.getSize().y/2.f - _text.getLocalBounds().height/2.f);
 }
 
 void Button::setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked)
