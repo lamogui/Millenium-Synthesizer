@@ -173,6 +173,7 @@ int main(int argc, char** argv)
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
   myScope.setSignal(&leftout);
+  myScope.setColor(myInterface->getColor());
   
   std::map<sf::Keyboard::Key,Note*> notes;
 

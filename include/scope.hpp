@@ -16,9 +16,12 @@ class Scope : public Interface
       virtual void update();
       
       
+      void setColor(const sf::Color& color);
+      
    protected:
       Signal* _signal;
       sf::Uint8* _pixels;
+      sf::Color _color;
       sf::Texture _texture;
       sf::RectangleShape _back;
       sf::Sprite _sprite;

@@ -5,6 +5,7 @@ Scope::Scope(const sf::Vector2f& size) :
 Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
+_color(255,255,255,255),
 _texture(),
 _back(sf::Vector2f(Signal::size,100)),
 _sprite(),
@@ -19,6 +20,7 @@ Scope::Scope(const sf::Vector2f& size,Signal* s) :
 Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
+_color(255,255,255,255),
 _texture(),
 _back(sf::Vector2f(Signal::size,100)),
 _sprite(),
@@ -48,13 +50,7 @@ void Scope::setSignal(Signal* s)
       _texture.create(_zone.y, _zone.x);
       unsigned p = _texture.getSize().x* _texture.getSize().y*4;
       _pixels = (sf::Uint8*) malloc(p);
-      for (unsigned int i=0; i < p;)
-      {
-         _pixels[i++]=255;
-         _pixels[i++]=0;
-         _pixels[i++]=0;
-         _pixels[i++]=0;
-      }
+      setColor(_color);
       
       _sprite.setTexture(_texture,true);
       _sprite.setOrigin(_zone.y/2,_zone.x/2);
@@ -96,5 +92,21 @@ void Scope::update()
    for (unsigned int i=0; i < _mouseCatcher.size();i++)
   {
     _mouseCatcher[i]->update(); 
+  }
+}
+
+void Scope::setColor(const sf::Color& color)
+{
+  _color = color;
+  if (_pixels)
+  {
+    unsigned p = _texture.getSize().x* _texture.getSize().y*4;
+    for (unsigned int i=0; i < p;)
+    {
+     _pixels[i++]=_color.r;
+     _pixels[i++]=_color.g;
+     _pixels[i++]=_color.b;
+     _pixels[i++]=0;
+    }
   }
 }

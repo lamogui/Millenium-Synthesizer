@@ -30,6 +30,7 @@
 #define PARAM_NELEAD6_OSC2TYPE     0x51  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_LFO1TYPE     0x52  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_LFO2TYPE     0x53  //General-Purpose Controllers 5-8
+#define PARAM_NELEAD6_FILTERTYPE   0x41  //Portamento
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -49,6 +50,7 @@ class NELead6Voice : public InstrumentVoice
     inline void replaceOsc2(Oscillator* o) { delete _osc2; _osc2=o;}
     inline void replaceLfo1(Oscillator* o) { delete _lfo1; _lfo1=o;}
     inline void replaceLfo2(Oscillator* o) { delete _lfo2; _lfo2=o;}
+    inline void replaceFilter(Filter* f) { delete _filter1; _filter1=f;}
     
   private:
     Oscillator* _osc1;
@@ -94,8 +96,7 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _osc2_type;
     InstrumentParameter _lfo1_type;
     InstrumentParameter _lfo2_type;
-    short _oldosc1_shape_value;
-    short _oldosc2_shape_value;
+    InstrumentParameter _filter_type;
 }; 
 
 class NELead6Knob : public Knob
@@ -138,6 +139,11 @@ class NELead6Interface : public Interface
     NELead6Interface(NELead6* instrument, const sf::Vector2f& size);
     virtual ~NELead6Interface();
     
+    virtual inline sf::Color getColor() //Couleur de l'interface
+    {
+      return sf::Color(255,0,0,0);
+    }
+    
   protected:
     sf::Texture _texture;
     sf::Sprite _back;
@@ -146,6 +152,7 @@ class NELead6Interface : public Interface
     NELead6TriangleLED* _osc2TypeLED;
     NELead6TriangleLED* _lfo1TypeLED;
     NELead6TriangleLED* _lfo2TypeLED;
+    NELead6TriangleLED* _filterTypeLED;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
     NELead6Knob* _oscmodKnob;
@@ -167,6 +174,7 @@ class NELead6Interface : public Interface
     Button* _osc2TypeButton;
     Button* _lfo1TypeButton;
     Button* _lfo2TypeButton;
+    Button* _filterTypeButton;
 };
 
 
