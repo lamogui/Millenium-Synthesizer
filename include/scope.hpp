@@ -20,6 +20,7 @@ class Scope : public Interface
       Signal* _signal;
       sf::Uint8* _pixels;
       sf::Texture _texture;
+      sf::RectangleShape _back;
       sf::Sprite _sprite;
       float _y_zoom;
 };

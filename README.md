@@ -75,6 +75,11 @@ Pour faire l'uml il vous faut : Modelio 3.1.0, ensuite cliquez sur
 File -> Switch Workspace -> Selectionner le dossier workspace dans 
 "Mes Documents\Github\POO\mis\workspace"
 
+Textures
+========
+
+Background : Gabriel Gajdoš (http://pipper-svk.deviantart.com/art/Hyperdrive-411313660)
+
 
 S'impliquer dans le projet
 ==========================
