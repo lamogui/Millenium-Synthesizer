@@ -219,6 +219,7 @@ int main(int argc, char** argv)
         case sf::Event::Closed:
           window.close(); // Close window : exit
           break;
+        ///Resizing
         case sf::Event::Resized:
           {
             float clientWinSize_x=window.getSize().x-borderWinSize_left-borderWinSize_right;
@@ -258,17 +259,21 @@ int main(int argc, char** argv)
                                    420*window.getSize().y/(float)1024-500);
           }
           break;
+        ///Gestion de la capture de la souris pour les Mouse Catchers
         case sf::Event::MouseButtonPressed:
-          if (event.mouseButton.button == sf::Mouse::Left)
+          if (event.mouseButton.button == sf::Mouse::Left) 
           {
-            previousMousePos=sf::Vector2i(event.mouseButton.x,event.mouseButton.y);
+            const sf::Vector2i mousePosition(event.mouseButton.x,
+                                             event.mouseButton.y);
+            previousMousePos=mousePosition;
             previousWinPos=window.getPosition();
             previousWinSize=window.getSize();
-            if (!currentMouseCatcher)
+            if (!currentMouseCatcher) //Priorité aux interfaces
             {
               for (unsigned int i =0; i < _interfaces.size(); i++)
               {
-                sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),_interfaces[i]->getView()); 
+                sf::Vector2f v = window.mapPixelToCoords(mousePosition,
+                                                    _interfaces[i]->getView()); 
                 if (currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y))
                 {
                   currentInterfaceCatcher = _interfaces[i];
@@ -276,11 +281,11 @@ int main(int argc, char** argv)
                 }
               }
             }
-            if (!currentMouseCatcher)
+            if (!currentMouseCatcher) //ensuite élèments de la fenetre
             {
               for (unsigned int i =0; i < _mouseCatchers.size(); i++)
               {
-                sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
+                sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
                 if (_mouseCatchers[i]->onMousePress(v.x,v.y))
                 {
                   currentMouseCatcher=_mouseCatchers[i];
@@ -289,10 +294,10 @@ int main(int argc, char** argv)
                 }
               }
             }
-            if (!currentMouseCatcher)
+            if (!currentMouseCatcher) //enfins éléments spéciaux
             {
-              if (event.mouseButton.x > window.getSize().x - borderWinSize_right && 
-                  event.mouseButton.y > window.getSize().y - borderWinSize_down)
+              if (mousePosition.x > window.getSize().x - borderWinSize_right && 
+                  mousePosition.y > window.getSize().y - borderWinSize_down)
               {
                 onResizeWin=true;
                 resizeTriangle.setFillColor(sf::Color(142,142,142,255));
@@ -305,16 +310,19 @@ int main(int argc, char** argv)
         case sf::Event::MouseButtonReleased:
           if (event.mouseButton.button == sf::Mouse::Left)
           {
+            const sf::Vector2i mousePosition(event.mouseButton.x,
+                                             event.mouseButton.y);
             if (currentMouseCatcher && currentInterfaceCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),currentInterfaceCatcher->getView()); 
+              sf::Vector2f v = window.mapPixelToCoords(mousePosition,
+                                           currentInterfaceCatcher->getView()); 
               currentMouseCatcher->onMouseRelease(v.x,v.y);
               currentMouseCatcher=NULL;
               currentInterfaceCatcher=NULL;
             }
             else if (currentMouseCatcher)
             {
-              sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
+              sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
               currentMouseCatcher->onMouseRelease(v.x,v.y);
               currentMouseCatcher=NULL;
               currentInterfaceCatcher=NULL;
@@ -331,30 +339,36 @@ int main(int argc, char** argv)
           }
           break;
         case sf::Event::MouseMoved:
+          {
+          const sf::Vector2i mousePosition(event.mouseMove.x,
+                                           event.mouseMove.y);
           if (currentMouseCatcher && currentInterfaceCatcher)
           {
-            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x,event.mouseMove.y),currentInterfaceCatcher->getView());
+            sf::Vector2f v = window.mapPixelToCoords(mousePosition,
+                                           currentInterfaceCatcher->getView());
             currentMouseCatcher->onMouseMove(v.x,v.y);
           }
           else if (currentMouseCatcher)
           {
-            sf::Vector2f v = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,event.mouseButton.y),winView); 
+            sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
             currentMouseCatcher->onMouseMove(v.x,v.y);
           }
           else if (onMoveWin)
           {
-            window.setPosition(sf::Vector2i(event.mouseMove.x,event.mouseMove.y) - previousMousePos + previousWinPos);
+            window.setPosition(mousePosition-previousMousePos+previousWinPos);
             previousWinPos=window.getPosition();
           }
           else if (onResizeWin)
           {
-            if (event.mouseMove.x > 0 && event.mouseMove.y > 0)
+            if (mousePosition.x > 0 && mousePosition.y > 0)
             {
-              sf::Vector2u newSize = sf::Vector2u(event.mouseMove.x-previousMousePos.x + previousWinSize.x,event.mouseMove.y-previousMousePos.y + previousWinSize.y);
+              sf::Vector2u newSize(mousePosition.x-previousMousePos.x + previousWinSize.x,
+                                   mousePosition.y-previousMousePos.y + previousWinSize.y);
               if (newSize.x < 400) newSize.x = 400;
               if (newSize.y < 200) newSize.y = 200;
               window.setSize(newSize);
             }
+          }
           }
           break;
           
@@ -408,21 +422,26 @@ int main(int argc, char** argv)
           break;
       }
    }
-    
+    //Interruption : appuis du bouton quitter
     if (onClose) window.close();
     
+    //Mise à jour de l'interface
     myInterface->update();
 
+    ///Gestion de la génération du son
     //sendSignalSuccess = as t'on utilisé le verre d'eau ?
     if (sendSignalSuccess) 
     {
       //std::cout << "generating output..." << std::endl;
       time++;
-      myInstrument->step(&leftout, &rightout); //le verre d'eau est vide donc on le rempli
+      //le verre d'eau est vide donc on le rempli
+      myInstrument->step(&leftout, &rightout); 
+      //Mise à jour de l'oscillo
       myScope.update();     
-      sf::Lock lock(stream);
+      sf::Lock lock(stream); //verrouillage de l'entonoir
       //std::cout << "try..." << std::endl;
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);//on essai de verser le verre d'eau dans l'entonoir
+      //on essai de verser le verre d'eau dans l'entonoir
+      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
     else
     {
@@ -430,25 +449,28 @@ int main(int argc, char** argv)
       sf::Lock lock(stream);
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
-   
-    window.clear(sf::Color(42,42,42,255)); 
-    window.setView(winView);
-    window.draw(backSprite);
-    window.draw(resizeTriangle);
-    window.draw(winTitle);
+    
+    
+   ///Dessin  !!! 
+    window.clear(sf::Color(42,42,42,255)); //on efface
+    window.setView(winView);               //On dessine les éléments de la fenetre
+    window.draw(backSprite);               //Le fond
+    window.draw(resizeTriangle);           //Triangle de redimensionnement
+    window.draw(winTitle);                 //Le titre
+    //On dessine tous les élèments propre à la fenêtre (bouton close)
     for (unsigned int i =0; i < _mouseCatchers.size(); i++)
     {
       window.draw(*(_mouseCatchers[i]));
     }
     
+    //On dessine Les interfaces
     for (unsigned int i =0; i < _interfaces.size(); i++)
     {
       window.setView(_interfaces[i]->getView());
       window.draw(*(_interfaces[i]));
     }
     
-    
-    // Update the window
+    //Mise à jour réele à l'écran. + limitation du framerate
     window.display();
     
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
