@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   AudioStream stream(streamSize);
   
   //Window Borders
-  float clientWinSize_x=Signal::size+205-40;
+  float clientWinSize_x=Signal::size/*+205-40*/;
   float clientWinSize_y=480;
   float borderWinSize_up=40;
   float borderWinSize_down=20;
@@ -105,11 +105,16 @@ int main(int argc, char** argv)
   winTitle.setPosition(borderWinSize_left,5.f);
   
   sf::Texture backTexture;
-  backTexture.loadFromFile("img/sangoten_back.bmp");
+  if (GetSettingsFor("GUI/Background",true))
+  {
+    backTexture.loadFromFile(GetSettingsFor("GUI/BackgroundImage",std::string("img/background.png")));
+  }
   
   sf::Sprite backSprite(backTexture);
-  backSprite.setOrigin(205,423);
-  backSprite.setPosition(window.getSize().x,window.getSize().y);
+  backSprite.setOrigin(2048,0);
+  //backSprite.setOrigin(205,423);
+  backSprite.setPosition(window.getSize().x+1347 - 1347*window.getSize().x/2048,
+                        420*window.getSize().y/(float)1024-500);
   window.setFramerateLimit(Signal::refreshRate);
   
   //Current mouse catcher
@@ -218,7 +223,8 @@ int main(int argc, char** argv)
               y1+=y2;
             }
             
-            backSprite.setPosition(window.getSize().x,window.getSize().y);
+            backSprite.setPosition(window.getSize().x+1347 - 1347*window.getSize().x/2048,
+                                   420*window.getSize().y/(float)1024-500);
           }
           break;
         case sf::Event::MouseButtonPressed:

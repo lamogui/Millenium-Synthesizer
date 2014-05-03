@@ -6,10 +6,13 @@ Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
 _texture(),
+_back(sf::Vector2f(Signal::size,100)),
 _sprite(),
 _y_zoom(1)
 {
-   addDrawable(&_sprite);
+  _back.setFillColor(sf::Color(42,42,42,128));
+  addDrawable(&_sprite);
+  addDrawable(&_back);
 }
 
 Scope::Scope(const sf::Vector2f& size,Signal* s) :
@@ -17,11 +20,14 @@ Interface(sf::Vector2i(Signal::size,100),size),
 _signal(0),
 _pixels(0),
 _texture(),
+_back(sf::Vector2f(Signal::size,100)),
 _sprite(),
 _y_zoom(1)
 {
-   setSignal(s);
-   addDrawable(&_sprite);
+  _back.setFillColor(sf::Color(42,42,42,128));
+  setSignal(s);
+  addDrawable(&_sprite);
+  addDrawable(&_back);
 }
 
 Scope::~Scope()
