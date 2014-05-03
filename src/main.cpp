@@ -29,85 +29,114 @@ sf::Font globalfont;
 
 int main(int argc, char** argv)
 {
+  ///Initialisation de l'aléatoire
   srand(time(NULL));
+  
+  ///Initialisation du fichier de configuration
   Settings::getInstance().loadFile("settings.ini");
-  unsigned int signalFrequency = GetSettingsFor("Signal/Frequency",44100);
+  unsigned int signalFrequency = GetSettingsFor("Signal/Frequency",44100); //fe
   unsigned int signalRefreshRate = GetSettingsFor("Signal/RefreshRate",50);
   Signal::globalConfiguration(signalFrequency,signalRefreshRate);
   
-  
+  ///Création du driver audio
   AudioDriver* driver;
-  
-  
-  #ifdef COMPILE_WINDOWS
+  #ifdef COMPILE_WINDOWS //BASSASIO (ONLY ON WINDOWS)
   if (GetSettingsFor("ASIO/UseASIODriver",false))
   {
     driver = new BassAsioDriver();
   }
   else
   {
-    #endif
-    driver = new BassDriver();
-    #ifdef COMPILE_WINDOWS
+  #endif
+    driver = new BassDriver(); 
+  #ifdef COMPILE_WINDOWS
   }
   #endif
+  //Le driver ne demmarre pas ? tant pis...
   if (!driver->init(Signal::frequency)) return 0xdead;
   
-  unsigned int streamSize=Signal::size<<2;
-  #ifdef COMPILE_WINDOWS
-  if (GetSettingsFor("ASIO/UseASIODriver",false)) streamSize=Signal::size<<2;
-  #endif
+  ///Initialisation du stream
+  unsigned int streamSize=Signal::size<<2; //4 fois la taille d'un signal
   AudioStream stream(streamSize);
+  //initialisation des signaux
+  Signal leftout, rightout;
+  //On remplis le stream avec du silence
+  while (stream.writeStereoSignal(leftout, rightout));
+  //Acquitement
+  bool sendSignalSuccess=true;
+  //on demmarre la lecture du stream
+  if (!driver->start(&stream)) return 0xdead; //si elle échoue : tant pis
   
-  AbstractInstrument* myInstrument=NULL;      
-  Interface* myInterface=NULL;
   
-  //Window Borders
-  float clientWinSize_x=Signal::size/*+205-40*/;
+  ///Paramètres de la fenêtre
+  //Taille alloué pour les interfaces
+  float clientWinSize_x=Signal::size/*+205-40*/; 
   float clientWinSize_y=360+100;
+  //Tailles des bordures
   float borderWinSize_up=40;
   float borderWinSize_down=20;
   float borderWinSize_right=20;
   float borderWinSize_left=20;
+  //Variables de gestion de l'état de la fenêtre
   bool onMoveWin=false;
   bool onResizeWin=false;
   int onClose=0;
+  sf::Vector2i previousWinPos;
+  sf::Vector2i previousMousePos;
+  sf::Vector2u previousWinSize;
+  //configuration des fonts 
+  globalfont.loadFromFile("fonts/unispace rg.ttf");
   
+  ///Initialisation de l'instrument
+  AbstractInstrument* myInstrument=NULL;  //L'instrument    
+  Interface* myInterface=NULL;            //Son interface
   if (argc == 2)
   {
     if (std::string("careme") == argv[1]) 
     {
       myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+      myInterface = new CaremeInterface((Careme*) myInstrument,
+                                        sf::Vector2f(clientWinSize_x,360));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
-      clientWinSize_x=720;
+      //La taille est inferieur à la taille de l'oscilloscope
+      clientWinSize_x=720; 
       myInstrument = new PureSquare;
-      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,
+                                            sf::Vector2f(clientWinSize_x,360));
     }
     else 
     {
       myInstrument = new NELead6;
-      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,360));
-      
+      myInterface = new NELead6Interface((NELead6*) myInstrument,
+                                          sf::Vector2f(clientWinSize_x,360)); 
     }
   }
   else 
   {
     myInstrument = new NELead6;
-    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+    myInterface = new NELead6Interface((NELead6*) myInstrument,
+                                        sf::Vector2f(clientWinSize_x,360));
   }
   
+  ///Création de la fenêtre
+  sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
+                      clientWinSize_y+borderWinSize_up+borderWinSize_down)
+  sf::RenderWindow window(video,"Millenium Synthesizer",0);
+  window.setFramerateLimit(Signal::refreshRate);
   
-  globalfont.loadFromFile("fonts/unispace rg.ttf");
+  ///Création des éléments qui composent la fenêtre
+  //Bouton de fermeture de la fenetre
+  Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,
+                                  borderWinSize_up*0.5f),"X");
+  closeButton.setPosition(clientWinSize_x,1.f);
+  closeButton.linkTo(&onClose);
+  closeButton.setOutlineThickness(0);
+  closeButton.setClickedColor(sf::Color(142,42,42,255));
+  closeButton.setIdleColor(sf::Color(100,42,42,255));
   
-  
-  sf::Vector2i previousWinPos;
-  sf::Vector2i previousMousePos;
-  sf::Vector2u previousWinSize;
-  Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,borderWinSize_up*0.5f),"X");
-  
+  //Triangle de redimensionnement
   sf::ConvexShape resizeTriangle;
   resizeTriangle.setPointCount(3);
   resizeTriangle.setPoint(0, sf::Vector2f(15, 0));
@@ -115,75 +144,72 @@ int main(int argc, char** argv)
   resizeTriangle.setPoint(2, sf::Vector2f(0, 15));
   resizeTriangle.setOrigin(0,0);
   resizeTriangle.setFillColor(sf::Color(75,75,75,255));
-  resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
-  closeButton.setPosition(clientWinSize_x,1.f);
-  closeButton.linkTo(&onClose);
-  closeButton.setOutlineThickness(0);
-  closeButton.setClickedColor(sf::Color(142,42,42,255));
-  closeButton.setIdleColor(sf::Color(100,42,42,255));
-  sf::RenderWindow window(sf::VideoMode(clientWinSize_x+borderWinSize_right+borderWinSize_left,
-                                        clientWinSize_y+borderWinSize_up+borderWinSize_down), 
-                                        "Millenium Synthesizer",0);
-   
-                                       
-  sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
-  float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
-  float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
-  float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
-  float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,
+                             clientWinSize_y+borderWinSize_up);
+  
+  //Titre de la fenêtre
   sf::Text winTitle("Millenium Synthesizer",globalfont,11);
   winTitle.setPosition(borderWinSize_left,5.f);
-  
-  sf::Texture backTexture;
-  if (GetSettingsFor("GUI/Background",true))
-  {
-    backTexture.loadFromFile(GetSettingsFor("GUI/BackgroundImage",std::string("img/background.png")));
-  }
-  
-  sf::Sprite backSprite(backTexture);
-  backSprite.setOrigin(2048,0);
-  //backSprite.setOrigin(205,423);
-  backSprite.setPosition(window.getSize().x+1347 - 1347*window.getSize().x/2048,
-                        420*window.getSize().y/(float)1024-500);
-  window.setFramerateLimit(Signal::refreshRate);
-  
-  //Current mouse catcher
-  MouseCatcher* currentMouseCatcher=NULL;
-  Interface* currentInterfaceCatcher=NULL;
-  std::vector<Interface*> _interfaces;
-  std::vector<MouseCatcher*> _mouseCatchers;
-  
-  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
-  _interfaces.push_back(&myScope);
-  _mouseCatchers.push_back(&closeButton);
-  
-  float dt=0.02;
-  unsigned int time=0;
-  
   if (argc == 2) {
     window.setTitle(sf::String("Millenium Synthesizer - ") + argv[1]);
     winTitle.setString(sf::String("Millenium Synthesizer - ") + argv[1]);
   } 
   
-  _interfaces.push_back(myInterface);
+  //Texture de fond
+  sf::Texture backTexture;
+  if (GetSettingsFor("GUI/Background",true))
+  {
+    backTexture.loadFromFile(GetSettingsFor("GUI/BackgroundImage",
+                             std::string("img/background.png")));
+  }
+  sf::Sprite backSprite(backTexture);
+  backSprite.setOrigin(2048,0);
+  //backSprite.setOrigin(205,423);
+  backSprite.setPosition(window.getSize().x+1347-1347*window.getSize().x/2048,
+                        420*window.getSize().y/(float)1024-500);
   
-  myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,360.f*viewPortMax_y/clientWinSize_y));
-  myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,viewPortMax_x,100.f*viewPortMax_y/clientWinSize_y));
-
-  Signal leftout, rightout;
-  bool sendSignalSuccess=true;
+  //Oscilloscope
+  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
   myScope.setSignal(&leftout);
   myScope.setColor(myInterface->getColor());
   
+  ///Vue et viewports
+  //vue de la fenetre entière                       
+  sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y)); 
+  //variables de gestion de gestion des viewport
+  float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
+  float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
+  float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
+  float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  //Réglages des viewports
+  myInterface->setViewport(sf::FloatRect(viewPortMin_x,
+                                         viewPortMin_y,
+                                         viewPortMax_x,
+                                         360.f*viewPortMax_y/clientWinSize_y));
+  myScope.setViewport(sf::FloatRect(viewPortMin_x,
+                                    viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,
+                                    viewPortMax_x,
+                                    100.f*viewPortMax_y/clientWinSize_y));
+  
+  ///Gestionnaire de Notes
   std::map<sf::Keyboard::Key,Note*> notes;
-
-  Record r;
-  //r.init();
-
-  if (!driver->start(&stream)) return 0xdead;
+  float dt=1.f/(float)Signal::refreshRate; 
+  unsigned int time=0; //Temps / dt (entier)
+   
+  ///Variables de gestion des interfaces/mouseCatchers
+  //Interfaces
+  Interface* currentInterfaceCatcher=NULL;
+  std::vector<Interface*> _interfaces; 
+  _interfaces.push_back(myInterface);
+  _interfaces.push_back(&myScope);
+  //MouseCatchers (exterieurs au interfaces)
+  MouseCatcher* currentMouseCatcher=NULL;
+  std::vector<MouseCatcher*> _mouseCatchers; 
+  _mouseCatchers.push_back(&closeButton);
+  
   while (window.isOpen())
   {
-  // Process events
+    ///Gestion des evenements
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -381,7 +407,7 @@ int main(int argc, char** argv)
         default:
           break;
       }
-      }
+   }
     
     if (onClose) window.close();
     
@@ -404,11 +430,8 @@ int main(int argc, char** argv)
       sf::Lock lock(stream);
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
-    
    
-    
-    window.clear(sf::Color(42,42,42,255));
-    
+    window.clear(sf::Color(42,42,42,255)); 
     window.setView(winView);
     window.draw(backSprite);
     window.draw(resizeTriangle);
@@ -431,8 +454,9 @@ int main(int argc, char** argv)
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   
-  //
+  //Nettoyage
+  delete myInterface;
+  delete myInstrument;
   delete driver;
-  //r.close();
   return 0;
 }
