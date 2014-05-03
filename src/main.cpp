@@ -122,7 +122,7 @@ int main(int argc, char** argv)
   
   ///Création de la fenêtre
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
-                      clientWinSize_y+borderWinSize_up+borderWinSize_down)
+                      clientWinSize_y+borderWinSize_up+borderWinSize_down);
   sf::RenderWindow window(video,"Millenium Synthesizer",0);
   window.setFramerateLimit(Signal::refreshRate);
   
