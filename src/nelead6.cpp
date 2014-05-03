@@ -174,13 +174,13 @@ _osc1_type(1,1,6),
 _osc2_type(1,1,6),
 _lfo1_type(1,1,6),
 _lfo2_type(1,1,6),
-_oldosc1_shape_value(0),
-_oldosc2_shape_value(0)
+_filter_type(1,1,6)
 {
   _osc1_type.notifyOnChange(this);
   _osc2_type.notifyOnChange(this);
   _lfo1_type.notifyOnChange(this);
   _lfo2_type.notifyOnChange(this);
+  _filter_type.notifyOnChange(this);
 }
  
 NELead6::~NELead6()
@@ -191,22 +191,13 @@ void NELead6::notify(InstrumentParameter* p)
 {
   if (p==&_osc1_type)
   {
-    _oldosc1_shape_value=_osc1_shape.getValue();
-    if (p->getValue() == 2)
-    {
-      _osc1_shape.setValue(64);
-    }
-    else 
-    {
-      _osc1_shape.setValue(_oldosc1_shape_value);
-    }
-      
     switch (p->getValue())
     {
       case 1:
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new SawOscillator);
         break;
       case 2:
+        _osc1_shape.setValue(64);
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc1(new SquareOscillator);
         break;
       case 3:
@@ -225,22 +216,13 @@ void NELead6::notify(InstrumentParameter* p)
   }
   else if (p==&_osc2_type)
   {
-    _oldosc2_shape_value=_osc2_shape.getValue();
-    if (p->getValue() == 2)
-    {
-      _osc2_shape.setValue(64);
-    }
-    else 
-    {
-      _osc2_shape.setValue(_oldosc2_shape_value);
-    }
-  
     switch (p->getValue())
     {
       case 1:
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new SawOscillator);
         break;
       case 2:
+        _osc2_shape.setValue(64);
         for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceOsc2(new SquareOscillator);
         break;
       case 3:
@@ -305,6 +287,30 @@ void NELead6::notify(InstrumentParameter* p)
         break;
     }
   }
+  else if (p==&_filter_type)
+  {
+    switch (p->getValue())
+    {
+      case 1:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new LowPassFilter2);
+        break;
+      case 2:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new BandPassFilter2);
+        break;
+      case 3:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new HighPassFilter2);
+        break;
+      case 4:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new Rejector);
+        break;
+      case 5:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new LowPassFilter);
+        break;
+      case 6:
+        for (unsigned int i=0; i < _voices.size(); i++) _voices[i]->replaceFilter(new HighPassFilter);
+        break;
+    }
+  }
   else 
   {
     return;
@@ -337,6 +343,7 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_OSC2TYPE: return &_osc2_type;
     case PARAM_NELEAD6_LFO1TYPE: return &_lfo1_type;
     case PARAM_NELEAD6_LFO2TYPE: return &_lfo2_type;
+    case PARAM_NELEAD6_FILTERTYPE: return &_filter_type;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -442,7 +449,10 @@ _lfo2TypeButton(0)
                                           sf::IntRect(1840,256,22,43));
     _lfo2TypeLED = new NELead6TriangleLED(_instrument->getParameter(PARAM_NELEAD6_LFO2TYPE), 
                                           _texture, 
-                                          sf::IntRect(1840,256,22,43));                                     
+                                          sf::IntRect(1840,256,22,43));
+    _filterTypeLED = new NELead6TriangleLED(_instrument->getParameter(PARAM_NELEAD6_FILTERTYPE), 
+                                          _texture, 
+                                          sf::IntRect(1840,256,22,43));     
 
     _outputKnob =  new NELead6Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
                                    _texture,
@@ -551,6 +561,12 @@ _lfo2TypeButton(0)
                                  sf::IntRect(1792,256,48,26),
                                  sf::IntRect(1792,282,48,26),
                                  ButtonMode::increment);
+                                 
+    _filterTypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_FILTERTYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
                                        
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
@@ -571,7 +587,11 @@ _lfo2TypeButton(0)
     _filter1RateKnob->setScale(scale);
     _filter1ResKnob->setScale(scale);
     
-    
+    _osc1TypeLED->setPosition(482,32);
+    _osc2TypeLED->setPosition(680,32);
+    _lfo1TypeLED->setPosition(216,24);
+    _lfo2TypeLED->setPosition(216,126);
+    _filterTypeLED->setPosition(864,228);
     _outputKnob->setPosition(1146,30);
     _oscmixKnob->setPosition(644,230);
     _oscmodKnob->setPosition(458,230);
@@ -593,12 +613,13 @@ _lfo2TypeButton(0)
     _osc2TypeButton->setPosition(668,78);
     _lfo1TypeButton->setPosition(202,68);
     _lfo2TypeButton->setPosition(202,170);
-    _osc1TypeLED->setPosition(482,32);
-    _osc2TypeLED->setPosition(680,32);
-    _lfo1TypeLED->setPosition(216,24);
-    _lfo2TypeLED->setPosition(216,126);
+    _filterTypeButton->setPosition(854,274);
     
-    
+    addMouseCatcher(_osc1TypeLED);
+    addMouseCatcher(_osc2TypeLED);
+    addMouseCatcher(_lfo1TypeLED);
+    addMouseCatcher(_lfo2TypeLED);
+    addMouseCatcher(_filterTypeLED);
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_oscmixKnob);
     addMouseCatcher(_oscmodKnob);
@@ -620,10 +641,8 @@ _lfo2TypeButton(0)
     addMouseCatcher(_osc2TypeButton);
     addMouseCatcher(_lfo1TypeButton);
     addMouseCatcher(_lfo2TypeButton);
-    addMouseCatcher(_osc1TypeLED);
-    addMouseCatcher(_osc2TypeLED);
-    addMouseCatcher(_lfo1TypeLED);
-    addMouseCatcher(_lfo2TypeLED);
+    addMouseCatcher(_filterTypeButton);
+    
     addDrawable(&_back);
   }
 
@@ -631,6 +650,11 @@ _lfo2TypeButton(0)
 
 NELead6Interface::~NELead6Interface()
 {
+  if (_osc1TypeLED) delete _osc1TypeLED;
+  if (_osc2TypeLED) delete _osc2TypeLED;
+  if (_lfo1TypeLED) delete _lfo1TypeLED;
+  if (_lfo2TypeLED) delete _lfo2TypeLED;
+  if (_filterTypeLED) delete _filterTypeLED;
   if( _outputKnob ) delete _outputKnob;
   if( _oscmixKnob ) delete _oscmixKnob;
   if (_oscmodKnob) delete _oscmodKnob;
@@ -652,10 +676,7 @@ NELead6Interface::~NELead6Interface()
   if (_osc2TypeButton) delete _osc2TypeButton;
   if (_lfo1TypeButton) delete _lfo1TypeButton;
   if (_lfo2TypeButton) delete _lfo2TypeButton;
-  if (_osc1TypeLED) delete _osc1TypeLED;
-  if (_osc2TypeLED) delete _osc2TypeLED;
-  if (_lfo1TypeLED) delete _lfo1TypeLED;
-  if (_lfo2TypeLED) delete _lfo2TypeLED;
+  if (_filterTypeButton) delete _filterTypeButton;
 }
 
 NELead6TriangleLED::NELead6TriangleLED(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &rect) :

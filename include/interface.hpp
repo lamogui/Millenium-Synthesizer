@@ -181,6 +181,11 @@ class Interface : public sf::Drawable
     {
       return _zone;
     }
+    
+    virtual inline sf::Color getColor() //Couleur de l'interface
+    {
+      return sf::Color(255,255,255,0);
+    }
 
     void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
