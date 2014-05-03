@@ -59,9 +59,12 @@ int main(int argc, char** argv)
   #endif
   AudioStream stream(streamSize);
   
+  AbstractInstrument* myInstrument=NULL;      
+  Interface* myInterface=NULL;
+  
   //Window Borders
   float clientWinSize_x=Signal::size/*+205-40*/;
-  float clientWinSize_y=480;
+  float clientWinSize_y=360+100;
   float borderWinSize_up=40;
   float borderWinSize_down=20;
   float borderWinSize_right=20;
@@ -69,6 +72,32 @@ int main(int argc, char** argv)
   bool onMoveWin=false;
   bool onResizeWin=false;
   int onClose=0;
+  
+  if (argc == 2)
+  {
+    if (std::string("careme") == argv[1]) 
+    {
+      myInstrument = new Careme;
+      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+    }
+    else if (std::string("puresquare") == argv[1]) 
+    {
+      clientWinSize_x=720;
+      myInstrument = new PureSquare;
+      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+    }
+    else 
+    {
+      myInstrument = new NELead6;
+      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+      
+    }
+  }
+  else 
+  {
+    myInstrument = new NELead6;
+    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,360));
+  }
   
   
   globalfont.loadFromFile("fonts/unispace rg.ttf");
@@ -95,7 +124,8 @@ int main(int argc, char** argv)
   sf::RenderWindow window(sf::VideoMode(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                                         clientWinSize_y+borderWinSize_up+borderWinSize_down), 
                                         "Millenium Synthesizer",0);
-                                        
+   
+                                       
   sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
   float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
   float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
@@ -130,41 +160,15 @@ int main(int argc, char** argv)
   float dt=0.02;
   unsigned int time=0;
   
-  
-  AbstractInstrument* myInstrument=NULL;      
-  Interface* myInterface=NULL;
-  
-  if (argc == 2)
-  {
-    if (std::string("careme") == argv[1]) 
-    {
-      myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
-    }
-    else if (std::string("puresquare") == argv[1]) 
-    {
-      myInstrument = new PureSquare;
-      myInterface = new PureSquareInterface((PureSquare*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
-    }
-    else 
-    {
-      myInstrument = new NELead6;
-      myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
-      
-    }
+  if (argc == 2) {
     window.setTitle(sf::String("Millenium Synthesizer - ") + argv[1]);
     winTitle.setString(sf::String("Millenium Synthesizer - ") + argv[1]);
-    
-  }
-  else 
-  {
-    myInstrument = new NELead6;
-    myInterface = new NELead6Interface((NELead6*) myInstrument,sf::Vector2f(clientWinSize_x,clientWinSize_y*3.f/4.f));
-  }
+  } 
+  
   _interfaces.push_back(myInterface);
   
-  myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,0.75f*viewPortMax_y));
-  myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+0.75f*viewPortMax_y,viewPortMax_x,0.25f*viewPortMax_y));
+  myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,360.f*viewPortMax_y/clientWinSize_y));
+  myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,viewPortMax_x,100.f*viewPortMax_y/clientWinSize_y));
 
   Signal leftout, rightout;
   bool sendSignalSuccess=true;
