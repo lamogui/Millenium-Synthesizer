@@ -89,8 +89,8 @@ Procédez par un classique Fork puis Pull Request et je vous ajouterai sur les c
 TODO
 ====
 
- - ~Coder les oscillateurs : random, smooth random, noise et triple sin~
- - Coder le Fader ~et le Button~ (dans interface.hpp/cpp)
+ - ~~Coder les oscillateurs : random, smooth random, noise et triple sin~~
+ - Coder le Fader ~~et le Button~~ (dans interface.hpp/cpp)
  - **Faire le code qui lit les fichiers midi**
  - **Coder les getters/setters (Regarder dans les notations)**
  - **se mettre d'accord sur les notations des attributs et utiliser la même PARTOUT**
