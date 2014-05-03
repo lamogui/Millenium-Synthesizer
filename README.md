@@ -89,12 +89,14 @@ Procédez par un classique Fork puis Pull Request et je vous ajouterai sur les c
 TODO
 ====
 
- - Coder les oscillateurs : random, smooth random, noise et triple sin
- - Coder le Fader et le Button (dans interface.hpp/cpp)
- - Faire le code qui lit les fichiers midi
- - Faire un fichier instrument.cpp
- - Coder les getters/setters
- - Finir le NELead6
+ - ~Coder les oscillateurs : random, smooth random, noise et triple sin~
+ - Coder le Fader ~et le Button~ (dans interface.hpp/cpp)
+ - **Faire le code qui lit les fichiers midi**
+ - **Coder les getters/setters (Regarder dans les notations)**
+ - **se mettre d'accord sur les notations des attributs et utiliser la même PARTOUT**
+ - Indenter/commenter 
+ - Finir le NELead6 
  - Coder d'autres drivers
  - Mettre des cartouches avec des ASCII Art (lol)
  - Coder la méthode bool readSignal(Signal& signal) dans AudioStream, et regarder ce que l'on peut faire avec SoundStream de la SFML.
+ - Faire un fichier instrument.cpp
