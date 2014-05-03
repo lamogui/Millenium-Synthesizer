@@ -31,6 +31,11 @@
 #define PARAM_NELEAD6_LFO1TYPE     0x52  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_LFO2TYPE     0x53  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_FILTERTYPE   0x41  //Portamento
+#define PARAM_NELEAD6_ENVFATTACK   0x10  //General-Purpose Controllers 1-4
+#define PARAM_NELEAD6_ENVFDECAY    0x11  //General-Purpose Controllers 1-4
+#define PARAM_NELEAD6_ENVFSUSTAIN  0x12  //General-Purpose Controllers 1-4
+#define PARAM_NELEAD6_ENVFRELEASE  0x13  //General-Purpose Controllers 1-4
+#define PARAM_NELEAD6_ENVFAMP      0x0B  //Expression Controller
 
 //modulation modes
 #define NELEAD6_FM 0
@@ -59,6 +64,7 @@ class NELead6Voice : public InstrumentVoice
     Oscillator* _lfo2;
     Filter* _filter1;
     Enveloppe _env;
+    Enveloppe _filterEnv;
     Note _currentNote;
     Signal _oscmix;
 };
@@ -88,6 +94,11 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _env_decay;
     InstrumentParameter _env_sustain;
     InstrumentParameter _env_release;
+    InstrumentParameter _envf_attack;
+    InstrumentParameter _envf_decay;
+    InstrumentParameter _envf_sustain;
+    InstrumentParameter _envf_release;
+    InstrumentParameter _envf_amount;
     InstrumentParameter _osc1_shape;
     InstrumentParameter _osc2_shape;
     InstrumentParameter _filter1_rate;
@@ -166,6 +177,11 @@ class NELead6Interface : public Interface
     NELead6Knob* _envDecayKnob;
     NELead6Knob* _envSustainKnob;
     NELead6Knob* _envReleaseKnob;
+    NELead6Knob* _envFilterAttackKnob;
+    NELead6Knob* _envFilterDecayKnob;
+    NELead6Knob* _envFilterSustainKnob;
+    NELead6Knob* _envFilterReleaseKnob;
+    NELead6Knob* _envFilterAmountKnob;
     NELead6Knob* _osc1ShapeKnob;
     NELead6Knob* _osc2ShapeKnob;
     NELead6Knob* _filter1RateKnob;
