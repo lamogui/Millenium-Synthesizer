@@ -11,7 +11,17 @@ Aperçus
 Installation
 ============
 
-Tout d'abord cloner le git (ou télécharger le zip de l'état actuel)
+Releases
+-------
+Quand une version du programme est potable est compilée sous windows elle est disponible
+en release ici :
+ - [Millenium Synthesizer Win32](http://bdene666.site90.net/PRO_RELEASES/MiLLENiUM_SYNTH_WIN32.zip)
+ - [Millenium Synthesizer Win64](http://bdene666.site90.net/PRO_RELEASES/MiLLENiUM_SYNTH_WIN64.zip)
+ Avec ces versions il suffit de décompresser et d'utiliser ! ;)
+
+
+ 
+Sinon cloner le git (ou télécharger le zip de l'état actuel)
 
 Windows
 -------
