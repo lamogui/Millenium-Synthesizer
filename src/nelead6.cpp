@@ -66,8 +66,8 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   const float osc2_shape = _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->getValue()/127.f;
   
   //Filters
-  const float filter1_rate = (exp(_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->getValue()*7.423f/127.f + 2.48))*_currentNote.frequency()/440.f;
-  //const float filter1o_rate = (exp(_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->getValue()*7.423f/127.f + 2.48))*Note::getFrequencyFromID(_currentNote.id+24)/440.f;
+  //const float filter1_rate = (exp(_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->getValue()*7.423f/127.f + 2.48))*_currentNote.frequency()/440.f;
+  const float filter1_rate = (float)_currentNote.frequency()*(float)(exp(5.776-(127-_instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->getValue())*7.335f/127.f));
   const float filter1_res = 50.f/(float)(_instrument->getParameter(PARAM_NELEAD6_FILTER1RES)->getValue());
   
   //Enveloppe
@@ -77,7 +77,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   _env.release = exp((float)_instrument->getParameter(PARAM_NELEAD6_ENVRELEASE)->getValue()*5.3f/127.f-2.3)*Signal::frequency;
   
   //Filter Enveloppe
-  const float envFamount=(float)(filter1_rate)*_instrument->getParameter(PARAM_NELEAD6_ENVFAMP)->getValue()/1.27f;
+  const float envFamount=(float)_instrument->getParameter(PARAM_NELEAD6_ENVFAMP)->getValue()*10.f*filter1_rate/127.f;
   _filterEnv.attack = exp((float)_instrument->getParameter(PARAM_NELEAD6_ENVFATTACK)->getValue()*5.3f/127.f-2.3)*Signal::frequency;
   _filterEnv.decay = exp((float)_instrument->getParameter(PARAM_NELEAD6_ENVFDECAY)->getValue()*5.3f/127.f-2.3)*Signal::frequency;
   _filterEnv.sustain = (float)_instrument->getParameter(PARAM_NELEAD6_ENVFSUSTAIN)->getValue()/127.f;
@@ -96,8 +96,8 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   //begin with LFO
   _lfo1->setAmplitude(lfo1_amount);
   _lfo2->setAmplitude(lfo2_amount);
-  _lfo1->setFrequency(lfo1_rate*_currentNote.frequency()/440.f);
-  _lfo2->setFrequency(lfo2_rate*_currentNote.frequency()/440.f);
+  _lfo1->setFrequency(lfo1_rate/*_currentNote.frequency()/440.f*/);
+  _lfo2->setFrequency(lfo2_rate/*_currentNote.frequency()/440.f*/);
   
   Signal* lfo1 = _lfo1->generate();
   Signal* lfo2 = _lfo2->generate(); 
@@ -169,7 +169,9 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
     _instrument->getParameter(PARAM_NELEAD6_OSC1SHAPE)->setAuto(true,_osc1->getShape().samples[0]*127.f);
     _instrument->getParameter(PARAM_NELEAD6_OSC2SHAPE)->setAuto(true,_osc2->getShape().samples[0]*127.f);
     //Reverse frequency param (log = ln)
-    short filter_f = (short) ((log(_filter1->getFrequency().samples[0]*440.f/_currentNote.frequency())-2.48)*127.f/7.423f);
+    //log(_filter1->getFrequency().samples[0]/_currentNote.frequency()) =-filter_f*7.335f/127.f;
+    
+    float filter_f = (log(_filter1->getFrequency().samples[0]/_currentNote.frequency()) - 5.776f + 7.335f)*127.f/7.335f;
     _instrument->getParameter(PARAM_NELEAD6_FILTER1RATE)->setAuto(true,filter_f);
   }
 }
