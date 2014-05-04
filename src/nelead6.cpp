@@ -683,7 +683,7 @@ _lfo2TypeButton(0)
     _osc2TypeButton->setPosition(668,78);
     _lfo1TypeButton->setPosition(202,68);
     _lfo2TypeButton->setPosition(202,170);
-    _filterTypeButton->setPosition(854,274);
+    _filterTypeButton->setPosition(851,274);
     
     addMouseCatcher(_osc1TypeLED);
     addMouseCatcher(_osc2TypeLED);

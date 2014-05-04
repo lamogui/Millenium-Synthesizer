@@ -130,7 +130,7 @@ int main(int argc, char** argv)
   //Bouton de fermeture de la fenetre
   Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,
                                   borderWinSize_up*0.5f),"X");
-  closeButton.setPosition(clientWinSize_x,1.f);
+  closeButton.setPosition(clientWinSize_x,0);
   closeButton.linkTo(&onClose);
   closeButton.setOutlineThickness(0);
   closeButton.setClickedColor(sf::Color(142,42,42,255));
@@ -231,7 +231,7 @@ int main(int argc, char** argv)
             float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
           
             resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
-            closeButton.setPosition(clientWinSize_x,1.f);
+            closeButton.setPosition(clientWinSize_x,0);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {

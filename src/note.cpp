@@ -134,7 +134,7 @@ bool InstrumentParameter::setValue(short v)
   return _auto;
 }
 
-inline void InstrumentParameter::notify() {
+void InstrumentParameter::notify() {
   _modified=true; 
   if (_instrument) _instrument->notify(this);
 }
