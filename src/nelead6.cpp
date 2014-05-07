@@ -48,9 +48,12 @@ void NELead6Voice::endNote()
 void NELead6Voice::step(Signal* leftout, Signal* rightout)
 {
   ///Recuperations des paramètres
+  //Modulation
+  const int mod_type = _instrument->getParameter(PARAM_NELEAD6_MODTYPE)->getValue();
+  const float oscmod = _instrument->getParameter(PARAM_NELEAD6_OSCMOD)->getValue()/(12.7f);
+  
   //Mixage
-  const float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f;
-  const float oscmod = _instrument->getParameter(PARAM_NELEAD6_OSCMOD)->getValue()/(127.f*440.f*10.f);
+  const float oscmix = _instrument->getParameter(PARAM_NELEAD6_OSCMIX)->getValue()/127.f; 
   //Detune/Octave
   const int finetune = _instrument->getParameter(PARAM_NELEAD6_FINETUNE)->getValue();
   const int coarsetune = _instrument->getParameter(PARAM_NELEAD6_COARSETUNE)->getValue();
@@ -132,18 +135,34 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   
   
   Signal* osc2 = _osc2->generate();
-  _osc1->getFM()=*osc2;
-  _osc1->getFM().scale(_currentNote.frequency()*oscmod);
-  _osc1->getFM().addOffset(_currentNote.frequency()*oscmod);
+  if (mod_type==NELEAD6_FM) //Frequency modulation
+  {
+    _osc1->getFM()=*osc2;
+    _osc1->getFM().scale(_currentNote.frequency()*oscmod/(20.f*440.f));
+    //_osc1->getFM().addOffset(_currentNote.frequency()*oscmod/(10.f*440.f));
+    //_osc1->getFM().scale(oscmod);
+    //_osc1->getFM().addOffset(oscmod);
+  }
+  else if (mod_type==NELEAD6_RM) 
+  {
+    _osc1->getAmplitude() = *osc2; 
+    _osc1->getAmplitude().scale(oscmod/20.f);
+    _osc1->getAmplitude().addOffset(1.5f-oscmod/10.f);
+  }
   _osc1->step(leftout);
   osc2->mix(&_oscmix);
-  
   _oscmix.scale(-1.f);
   _oscmix.addOffset(1.f);
   
   leftout->mix(&_oscmix);
   
   leftout->add(osc2);
+  
+  if (mod_type==NELEAD6_DIST)
+  {
+    leftout->scale(1.f+oscmod);
+  }
+  leftout->saturate(-1.f,1.f);
   
   _filter1->step(leftout);
   
@@ -203,7 +222,8 @@ _osc1_type(1,1,6),
 _osc2_type(1,1,6),
 _lfo1_type(1,1,6),
 _lfo2_type(1,1,6),
-_filter_type(1,1,6)
+_filter_type(1,1,6),
+_modulation_type(1,1,3)
 {
   _osc1_type.notifyOnChange(this);
   _osc2_type.notifyOnChange(this);
@@ -378,6 +398,7 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_LFO1TYPE: return &_lfo1_type;
     case PARAM_NELEAD6_LFO2TYPE: return &_lfo2_type;
     case PARAM_NELEAD6_FILTERTYPE: return &_filter_type;
+    case PARAM_NELEAD6_MODTYPE: return &_modulation_type;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -445,6 +466,7 @@ _osc1TypeLED(0),
 _osc2TypeLED(0),
 _lfo1TypeLED(0),
 _lfo2TypeLED(0),
+_modTypeLED(0),
 _outputKnob(0),
 _oscmixKnob(0),
 _oscmodKnob(0),
@@ -470,7 +492,8 @@ _filter1ResKnob(0),
 _osc1TypeButton(0),
 _osc2TypeButton(0),
 _lfo1TypeButton(0),
-_lfo2TypeButton(0)
+_lfo2TypeButton(0),
+_modTypeButton(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
@@ -492,7 +515,11 @@ _lfo2TypeButton(0)
     _filterTypeLED = new NELead6TriangleLED(_instrument->getParameter(PARAM_NELEAD6_FILTERTYPE), 
                                           _texture, 
                                           sf::IntRect(1840,256,22,43));     
-
+    
+    _modTypeLED = new NELead6TriangleLED(_instrument->getParameter(PARAM_NELEAD6_MODTYPE), 
+                                         _texture, 
+                                         sf::IntRect(1840,256,22,43));   
+    
     _outputKnob =  new NELead6Knob(_instrument->getParameter(PARAM_INSTRUMENT_VOLUME_ID),
                                    _texture,
                                    sf::IntRect(1792,0,128,128),
@@ -629,7 +656,13 @@ _lfo2TypeButton(0)
                                  sf::IntRect(1792,256,48,26),
                                  sf::IntRect(1792,282,48,26),
                                  ButtonMode::increment);
-                                       
+    
+    _modTypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_MODTYPE),
+                                 _texture,
+                                 sf::IntRect(1792,256,48,26),
+                                 sf::IntRect(1792,282,48,26),
+                                 ButtonMode::increment);
+                                 
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 
     _oscmixKnob->setScale(scale); 
@@ -659,6 +692,7 @@ _lfo2TypeButton(0)
     _lfo1TypeLED->setPosition(216,24);
     _lfo2TypeLED->setPosition(216,126);
     _filterTypeLED->setPosition(864,228);
+    _modTypeLED->setPosition(605,258);
     _outputKnob->setPosition(1146,30);
     _oscmixKnob->setPosition(644,230);
     _oscmodKnob->setPosition(458,230);
@@ -686,12 +720,14 @@ _lfo2TypeButton(0)
     _lfo1TypeButton->setPosition(202,68);
     _lfo2TypeButton->setPosition(202,170);
     _filterTypeButton->setPosition(851,274);
+    _modTypeButton->setPosition(540,268);
     
     addMouseCatcher(_osc1TypeLED);
     addMouseCatcher(_osc2TypeLED);
     addMouseCatcher(_lfo1TypeLED);
     addMouseCatcher(_lfo2TypeLED);
     addMouseCatcher(_filterTypeLED);
+    addMouseCatcher(_modTypeLED);
     addMouseCatcher(_outputKnob);
     addMouseCatcher(_oscmixKnob);
     addMouseCatcher(_oscmodKnob);
@@ -719,6 +755,7 @@ _lfo2TypeButton(0)
     addMouseCatcher(_lfo1TypeButton);
     addMouseCatcher(_lfo2TypeButton);
     addMouseCatcher(_filterTypeButton);
+    addMouseCatcher(_modTypeButton);
     
     addDrawable(&_back);
   }
@@ -732,6 +769,7 @@ NELead6Interface::~NELead6Interface()
   if (_lfo1TypeLED) delete _lfo1TypeLED;
   if (_lfo2TypeLED) delete _lfo2TypeLED;
   if (_filterTypeLED) delete _filterTypeLED;
+  if (_modTypeLED) delete _modTypeLED;
   if( _outputKnob ) delete _outputKnob;
   if( _oscmixKnob ) delete _oscmixKnob;
   if (_oscmodKnob) delete _oscmodKnob;
@@ -759,6 +797,7 @@ NELead6Interface::~NELead6Interface()
   if (_lfo1TypeButton) delete _lfo1TypeButton;
   if (_lfo2TypeButton) delete _lfo2TypeButton;
   if (_filterTypeButton) delete _filterTypeButton;
+  if (_modTypeButton) delete _modTypeButton;
 }
 
 NELead6TriangleLED::NELead6TriangleLED(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &rect) :
