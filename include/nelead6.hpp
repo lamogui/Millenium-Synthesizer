@@ -31,6 +31,7 @@
 #define PARAM_NELEAD6_LFO1TYPE     0x52  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_LFO2TYPE     0x53  //General-Purpose Controllers 5-8
 #define PARAM_NELEAD6_FILTERTYPE   0x41  //Portamento
+#define PARAM_NELEAD6_MODTYPE      0x42  //Sostenuto
 #define PARAM_NELEAD6_ENVFATTACK   0x10  //General-Purpose Controllers 1-4
 #define PARAM_NELEAD6_ENVFDECAY    0x11  //General-Purpose Controllers 1-4
 #define PARAM_NELEAD6_ENVFSUSTAIN  0x12  //General-Purpose Controllers 1-4
@@ -38,8 +39,9 @@
 #define PARAM_NELEAD6_ENVFAMP      0x0B  //Expression Controller
 
 //modulation modes
-#define NELEAD6_FM 0
-#define NELEAD6_RM 1
+#define NELEAD6_FM 1
+#define NELEAD6_RM 2
+#define NELEAD6_DIST 3
 
 class NELead6Voice : public InstrumentVoice
 {
@@ -108,6 +110,7 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _lfo1_type;
     InstrumentParameter _lfo2_type;
     InstrumentParameter _filter_type;
+    InstrumentParameter _modulation_type;
 }; 
 
 class NELead6Knob : public Knob
@@ -164,6 +167,7 @@ class NELead6Interface : public Interface
     NELead6TriangleLED* _lfo1TypeLED;
     NELead6TriangleLED* _lfo2TypeLED;
     NELead6TriangleLED* _filterTypeLED;
+    NELead6TriangleLED* _modTypeLED;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
     NELead6Knob* _oscmodKnob;
@@ -191,6 +195,7 @@ class NELead6Interface : public Interface
     Button* _lfo1TypeButton;
     Button* _lfo2TypeButton;
     Button* _filterTypeButton;
+    Button* _modTypeButton;
 };
 
 
