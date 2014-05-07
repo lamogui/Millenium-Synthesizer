@@ -124,7 +124,7 @@ int main(int argc, char** argv)
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                       clientWinSize_y+borderWinSize_up+borderWinSize_down);
   sf::RenderWindow window(video,"Millenium Synthesizer",0);
-  window.setFramerateLimit(Signal::refreshRate);
+  //window.setFramerateLimit(Signal::refreshRate);
   
   ///Création des éléments qui composent la fenêtre
   //Bouton de fermeture de la fenetre
@@ -427,7 +427,31 @@ int main(int argc, char** argv)
     
     //Mise à jour de l'interface
     myInterface->update();
-
+    
+    //Mise à jour du son
+    time++;
+      //le verre d'eau est vide donc on le rempli
+      myInstrument->step(&leftout, &rightout); 
+      //Mise à jour de l'oscillo
+      myScope.update();
+    
+    unsigned l;
+    do
+    {
+      stream.lock();
+      l = (stream.getBufferLength() - stream.getAvailableSamplesCount()) >> 1;
+      stream.unlock();
+      unsigned m=(float)((1.f/(float)Signal::frequency) *  100000.f);
+      if (l<Signal::size)
+      {
+        //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
+        sf::sleep(sf::microseconds(m*Signal::size));
+      }
+      stream.lock();
+      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
+      stream.unlock();
+    } while(!sendSignalSuccess);
+/*
     ///Gestion de la génération du son
     //sendSignalSuccess = as t'on utilisé le verre d'eau ?
     if (sendSignalSuccess) 
@@ -449,7 +473,7 @@ int main(int argc, char** argv)
       sf::Lock lock(stream);
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
     }
-    
+ */   
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
