@@ -68,10 +68,12 @@ int main(int argc, char** argv)
   if (!driver->start(&stream)) return 0xdead; //si elle échoue : tant pis
   
   
+  sf::VideoMode video=sf::VideoMode::getDesktopMode();
+  
   ///Paramètres de la fenêtre
   //Taille alloué pour les interfaces
   float clientWinSize_x=Signal::size/*+205-40*/; 
-  float clientWinSize_y=360+100;
+  float clientWinSize_y=clientWinSize_x*video.height/(float)video.width;//360+100;
   //Tailles des bordures
   float borderWinSize_up=40;
   float borderWinSize_down=20;
@@ -121,31 +123,17 @@ int main(int argc, char** argv)
   }
   
   ///Création de la fenêtre
-  sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
-                      clientWinSize_y+borderWinSize_up+borderWinSize_down);
   sf::RenderWindow window(video,"Millenium Synthesizer",0);
-  //window.setFramerateLimit(Signal::refreshRate);
   
   ///Création des éléments qui composent la fenêtre
   //Bouton de fermeture de la fenetre
   Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,
                                   borderWinSize_up*0.5f),"X");
-  closeButton.setPosition(clientWinSize_x,0);
+  closeButton.setPosition(window.getSize().x-borderWinSize_right-borderWinSize_left,0);
   closeButton.linkTo(&onClose);
   closeButton.setOutlineThickness(0);
   closeButton.setClickedColor(sf::Color(142,42,42,255));
   closeButton.setIdleColor(sf::Color(100,42,42,255));
-  
-  //Triangle de redimensionnement
-  sf::ConvexShape resizeTriangle;
-  resizeTriangle.setPointCount(3);
-  resizeTriangle.setPoint(0, sf::Vector2f(15, 0));
-  resizeTriangle.setPoint(1, sf::Vector2f(15, 15));
-  resizeTriangle.setPoint(2, sf::Vector2f(0, 15));
-  resizeTriangle.setOrigin(0,0);
-  resizeTriangle.setFillColor(sf::Color(75,75,75,255));
-  resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,
-                             clientWinSize_y+borderWinSize_up);
   
   //Titre de la fenêtre
   sf::Text winTitle("Millenium Synthesizer",globalfont,11);
@@ -177,10 +165,10 @@ int main(int argc, char** argv)
   //vue de la fenetre entière                       
   sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y)); 
   //variables de gestion de gestion des viewport
-  float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
-  float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
-  float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
-  float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  float viewPortMin_x=borderWinSize_left/(float)(clientWinSize_x+borderWinSize_left+borderWinSize_right);
+  float viewPortMin_y=borderWinSize_up/(float)(clientWinSize_y+borderWinSize_down+borderWinSize_up);
+  float viewPortMax_x=clientWinSize_x/(float)(clientWinSize_x+borderWinSize_left+borderWinSize_right);
+  float viewPortMax_y=clientWinSize_y/(float)(clientWinSize_y+borderWinSize_down+borderWinSize_up);
   //Réglages des viewports
   myInterface->setViewport(sf::FloatRect(viewPortMin_x,
                                          viewPortMin_y,
@@ -219,46 +207,6 @@ int main(int argc, char** argv)
         case sf::Event::Closed:
           window.close(); // Close window : exit
           break;
-        ///Resizing
-        case sf::Event::Resized:
-          {
-            float clientWinSize_x=window.getSize().x-borderWinSize_left-borderWinSize_right;
-            float clientWinSize_y=window.getSize().y-borderWinSize_up-borderWinSize_down;
-            winView = sf::View(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
-            float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
-            float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
-            float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
-            float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
-          
-            resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
-            closeButton.setPosition(clientWinSize_x,0);
-            // Toute la place est disponible 
-            if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
-            {
-              myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y);
-              float y1 = myInterface->getIdealSize().y/(float)clientWinSize_y;
-              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
-              myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y);
-              float y2 = myScope.getIdealSize().y/(float)clientWinSize_y;
-              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
-              y1+=y2;
-            }
-            else //on alloue proportionellement à la place dispo
-            {
-              float tot = myInterface->getIdealSize().y + myScope.getIdealSize().y;
-              myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y*clientWinSize_y/tot);
-              float y1 = myInterface->getIdealSize().y/tot;
-              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
-              myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y*clientWinSize_y/tot);
-              float y2 = myScope.getIdealSize().y/tot;
-              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
-              y1+=y2;
-            }
-            
-            backSprite.setPosition(window.getSize().x+1347 - 1347*window.getSize().x/2048,
-                                   420*window.getSize().y/(float)1024-500);
-          }
-          break;
         ///Gestion de la capture de la souris pour les Mouse Catchers
         case sf::Event::MouseButtonPressed:
           if (event.mouseButton.button == sf::Mouse::Left) 
@@ -294,17 +242,6 @@ int main(int argc, char** argv)
                 }
               }
             }
-            if (!currentMouseCatcher) //enfins éléments spéciaux
-            {
-              if (mousePosition.x > window.getSize().x - borderWinSize_right && 
-                  mousePosition.y > window.getSize().y - borderWinSize_down)
-              {
-                onResizeWin=true;
-                resizeTriangle.setFillColor(sf::Color(142,142,142,255));
-              }
-              else
-                onMoveWin=true;
-            }
           }
           break;
         case sf::Event::MouseButtonReleased:
@@ -327,15 +264,6 @@ int main(int argc, char** argv)
               currentMouseCatcher=NULL;
               currentInterfaceCatcher=NULL;
             }
-            else if (onResizeWin)
-            {
-              onResizeWin=false;
-              resizeTriangle.setFillColor(sf::Color(75,75,75,255));
-            }
-            else if (onMoveWin)
-            {
-              onMoveWin=false;
-            }
           }
           break;
         case sf::Event::MouseMoved:
@@ -352,22 +280,6 @@ int main(int argc, char** argv)
           {
             sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
             currentMouseCatcher->onMouseMove(v.x,v.y);
-          }
-          else if (onMoveWin)
-          {
-            window.setPosition(mousePosition-previousMousePos+previousWinPos);
-            previousWinPos=window.getPosition();
-          }
-          else if (onResizeWin)
-          {
-            if (mousePosition.x > 0 && mousePosition.y > 0)
-            {
-              sf::Vector2u newSize(mousePosition.x-previousMousePos.x + previousWinSize.x,
-                                   mousePosition.y-previousMousePos.y + previousWinSize.y);
-              if (newSize.x < 400) newSize.x = 400;
-              if (newSize.y < 200) newSize.y = 200;
-              window.setSize(newSize);
-            }
           }
           }
           break;
@@ -400,10 +312,6 @@ int main(int argc, char** argv)
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                //r.writeNote(id, time);
-                //notes[event.key.code] = reccord.createNote(time,id,1.0);
-                //vector.push_back(Note(time,id,1.0))
-                //return & (vector[vector.size-1]);
                 notes[event.key.code] = new Note(time,id,1.0);
                 myInstrument->playNote(*notes[event.key.code]);
               }  
@@ -451,35 +359,11 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
       stream.unlock();
     } while(!sendSignalSuccess);
-/*
-    ///Gestion de la génération du son
-    //sendSignalSuccess = as t'on utilisé le verre d'eau ?
-    if (sendSignalSuccess) 
-    {
-      //std::cout << "generating output..." << std::endl;
-      time++;
-      //le verre d'eau est vide donc on le rempli
-      myInstrument->step(&leftout, &rightout); 
-      //Mise à jour de l'oscillo
-      myScope.update();     
-      sf::Lock lock(stream); //verrouillage de l'entonoir
-      //std::cout << "try..." << std::endl;
-      //on essai de verser le verre d'eau dans l'entonoir
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-    }
-    else
-    {
-      //std::cout << "retry..." << std::endl;
-      sf::Lock lock(stream);
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-    }
- */   
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
     window.setView(winView);               //On dessine les éléments de la fenetre
     window.draw(backSprite);               //Le fond
-    window.draw(resizeTriangle);           //Triangle de redimensionnement
     window.draw(winTitle);                 //Le titre
     //On dessine tous les élèments propre à la fenêtre (bouton close)
     for (unsigned int i =0; i < _mouseCatchers.size(); i++)
