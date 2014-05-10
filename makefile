@@ -1,7 +1,6 @@
 
 TARGET_NAME=test
-OBJ=	build/main.o \
-	build/signal.o \
+OBJ= build/signal.o \
 	build/audiostream.o \
 	build/oscillator.o \
 	build/note.o \
@@ -78,16 +77,19 @@ build/%.o: src/%.cpp $(HEADER)
 build/%.o: src/%.rc
 	@echo RC compiling $< to $@
 	windres $< $@ -v
+	
+diapo: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
+   g++ -o diapo.exe $(OBJ) build/diapo.o $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a"
 
-win32: $(HEADER) $(OBJ) $(FILECPP)
+	win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).exe $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
 	
-linux32: $(HEADER) $(OBJ) $(FILECPP)
-	g++ -o $(TARGET_NAME).x32 $(OBJ) $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
+linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
+	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 	
-linux64: $(HEADER) $(OBJ) $(FILECPP)
-	g++ -o $(TARGET_NAME).x64 $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
+linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
+	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 
-linux64enib: $(HEADER) $(OBJ) $(FILECPP)
-	g++ -o $(TARGET_NAME).enib $(OBJ) $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
+linux64enib: $(HEADER) $(OBJ) $(FILECPP) build/main.o
+	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
 	
