@@ -36,4 +36,9 @@ class Midi_track {
 #define TIME_SIGNATURE 0x58
 #define KEY_SIGNATURE 0x59
 #define END_OF_TRACK 0x2F
-
+#define PROGRAM_CHANGE 0xC0
+#define CONTROLLER 0xB0
+#define MAIN_VOLUME 0x07
+#define NOTE_ON 0x90
+#define NOTE_OFF 0x80
+#define C4 0x3C
