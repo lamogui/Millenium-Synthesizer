@@ -21,6 +21,8 @@ class CadoVoice : public InstrumentVoice
     
   private:
     Oscillator* _osc1;
+	Oscillator* _osc2;
+	Oscillator* _osc3;
     Enveloppe _env;
     Note _currentNote;
 };

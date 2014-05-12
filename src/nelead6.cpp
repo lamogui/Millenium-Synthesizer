@@ -223,7 +223,8 @@ _osc2_type(1,1,6),
 _lfo1_type(1,1,6),
 _lfo2_type(1,1,6),
 _filter_type(1,1,6),
-_modulation_type(1,1,3)
+_modulation_type(1,1,3),
+_lfo1_dest(1,1,6)
 {
   _osc1_type.notifyOnChange(this);
   _osc2_type.notifyOnChange(this);
@@ -399,6 +400,7 @@ InstrumentParameter* NELead6::getParameter(unsigned char id)
     case PARAM_NELEAD6_LFO2TYPE: return &_lfo2_type;
     case PARAM_NELEAD6_FILTERTYPE: return &_filter_type;
     case PARAM_NELEAD6_MODTYPE: return &_modulation_type;
+	case PARAM_NELEAD6_LFO1DEST: return &_lfo1_dest;
     default : return Instrument<NELead6Voice>::getParameter(id);
   }
 }
@@ -467,6 +469,7 @@ _osc2TypeLED(0),
 _lfo1TypeLED(0),
 _lfo2TypeLED(0),
 _modTypeLED(0),
+_lfo1DestLED(0),
 _outputKnob(0),
 _oscmixKnob(0),
 _oscmodKnob(0),
@@ -493,7 +496,8 @@ _osc1TypeButton(0),
 _osc2TypeButton(0),
 _lfo1TypeButton(0),
 _lfo2TypeButton(0),
-_modTypeButton(0)
+_modTypeButton(0),
+_lfo1DestButton(0)
 {
   if (_instrument && _texture.loadFromFile("img/nelead6.png"))
   {
