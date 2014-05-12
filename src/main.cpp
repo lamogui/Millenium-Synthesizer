@@ -24,6 +24,7 @@
 #include "record.hpp"
 #include "careme.hpp"
 #include "scope.hpp"
+#include "cado.hpp"
 
 sf::Font globalfont; 
 
@@ -104,6 +105,14 @@ int main(int argc, char** argv)
       clientWinSize_x=720; 
       myInstrument = new PureSquare;
       myInterface = new PureSquareInterface((PureSquare*) myInstrument,
+                                            sf::Vector2f(clientWinSize_x,360));
+    }
+	else if (std::string("cado") == argv[1]) 
+    {
+      //La taille est inferieur à la taille de l'oscilloscope
+      clientWinSize_x=600; 
+      myInstrument = new Cado;
+      myInterface = new CadoInterface((Cado*) myInstrument,
                                             sf::Vector2f(clientWinSize_x,360));
     }
     else 

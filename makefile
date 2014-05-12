@@ -15,7 +15,8 @@ OBJ= build/signal.o \
 	build/record.o \
 	build/careme.o \
 	build/filter.o \
-	build/scope.o
+	build/scope.o \
+	build/cado.o
 
 CFLAGS= --std=c99 -W -Wall -I"include" -g
 CXXFLAGS= -I"include" -g
@@ -35,7 +36,8 @@ FILECPP=src/signal.cpp \
 	src/record.cpp \
 	src/careme.cpp \
 	src/filter.cpp \
-	src/scope.cpp
+	src/scope.cpp \
+	src/cado.cpp
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -55,7 +57,8 @@ HEADER=	include/signal.hpp \
 	include/config.hpp \
 	include/careme.hpp \
 	include/filter.hpp \
-	include/scope.hpp 
+	include/scope.hpp \
+	include/cado.hpp
 
 defaut:
 	@echo you must choose :
@@ -82,7 +85,7 @@ diapo: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
 	g++ -o diapo.exe $(OBJ) build/diapo.o $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a"
 
 win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).exe $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
+	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
