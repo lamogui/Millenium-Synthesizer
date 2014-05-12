@@ -17,7 +17,7 @@ float Note::noteFrequency[256]={
 Note::Note(unsigned int st, unsigned char i, float v):
 _voiceUsed(0),
 start(st),
-lenght(0),
+length(0),
 velocity(v),
 id(i)
 {
@@ -26,7 +26,7 @@ id(i)
 Note::Note(const Note& c) : 
 _voiceUsed(0),
 start(c.start),
-lenght(c.lenght),
+length(c.length),
 velocity(c.velocity),
 id(c.id)
 {
@@ -57,7 +57,7 @@ Note& Note::operator=(const Note& c)
   sendStopSignal();
   _voiceUsed = 0;
   start = c.start;
-  lenght = c.lenght;
+  length = c.length;
   id = c.id;
   velocity = c.velocity;
   return *this;
@@ -65,8 +65,8 @@ Note& Note::operator=(const Note& c)
 
 InstrumentParameter::InstrumentParameter(short value, short min, short max) :
 _instrument(NULL),
-_modified(true),
 _auto(false),
+_modified(true),
 _value(value),
 _min(min),
 _max(max)
@@ -76,8 +76,8 @@ _max(max)
 
 InstrumentParameter::InstrumentParameter(const InstrumentParameter& p) :
 _instrument(NULL),
-_modified(true),
 _auto(false),
+_modified(true),
 _value(p._value),
 _autoval(p._value),
 _min(p._min),

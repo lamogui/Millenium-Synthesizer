@@ -2,6 +2,8 @@
 #include <iostream>
 #include "bass.h"
 
+#include <iostream>
+
 Track::Track() :
 _instrument(0),
 _time(0),
@@ -46,21 +48,21 @@ bool Track::seek(unsigned int time)
   bool found = false;
   for (unsigned int i=0;i<_notes.size();i++)
   {
-    if (_notes[i].start >= time) {
+    if (_notes[i]->start >= time) {
       _currentNote=i;
       found=true;
       _time=time;
       break;
     }
-    else if (_notes[i].start + _notes[i].lenght >= time) {
+    else if (_notes[i]->start + _notes[i]->length >= time) {
       _currentNote=i;
-      _time=_notes[i].start;
+      _time=_notes[i]->start;
       found=true;
     }
   }
   for (unsigned int i=0;i<_events.size();i++)
   {
-    if (_events[i].appear >= _time) {
+    if (_events[i]->appear >= _time) {
       _currentEvent=i;
       break;
     }
@@ -69,13 +71,13 @@ bool Track::seek(unsigned int time)
 }
 
 
-unsigned int Track::approximate_length()
+unsigned int Track::fastLength()
 {
   if (_notes.size())
-  return _notes.size[_notes.size()-1]->start + _notes.size[_notes.size()-1]->length;
+  return _notes[_notes.size()-1]->start + _notes[_notes.size()-1]->length;
   else return 0;
 }
-
+/*
 bool Track::saveToMidi(char* buf)
 {
   //headers
@@ -99,52 +101,58 @@ bool Track::saveToMidi(char* buf)
 		currentNote++;
 	  }
 	  //Add current moved knob !
-	  /*while (_events.size() > currentEvent && _events[currentEvent].appear == time)
+	  while (_events.size() > currentEvent && _events[currentEvent].appear == time)
 	  {
 		if (_instrument) {
 		  
 		}
 		currentEvent++;
-	  }*/
+	  }
 	  //remove current releases notes !
-	  for (unsigned int i=0;i<played.size();i++)
+	  for (int i=0;i<played.size();i++)
 	  {
-		if( played[i]->start + played[i]->length <= time)
-		{
-		  unsigned delta=time-last_time;
-		  last_time=time;
-		  //Envoie Message Note Off
-		  played.remove(i);
-		}
+      if( played[i]->start + played[i]->length <= time)
+      {
+        unsigned delta=time-last_time;
+        last_time=time;
+        //Envoie Message Note Off
+        played.erase(played.begin() + i);
+        i--;
+      }
 	  }
   }
 }
-
+*/
 
 bool Track::tick()
 {
   //Add currently pressed notes !
-  while (_notes.size() > _currentNote && _notes[_currentNote].start == _time)
+  while (_notes.size() > _currentNote && _notes[_currentNote]->start == _time)
   {
     if (_instrument) {
-      _instrument->playNote(_notes[_currentNote]);
-      _played.push_back(&_notes[_currentNote]);
+      _instrument->playNote(*_notes[_currentNote]);
+      _played.push_back(_notes[_currentNote]);
     }
     _currentNote++;
   }
   //Add current moved knob !
-  while (_events.size() > _currentEvent && _events[_currentEvent].appear == _time)
+  while (_events.size() > _currentEvent && _events[_currentEvent]->appear == _time)
   {
     if (_instrument) {
-      _instrument->setParameterValue(_events[_currentEvent].id,_events[_currentEvent].value);
+      _instrument->setParameterValue(_events[_currentEvent]->id,_events[_currentEvent]->value);
     }
     _currentEvent++;
   }
   //remove current releases notes !
-  for (unsigned int i=0;i<_played.size();i++)
+  for (int i=0;i<_played.size();i++)
   {
-    if( _played[i]->start + _played[i]->length <= _time)
+    //Faille ici ! _played[i]->length peut-être = à 0 et ne JAMAIS Finir !
+    if(_played[i]->length && _played[i]->start + _played[i]->length <= _time)
+    {
       _played[i]->sendStopSignal();
+      _played.erase(_played.begin() + i);
+      i--;
+    }
   }
   //increment time
   _time++;
@@ -152,10 +160,30 @@ bool Track::tick()
   return true;
 }
 
+Note* Track::recordNoteStart(unsigned char id, float v)
+{
+  if (_notes.size() > _currentNote)
+  {
+    _notes.insert(_notes.begin() + _currentNote,new Note(_time,id,v));
+  }
+  else {
+    _notes.push_back(new Note(_time,id,v));
+    _currentNote = _notes.size()-1;
+  }
+  return _notes[_currentNote];
+}
+
+void Track::recordNoteRelease(Note* n)
+{
+  if (n)
+    n->length=_time-n->start;
+}
+
+
 bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
 {
-  panic();
-  
+  panic(); return false;
+  /*
   unsigned int last_event=0;
   float multiplier=1.f;
   //float bpm=1.f;
@@ -195,5 +223,5 @@ bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
   
   
   
-  seek(0);
+  seek(0);*/
 }

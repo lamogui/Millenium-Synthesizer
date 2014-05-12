@@ -12,7 +12,6 @@ OBJ= build/signal.o \
 	build/interface.o \
 	build/puresquare.o \
 	build/enveloppe.o \
-	build/record.o \
 	build/careme.o \
 	build/filter.o \
 	build/scope.o \
@@ -20,7 +19,7 @@ OBJ= build/signal.o \
 	build/cado.o
 
 CFLAGS= --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= -I"include" -g
+CXXFLAGS= -I"include" -g -W -Wall
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \
@@ -34,7 +33,6 @@ FILECPP=src/signal.cpp \
 	src/interface.cpp \
 	src/puresquare.cpp \
 	src/enveloppe.cpp \
-	src/record.cpp \
 	src/careme.cpp \
 	src/filter.cpp \
 	src/scope.cpp \
@@ -55,7 +53,6 @@ HEADER=	include/signal.hpp \
 	include/interface.hpp \
 	include/puresquare.hpp \
 	include/enveloppe.hpp \
-	include/record.hpp \
 	include/config.hpp \
 	include/careme.hpp \
 	include/filter.hpp \
