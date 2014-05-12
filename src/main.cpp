@@ -129,6 +129,10 @@ int main(int argc, char** argv)
                                         sf::Vector2f(clientWinSize_x,360));
   }
   
+  ///Initialisation de la piste d'enregistrement
+  Track myTrack(myInstrument);
+  
+  
   ///Création de la fenêtre
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                       clientWinSize_y+borderWinSize_up+borderWinSize_down);
@@ -203,7 +207,7 @@ int main(int argc, char** argv)
   ///Gestionnaire de Notes
   std::map<sf::Keyboard::Key,Note*> notes;
   float dt=1.f/(float)Signal::refreshRate; 
-  unsigned int time=0; //Temps / dt (entier)
+  //unsigned int time=0; //Temps / dt (entier)
    
   ///Variables de gestion des interfaces/mouseCatchers
   //Interfaces
@@ -409,12 +413,10 @@ int main(int argc, char** argv)
             {
               if (notes.find(event.key.code) == notes.end())
               {
-                //r.writeNote(id, time);
-                //notes[event.key.code] = reccord.createNote(time,id,1.0);
-                //vector.push_back(Note(time,id,1.0))
-                //return & (vector[vector.size-1]);
-                notes[event.key.code] = new Note(time,id,1.0);
-                myInstrument->playNote(*notes[event.key.code]);
+                //notes[event.key.code] = new Note(time,id,1.0);
+                //myInstrument->playNote(*notes[event.key.code]);
+                
+                notes[event.key.code] = track.record(id,1.0);
               }  
             }
           }
@@ -422,8 +424,11 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            notes[event.key.code]->lenght= time - notes[event.key.code]->start;
-            delete notes[event.key.code]; //a virer
+            notes[event.key.code]->lenght= track.time() - notes[event.key.code]->start;
+            //Ou (si on met le code precedent dans une fonctin de track
+            track.reccordEnd(notes[event.key.code]);
+            
+            //a faire dans tous les cas.
             notes.erase(event.key.code);
           }
           break;
@@ -438,11 +443,11 @@ int main(int argc, char** argv)
     myInterface->update();
     
     //Mise à jour du son
-    time++;
-      //le verre d'eau est vide donc on le rempli
-      myInstrument->step(&leftout, &rightout); 
-      //Mise à jour de l'oscillo
-      myScope.update();
+    track.tick(); //et hop !!!
+    //le verre d'eau est vide donc on le rempli
+    myInstrument->step(&leftout, &rightout); 
+    //Mise à jour de l'oscillo
+    myScope.update();
     
     unsigned l;
     do
@@ -460,29 +465,6 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
       stream.unlock();
     } while(!sendSignalSuccess);
-/*
-    ///Gestion de la génération du son
-    //sendSignalSuccess = as t'on utilisé le verre d'eau ?
-    if (sendSignalSuccess) 
-    {
-      //std::cout << "generating output..." << std::endl;
-      time++;
-      //le verre d'eau est vide donc on le rempli
-      myInstrument->step(&leftout, &rightout); 
-      //Mise à jour de l'oscillo
-      myScope.update();     
-      sf::Lock lock(stream); //verrouillage de l'entonoir
-      //std::cout << "try..." << std::endl;
-      //on essai de verser le verre d'eau dans l'entonoir
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-    }
-    else
-    {
-      //std::cout << "retry..." << std::endl;
-      sf::Lock lock(stream);
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-    }
- */   
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
@@ -508,6 +490,24 @@ int main(int argc, char** argv)
     
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
+  
+  
+  //Enregistrement du fichier midi
+  FILE *file=fopen("reccord.mid", "wb");
+  Midi_head *zozo=new Midi_head(1, 1, 25, 2);
+  char *head_midFile=zozo->write_header();
+  fwrite(head_midFile, 1, zozo->get_size(), file);
+  Midi_track *tata=new Midi_track("tata", 120);
+  char *track0_midFile=tata->write_track0();
+  fwrite(track0_midFile, 1, tata->get_chunk_size(), file);
+  Midi_track *tonton=new Midi_track("tonton", 120);
+  char *track_midFile=tonton->add_track();
+  fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
+  
+  //je ne sait pas ou mais il faut mettre sa 
+  track.saveToMidi();
+  fclose(file);
+  
   
   //Nettoyage
   delete myInterface;
