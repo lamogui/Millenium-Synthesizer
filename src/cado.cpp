@@ -3,7 +3,7 @@
 
 CadoVoice::CadoVoice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
-_osc1(new SawOscillator),
+_osc1(new SquareOscillator),
 _currentNote(0,NOT_A_NOTE)
 {
   
