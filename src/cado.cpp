@@ -58,7 +58,7 @@ void Cado::step(Signal* l, Signal* r)
 }
 
 CadoInterface::CadoInterface(Cado* instrument, const sf::Vector2f& size):
-Interface(sf::Vector2i(1792,360),size),
+Interface(sf::Vector2i(600,360),size),
 _texture(),
 _back(),
 _instrument(instrument)
@@ -66,7 +66,7 @@ _instrument(instrument)
   if (_instrument && _texture.loadFromFile("img/Cado.png"))
   {
     _back.setTexture(_texture);
-    _back.setTextureRect(sf::IntRect(0,0,1792,360));
+    _back.setTextureRect(sf::IntRect(0,0,600,360));
 
     addDrawable(&_back);
   }
