@@ -37,6 +37,7 @@
 #define PARAM_NELEAD6_ENVFSUSTAIN  0x12  //General-Purpose Controllers 1-4
 #define PARAM_NELEAD6_ENVFRELEASE  0x13  //General-Purpose Controllers 1-4
 #define PARAM_NELEAD6_ENVFAMP      0x0B  //Expression Controller
+#define PARAM_NELEAD6_LFO1DEST     0x63  //Non-Registered Parameter Number (MSB)
 
 //modulation modes
 #define NELEAD6_FM 1
@@ -111,6 +112,7 @@ class NELead6 : public Instrument<NELead6Voice>
     InstrumentParameter _lfo2_type;
     InstrumentParameter _filter_type;
     InstrumentParameter _modulation_type;
+	InstrumentParameter _lfo1_dest;
 }; 
 
 class NELead6Knob : public Knob
@@ -168,6 +170,7 @@ class NELead6Interface : public Interface
     NELead6TriangleLED* _lfo2TypeLED;
     NELead6TriangleLED* _filterTypeLED;
     NELead6TriangleLED* _modTypeLED;
+	NELead6TriangleLED* _lfo1DestLED;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
     NELead6Knob* _oscmodKnob;
@@ -196,6 +199,7 @@ class NELead6Interface : public Interface
     Button* _lfo2TypeButton;
     Button* _filterTypeButton;
     Button* _modTypeButton;
+	Button* _lfo1DestButton;
 };
 
 
