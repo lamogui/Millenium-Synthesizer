@@ -177,7 +177,7 @@ int main(int argc, char** argv)
   myScope.setViewport(sf::FloatRect(viewPortMin_x,
                                     viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,
                                     viewPortMax_x,
-                                    100.f*viewPortMax_y/clientWinSize_y));
+                                    400.f*viewPortMax_y/clientWinSize_y));
   
   ///Gestionnaire de Notes
   std::map<sf::Keyboard::Key,Note*> notes;

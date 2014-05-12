@@ -68,6 +68,59 @@ bool Track::seek(unsigned int time)
   return found;
 }
 
+
+unsigned int Track::approximate_length()
+{
+  if (_notes.size())
+  return _notes.size[_notes.size()-1]->start + _notes.size[_notes.size()-1]->length;
+  else return 0;
+}
+
+bool Track::saveToMidi(char* buf)
+{
+  //headers
+  //init 
+  unsigned currentNote=0;
+  unsigned currentEvent=0;
+  unsigned time=0;
+  unsigned last_time=0;
+  std::vector<Note*> played;
+  for (;_notes.size() > currentNote && played.size(); time++)
+  {
+	  //Add currently pressed notes !
+	  while (_notes.size() > currentNote && _notes[currentNote].start == time)
+	  {
+		if (_instrument) {
+		  played.push_back(&_notes[currentNote]);
+		  unsigned delta=time-last_time;
+		  last_time=time;
+		  //Envoie message Note On !
+		}
+		currentNote++;
+	  }
+	  //Add current moved knob !
+	  /*while (_events.size() > currentEvent && _events[currentEvent].appear == time)
+	  {
+		if (_instrument) {
+		  
+		}
+		currentEvent++;
+	  }*/
+	  //remove current releases notes !
+	  for (unsigned int i=0;i<played.size();i++)
+	  {
+		if( played[i]->start + played[i]->length <= time)
+		{
+		  unsigned delta=time-last_time;
+		  last_time=time;
+		  //Envoie Message Note Off
+		  played.remove(i);
+		}
+	  }
+  }
+}
+
+
 bool Track::tick()
 {
   //Add currently pressed notes !
@@ -90,7 +143,7 @@ bool Track::tick()
   //remove current releases notes !
   for (unsigned int i=0;i<_played.size();i++)
   {
-    if( _played[i]->start + _played[i]->lenght <= _time)
+    if( _played[i]->start + _played[i]->length <= _time)
       _played[i]->sendStopSignal();
   }
   //increment time
