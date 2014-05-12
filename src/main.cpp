@@ -443,6 +443,8 @@ int main(int argc, char** argv)
     
     //Mise à jour du son
     myTrack.tick(); //et hop !!!
+    if ((myTrack.time())/((120/60)*4*Signal::refreshRate)) myTrack.seek(0);
+    std::cout << "Mesure : " << (myTrack.time())/((120/60)*Signal::refreshRate) << " battement " << (myTrack.time())/((120/60)*Signal::refreshRate/4)%4 << std::endl;
     //le verre d'eau est vide donc on le rempli
     myInstrument->step(&leftout, &rightout); 
     //Mise à jour de l'oscillo
@@ -509,6 +511,7 @@ int main(int argc, char** argv)
   */
   
   //Nettoyage
+  myTrack.setInstrument(NULL);
   delete myInterface;
   delete myInstrument;
   delete driver;

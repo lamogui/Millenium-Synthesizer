@@ -29,6 +29,15 @@ _played()
 Track::~Track()
 {
   panic();
+  for (unsigned int i=0;i<_notes.size();i++)
+  {
+    delete _notes[i];
+  }
+  for (unsigned int i=0;i<_events.size();i++)
+  {
+    delete _events[i];
+  }
+  
 }
 
 void Track::panic()
@@ -90,7 +99,7 @@ bool Track::saveToMidi(char* buf)
   for (;_notes.size() > currentNote && played.size(); time++)
   {
 	  //Add currently pressed notes !
-	  while (_notes.size() > currentNote && _notes[currentNote].start == time)
+	  while (_notes.size() > currentNote && _notes[currentNote]->start == time)
 	  {
 		if (_instrument) {
 		  played.push_back(&_notes[currentNote]);

@@ -46,6 +46,7 @@ class Track
     
     inline void setInstrument(AbstractInstrument* i) 
     {
+      panic();
       _instrument=i;
     }
   
