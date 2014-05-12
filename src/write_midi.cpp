@@ -42,10 +42,11 @@ char* Midi_head::write_header() {
     *_midFile++=0;
     *_midFile++=1;
   }
-
+  //nombre de piste
   *_midFile++=_track>>8;
   *_midFile++=(_track & 0x00FF);
 
+  //resolution
   *_midFile++=0x80|_frame;
   *_midFile++=_ticks;
 
@@ -202,6 +203,37 @@ char * Midi_track::add_track() {
     size++;
   }
 
+  //event programme change event
+  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
+  *_midFile++=0;
+  *_midFile++=PROGRAM_CHANGE;
+  *_midFile++=1;
+  size+=3;
+
+  //controller main volume event
+  *_midFile++=0;
+  *_midFile++=CONTROLLER;
+  *_midFile++=MAIN_VOLUME;
+  *_midFile++=100;
+  size+=4;
+
+  //event note on
+  *_midFile++=0x87;
+  *_midFile++=0x68;
+  *_midFile++=NOTE_ON;
+  *_midFile++=C4;
+  *_midFile++=100;
+  size+=5;
+
+  //event note off
+  *_midFile++=0x83;
+  *_midFile++=0x86;
+  *_midFile++=0x50;
+  *_midFile++=NOTE_OFF;
+  *_midFile++=C4;
+  *_midFile++=100;
+  size+=6;
+
   //meta event end of track
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
@@ -222,7 +254,7 @@ char * Midi_track::add_track() {
 
 int main(void) {
   FILE *file=fopen("prout.mid", "wb");
-  Midi_head *zozo=new Midi_head(1, 1, 25, 2);
+  Midi_head *zozo=new Midi_head(1, 2, 25, 2);
   char *head_midFile=zozo->write_header();
   fwrite(head_midFile, 1, zozo->get_size(), file);
   Midi_track *tata=new Midi_track("tata", 120);
