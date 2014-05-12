@@ -21,9 +21,9 @@
 #include "bassdriver.hpp"
 #include "interface.hpp"
 #include "puresquare.hpp"
-#include "record.hpp"
 #include "careme.hpp"
 #include "scope.hpp"
+#include "track.hpp"
 #include "cado.hpp"
 
 sf::Font globalfont; 
@@ -416,7 +416,7 @@ int main(int argc, char** argv)
                 //notes[event.key.code] = new Note(time,id,1.0);
                 //myInstrument->playNote(*notes[event.key.code]);
                 
-                notes[event.key.code] = track.record(id,1.0);
+                notes[event.key.code] = myTrack.recordNoteStart(id,1.0);
               }  
             }
           }
@@ -424,10 +424,9 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            notes[event.key.code]->lenght= track.time() - notes[event.key.code]->start;
-            //Ou (si on met le code precedent dans une fonctin de track
-            track.reccordEnd(notes[event.key.code]);
-            
+            myTrack.recordNoteRelease(notes[event.key.code]);
+            //équivalent à
+            //notes[event.key.code]->lenght= track.time() - notes[event.key.code]->start;
             //a faire dans tous les cas.
             notes.erase(event.key.code);
           }
@@ -443,7 +442,7 @@ int main(int argc, char** argv)
     myInterface->update();
     
     //Mise à jour du son
-    track.tick(); //et hop !!!
+    myTrack.tick(); //et hop !!!
     //le verre d'eau est vide donc on le rempli
     myInstrument->step(&leftout, &rightout); 
     //Mise à jour de l'oscillo
@@ -491,7 +490,7 @@ int main(int argc, char** argv)
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   
-  
+  /*
   //Enregistrement du fichier midi
   FILE *file=fopen("reccord.mid", "wb");
   Midi_head *zozo=new Midi_head(1, 1, 25, 2);
@@ -505,9 +504,9 @@ int main(int argc, char** argv)
   fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
   
   //je ne sait pas ou mais il faut mettre sa 
-  track.saveToMidi();
+  myTrack.saveToMidi();
   fclose(file);
-  
+  */
   
   //Nettoyage
   delete myInterface;

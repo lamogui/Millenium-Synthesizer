@@ -50,12 +50,13 @@ class Note
     
   
   private:
-    InstrumentVoice* _voiceUsed;
     static float noteFrequency[256];
+    InstrumentVoice* _voiceUsed;
+    
     
   public:
     unsigned int start; //time where the note is appeared
-    unsigned int lenght; //note duration
+    unsigned int length; //note duration
 
     float velocity;
     unsigned char id;
@@ -69,7 +70,7 @@ class InstrumentParameter
     InstrumentParameter(const InstrumentParameter& p);
     InstrumentParameter& operator=(const InstrumentParameter& p);
   
-    inline bool active() { _value ? true : false; }
+    inline bool active() { return _value ? true : false; }
     inline void toggle() { _value = _value ? 0 : _max; notify(); }
     inline void on() { _value = _max; notify(); }
     inline void off() { _value = 0; notify(); }
