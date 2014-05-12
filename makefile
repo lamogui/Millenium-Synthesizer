@@ -16,6 +16,7 @@ OBJ= build/signal.o \
 	build/careme.o \
 	build/filter.o \
 	build/scope.o \
+	build/track.o \
 	build/cado.o
 
 CFLAGS= --std=c99 -W -Wall -I"include" -g
@@ -37,6 +38,7 @@ FILECPP=src/signal.cpp \
 	src/careme.cpp \
 	src/filter.cpp \
 	src/scope.cpp \
+	src/track.cpp \
 	src/cado.cpp
 
 HEADER=	include/signal.hpp \
@@ -58,6 +60,7 @@ HEADER=	include/signal.hpp \
 	include/careme.hpp \
 	include/filter.hpp \
 	include/scope.hpp \
+	include/track.hpp \
 	include/cado.hpp
 
 defaut:
