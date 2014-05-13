@@ -167,8 +167,24 @@ char Midi_track::get_chunk_size() {
   return _chunk_size;
 }
 
+void Midi_track::set_chunk_size(DWORD chunk_size) {
+  _chunk_size=chunk_size;
+}
+
+char* Midi_track::get_midFile() {
+  return _midFile;
+}
+
+void Midi_track::set_midFile(char* midFile) {
+  _midFile=midFile;
+}
+
+std::string Midi_track::get_track_name() {
+  return _track_name;
+}
+
 char * Midi_track::add_track() {
-  char size=0;
+  DWORD size=0;
   char *head_midFile=_midFile;
   for (int i=0; i<_chunk_size; i++) {
     head_midFile[i]=0x0;
@@ -252,6 +268,16 @@ char * Midi_track::add_track() {
   return head_midFile;
 }
 
+void Midi_track::write_var(char* midFile, int var) {
+  int var_tp=var;
+  int size=0;
+  for (int i=0; i<sizeof(int); i++) {
+    if (var_tp&1) size=i;
+    var>>1;
+  }
+}
+
+/*
 int main(void) {
   FILE *file=fopen("prout.mid", "wb");
   Midi_head *zozo=new Midi_head(1, 2, 25, 2);
@@ -267,4 +293,4 @@ int main(void) {
 
   return 0;
 }
-
+*/

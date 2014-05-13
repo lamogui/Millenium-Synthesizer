@@ -2,7 +2,7 @@
 #define ___TRACK
 
 #include "instrument.hpp"
-
+#include "midi.hpp"
 #include <vector>
 #include <fstream>
 #include "bass.h"
@@ -39,6 +39,8 @@ class Track
     //Return a fast approximation of track length always < or = to the real track length
     unsigned int fastLength();
     
+    bool saveToMidi(Midi_track *piste);
+
     //Return current track time in refreshRate Signal unit
     inline unsigned int time(){
       return _time;
