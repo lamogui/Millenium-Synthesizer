@@ -89,14 +89,17 @@ unsigned int Track::fastLength()
 
 void Track::exportToMidiTrack(Midi_track& midi) const
 {
-  unsigned currentNote=0;
-  unsigned currentEvent=0;
-  unsigned time=0;
-  unsigned last_time=0;
+  unsigned int currentNote=0;
+  unsigned int  currentEvent=0;
+  unsigned int  time=0;
+  unsigned int  last_time=0;
   std::vector<Note*> played;
   const float gain = midi.get_head().gain();
 
-  for (;_notes.size() > currentNote && played.size(); time++)
+  //Instrument grand piano
+  midi.push_midi_event(0, MIDI_PROGRAM_CHANGE, 0, 0,0);
+  
+  for (;_notes.size() > currentNote || played.size(); time++)
   {
     //Add currently pressed notes !
     while (_notes.size() > currentNote && _notes[currentNote]->start == time)
@@ -106,7 +109,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
       delta *=gain;
       last_time=time;
       //Envoie message Note On !
-      midi.push_midi_event(delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id + 21, _notes[currentNote]->velocity*127);
+      midi.push_midi_event((DWORD)delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id + 21, _notes[currentNote]->velocity*127);
       currentNote++;
     }
     //Add current moved knob !
@@ -115,7 +118,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
       float delta=(float)(time-last_time);
       delta *=gain;
       last_time=time;
-      midi.push_midi_event(delta, MIDI_CONTROLLER, 0, _events[currentEvent]->id  , _events[currentEvent]->value);
+      midi.push_midi_event((DWORD)delta, MIDI_CONTROLLER, 0, _events[currentEvent]->id  , _events[currentEvent]->value);
       currentEvent++;
     }
     //remove current releases notes !
@@ -127,7 +130,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
         delta *=gain;
         last_time=time;
         //Envoie Message Note Off
-        midi.push_midi_event(delta, MIDI_NOTE_OFF, 0, played[i]->id + 21 , played[i]->velocity*127);
+        midi.push_midi_event((DWORD)delta, MIDI_NOTE_OFF, 0, played[i]->id + 21 , played[i]->velocity*127);
         played.erase(played.begin() + i);
         i--;
       }
