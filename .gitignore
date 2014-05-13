@@ -42,6 +42,7 @@ clean.bat
 *.lock
 *.odt#
 recordFile
+test.mid
 
 #settings files
 settings.ini

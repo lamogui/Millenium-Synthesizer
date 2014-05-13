@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "midi.hpp"
-
+#include <iostream>
 
 //////////MIDI HEAD\\\\\\\\\\\\\\\\\\\\
 
@@ -96,6 +96,7 @@ unsigned int Midi_track0::size() const
   if (_copyright.size()) size += 1 + 1 + 1 + 1 + _copyright.size() + 1;
   if (_comment.size()) size += 1 + 1 + 1 + 1 + _comment.size() + 1;
   if (_mpqn) size += 1 + 1 + 1 + 1 + 3;
+  return size;
 }
 
 
@@ -165,6 +166,27 @@ bool Midi_track0::write_to_buffer(unsigned char* buffer, unsigned int s) const
   *buffer++=0; //Size used next to the event declaration
   
   return true;
+}
+
+bool Midi_track0::write_to_file(FILE* file) const
+{
+  unsigned int target_size=size();
+  unsigned char* buffer = (unsigned char*) malloc(target_size);
+  if (write_to_buffer(buffer,target_size))
+  {
+    if (target_size==fwrite((void*)buffer,1,target_size,file))
+    {
+      free(buffer);
+      return true;
+    }
+    printf("Midi_track0 error: fwrite error !\n"); 
+  }
+  else 
+  {
+    printf("error !\n"); 
+  }
+  free((void*)buffer);
+  return false;
 }
 
 //////////MIDI TRACK\\\\\\\\\\\\\\\\\\\\
@@ -264,6 +286,8 @@ void Midi_track::push_varlength(DWORD var) {
 void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1, BYTE p2)
 {
   push_varlength(midi_delta);
+  std::cout << _chunk_size << " new midi event" << std::endl;
+  
   check_alloc(3);
   _chunk[_chunk_size++] = (type & 0xF) << 4 | (chan & 0xF);
   _chunk[_chunk_size++] = p1 & 0x7F;

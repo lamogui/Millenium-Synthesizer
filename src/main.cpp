@@ -25,7 +25,8 @@
 #include "scope.hpp"
 #include "track.hpp"
 #include "cado.hpp"
-
+#include "midi.hpp"
+ 
 sf::Font globalfont; 
 
 int main(int argc, char** argv)
@@ -491,6 +492,18 @@ int main(int argc, char** argv)
   }
   
   
+  Midi_head head(1,2,25,2);
+  Midi_track0 track0;
+  Midi_track track(head);
+  myTrack.exportToMidiTrack(track);
+  
+  std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
+  
+  FILE* file=fopen("test.mid","wb");
+  head.write_to_file(file);
+  track0.write_to_file(file);
+  track.write_to_file(file);
+  fclose(file);
   
   //Nettoyage
   myTrack.setInstrument(NULL);
