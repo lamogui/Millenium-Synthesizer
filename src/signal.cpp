@@ -115,4 +115,32 @@ void Signal::saturate(sample min, sample max)
   }
 }
 
+double Signal::energy()
+{
+  double energy=0;
+  for (unsigned int i=0; i < Signal::size;i++)
+  {
+     energy += samples[i]*samples[i];
+  }
+  return energy;
+}
+
+void Signal::tfd(Signal* tfd)
+{
+  if (tfd) return;
+  tfd->reset();
+  for (unsigned int k=0; k < Signal::size;k++)
+  {
+    for (unsigned int n=0; n < Signal::size;n++)
+    {
+		double a=2*3.14159*k*n/(double)(Signal::size);
+		double cos_a=cos(a);
+		double sin_a=sin(a);
+		tfd->samples[k] += abs(samples[n])*(sqrt(abs(cos_a*cos_a+sin_a*sin_a)));  
+    }
+  }
+}
+
+
+
 

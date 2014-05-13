@@ -24,7 +24,8 @@ class Signal
     void scale(sample scale);
     void constant(sample constant);
     void saturate(sample min, sample max);
-    
+    double energy();
+	void Signal::tfd(Signal* tfd)
     
     
     inline void reset()
