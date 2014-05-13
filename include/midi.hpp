@@ -1,4 +1,4 @@
-#include "../include/bass.h"
+#include "bass.h"
 #include <string>
 
 class Midi_head {
@@ -23,6 +23,11 @@ class Midi_track {
     char* write_track0();
     char* add_track();
     char get_chunk_size();
+    char* get_midFile();
+    void set_chunk_size(DWORD chunk_size);
+    void set_midFile(char* midFile);
+    std::string get_track_name();
+    void write_var(char* midFile, int var);
   private:
     char *_midFile;
     std::string _track_name;
