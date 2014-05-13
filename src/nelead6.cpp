@@ -874,6 +874,8 @@ bool NELead6TriangleLED::onMousePress(float x, float y)
 
 void NELead6TriangleLED::onMouseMove(float x, float y)
 {
+  (void)x;
+  (void)y;
 }
 
 void NELead6TriangleLED::onMouseRelease(float x, float y)

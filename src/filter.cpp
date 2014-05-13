@@ -164,7 +164,6 @@ void Rejector::step(Signal* inout) {
   sample* samples = inout->samples;
   sample* f = getFrequency().samples;
   sample* m = getResonance().samples;
-  const float pi_2 = 3.1415f*2.f;
   const float te = 1.f/(float)Signal::frequency;
   for (unsigned int i=0; i<Signal::size; i++)
   {
