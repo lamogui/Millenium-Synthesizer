@@ -268,7 +268,7 @@ char * Midi_track::add_track() {
   return head_midFile;
 }
 
-void Midi_track::write_var(int var) {
+void Midi_track::write_var(int var, char* midFile) {
   int var_tp=var;
   int size=0;
   int nb_octet=0;
@@ -279,14 +279,14 @@ void Midi_track::write_var(int var) {
   nb_octet=(size/7)+1;
   for (int i=0; i<nb_octet; i++) {
     if (i==nb_octet-1) {
-      *_midFile++=var&0x7F;
+      *midFile++=var&0x7F;
     }
     else if (i==0) {
-      *_midFile++=((var>>(size-(size%7)))&(0x7F))|0x80;
+      *midFile++=((var>>(size-(size%7)))&(0x7F))|0x80;
       size-=size%7+7;
     }
     else {
-      *_midFile++=((var>>size)&0x7F)|0x80;
+      *midFile++=((var>>size)&0x7F)|0x80;
       size-=7;
     }
   }

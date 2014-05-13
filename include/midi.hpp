@@ -30,7 +30,7 @@ class Midi_track {
     void set_chunk_size(DWORD chunk_size);
     void set_midFile(char* midFile);
     std::string get_track_name();
-    void write_var(int var);
+    void write_var(int var, char* midFile);
   private:
     char *_midFile;
     std::string _track_name;
