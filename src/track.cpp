@@ -173,8 +173,7 @@ bool Track::saveToMidi(Midi_track *piste)
 
       //Envoie message Note On !
       //event note on
-      *midFile++=0x87;
-      *midFile++=0x68;
+      piste->write_var(1000, midFile);
       *midFile++=MIDI_NOTE_ON;
       *midFile++=_notes[currentNote]->id+21;
       *midFile++=100;
