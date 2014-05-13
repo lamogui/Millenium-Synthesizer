@@ -1,41 +1,99 @@
+#ifndef __MIDI_MINUIT
+#define __MIDI_MINUIT
+
 #include "bass.h"
 #include <string>
 #include <cstdio>
 #include <cstdlib>
+#include "signal.hpp"
 
 class Midi_head {
   public:
     Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks);
     ~Midi_head();
     
-    bool write_to_buffer(unsigned char* buffer, unsigned int size );
-    bool write_to_file(FILE* file);
-    static const unsigned size=14;
+    bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
+    bool write_to_file(FILE* file) const;
+    static const unsigned size=14; //size in the final file in bytes
+    
+    inline float gain() {if (!_gain) return 1.f; return _gain;};
     
   private:
+    float _gain; //Represent the "precision tick gain" in relation to the signal refresh rate
+                 // Gain =  Midi Rate / Signal refreshRate
+                 // Midi Rate = Signal refreshRate * Gain
+                 // Midi Ticks = Signal Ticks * Gain
+                 // Signal Ticks = Midi Ticks / Gain
     WORD _format;
     WORD _tracks;
     BYTE _frame;
     BYTE _ticks;
 };
 
+///MIDI Track 0 for format 1 ! 
+class Midi_track0 {
+  public:
+    Midi_track0(); 
+    Midi_track0(const std::string name); 
+    ~Midi_track0(); 
+    
+    unsigned int size() const; //size in the final file in bytes
+    
+    bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
+    bool write_to_file(FILE* file) const;
+    
+    ///Getters / Setters
+    inline void set_bpm(unsigned bpm) { if (bpm) _mpqn=60000000/bpm;}
+    inline void set_music_name(const std::string n) {_music_name=n;}
+    inline void set_copyright(const std::string c) {_copyright=c;}
+    inline void set_comment(const std::string c) {_comment=c;}
+    
+    inline std::string music_name() { return _music_name; }
+    inline std::string copyright() { return _copyright; }
+    inline std::string comment() { return _comment; }
+    inline unsigned int bpm() { if (_mpqn) return  60000000/_mpqn; return 0;}
+    
+  private:
+    unsigned int _mpqn;
+    std::string _music_name;
+    std::string _copyright;
+    std::string _comment;
+};
+
 class Midi_track {
   public:
-    Midi_track(const std::string &track_name, DWORD tempo);
+    Midi_track(Midi_head& head);
     ~Midi_track();
-    char* write_track0();
-    char* add_track();
-    char get_chunk_size();
-    char* get_midFile();
-    void set_chunk_size(DWORD chunk_size);
-    void set_midFile(char* midFile);
-    std::string get_track_name();
-    void write_var(int var);
+    
+    unsigned int size() const ; //size in the final file in bytes
+    
+    bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
+    bool write_to_file(FILE* file) const;
+    
+    void push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1, BYTE p2);
+    
+    inline void reset() {_chunk_size=0;}
+    
+    inline Midi_head& get_head() { return *_head; }
+    
+    
   private:
-    char *_midFile;
-    std::string _track_name;
-    DWORD _tempo;
-    DWORD _chunk_size;
+    void push_varlength(DWORD var);
+  
+    inline void check_alloc(unsigned int wanted) 
+    {
+      if (_alloc_size < wanted+_chunk_size)
+      {
+        _alloc_size += wanted + 128;
+        _chunk = (unsigned char*) realloc(_chunk,_alloc_size);
+      }
+    }
+  
+    Midi_head* _head;
+    unsigned char* _chunk;    //buffer for track data
+    unsigned int _alloc_size; //Now allocated size
+    DWORD _chunk_size;        //Size of actual track datas
+                              //Never include EndOfTrack
 };
 
 #define MIDI_META 0xFF
@@ -44,8 +102,10 @@ class Midi_track {
 #define MIDI_TIME_SIGNATURE 0x58
 #define MIDI_KEY_SIGNATURE 0x59
 #define MIDI_END_OF_TRACK 0x2F
-#define MIDI_PROGRAM_CHANGE 0xC0
-#define MIDI_CONTROLLER 0xB0
+#define MIDI_PROGRAM_CHANGE 0xC
+#define MIDI_CONTROLLER 0xB
 #define MIDI_MAIN_VOLUME 0x07
-#define MIDI_NOTE_ON 0x90
-#define MIDI_NOTE_OFF 0x80
+#define MIDI_NOTE_ON 0x9
+#define MIDI_NOTE_OFF 0x8
+
+#endif

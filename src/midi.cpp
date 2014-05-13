@@ -2,21 +2,24 @@
 #include <stdlib.h>
 #include "midi.hpp"
 
+
+//////////MIDI HEAD\\\\\\\\\\\\\\\\\\\\
+
 Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
-  _midFile(NULL),
+  _gain((float) frame*ticks / (float) Signal::refreshRate),
   _format(format),
   _tracks(tracks),
   _frame(frame),
   _ticks(ticks)
 {
-
-}
+  if (!_gain) _gain = 1.f;
+ }
 
 Midi_head::~Midi_head() {
 
 }
 
-bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) {
+bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const {
 
   if (size < Midi_head::size) return false;
 
@@ -48,7 +51,7 @@ bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) {
   return true;
 }
 
-bool Midi_head::write_to_file(FILE* file)
+bool Midi_head::write_to_file(FILE* file) const
 {
   unsigned char buffer[Midi_head::size];
   if (write_to_buffer(buffer,Midi_head::size))
@@ -62,248 +65,225 @@ bool Midi_head::write_to_file(FILE* file)
   return false;
 }
 
-Midi_track::Midi_track(const std::string &track_name, DWORD tempo) :
-  _midFile(NULL),
-  _track_name(track_name),
-  _tempo(tempo),
-  _chunk_size(100)
+//////////MIDI TRACK0\\\\\\\\\\\\\\\
+
+Midi_track0::Midi_track0() :
+_mpqn(0),
+_music_name(""),
+_copyright("Millenium Synthesizer"),
+_comment("May the force be with you")
 {
-  _midFile=(char*)malloc(100);
+}
+
+Midi_track0::Midi_track0(const std::string n) :
+_mpqn(0),
+_music_name(n),
+_copyright("Millenium Synthesizer"),
+_comment("May the force be with you")
+{
+}
+
+
+Midi_track0::~Midi_track0()
+{
+}
+
+unsigned int Midi_track0::size() const
+{
+  // Magic + Head + Delta + MetaEvent + EndOfTrack + MetaSize
+  unsigned int size = 4 + 4 + 1 + 1 + 1 + 1; //minimum size
+  //                   Delta + MetaEvent + Type + length + Specific size
+  if (_music_name.size()) size += 1 + 1 + 1 + 1 + _music_name.size() + 1;
+  if (_copyright.size()) size += 1 + 1 + 1 + 1 + _copyright.size() + 1;
+  if (_comment.size()) size += 1 + 1 + 1 + 1 + _comment.size() + 1;
+  if (_mpqn) size += 1 + 1 + 1 + 1 + 3;
+}
+
+
+bool Midi_track0::write_to_buffer(unsigned char* buffer, unsigned int s) const
+{
+  unsigned int target_size=size();
+  unsigned char str_length;
+  if (s < target_size) return false;
+  
+  //Magic
+  *buffer++='M';
+  *buffer++='T';
+  *buffer++='r';
+  *buffer++='k';
+  
+  //Head
+  *buffer++=(target_size-8)>>24;
+  *buffer++=((target_size-8)>>16) & 0xFF;
+  *buffer++=((target_size-8)>>8) & 0xFF;
+  *buffer++=(target_size-8) & 0xFF;
+  
+  if (_music_name.size()) {
+    //Meta Event track name
+    *buffer++=0;    //Delta
+    *buffer++=0xFF; //Meta
+    *buffer++=0x3;  //Track Name 
+    str_length=_music_name.size() & 0x7F; //Beurk here 
+    *buffer++=str_length;
+    for (unsigned char i=0; i<str_length; i++) 
+      *buffer ++= (unsigned char) _music_name[i];
+  }
+  
+  if (_copyright.size()) {
+    *buffer++=0;    //Delta
+    *buffer++=0xFF; //Meta
+    *buffer++=0x2; //Copyright 
+    str_length=_copyright.size() & 0x7F; //Beurk here 
+    *buffer++=str_length;
+    for (unsigned char i=0; i<str_length; i++) 
+      *buffer ++= (unsigned char) _copyright[i];
+  }
+  
+  if (_comment.size()) {
+    *buffer++=0;    //Delta
+    *buffer++=0xFF; //Meta
+    *buffer++=0x1;  //Text Event 
+    str_length=_comment.size() & 0x7F; //Beurk here 
+    *buffer++=str_length;
+    for (unsigned char i=0; i<str_length; i++) 
+      *buffer ++= (unsigned char) _comment[i];
+  }
+  
+  if (_mpqn) {
+    *buffer++=0;     //Delta
+    *buffer++=0xFF;  //Meta
+    *buffer++=0x51;  //Set Tempo
+    *buffer++=3;
+    *buffer++=_mpqn>>16;
+    *buffer++=(_mpqn>>8) & 0xFF;
+    *buffer++=_mpqn&0xFF;
+  }
+  
+  //End of the Track !
+  *buffer++=0;
+  *buffer++=MIDI_META;
+  *buffer++=MIDI_END_OF_TRACK;
+  *buffer++=0; //Size used next to the event declaration
+  
+  return true;
+}
+
+
+bool Midi_track0::write_to_file(FILE* file) const
+{
+  unsigned int target_size=size();
+  unsigned char* buffer = (unsigned char*) malloc(target_size);
+  if (write_to_buffer(buffer,target_size))
+  {
+    if (target_size==fwrite((void*)buffer,1,target_size,file))
+    {
+      free(buffer);
+      return true;
+    }
+    printf("Midi_track0 error: fwrite error !\n"); 
+  }
+  free((void*)buffer);
+  return false;
+}
+
+//////////MIDI TRACK\\\\\\\\\\\\\\\\\\\\
+
+Midi_track::Midi_track(Midi_head& head) :
+_head(&head),
+_chunk(0),
+_alloc_size(256),
+_chunk_size(0)
+{
+  _chunk=(unsigned char*)malloc(_alloc_size);
 }
 
 Midi_track::~Midi_track() {
-  free(_midFile);
+  free((void*)_chunk);
 }
 
-char * Midi_track::write_track0() {
-  char size=0;
-  char *head_midFile=_midFile;
-  for (int i=0; i<_chunk_size; i++) {
-    head_midFile[i]=0x0;
-  }
+unsigned int Midi_track::size() const
+{
+  // Magic + ChunkSize + _chunk_size + Delta + MetaEvent + EndOfTrack + MetaSize
+  return 4 + 4 + _chunk_size + 1 + 1 + 1 + 1;
+}
 
-  //chunk ID
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++='M';
-  *_midFile++='T';
-  *_midFile++='r';
-  *_midFile++='k';
-  size+=4;
-
-  //chunk size
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=0;
-  *_midFile++=0;
-  char *p_size=_midFile;
-  *_midFile++=size;
-  size+=4;
+bool Midi_track::write_to_buffer(unsigned char* buffer, unsigned int s ) const
+{
+  unsigned int target_size=size();
+  if (s < target_size) return false;
   
-  //meta event track name
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_TRACK_NAME;
-  *_midFile++=(char)_track_name.size();
-  size+=4;
-  for (int i=0; i<_track_name.size(); i++) {
-    *_midFile++=(char)_track_name[i];
-    size++;
-  }
-
-  //meta event set tempo
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_SET_TEMPO;
-  *_midFile++=3;
-  _tempo=60000000/_tempo;
-  *_midFile++=(_tempo&0x00FF0000)>>16;
-  *_midFile++=(_tempo&0x0000FF00)>>8;
-  *_midFile++=(_tempo&0x000000FF);
-  size+=7;
-
-  //meta event time signature
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_TIME_SIGNATURE;
-  *_midFile++=4;
-  *_midFile++=1;
-  *_midFile++=0;
-  *_midFile++=24;
-  *_midFile++=8;
-  size+=8;
-
-  //meta event key signature
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_KEY_SIGNATURE;
-  *_midFile++=2;
-  *_midFile++=0;
-  *_midFile++=0;
-  size+=6;
-
-  //meta event end of track
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_END_OF_TRACK;
-  *_midFile++=0;
-  size+=4;
-
-  *p_size=size-8;
-
-  _midFile=(char*)realloc(_midFile, size);
-  _chunk_size=size;
-  for (int i=0; i<size; i++) {
-    printf(" %02x", ((unsigned char *)head_midFile)[i]);
-  }
-  printf("\n");
-  return head_midFile;
+  //Magic
+  *buffer++='M';
+  *buffer++='T';
+  *buffer++='r';
+  *buffer++='k';
+  
+  //Head
+  *buffer++=(target_size-8)>>24;
+  *buffer++=((target_size-8)>>16) & 0xFF;
+  *buffer++=((target_size-8)>>8) & 0xFF;
+  *buffer++=(target_size-8) & 0xFF;
+  
+  //Copy Custom Datas
+  memcpy((void*) buffer,(void*)_chunk,_chunk_size);
+  
+  //Finally the end of the track
+  *buffer++=0;
+  *buffer++=MIDI_META;
+  *buffer++=MIDI_END_OF_TRACK;
+  *buffer++=0; //Size used next to the event declaration
+  
+  return true;
 }
 
-char Midi_head::get_size() {
-  return _size;
-}
-
-char Midi_track::get_chunk_size() {
-  return _chunk_size;
-}
-
-void Midi_track::set_chunk_size(DWORD chunk_size) {
-  _chunk_size=chunk_size;
-}
-
-char* Midi_track::get_midFile() {
-  return _midFile;
-}
-
-void Midi_track::set_midFile(char* midFile) {
-  _midFile=midFile;
-}
-
-std::string Midi_track::get_track_name() {
-  return _track_name;
-}
-
-char * Midi_track::add_track() {
-  DWORD size=0;
-  char *head_midFile=_midFile;
-  for (int i=0; i<_chunk_size; i++) {
-    head_midFile[i]=0x0;
-  }
-
-  //chunk ID
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++='M';
-  *_midFile++='T';
-  *_midFile++='r';
-  *_midFile++='k';
-  size+=4;
-
-  //chunk size
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=0;
-  *_midFile++=0;
-  char *p_size=_midFile;
-  *_midFile++=size;
-  size+=4;
-
-  //meta event track name
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_META;
-  *_midFile++=MIDI_TRACK_NAME;
-  *_midFile++=(char)_track_name.size();
-  size+=4;
-  for (int i=0; i<_track_name.size(); i++) {
-    *_midFile++=(char)_track_name[i];
-    size++;
-  }
-/*
-  //event programme change event
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=MIDI_PROGRAM_CHANGE;
-  *_midFile++=1;
-  size+=3;
-
-  //controller main volume event
-  *_midFile++=0;
-  *_midFile++=MIDI_CONTROLLER;
-  *_midFile++=MIDI_MAIN_VOLUME;
-  *_midFile++=100;
-  size+=4;
-
-  //event note on
-  *_midFile++=0x87;
-  *_midFile++=0x68;
-  *_midFile++=MIDI_NOTE_ON;
-  *_midFile++=C4;
-  *_midFile++=100;
-  size+=5;
-
-  //event note off
-  *_midFile++=0x83;
-  *_midFile++=0x86;
-  *_midFile++=0x50;
-  *_midFile++=MIDI_NOTE_OFF;
-  *_midFile++=C4;
-  *_midFile++=100;
-  size+=6;
-*/
-  //meta event end of track
-  if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
-  *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=END_OF_TRACK;
-  *_midFile++=0;
-  size+=4;
-
-  *p_size=size-8;
-  _midFile=(char*)realloc(_midFile, size);
-  _chunk_size=size;
-  for (int i=0; i<size; i++) {
-    printf(" %02x", ((unsigned char *)head_midFile)[i]);
-  }
-  printf("\n");
-  return head_midFile;
-}
-
-void Midi_track::write_var(int var) {
-  int var_tp=var;
-  int size=0;
-  for (int i=0; i<sizeof(int); i++) {
-    if (var_tp&1) size=i;
-    var>>1;
-  }
-  for (int i=0; i<(size/7)+1; i++) {
-    if (i==(size/7)+1) {
-      *_midFile++=var&0x7F00;
-      *_midFile++=var&0xFF;
+bool Midi_track::write_to_file(FILE* file) const
+{
+  unsigned int target_size=size();
+  unsigned char* buffer = (unsigned char*) malloc(target_size);
+  if (write_to_buffer(buffer,target_size))
+  {
+    if (target_size==fwrite((void*)buffer,1,target_size,file))
+    {
+      free(buffer);
+      return true;
     }
-    else if (i==0) {
-      *midFile++=(size%0x7F)
+    printf("Midi_track error: fwrite error !\n"); 
+  }
+  free((void*)buffer);
+  return false;
+}
+
+
+void Midi_track::push_varlength(DWORD var) {
+  DWORD var_tp=var;
+  DWORD bit=0;
+  BYTE part;
+  check_alloc(4); //Maximum 4 bytes length
+  
+  //32 bits unsigned integer
+  
+  //Who is the most significant bit ?
+  for (DWORD i=0; i<32; i++) {
+    if (var_tp&1) bit=i;
+    var_tp>>1;
+  }
+  part=bit/7;
+  
+  for (DWORD i=0; i<(unsigned)part+1; i++) {
+    if (i==part) {
+      _chunk[_chunk_size++] = var & 0x7F;
     }
+    else {
+      _chunk[_chunk_size++] = ((var>>(7*(part-i))) & 0x7F) | 0x80;
+    }
+  }
 }
 
-/*
-int main(void) {
-  FILE *file=fopen("prout.mid", "wb");
-  Midi_head *zozo=new Midi_head(1, 2, 25, 2);
-  char *head_midFile=zozo->write_header();
-  fwrite(head_midFile, 1, zozo->get_size(), file);
-  Midi_track *tata=new Midi_track("tata", 120);
-  char *track0_midFile=tata->write_track0();
-  fwrite(track0_midFile, 1, tata->get_chunk_size(), file);
-  Midi_track *tonton=new Midi_track("tonton", 120);
-  char *track_midFile=tonton->add_track();
-  fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
-  fclose(file);
-
-  return 0;
+void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1, BYTE p2)
+{
+  push_varlength(midi_delta);
+  check_alloc(3);
+  _chunk[_chunk_size++] = (type & 0xF) << 4 | (chan & 0xF);
+  _chunk[_chunk_size++] = p1 & 0x7F;
+  _chunk[_chunk_size++] = p2 & 0x7F;
 }
-*/

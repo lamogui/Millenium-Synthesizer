@@ -75,6 +75,7 @@ bool Track::seek(unsigned int time)
       break;
     }
   }
+  if (!found) _time = time;
   return found;
 }
 
@@ -86,120 +87,53 @@ unsigned int Track::fastLength()
   else return 0;
 }
 
-bool Track::saveToMidi(Midi_track *piste)
+void Track::exportToMidiTrack(Midi_track& midi) const
 {
-  char* midFile = piste->get_midFile();
-  DWORD chunk_size = piste->get_chunk_size();
-  DWORD size=0;
-  //headers
-  if (size>=chunk_size){ 
-    midFile=(char*)realloc(midFile, chunk_size+100);
-    chunk_size+=100;
-    piste->set_midFile(midFile);
-  }
-  *midFile++='M';
-  *midFile++='T';
-  *midFile++='r';
-  *midFile++='k';
-  size+=4;
-
-  //init 
-  //chunk size
-  if (size>=chunk_size){ 
-    midFile=(char*)realloc(midFile, chunk_size+100);
-    chunk_size+=100;
-    piste->set_midFile(midFile);
-  }
-  *midFile++=0;
-  *midFile++=0;
-  *midFile++=0;
-  char *p_size=midFile;
-  *midFile++=size;
-  size+=4;
-
-  //meta event track name
-  std::string name=piste->get_track_name();
-  if (size>=chunk_size){ 
-    midFile=(char*)realloc(midFile, chunk_size+100);
-    chunk_size+=100;
-    piste->set_midFile(midFile);
-  }
-  *midFile++=0;
-  *midFile++=META;
-  *midFile++=TRACK_NAME;
-  *midFile++=(char)name.size();
-  size+=4;
-  for (unsigned int i=0; i<name.size(); i++) {
-    *midFile++=(char)name[i];
-    size++;
-  }
-
-  //event programme change event
-  if (size>=chunk_size){ 
-    midFile=(char*)realloc(midFile, chunk_size+100);
-    chunk_size+=100;
-    piste->set_midFile(midFile);
-  }
-  *midFile++=0;
-  *midFile++=PROGRAM_CHANGE;
-  *midFile++=1;
-  size+=3;
-
-  //controller main volume event
-  if (size>=chunk_size){ 
-    midFile=(char*)realloc(midFile, chunk_size+100);
-    chunk_size+=100;
-    piste->set_midFile(midFile);
-    *midFile++=0;
-    *midFile++=CONTROLLER;
-    *midFile++=MAIN_VOLUME;
-    *midFile++=100;
-    size+=4;
-
-    unsigned currentNote=0;
-    unsigned currentEvent=0;
-    unsigned time=0;
-    unsigned last_time=0;
-    std::vector<Note*> played;
-    for (;_notes.size() > currentNote && played.size(); time++)
+  unsigned currentNote=0;
+  unsigned currentEvent=0;
+  unsigned time=0;
+  unsigned last_time=0;
+  std::vector<Note*> played;
+  
+  const float gain = midi.get_head().gain();
+  
+  for (;_notes.size() > currentNote && played.size(); time++)
+  {
+    //Add currently pressed notes !
+    while (_notes.size() > currentNote && _notes[currentNote]->start == time)
     {
-      //Add currently pressed notes !
-      while (_notes.size() > currentNote && _notes[currentNote]->start == time)
+      played.push_back(_notes[currentNote]);
+      float delta=(float)(time-last_time);
+      delta *=gain;
+      last_time=time;
+      //Envoie message Note On !
+      midi.push_midi_event(delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id + 21, _notes[currentNote]->velocity*127);
+      currentNote++;
+    }
+    //Add current moved knob !
+    while (_events.size() > currentEvent && _events[currentEvent]->appear == time)
+    {
+      float delta=(float)(time-last_time);
+      delta *=gain;
+      last_time=time;
+      midi.push_midi_event(delta, MIDI_CONTROLLER, 0, _events[currentEvent]->id  , _events[currentEvent]->value);
+      currentEvent++;
+    }
+    //remove current releases notes !
+    for (int i=0;i<(int)played.size();i++)
+    {
+      if( played[i]->start + played[i]->length <= time)
       {
-        played.push_back(_notes[currentNote]);
-        unsigned delta=time-last_time;
+        float delta=(float)(time-last_time);
+        delta *=gain;
         last_time=time;
-
-        //Envoie message Note On !
-        //event note on
-        *midFile++=0x87;
-        *midFile++=0x68;
-        *midFile++=NOTE_ON;
-        *midFile++=_notes[currentNote]->id+21;
-        *midFile++=100;
-        size+=5;
-        currentNote++;
-      }
-      //Add current moved knob !
-      while (_events.size() > currentEvent && _events[currentEvent]->appear == time)
-      {
-        currentEvent++;
-      }
-      //remove current releases notes !
-      for (int i=0;i<played.size();i++)
-      {
-        if( played[i]->start + played[i]->length <= time)
-        {
-          unsigned delta=time-last_time;
-          last_time=time;
-          //Envoie Message Note Off
-          played.erase(played.begin() + i);
-          i--;
-        }
+        //Envoie Message Note Off
+        midi.push_midi_event(delta, MIDI_NOTE_OFF, 0, played[i]->id + 21 , played[i]->velocity*127);
+        played.erase(played.begin() + i);
+        i--;
       }
     }
   }
-  return 1;
 }
 
 bool Track::tick()
@@ -207,7 +141,7 @@ bool Track::tick()
   //Add currently pressed notes !
   while (_notes.size() > _currentNote && _notes[_currentNote]->start == _time)
   {
-    if (_instrument) {
+    if (_instrument && _notes[_currentNote]->length) {
       _instrument->playNote(*_notes[_currentNote]);
       _played.push_back(_notes[_currentNote]);
     }
@@ -222,10 +156,9 @@ bool Track::tick()
     _currentEvent++;
   }
   //remove current releases notes !
-  for (int i=0;i<_played.size();i++)
+  for (int i=0;(unsigned)i<_played.size();i++)
   {
-    //Faille ici ! _played[i]->length peut-être = à 0 et ne JAMAIS Finir !
-    if(_played[i]->length && _played[i]->start + _played[i]->length <= _time)
+    if(_played[i]->start + _played[i]->length <= _time)
     {
       _played[i]->sendStopSignal();
       _played.erase(_played.begin() + i);
@@ -253,53 +186,6 @@ Note* Track::recordNoteStart(unsigned char id, float v)
 
 void Track::recordNoteRelease(Note* n)
 {
-  if (n)
+  if (n && _time > n->start)
     n->length=_time-n->start;
-}
-
-
-bool Track::loadFromMidi(std::ifstream& file, WORD time_division, float &bpm)
-{
-  panic(); return false;
-  /*
-     unsigned int last_event=0;
-     float multiplier=1.f;
-  //float bpm=1.f;
-  if (time_division & 0x8000)
-  {
-  multiplier = Signal::frequency * 60.f / (float) (time_division & 0x7FFF);
-  //bpm = 120.f; //default tempo
-  }
-  else
-  {
-  unsigned fps = (time_division & 0x7F00) >> 8;
-  float fps_f = (float) fps;
-  if (fps == 29) fps_f=29.97f;
-  multiplier = (float) Signal::frequency  / (fps_f * (float) (time_division & 0xFF));
-
-  }
-
-
-  if (!file.is_open()) return false;
-
-  bool errorfile=false;
-  char magic[5] = {0};
-  if (file.read(magic,4) && strcmp("MTrk",magic) == 0) {
-  DWORD size=0;
-  if (!file>>size) errorfile=true;
-  std::cout << "Track chunk size: " << size <<std::endl;
-
-
-
-
-  } 
-  else {
-  std::cerr << "Track load from MIDI error: Wrong magic" <<std::endl;
-  return false;
-  }
-
-
-
-
-  seek(0);*/
 }

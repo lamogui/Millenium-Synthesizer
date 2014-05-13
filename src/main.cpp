@@ -412,11 +412,9 @@ int main(int argc, char** argv)
             if (id!=NOT_A_NOTE)
             {
               if (notes.find(event.key.code) == notes.end())
-              {
-                //notes[event.key.code] = new Note(time,id,1.0);
-                //myInstrument->playNote(*notes[event.key.code]);
-                
+              {     
                 notes[event.key.code] = myTrack.recordNoteStart(id,1.0);
+                myInstrument->playNote(*notes[event.key.code]);
               }  
             }
           }
@@ -427,7 +425,7 @@ int main(int argc, char** argv)
             myTrack.recordNoteRelease(notes[event.key.code]);
             //équivalent à
             //notes[event.key.code]->lenght= track.time() - notes[event.key.code]->start;
-            //a faire dans tous les cas.
+            notes[event.key.code]->sendStopSignal();
             notes.erase(event.key.code);
           }
           break;
@@ -492,23 +490,7 @@ int main(int argc, char** argv)
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   
-  /*
-  //Enregistrement du fichier midi
-  FILE *file=fopen("reccord.mid", "wb");
-  Midi_head *zozo=new Midi_head(1, 1, 25, 2);
-  char *head_midFile=zozo->write_header();
-  fwrite(head_midFile, 1, zozo->get_size(), file);
-  Midi_track *tata=new Midi_track("tata", 120);
-  char *track0_midFile=tata->write_track0();
-  fwrite(track0_midFile, 1, tata->get_chunk_size(), file);
-  Midi_track *tonton=new Midi_track("tonton", 120);
-  char *track_midFile=tonton->add_track();
-  fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
   
-  //je ne sait pas ou mais il faut mettre sa 
-  myTrack.saveToMidi();
-  fclose(file);
-  */
   
   //Nettoyage
   myTrack.setInstrument(NULL);
