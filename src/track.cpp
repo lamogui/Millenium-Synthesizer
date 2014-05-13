@@ -94,9 +94,8 @@ void Track::exportToMidiTrack(Midi_track& midi) const
   unsigned time=0;
   unsigned last_time=0;
   std::vector<Note*> played;
-  
   const float gain = midi.get_head().gain();
-  
+
   for (;_notes.size() > currentNote && played.size(); time++)
   {
     //Add currently pressed notes !

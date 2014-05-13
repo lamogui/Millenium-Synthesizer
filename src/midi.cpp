@@ -83,7 +83,6 @@ _comment("May the force be with you")
 {
 }
 
-
 Midi_track0::~Midi_track0()
 {
 }
@@ -168,24 +167,6 @@ bool Midi_track0::write_to_buffer(unsigned char* buffer, unsigned int s) const
   return true;
 }
 
-
-bool Midi_track0::write_to_file(FILE* file) const
-{
-  unsigned int target_size=size();
-  unsigned char* buffer = (unsigned char*) malloc(target_size);
-  if (write_to_buffer(buffer,target_size))
-  {
-    if (target_size==fwrite((void*)buffer,1,target_size,file))
-    {
-      free(buffer);
-      return true;
-    }
-    printf("Midi_track0 error: fwrite error !\n"); 
-  }
-  free((void*)buffer);
-  return false;
-}
-
 //////////MIDI TRACK\\\\\\\\\\\\\\\\\\\\
 
 Midi_track::Midi_track(Midi_head& head) :
@@ -254,6 +235,7 @@ bool Midi_track::write_to_file(FILE* file) const
 }
 
 
+
 void Midi_track::push_varlength(DWORD var) {
   DWORD var_tp=var;
   DWORD bit=0;
@@ -287,3 +269,4 @@ void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1
   _chunk[_chunk_size++] = p1 & 0x7F;
   _chunk[_chunk_size++] = p2 & 0x7F;
 }
+
