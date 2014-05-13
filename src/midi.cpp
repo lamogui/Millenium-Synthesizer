@@ -275,6 +275,7 @@ void Midi_track::write_var(char* midFile, int var) {
     if (var_tp&1) size=i;
     var>>1;
   }
+  //for (int i=0; i<size/7
 }
 
 /*
