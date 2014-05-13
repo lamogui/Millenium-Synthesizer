@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include "bass.h"
+#include "midi.hpp"
 
 //Define an instrument track which contains event and notes
 class Track
@@ -15,9 +16,6 @@ class Track
     Track(AbstractInstrument* i);
     ~Track();
     
-    
-    //Try to load the track from midi file format
-    bool loadFromMidi(std::ifstream& file, WORD time_division, float &bpm);
    
     //try to set the track at the time position 
     // return false is the time is out of bounds   
@@ -39,7 +37,7 @@ class Track
     //Return a fast approximation of track length always < or = to the real track length
     unsigned int fastLength();
     
-    bool saveToMidi(Midi_track *piste);
+    void exportToMidiTrack(Midi_track& midi) const;
 
     //Return current track time in refreshRate Signal unit
     inline unsigned int time(){
