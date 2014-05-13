@@ -76,7 +76,6 @@ class Midi_track {
     
     inline Midi_head& get_head() { return *_head; }
     
-    
   private:
     void push_varlength(DWORD var);
   
