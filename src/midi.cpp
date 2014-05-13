@@ -3,7 +3,6 @@
 #include "midi.hpp"
 
 Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
-  _midFile(NULL),
   _format(format),
   _tracks(tracks),
   _frame(frame),
@@ -76,9 +75,9 @@ Midi_track::~Midi_track() {
 }
 
 char * Midi_track::write_track0() {
-  char size=0;
+  unsigned char size=0;
   char *head_midFile=_midFile;
-  for (int i=0; i<_chunk_size; i++) {
+  for (unsigned int i=0; i<_chunk_size; i++) {
     head_midFile[i]=0x0;
   }
 
@@ -106,7 +105,7 @@ char * Midi_track::write_track0() {
   *_midFile++=MIDI_TRACK_NAME;
   *_midFile++=(char)_track_name.size();
   size+=4;
-  for (int i=0; i<_track_name.size(); i++) {
+  for (unsigned int i=0; i<_track_name.size(); i++) {
     *_midFile++=(char)_track_name[i];
     size++;
   }
@@ -164,10 +163,6 @@ char * Midi_track::write_track0() {
   return head_midFile;
 }
 
-char Midi_head::get_size() {
-  return _size;
-}
-
 char Midi_track::get_chunk_size() {
   return _chunk_size;
 }
@@ -191,7 +186,7 @@ std::string Midi_track::get_track_name() {
 char * Midi_track::add_track() {
   DWORD size=0;
   char *head_midFile=_midFile;
-  for (int i=0; i<_chunk_size; i++) {
+  for (unsigned int i=0; i<_chunk_size; i++) {
     head_midFile[i]=0x0;
   }
 
@@ -219,7 +214,7 @@ char * Midi_track::add_track() {
   *_midFile++=MIDI_TRACK_NAME;
   *_midFile++=(char)_track_name.size();
   size+=4;
-  for (int i=0; i<_track_name.size(); i++) {
+  for (unsigned int i=0; i<_track_name.size(); i++) {
     *_midFile++=(char)_track_name[i];
     size++;
   }
@@ -258,15 +253,15 @@ char * Midi_track::add_track() {
   //meta event end of track
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=END_OF_TRACK;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_END_OF_TRACK;
   *_midFile++=0;
   size+=4;
 
   *p_size=size-8;
   _midFile=(char*)realloc(_midFile, size);
   _chunk_size=size;
-  for (int i=0; i<size; i++) {
+  for (unsigned int i=0; i<size; i++) {
     printf(" %02x", ((unsigned char *)head_midFile)[i]);
   }
   printf("\n");
@@ -276,34 +271,41 @@ char * Midi_track::add_track() {
 void Midi_track::write_var(int var) {
   int var_tp=var;
   int size=0;
-  for (int i=0; i<sizeof(int); i++) {
+  int nb_octet=0;
+  for (unsigned int i=0; i<(sizeof(int)*8); i++) {
     if (var_tp&1) size=i;
-    var>>1;
+    var_tp=var_tp>>1;
   }
-  for (int i=0; i<(size/7)+1; i++) {
-    if (i==(size/7)+1) {
-      *_midFile++=var&0x7F00;
-      *_midFile++=var&0xFF;
+  nb_octet=(size/7)+1;
+  for (int i=0; i<nb_octet; i++) {
+    if (i==nb_octet-1) {
+      *_midFile++=var&0x7F;
     }
     else if (i==0) {
-      *midFile++=(size%0x7F)
+      *_midFile++=((var>>(size-(size%7)))&(0x7F))|0x80;
+      size-=size%7+7;
     }
+    else {
+      *_midFile++=((var>>size)&0x7F)|0x80;
+      size-=7;
+    }
+  }
 }
 
 /*
-int main(void) {
-  FILE *file=fopen("prout.mid", "wb");
-  Midi_head *zozo=new Midi_head(1, 2, 25, 2);
-  char *head_midFile=zozo->write_header();
-  fwrite(head_midFile, 1, zozo->get_size(), file);
-  Midi_track *tata=new Midi_track("tata", 120);
-  char *track0_midFile=tata->write_track0();
-  fwrite(track0_midFile, 1, tata->get_chunk_size(), file);
-  Midi_track *tonton=new Midi_track("tonton", 120);
-  char *track_midFile=tonton->add_track();
-  fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
-  fclose(file);
+   int main(void) {
+   FILE *file=fopen("prout.mid", "wb");
+   Midi_head *zozo=new Midi_head(1, 2, 25, 2);
+   char *head_midFile=zozo->write_header();
+   fwrite(head_midFile, 1, zozo->get_size(), file);
+   Midi_track *tata=new Midi_track("tata", 120);
+   char *track0_midFile=tata->write_track0();
+   fwrite(track0_midFile, 1, tata->get_chunk_size(), file);
+   Midi_track *tonton=new Midi_track("tonton", 120);
+   char *track_midFile=tonton->add_track();
+   fwrite(track_midFile, 1, tonton->get_chunk_size(), file);
+   fclose(file);
 
-  return 0;
-}
-*/
+   return 0;
+   }
+   */

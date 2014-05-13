@@ -125,8 +125,8 @@ bool Track::saveToMidi(Midi_track *piste)
     piste->set_midFile(midFile);
   }
   *midFile++=0;
-  *midFile++=META;
-  *midFile++=TRACK_NAME;
+  *midFile++=MIDI_META;
+  *midFile++=MIDI_TRACK_NAME;
   *midFile++=(char)name.size();
   size+=4;
   for (unsigned int i=0; i<name.size(); i++) {
@@ -141,7 +141,7 @@ bool Track::saveToMidi(Midi_track *piste)
     piste->set_midFile(midFile);
   }
   *midFile++=0;
-  *midFile++=PROGRAM_CHANGE;
+  *midFile++=MIDI_PROGRAM_CHANGE;
   *midFile++=1;
   size+=3;
 
@@ -150,52 +150,52 @@ bool Track::saveToMidi(Midi_track *piste)
     midFile=(char*)realloc(midFile, chunk_size+100);
     chunk_size+=100;
     piste->set_midFile(midFile);
-    *midFile++=0;
-    *midFile++=CONTROLLER;
-    *midFile++=MAIN_VOLUME;
-    *midFile++=100;
-    size+=4;
+  }
+  *midFile++=0;
+  *midFile++=MIDI_CONTROLLER;
+  *midFile++=MIDI_MAIN_VOLUME;
+  *midFile++=100;
+  size+=4;
 
-    unsigned currentNote=0;
-    unsigned currentEvent=0;
-    unsigned time=0;
-    unsigned last_time=0;
-    std::vector<Note*> played;
-    for (;_notes.size() > currentNote && played.size(); time++)
+  unsigned currentNote=0;
+  unsigned currentEvent=0;
+  unsigned time=0;
+  unsigned last_time=0;
+  std::vector<Note*> played;
+  for (;_notes.size() > currentNote && played.size(); time++)
+  {
+    //Add currently pressed notes !
+    while (_notes.size() > currentNote && _notes[currentNote]->start == time)
     {
-      //Add currently pressed notes !
-      while (_notes.size() > currentNote && _notes[currentNote]->start == time)
+      played.push_back(_notes[currentNote]);
+      unsigned delta=time-last_time;
+      last_time=time;
+
+      //Envoie message Note On !
+      //event note on
+      *midFile++=0x87;
+      *midFile++=0x68;
+      *midFile++=MIDI_NOTE_ON;
+      *midFile++=_notes[currentNote]->id+21;
+      *midFile++=100;
+      size+=5;
+      currentNote++;
+    }
+    //Add current moved knob !
+    while (_events.size() > currentEvent && _events[currentEvent]->appear == time)
+    {
+      currentEvent++;
+    }
+    //remove current releases notes !
+    for (unsigned int i=0;i<played.size();i++)
+    {
+      if( played[i]->start + played[i]->length <= time)
       {
-        played.push_back(_notes[currentNote]);
         unsigned delta=time-last_time;
         last_time=time;
-
-        //Envoie message Note On !
-        //event note on
-        *midFile++=0x87;
-        *midFile++=0x68;
-        *midFile++=NOTE_ON;
-        *midFile++=_notes[currentNote]->id+21;
-        *midFile++=100;
-        size+=5;
-        currentNote++;
-      }
-      //Add current moved knob !
-      while (_events.size() > currentEvent && _events[currentEvent]->appear == time)
-      {
-        currentEvent++;
-      }
-      //remove current releases notes !
-      for (int i=0;i<played.size();i++)
-      {
-        if( played[i]->start + played[i]->length <= time)
-        {
-          unsigned delta=time-last_time;
-          last_time=time;
-          //Envoie Message Note Off
-          played.erase(played.begin() + i);
-          i--;
-        }
+        //Envoie Message Note Off
+        played.erase(played.begin() + i);
+        i--;
       }
     }
   }
@@ -222,7 +222,7 @@ bool Track::tick()
     _currentEvent++;
   }
   //remove current releases notes !
-  for (int i=0;i<_played.size();i++)
+  for (unsigned int i=0;i<_played.size();i++)
   {
     //Faille ici ! _played[i]->length peut-être = à 0 et ne JAMAIS Finir !
     if(_played[i]->length && _played[i]->start + _played[i]->length <= _time)
