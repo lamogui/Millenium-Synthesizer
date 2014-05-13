@@ -199,6 +199,7 @@ bool Track::saveToMidi(Midi_track *piste)
       }
     }
   }
+  return 1;
 }
 
 bool Track::tick()

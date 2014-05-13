@@ -167,6 +167,7 @@ InstrumentParameterEvent& InstrumentParameterEvent::operator=(const InstrumentPa
   appear=e.appear;
   value=e.value;
   id=e.id;
+  return *this;
 }
 
 

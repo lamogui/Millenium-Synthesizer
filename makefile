@@ -20,7 +20,7 @@ OBJ= build/signal.o \
 	build/midi.o
 
 CFLAGS= --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= -I"include" -g -W -Wall
+CXXFLAGS= -I"include" -g -W 
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \

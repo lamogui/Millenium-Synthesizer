@@ -91,6 +91,8 @@ void Knob::onMouseMove(float x, float y)
 }
 void Knob::onMouseRelease(float x, float y)
 {
+  (void)x;
+  (void)y;
   if ( _param && _catched)
   {
     _catched=false;
@@ -363,11 +365,14 @@ void ScrollBar::onMouseMove(float x, float y){
 }
 void ScrollBar::onMouseRelease(float x, float y)
 {
+  (void)x;
+  (void)y;
   _bar.setFillColor(sf::Color(142,142,142,200));
 }
 
 void ScrollBar::draw (sf::RenderTarget &target, sf::RenderStates states) const
 {
+  (void)states;
   if ((_horizontal && _zone_size > _view->getSize().x) || 
       (!_horizontal && _zone_size > _view->getSize().y))
   {
@@ -462,6 +467,7 @@ void Interface::setViewSize(float x, float y)
 
 void Interface::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+  (void)states;
   //premier ajouté dernier dessiné
   for (unsigned int i=_drawables.size(); i ;)
   {

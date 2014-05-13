@@ -268,14 +268,21 @@ char * Midi_track::add_track() {
   return head_midFile;
 }
 
-void Midi_track::write_var(char* midFile, int var) {
+void Midi_track::write_var(int var) {
   int var_tp=var;
   int size=0;
   for (int i=0; i<sizeof(int); i++) {
     if (var_tp&1) size=i;
     var>>1;
   }
-  //for (int i=0; i<size/7
+  for (int i=0; i<(size/7)+1; i++) {
+    if (i==(size/7)+1) {
+      *_midFile++=var&0x7F00;
+      *_midFile++=var&0xFF;
+    }
+    else if (i==0) {
+      *midFile++=(size%0x7F)
+    }
 }
 
 /*

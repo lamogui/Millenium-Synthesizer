@@ -109,6 +109,7 @@ class Instrument : public AbstractInstrument
     
     virtual void notify(InstrumentParameter* p)
     {
+      (void)p;
       //nothing to do
     }
     

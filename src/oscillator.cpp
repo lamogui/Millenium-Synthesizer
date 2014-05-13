@@ -62,7 +62,7 @@ void SinusoidalOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   
   const float k=(2.0*3.1415/(float)Signal::frequency);
@@ -90,7 +90,7 @@ void SquareOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
@@ -121,9 +121,9 @@ void SawOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
-  sample* s = getShape().samples;
+  //sample* s = getShape().samples;
   
   for (unsigned int i=0;i < Signal::size;i++)
   {
@@ -147,7 +147,7 @@ void TriangleOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
@@ -199,11 +199,11 @@ void RandomOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
-  float number=0;
+  //float number=0;
   for (unsigned int i=0;i < Signal::size;i++)
   {
     t=fmod(_time/(float)Signal::frequency + m[i],1.0/f[i])*f[i];
@@ -235,7 +235,7 @@ void RandomSmoothOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   
@@ -274,7 +274,7 @@ void TriplePeakOscillator::step(Signal* output)
   sample* samples = output->samples;
   sample* f = getFrequency().samples;
   sample* a = getAmplitude().samples;
-  sample* u = getUnisson().samples;
+  //sample* u = getUnisson().samples;
   sample* m = getFM().samples;
   sample* s = getShape().samples;
   

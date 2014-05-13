@@ -147,6 +147,7 @@ DWORD CALLBACK BassDriver::_StreamProc(HSTREAM handle,
                                        DWORD length,
                                        void *user)
 {
+  (void)handle;
   sf::Lock(*((AudioStream*) user));
   unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length >> 1)) << 1;
   if (!c)
@@ -344,6 +345,7 @@ DWORD CALLBACK BassAsioDriver::_AsioProc(BOOL input,
                                          DWORD length, 
                                          void *user)
 {
+  (void)channel;
   if (input) return 0;
   sf::Lock lock(*((AudioStream*) user));
   unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length>>1))<<1;
