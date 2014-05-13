@@ -2,59 +2,64 @@
 #include <stdlib.h>
 #include "midi.hpp"
 
-Midi_head::Midi_head(WORD format, WORD track, BYTE frame, BYTE ticks) :
+Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
   _midFile(NULL),
   _format(format),
-  _track(track),
+  _tracks(tracks),
   _frame(frame),
-  _ticks(ticks),
-  _size(14)
+  _ticks(ticks)
 {
-  _midFile = (char*) malloc(_size);
+
 }
 
 Midi_head::~Midi_head() {
-  free(_midFile);
+
 }
 
-char* Midi_head::write_header() {
-  char *head_midFile=_midFile;
-  for (int i=0; i<_size; i++) {
-    head_midFile[i]=0;
-  }
-  for (int i=0; i<_size; i++) {
-    printf(" %02x", head_midFile[i]);
-  }
-  printf("\n");
-  *_midFile++='M';
-  *_midFile++='T';
-  *_midFile++='h';
-  *_midFile++='d';
-  *_midFile++=0;
-  *_midFile++=0;
-  *_midFile++=0;
-  *_midFile++=6;
+bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) {
+
+  if (size < Midi_head::size) return false;
+
+  //magic
+  *buffer++='M';
+  *buffer++='T';
+  *buffer++='h';
+  *buffer++='d';
+  *buffer++=0;
+  *buffer++=0;
+  *buffer++=0;
+  *buffer++=6;
 
   if (_format!=1) {
-    printf("le format n'est pas supporte\n");
+    printf("Midi_head error: Format %u unsupported yet\n",_format); 
+    return false;
   }
   else {
-    *_midFile++=0;
-    *_midFile++=1;
+    *buffer++=0;
+    *buffer++=1;
   }
   //nombre de piste
-  *_midFile++=_track>>8;
-  *_midFile++=(_track & 0x00FF);
+  *buffer++=_tracks>>8;
+  *buffer++=_tracks & 0xFF;
 
   //resolution
-  *_midFile++=0x80|_frame;
-  *_midFile++=_ticks;
+  *buffer++=0x80|_frame;
+  *buffer++=_ticks;
+  return true;
+}
 
-  for (int i=0; i<_size; i++) {
-    printf(" %02x", ((unsigned char *)head_midFile)[i]);
+bool Midi_head::write_to_file(FILE* file)
+{
+  unsigned char buffer[Midi_head::size];
+  if (write_to_buffer(buffer,Midi_head::size))
+  {
+    if (Midi_head::size==fwrite((void*)buffer,1,Midi_head::size,file))
+    {
+      return true;
+    }
+    printf("Midi_head error: fwrite error !\n"); 
   }
-  printf("\n");
-  return head_midFile;
+  return false;
 }
 
 Midi_track::Midi_track(const std::string &track_name, DWORD tempo) :
@@ -97,8 +102,8 @@ char * Midi_track::write_track0() {
   //meta event track name
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=TRACK_NAME;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_TRACK_NAME;
   *_midFile++=(char)_track_name.size();
   size+=4;
   for (int i=0; i<_track_name.size(); i++) {
@@ -109,8 +114,8 @@ char * Midi_track::write_track0() {
   //meta event set tempo
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=SET_TEMPO;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_SET_TEMPO;
   *_midFile++=3;
   _tempo=60000000/_tempo;
   *_midFile++=(_tempo&0x00FF0000)>>16;
@@ -121,8 +126,8 @@ char * Midi_track::write_track0() {
   //meta event time signature
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=TIME_SIGNATURE;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_TIME_SIGNATURE;
   *_midFile++=4;
   *_midFile++=1;
   *_midFile++=0;
@@ -133,8 +138,8 @@ char * Midi_track::write_track0() {
   //meta event key signature
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=KEY_SIGNATURE;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_KEY_SIGNATURE;
   *_midFile++=2;
   *_midFile++=0;
   *_midFile++=0;
@@ -143,8 +148,8 @@ char * Midi_track::write_track0() {
   //meta event end of track
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=END_OF_TRACK;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_END_OF_TRACK;
   *_midFile++=0;
   size+=4;
 
@@ -210,33 +215,33 @@ char * Midi_track::add_track() {
   //meta event track name
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=META;
-  *_midFile++=TRACK_NAME;
+  *_midFile++=MIDI_META;
+  *_midFile++=MIDI_TRACK_NAME;
   *_midFile++=(char)_track_name.size();
   size+=4;
   for (int i=0; i<_track_name.size(); i++) {
     *_midFile++=(char)_track_name[i];
     size++;
   }
-
+/*
   //event programme change event
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;
-  *_midFile++=PROGRAM_CHANGE;
+  *_midFile++=MIDI_PROGRAM_CHANGE;
   *_midFile++=1;
   size+=3;
 
   //controller main volume event
   *_midFile++=0;
-  *_midFile++=CONTROLLER;
-  *_midFile++=MAIN_VOLUME;
+  *_midFile++=MIDI_CONTROLLER;
+  *_midFile++=MIDI_MAIN_VOLUME;
   *_midFile++=100;
   size+=4;
 
   //event note on
   *_midFile++=0x87;
   *_midFile++=0x68;
-  *_midFile++=NOTE_ON;
+  *_midFile++=MIDI_NOTE_ON;
   *_midFile++=C4;
   *_midFile++=100;
   size+=5;
@@ -245,11 +250,11 @@ char * Midi_track::add_track() {
   *_midFile++=0x83;
   *_midFile++=0x86;
   *_midFile++=0x50;
-  *_midFile++=NOTE_OFF;
+  *_midFile++=MIDI_NOTE_OFF;
   *_midFile++=C4;
   *_midFile++=100;
   size+=6;
-
+*/
   //meta event end of track
   if (size>=_chunk_size){ _midFile=(char*)realloc(_midFile, _chunk_size+100);_chunk_size+=100;}
   *_midFile++=0;

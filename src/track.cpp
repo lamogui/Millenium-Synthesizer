@@ -129,7 +129,7 @@ bool Track::saveToMidi(Midi_track *piste)
   *midFile++=TRACK_NAME;
   *midFile++=(char)name.size();
   size+=4;
-  for (int i=0; i<name.size(); i++) {
+  for (unsigned int i=0; i<name.size(); i++) {
     *midFile++=(char)name[i];
     size++;
   }
