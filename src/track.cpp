@@ -97,7 +97,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
   const float gain = midi.get_head().gain();
 
   //Instrument grand piano
-  midi.push_midi_event(0, MIDI_PROGRAM_CHANGE, 0, 0,0);
+  //midi.push_midi_event(0, MIDI_PROGRAM_CHANGE, 0, 0,0);
   
   for (;_notes.size() > currentNote || played.size(); time++)
   {
