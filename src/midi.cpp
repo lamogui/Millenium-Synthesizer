@@ -402,7 +402,7 @@ bool Midi_track::write_to_buffer(unsigned char* buffer, unsigned int s ) const
   *buffer++=(target_size-8) & 0xFF;
   
   //Copy Custom Datas
-  memcpy((void*) buffer,(void*)_chunk,_chunk_size);
+  memcpy((void*) buffer,(const void*)_chunk,_chunk_size);
   buffer+=_chunk_size; //Move to end of chunk
   
   
@@ -432,6 +432,43 @@ bool Midi_track::write_to_file(FILE* file) const
   return false;
 }
 
+
+unsigned int Midi_track::read_from_buffer(const unsigned char* buffer, unsigned int s)
+{
+  reset();
+  unsigned int min_size = size(); 
+  if (s >= min_size && buffer)
+  {
+    unsigned int g=0;
+    if (buffer[g++]!='M' || buffer[g++]!='T' || buffer[g++]!='r' || buffer[g++]!='k') {
+      printf("Midi_track error: wrong magic !\n"); 
+      return 0;
+    }
+    unsigned int target_size=0;
+    target_size |= buffer[g++] << 24;
+    target_size |= buffer[g++] << 16;
+    target_size |= buffer[g++] << 8;
+    target_size |= buffer[g++];
+    if (s >= target_size + g && target_size >= 4)
+    {
+      check_alloc(target_size);
+      memcpy((void*)_chunk,(const void*) &(buffer[g]),target_size);
+      _chunk_size = target_size;
+      if (_chunk[_chunk_size-3] == 0xFF && 
+          _chunk[_chunk_size-2] == 0x2F && 
+          _chunk[_chunk_size-1] == 0x00) //detect End Of Track
+      {
+        _chunk_size-=4;
+      }
+      return target_size + g;
+    }
+    else 
+    {
+      printf("Midi_track error: missing needed data require %u bytes but have %u\n",target_size+g,s); 
+    }
+  }
+  return 0;
+}
 
 
 void Midi_track::push_varlength(DWORD var) {
