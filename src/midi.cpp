@@ -229,6 +229,8 @@ bool Midi_track::write_to_buffer(unsigned char* buffer, unsigned int s ) const
   
   //Copy Custom Datas
   memcpy((void*) buffer,(void*)_chunk,_chunk_size);
+  buffer+=_chunk_size; //Move to end of chunk
+  
   
   //Finally the end of the track
   *buffer++=0;
