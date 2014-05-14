@@ -87,6 +87,8 @@ class Midi_track {
     
     unsigned int size() const ; //size in the final file in bytes
     
+    unsigned int read_from_buffer(const unsigned char* buffer, unsigned int size);
+    
     bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
     bool write_to_file(FILE* file) const;
     

@@ -162,6 +162,25 @@ int main(int argc, char** argv)
           {
             std::cout << "Track 0 (" << track0_len << " bytes):"<< std::endl;
             track0.print_infos();
+            unsigned int delta = Midi_head::size + track0_len;
+            Midi_track track(head);
+            unsigned int track_len;
+            unsigned count=0;
+            while (filesize > (int) delta)
+            {
+              if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
+              {
+                delta+=track_len;
+                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes)" << std::endl;
+                count++;
+              }
+              else {
+                std::cout << "Failed to read Track " << count + 1 << std::endl;
+                break;
+              }
+            }
+            std::cout << "Readed " << count + 1 << "/" << head.tracks() << "  with success !" << std::endl;
+            
           }
           else 
           {
