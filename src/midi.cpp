@@ -20,7 +20,7 @@ Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
   _gain((float) frame*ticks / (float) Signal::refreshRate),
   _format(format),
   _tracks(tracks),
-  _division((frame | 0x80) << 8 | ticks)
+  _division(((frame | 0x80) << 8) | ticks)
 {
   if (!_gain) _gain = 1.f;
  }
@@ -62,7 +62,7 @@ bool Midi_head::read_from_buffer(const unsigned char* buffer, unsigned int size 
   division = buffer[g++] << 8;
   division |= buffer[g++];
   
-  if (division & 0x80) {
+  if (division & 0x8000) {
     BYTE frame=(division >> 8) & 0x7F, ticks=(division & 0xFF);
     if (! frame*ticks)
     {
@@ -70,7 +70,7 @@ bool Midi_head::read_from_buffer(const unsigned char* buffer, unsigned int size 
       return false;
     }
     _gain=(float) frame*ticks / (float) Signal::refreshRate;
-    _beat=true;
+    _beat=false;
   }
   else {
     if (!division){
@@ -171,6 +171,107 @@ unsigned int Midi_track0::size() const
   return size;
 }
 
+unsigned int Midi_track0::read_from_buffer(const unsigned char* buffer, unsigned int s)
+{
+  reset();
+  unsigned int min_size = size(); 
+  if (s > min_size)
+  {
+    unsigned int g=0;
+    if (buffer[g++]!='M' || buffer[g++]!='T' || buffer[g++]!='r' || buffer[g++]!='k') return 0;
+    unsigned int target_size=0;
+    target_size |= buffer[g++] << 24;
+    target_size |= buffer[g++] << 16;
+    target_size |= buffer[g++] << 8;
+    target_size |= buffer[g++];
+    target_size+=g;
+    if (s > target_size)
+    {
+      while (g < target_size)
+      {
+        //Read delta (and don't care)
+        BYTE delta_byte;
+        unsigned int delta=0;
+         do {
+          delta_byte=buffer[g++];
+          delta = (delta << 7) | (delta_byte & 0x7F);
+        } while (delta_byte & 0x80 && g < target_size);
+        
+        if (g >= target_size) break;
+        
+        //Read type
+        BYTE type=buffer[g++];
+        if (type==0xFF) { //Meta Event 
+          if (g >= target_size) break;
+          BYTE meta_type=buffer[g++];
+          
+          BYTE length_byte;
+          unsigned int length=0;
+          do {
+            length_byte=buffer[g++];
+            length = (length << 7) | (length_byte & 0x7F);
+          } while (length_byte & 0x80 && g < target_size);
+        
+          switch (meta_type) {
+            case 0x01: //Text event
+              for (unsigned int i=0;i<length && g < target_size;i++)
+                _comment += buffer[g++];
+              break;
+            case 0x02: //Copyright
+              for (unsigned int i=0;i<length && g < target_size;i++)
+                _copyright += buffer[g++];
+              break;
+            case 0x03: //Sequence/Track Name
+              for (unsigned int i=0;i<length && g < target_size;i++)
+                _music_name += buffer[g++];
+              break;
+            case 0x2F: //End
+              return target_size;
+            default:
+              g+=length; //don't care
+              break;
+          }
+          
+        }
+        else if ((type & 0xF0) == 0xF0) { //System event don't care
+          BYTE length_byte;
+          unsigned int length=0;
+          do {
+            length_byte=buffer[g++];
+            length = (length << 7) | (length_byte & 0x7F);
+          } while (length_byte & 0x80 && g < target_size);
+          g+=length; //don't care
+        }
+        else  { //Midi event
+          if (g >= target_size) break;
+          switch (buffer[g++] >> 4) {
+            case 0xC:
+            case 0xD:
+              g++; //don't care
+              break;
+            default:
+              g+=2; //don't care
+              break;
+          }
+        }
+      }
+      return target_size;
+    }
+    else 
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
+
+
+void Midi_track0::print_infos() const {
+  printf("Midi_track0 0x%X infos: \n",(unsigned int) this);
+  printf("      name: %s \n", _music_name.c_str());
+  printf("      copyright: %s \n", _copyright.c_str());
+  printf("      comment: %s \n", _comment.c_str());
+}
 
 bool Midi_track0::write_to_buffer(unsigned char* buffer, unsigned int s) const
 {
