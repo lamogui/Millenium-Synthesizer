@@ -106,7 +106,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
       played.push_back(_notes[currentNote]);
       float delta=(float)(time-last_time);
       delta *=gain;
-      std::cout << "Delta " << (DWORD)delta << std::endl;
+      //std::cout << "Delta " << (DWORD)delta << std::endl;
       last_time=time;
       //Envoie message Note On !
       midi.push_midi_event((DWORD)delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id + 21, _notes[currentNote]->velocity*127);
@@ -129,7 +129,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
         float delta=(float)(time-last_time);
         delta *=gain;
         last_time=time;
-        std::cout << "Delta " << (DWORD)delta << std::endl;
+        //std::cout << "Delta " << (DWORD)delta << std::endl;
         //Envoie Message Note Off
         midi.push_midi_event((DWORD)delta, MIDI_NOTE_OFF, 0, played[i]->id + 21 , played[i]->velocity*127);
         played.erase(played.begin() + i);
