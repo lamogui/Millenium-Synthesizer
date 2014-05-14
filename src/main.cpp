@@ -152,8 +152,23 @@ int main(int argc, char** argv)
       if (head.read_from_buffer(buffer, filesize))
       {
         std::cout << "File " << argv[2] << " infos" << std::endl;
-        std::cout << "Header:" << std::endl;
+        std::cout << "Header (" << Midi_head::size << " bytes):" << std::endl;
         head.print_infos();
+        if (head.format() == 1)
+        {        
+          Midi_track0 track0;
+          unsigned int track0_len;
+          if (track0_len = track0.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+          {
+            std::cout << "Track 0 (" << track0_len << " bytes):"<< std::endl;
+            track0.print_infos();
+          }
+          else 
+          {
+            std::cout << "Error: " << argv[2] << " failed to load track 0" << std::endl;
+          }
+        }
+        
       }
       else
       {
@@ -196,7 +211,7 @@ int main(int argc, char** argv)
   //Titre de la fenêtre
   sf::Text winTitle("Millenium Synthesizer",globalfont,11);
   winTitle.setPosition(borderWinSize_left,5.f);
-  if (argc == 2) {
+  if (argc >= 2) {
     window.setTitle(sf::String("Millenium Synthesizer - ") + argv[1]);
     winTitle.setString(sf::String("Millenium Synthesizer - ") + argv[1]);
   } 

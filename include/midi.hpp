@@ -46,11 +46,14 @@ class Midi_track0 {
     Midi_track0(); 
     Midi_track0(const std::string name); 
     ~Midi_track0(); 
-    
+
     unsigned int size() const; //size in the final file in bytes
+    unsigned int read_from_buffer(const unsigned char* buffer, unsigned int size);
     
     bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
     bool write_to_file(FILE* file) const;
+    
+    void print_infos() const ;
     
     ///Getters / Setters
     inline void set_bpm(unsigned bpm) { if (bpm) _mpqn=60000000/bpm;}
@@ -62,6 +65,13 @@ class Midi_track0 {
     inline std::string copyright() { return _copyright; }
     inline std::string comment() { return _comment; }
     inline unsigned int bpm() { if (_mpqn) return  60000000/_mpqn; return 0;}
+    
+    inline void reset() {
+      _music_name.clear();
+      _copyright.clear();
+      _comment.clear();
+      _mpqn=0;
+    }
     
   private:
     unsigned int _mpqn;
