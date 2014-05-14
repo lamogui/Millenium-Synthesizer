@@ -27,6 +27,14 @@
 #include "cado.hpp"
 #include "midi.hpp"
  
+ int fsize(FILE *fp){
+    int prev=ftell(fp);
+    fseek(fp, 0L, SEEK_END);
+    int sz=ftell(fp);
+    fseek(fp,prev,SEEK_SET); //go back to where we were
+    return sz;
+}
+ 
 sf::Font globalfont; 
 
 int main(int argc, char** argv)
@@ -92,7 +100,7 @@ int main(int argc, char** argv)
   ///Initialisation de l'instrument
   AbstractInstrument* myInstrument=NULL;  //L'instrument    
   Interface* myInterface=NULL;            //Son interface
-  if (argc == 2)
+  if (argc >= 2)
   {
     if (std::string("careme") == argv[1]) 
     {
@@ -133,6 +141,30 @@ int main(int argc, char** argv)
   ///Initialisation de la piste d'enregistrement
   Track myTrack(myInstrument);
   
+  if (argc >= 3) {
+    FILE* file = fopen(argv[2], "rb");
+    if (file)
+    {
+      int filesize = fsize(file);
+      unsigned char* buffer= (unsigned char*) malloc(filesize);
+      fread(buffer,1,filesize,file);
+      Midi_head head(1, 0, 25, 2);
+      if (head.read_from_buffer(buffer, filesize))
+      {
+        std::cout << "File " << argv[2] << " infos" << std::endl;
+        std::cout << "Header:" << std::endl;
+        head.print_infos();
+      }
+      else
+      {
+        std::cout << "Error: " << argv[2] << " is not a compatible midi file" << std::endl; 
+      }
+      fclose(file);
+    }
+    else {
+      std::cout << "Unable to open: " << argv[2] << std::endl; 
+    }
+  }
   
   ///Création de la fenêtre
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
@@ -442,8 +474,8 @@ int main(int argc, char** argv)
     
     //Mise à jour du son
     myTrack.tick(); //et hop !!!
-    if ((myTrack.time())/((120/60)*4*Signal::refreshRate)) myTrack.seek(0);
-    std::cout << "Mesure : " << (myTrack.time())/((120/60)*Signal::refreshRate) << " battement " << (myTrack.time())/((120/60)*Signal::refreshRate/4)%4 << std::endl;
+    //if ((myTrack.time())/((120/60)*4*Signal::refreshRate)) myTrack.seek(0);
+    //std::cout << "Mesure : " << (myTrack.time())/((120/60)*Signal::refreshRate) << " battement " << (myTrack.time())/((120/60)*Signal::refreshRate/4)%4 << std::endl;
     //le verre d'eau est vide donc on le rempli
     myInstrument->step(&leftout, &rightout); 
     //Mise à jour de l'oscillo

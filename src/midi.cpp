@@ -29,8 +29,66 @@ Midi_head::~Midi_head() {
 
 }
 
-bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const {
+void Midi_head::print_infos() const 
+{
+  printf("Midi_head 0x%X infos: \n",(unsigned int) this);
+  printf("      format: %u \n", _format);
+  printf("      tracks: %u \n", _tracks);
+  printf("      division: 0x%X \n", _division);
+  if (_beat)
+  printf("      gain: %f (need bpm) \n", _gain);
+  else 
+  printf("      gain: %f (fps based) \n", _gain);
+}
 
+bool Midi_head::read_from_buffer(const unsigned char* buffer, unsigned int size )
+{
+  unsigned int g=0;
+  if (!buffer) return false;
+  if (size < Midi_head::size) return false;
+  if (buffer[g++]!='M' || buffer[g++]!='T' || buffer[g++]!='h' || buffer[g++]!='d') return false;
+  if (buffer[g++]!=0 || buffer[g++]!=0 || buffer[g++]!=0 || buffer[g++]!=6) return false;
+  WORD format, tracks, division;
+  format = buffer[g++] << 8;
+  format |= buffer[g++];
+  if (format !=1){
+    printf("Midi_head error: Format %u unsupported yet\n",format); 
+    return false;
+  }
+  
+  tracks = buffer[g++] << 8;
+  tracks |= buffer[g++];
+  
+  division = buffer[g++] << 8;
+  division |= buffer[g++];
+  
+  if (division & 0x80) {
+    BYTE frame=(division >> 8) & 0x7F, ticks=(division & 0xFF);
+    if (! frame*ticks)
+    {
+      printf("Midi_head error: invalid fps time division\n");
+      return false;
+    }
+    _gain=(float) frame*ticks / (float) Signal::refreshRate;
+    _beat=true;
+  }
+  else {
+    if (!division){
+      printf("Midi_head error: invalid beat time division\n");
+      return false;
+    }
+    _gain=(float) division / (float) (Signal::refreshRate * 60.f);
+    _beat=true;
+  }
+  
+  _tracks=tracks;
+  _division=division;
+  
+  return true;
+}
+
+bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const {
+  if (!buffer) return false;
   if (size < Midi_head::size) return false;
 
   //magic
@@ -116,6 +174,7 @@ unsigned int Midi_track0::size() const
 
 bool Midi_track0::write_to_buffer(unsigned char* buffer, unsigned int s) const
 {
+  if (!buffer) return false;
   unsigned int target_size=size();
   unsigned char str_length;
   if (s < target_size) return false;
