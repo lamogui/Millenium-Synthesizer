@@ -5,12 +5,22 @@
 
 //////////MIDI HEAD\\\\\\\\\\\\\\\\\\\\
 
+Midi_head::Midi_head(WORD format, WORD tracks, WORD tick_per_beat) :
+  _beat(false),
+  _gain((float) tick_per_beat / (float) (Signal::refreshRate * 60.f)),
+  _format(format),
+  _tracks(tracks),
+  _division(tick_per_beat)
+{
+  if (!_gain) _gain = 1.f;
+ }
+
 Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
+  _beat(true),
   _gain((float) frame*ticks / (float) Signal::refreshRate),
   _format(format),
   _tracks(tracks),
-  _frame(frame),
-  _ticks(ticks)
+  _division((frame | 0x80) << 8 | ticks)
 {
   if (!_gain) _gain = 1.f;
  }
@@ -46,9 +56,8 @@ bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const
   *buffer++=_tracks & 0xFF;
 
   //resolution
-  
-  *buffer++=0x80|_frame;
-  *buffer++=_ticks;
+  *buffer++=_division>>8;
+  *buffer++=_division & 0xFF;
   /*
   *buffer++=0x01;
   *buffer++=0xe0;
@@ -293,11 +302,18 @@ void Midi_track::push_varlength(DWORD var) {
 void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1, BYTE p2)
 {
   push_varlength(midi_delta);
-  std::cout << _chunk_size << " new midi event" << std::endl;
   
   check_alloc(3);
   _chunk[_chunk_size++] = (type & 0xF) << 4 | (chan & 0xF);
   _chunk[_chunk_size++] = p1 & 0x7F;
   _chunk[_chunk_size++] = p2 & 0x7F;
+}
+
+void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1)
+{
+  push_varlength(midi_delta);
+  check_alloc(2);
+  _chunk[_chunk_size++] = (type & 0xF) << 4 | (chan & 0xF);
+  _chunk[_chunk_size++] = p1 & 0x7F;
 }
 

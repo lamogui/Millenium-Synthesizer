@@ -9,6 +9,7 @@
 
 class Midi_head {
   public:
+    Midi_head(WORD format, WORD tracks, WORD tick_per_beat);
     Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks);
     ~Midi_head();
     
@@ -16,9 +17,11 @@ class Midi_head {
     bool write_to_file(FILE* file) const;
     static const unsigned size=14; //size in the final file in bytes
     
-    inline float gain() {if (!_gain) return 1.f; return _gain;};
+    inline float gain() {if (!_gain) return 1.f; return _gain;}
+    inline bool need_bpm() { return _beat; }
     
   private:
+    bool _beat;
     float _gain; //Represent the "precision tick gain" in relation to the signal refresh rate
                  // Gain =  Midi Rate / Signal refreshRate
                  // Midi Rate = Signal refreshRate * Gain
@@ -26,8 +29,8 @@ class Midi_head {
                  // Signal Ticks = Midi Ticks / Gain
     WORD _format;
     WORD _tracks;
-    BYTE _frame;
-    BYTE _ticks;
+    WORD _division;
+    
 };
 
 ///MIDI Track 0 for format 1 ! 
@@ -71,6 +74,7 @@ class Midi_track {
     bool write_to_file(FILE* file) const;
     
     void push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1, BYTE p2);
+    void push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1);
     
     inline void reset() {_chunk_size=0;}
     
