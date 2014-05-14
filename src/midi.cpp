@@ -46,8 +46,13 @@ bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const
   *buffer++=_tracks & 0xFF;
 
   //resolution
+  
   *buffer++=0x80|_frame;
   *buffer++=_ticks;
+  /*
+  *buffer++=0x01;
+  *buffer++=0xe0;
+  */
   return true;
 }
 
@@ -92,9 +97,9 @@ unsigned int Midi_track0::size() const
   // Magic + Head + Delta + MetaEvent + EndOfTrack + MetaSize
   unsigned int size = 4 + 4 + 1 + 1 + 1 + 1; //minimum size
   //                   Delta + MetaEvent + Type + length + Specific size
-  if (_music_name.size()) size += 1 + 1 + 1 + 1 + _music_name.size() + 1;
-  if (_copyright.size()) size += 1 + 1 + 1 + 1 + _copyright.size() + 1;
-  if (_comment.size()) size += 1 + 1 + 1 + 1 + _comment.size() + 1;
+  if (_music_name.size()) size += 1 + 1 + 1 + 1 + _music_name.size();
+  if (_copyright.size()) size += 1 + 1 + 1 + 1 + _copyright.size();
+  if (_comment.size()) size += 1 + 1 + 1 + 1 + _comment.size();
   if (_mpqn) size += 1 + 1 + 1 + 1 + 3;
   return size;
 }
@@ -271,7 +276,7 @@ void Midi_track::push_varlength(DWORD var) {
   //Who is the most significant bit ?
   for (DWORD i=0; i<32; i++) {
     if (var_tp&1) bit=i;
-    var_tp>>1;
+    var_tp=var_tp>>1;
   }
   part=bit/7;
   
