@@ -13,12 +13,19 @@ class Midi_head {
     Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks);
     ~Midi_head();
     
+    bool read_from_buffer(const unsigned char* buffer, unsigned int size );
+    
     bool write_to_buffer(unsigned char* buffer, unsigned int size ) const;
     bool write_to_file(FILE* file) const;
     static const unsigned size=14; //size in the final file in bytes
     
-    inline float gain() {if (!_gain) return 1.f; return _gain;}
+    void print_infos() const ;
+    
+    inline float gain() const {if (!_gain) return 1.f; return _gain;}
     inline bool need_bpm() { return _beat; }
+    inline WORD format() const { return _format; }
+    inline WORD tracks() const { return _tracks; }
+    inline void set_tracks(WORD tracks) {  _tracks = tracks; }
     
   private:
     bool _beat;
