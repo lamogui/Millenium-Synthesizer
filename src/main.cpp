@@ -175,7 +175,7 @@ int main(int argc, char** argv)
                 tempTrack.importFromMidiTrack(track);
                 myTrack.concatenate(tempTrack); 
                 delta+=track_len;
-                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes) Time " << tempTrack.fastLength() << std::endl;
+                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes) Time " << tempTrack.fastLength() << " concatenate time " << myTrack.fastLength() << std::endl;
                 count++;
               }
               else {
