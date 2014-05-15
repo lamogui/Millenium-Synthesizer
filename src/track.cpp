@@ -192,7 +192,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
             p2=buffer[g++];
             if (20<p1<109 && keyboard.find(p1) == keyboard.end()) {
                //std::cout << "add note " << (int) p1 << " time " << _time << std::endl;
-               Note* note = new Note(_time, p1-20, (float)p2/(float)127.f);
+               Note* note = new Note(_time, p1-21, (float)p2/(float)127.f);
                keyboard[p1]=note;
                _notes.push_back(note);
             }
