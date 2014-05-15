@@ -1,11 +1,11 @@
-/*******************************************************
+/*****************************************************************************
 Nom ......... : midi.hpp
 Role ........ : Implemente les classes ayant une relation avec le format MIDI
                 voir : http://www.sonicspot.com/guide/midifiles.html
 Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
 Version ..... : V1.0 olol
 Licence ..... : © Copydown™
-********************************************************/
+*****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -523,3 +523,81 @@ void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1
   _chunk[_chunk_size++] = p1 & 0x7F;
 }
 
+Midi_event::Midi_event(Midi_var d,BYTE type):
+Midi_abstractevent(d,type),
+p1(0),
+p2(0)
+{
+}
+
+Midi_event::Midi_event(BYTE type, BYTE channel, WORD _p1 ) : 
+Midi_abstractevent(type),
+p1(_p1),
+p2(0)
+{
+
+}
+
+Midi_event::Midi_event(BYTE type, BYTE channel, WORD _p1 , WORD _p2) :
+Midi_abstractevent(type),
+p1(_p1),
+p2(_p2)
+{
+
+}
+Midi_event::~Midi_event() {
+
+}
+
+unsigned int Midi_event::size() const {
+  if (use_p2())
+    return delta.size() + 1 + 2 + 2; 
+  return delta.size() + 1 + 2; 
+}
+unsigned int Midi_event::write_to_buffer( unsigned char* buffer, 
+                                          unsigned int s,
+                                          unsigned int& offset) const
+{
+  const unsigned int save_off=offset;
+  if (s >= size() + offset)
+  {
+    delta.write_to_buffer(buffer,s,offset);
+    buffer[offset++]=_type;
+    buffer[offset++]=p1>>8;
+    buffer[offset++]=p1&0xFF;
+    if (use_p2()) {
+      buffer[offset++]=p2>>8;
+      buffer[offset++]=p2&0xFF;
+    }
+  }
+  return offset-save_off;
+}
+
+unsigned int Midi_event::read_from_buffer(const unsigned char* buffer, 
+                                          unsigned int buffer_size,
+                                          unsigned int& offset) {
+  const unsigned int save_off=offset;
+  if (buffer_size >= offset + 2)
+  {
+    p1 = buffer[offset++];
+    p1 = (p1 << 8) | buffer[offset++];
+  }
+  if (buffer_size >= offset + 2 && use_p2())
+  {
+    p2 = buffer[offset++];
+    p2 = (p2 << 8) | buffer[offset++];
+  }
+  return offset-save_off;
+}
+
+bool Midi_event::use_p2() const
+{
+  switch (_type >> 4)
+  {
+    case 0xC:
+    case 0xD:
+      return false;
+    default:
+      return true;
+  }
+}
