@@ -2,6 +2,7 @@
 #include <iostream>
 #include "bass.h"
 #include <iostream>
+#include <map>
 
 Track::Track() :
   _instrument(0),
@@ -27,7 +28,12 @@ Track::Track(AbstractInstrument* i) :
 
 Track::~Track()
 {
-  panic();
+   reset();
+}
+
+void Track::reset()
+{
+   panic();
   for (unsigned int i=0;i<_notes.size();i++)
   {
     delete _notes[i];
@@ -36,7 +42,11 @@ Track::~Track()
   {
     delete _events[i];
   }
-
+  _notes.clear();
+  _events.clear();
+  _time=0;
+  _currentNote=0;
+  _currentEvent=0;
 }
 
 void Track::panic()
@@ -85,6 +95,121 @@ unsigned int Track::fastLength()
   if (_notes.size())
     return _notes[_notes.size()-1]->start + _notes[_notes.size()-1]->length;
   else return 0;
+}
+
+bool Track::importFromMidiTrack(const Midi_track& midi)
+{
+   reset();
+   unsigned int target_size=midi.chunk_size();
+   unsigned g=0;
+   const unsigned char* buffer=midi.get_chunk();
+   std::map<BYTE, Note*> keyboard;
+   
+   unsigned int integ_delta;
+   while (g < target_size)
+   {
+     //Read delta 
+     BYTE delta_byte;
+     unsigned int delta=0;
+      do {
+       delta_byte=buffer[g++];
+       delta = (delta << 7) | (delta_byte & 0x7F);
+     } while (delta_byte & 0x80 && g < target_size);
+     //std::cout << "delta " << delta << std::endl;
+     integ_delta+=delta;
+     
+     if (midi.get_head().need_bpm())
+      _time=integ_delta/(midi.get_head().gain()*140.f); //TODO un getteur de BPM
+     else
+      _time=integ_delta/midi.get_head().gain();
+     
+     
+     if (g >= target_size) break;
+     
+     //Read type
+     BYTE type=buffer[g++];
+     if (type==0xFF) { //Meta Event 
+       if (g >= target_size) break;
+       BYTE meta_type=buffer[g++];
+       
+       BYTE length_byte;
+       unsigned int length=0;
+       do {
+         length_byte=buffer[g++];
+         length = (length << 7) | (length_byte & 0x7F);
+       } while (length_byte & 0x80 && g < target_size);
+       //std::cout << "Jump meta " << (unsigned) meta_type << " len " << length << std::endl;
+     
+       switch (meta_type) {
+       /*  case 0x01: //Text event
+           for (unsigned int i=0;i<length && g < target_size;i++)
+             _comment += buffer[g++];
+           break;
+         case 0x02: //Copyright
+           for (unsigned int i=0;i<length && g < target_size;i++)
+             _copyright += buffer[g++];
+           break;
+         case 0x03: //Sequence/Track Name
+           for (unsigned int i=0;i<length && g < target_size;i++)
+             _music_name += buffer[g++];
+           break;*/
+         case 0x2F: //End
+           _time=0;
+           return true;
+         default:
+           g+=length; //don't care
+           break;
+       }
+       
+     }
+     else if ((type & 0xF0) == 0xF0) { //System event don't care
+       BYTE length_byte;
+       unsigned int length=0;
+       do {
+         length_byte=buffer[g++];
+         length = (length << 7) | (length_byte & 0x7F);
+       } while (length_byte & 0x80 && g < target_size);
+       g+=length; //don't care
+     }
+     else  { //Midi event
+       if (g >= target_size) break;
+       BYTE p1,p2;
+       //printf("Midi event 0x%X\n", type);
+       BYTE midi_type=type>> 4;
+       switch (midi_type) {
+         case 0x9:
+            p1=buffer[g++];
+            p2=buffer[g++];
+            if (20<p1<109 && keyboard.find(p1) == keyboard.end()) {
+               std::cout << "add note " << (int) p1 << " time " << _time << std::endl;
+               Note* note = new Note(_time, p1-20, (float)p2/(float)127.f);
+               keyboard[p1]=note;
+               _notes.push_back(note);
+            }
+            break;
+         case 0x8:
+            p1=buffer[g++];
+            p2=buffer[g++];
+            if (20<p1<109 && keyboard.find(p1) != keyboard.end()) {
+               keyboard[p1]->length = _time-keyboard[p1]->start;
+               keyboard.erase(p1);
+            }
+            break;
+         case 0xC:
+         case 0xD:
+           //printf("Jump midi event 0x%X with 1\n",(unsigned int)midi_type);
+           g++; //don't care
+           break;
+         default:
+           //printf("Jump midi event 0x%X with 2\n",(unsigned int)midi_type);
+           g+=2; //don't care
+           break;
+       }
+     }
+   }
+   _time=0;
+   std::cout << "Import midi : Wrong end" << std::endl;
+   return true;
 }
 
 void Track::exportToMidiTrack(Midi_track& midi) const

@@ -25,6 +25,8 @@ class Track
     // return true if the track has reach end 
     bool tick();
     
+    void reset();
+    
     //add a note at the current time of the track... (KeyPressed or NoteOn)
     Note* recordNoteStart(unsigned char id, float v=1.0);
     
@@ -37,6 +39,8 @@ class Track
     //Return a fast approximation of track length always < or = to the real track length
     unsigned int fastLength();
     
+    
+    bool importFromMidiTrack(const Midi_track& midi);
     void exportToMidiTrack(Midi_track& midi) const;
 
     //Return current track time in refreshRate Signal unit
