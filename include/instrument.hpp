@@ -1,4 +1,14 @@
 
+/*******************************************************
+Nom ......... : instrument.hpp
+Role ........ : Déclare les classes et templates 
+                permettant de facilement créer un 
+                instrument
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __INSTRUMENT
 #define __INSTRUMENT
 

@@ -1,3 +1,13 @@
+/*******************************************************
+Nom ......... : note.cpp
+Role ........ : Implémente les classes permettant de 
+                manipuler des données rythmiques en 
+                lien avec un morceau et un instrument
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #include "track.hpp"
 #include <iostream>
 #include "bass.h"

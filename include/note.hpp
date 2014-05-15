@@ -1,7 +1,17 @@
+
+/*******************************************************
+Nom ......... : note.hpp
+Role ........ : Déclare les classes permettant de 
+                manipuler des données rythmiques en 
+                lien avec un morceau et un instrument
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
+
 #ifndef ___NOTES
 #define ___NOTES
-
-
 
 class InstrumentVoice;
 class AbstractInstrument;
