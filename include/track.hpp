@@ -39,7 +39,9 @@ class Track
     //Return a fast approximation of track length always < or = to the real track length
     unsigned int fastLength();
     
-    
+    //concatene track_extern dans this
+    bool concatene(const Track &track_extern);
+
     bool importFromMidiTrack(const Midi_track& midi);
     void exportToMidiTrack(Midi_track& midi) const;
 

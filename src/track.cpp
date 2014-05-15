@@ -317,3 +317,20 @@ void Track::recordNoteRelease(Note* n)
   if (n && _time > n->start)
     n->length=_time-n->start;
 }
+
+bool Track::concatene(const Track &track_extern) {
+  std::vector<Note*> tempo;
+  unsigned int g_this=0, g_extern=0, g_tempo=0;
+  while (g_this<_notes.size() || g_extern<track_extern._notes.size()) {
+    if (_notes[g_this]->start>track_extern._notes[g_extern]->start) {
+      tempo.push_back(track_extern._notes[g_extern]);
+      if (g_extern+1<track_extern._notes.size()) g_extern++;
+    }
+    else {
+      tempo.push_back(_notes[g_this++]);
+      if (g_this+1<_notes.size()) g_this++;
+    }
+  }
+  _notes.swap(track_extern._notes);
+}
+
