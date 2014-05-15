@@ -340,7 +340,7 @@ bool Track::concatene(const Track &track_extern) {
     }
   }
   while (g_this<_notes.size())
-    tempo.push_back(new Note(*_notes[g_this++]));
+    tempo.push_back(_notes[g_this++]);
   while (g_extern<_notes.size())
     tempo.push_back(new Note(*track_extern._notes[g_extern++]));
   _notes.swap(tempo);
