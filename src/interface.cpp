@@ -167,6 +167,29 @@ _mode(mode)
 }
 
 
+Button::Button(int *val, const sf::Texture &texture
+               , const sf::IntRect &idle
+               , const sf::IntRect &clicked
+               , ButtonMode::Mode mode) :
+_idleColor(255,255,255,255),
+_clickedColor(255,255,255,255),
+_shape(sf::Vector2f(idle.width,idle.height)),
+_idleRect(idle),
+_clickedRect(clicked),
+_param(NULL), 
+_val(val),
+_catched(false),
+_mode(mode)
+{
+  _text.setFont(globalfont);
+  _text.setCharacterSize(11);
+  _shape.setFillColor(_idleColor);
+  //_shape.setOutlineThickness(1.f);
+  setOutlineColor(sf::Color(255,255,255,255));
+  _shape.setTexture(&texture);
+  _shape.setTextureRect(_idleRect);
+}
+
 Button::~Button()
 {
 }
@@ -184,10 +207,13 @@ void Button::setTexture(const sf::Texture &texture, const sf::IntRect &idle, con
   _clickedRect = clicked;
 
   _shape.setTexture(&texture);
-  if (_catched)
-    _shape.setTextureRect(_clickedRect);
-  else
-    _shape.setTextureRect(_idleRect);
+  if (_mode != ButtonMode::toggle)
+  {
+     if (_catched)
+       _shape.setTextureRect(_clickedRect);
+     else
+       _shape.setTextureRect(_idleRect);
+  }
 }
 
 bool Button::onMousePress(float x, float y)
@@ -209,7 +235,8 @@ bool Button::onMousePress(float x, float y)
     
     _catched=true;
     _shape.setFillColor(_clickedColor);
-    _shape.setTextureRect(_clickedRect);
+    if (_mode != ButtonMode::toggle)
+      _shape.setTextureRect(_clickedRect);
     return true;
   }
   return false;
@@ -223,7 +250,8 @@ void Button::onMouseRelease(float x, float y)
 {
   _catched=false;
   _shape.setFillColor(_idleColor);
-  _shape.setTextureRect(_idleRect);
+  if (_mode != ButtonMode::toggle)
+   _shape.setTextureRect(_idleRect);
 
   if (_param || _val)
   {
@@ -242,8 +270,14 @@ void Button::onMouseRelease(float x, float y)
       switch (_mode)
       {
         case ButtonMode::toggle:
-          if (*_val) *_val=0;
-          else *_val=1;
+          if (*_val) {
+            *_val=0;
+            _shape.setTextureRect(_idleRect);
+          }
+          else {
+            *_val=1;
+            _shape.setTextureRect(_clickedRect);
+          }
           break;
           
         case ButtonMode::increment:
@@ -271,6 +305,9 @@ void Button::onMouseRelease(float x, float y)
       {
         case ButtonMode::toggle:
           _param->toggle();
+          if (_param->active()) _shape.setTextureRect(_clickedRect);
+          else _shape.setTextureRect(_idleRect);
+          
           break;
           
         case ButtonMode::increment:
@@ -292,6 +329,7 @@ void Button::onMouseRelease(float x, float y)
       }
     }
   }
+  
 }
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const

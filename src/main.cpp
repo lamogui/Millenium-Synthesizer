@@ -79,14 +79,15 @@ int main(int argc, char** argv)
   
   
   ///Paramètres de la fenêtre
-  //Taille alloué pour les interfaces
-  float clientWinSize_x=Signal::size/*+205-40*/; 
-  float clientWinSize_y=360+100;
   //Tailles des bordures
   float borderWinSize_up=40;
   float borderWinSize_down=20;
   float borderWinSize_right=20;
   float borderWinSize_left=20;
+  float borderButtonBar_left=34;
+  //Taille alloué pour les interfaces
+  float clientWinSize_x=Signal::size/*+205-40*/; 
+  float clientWinSize_y=360+100+borderButtonBar_left;
   //Variables de gestion de l'état de la fenêtre
   bool onMoveWin=false;
   bool onResizeWin=false;
@@ -106,36 +107,36 @@ int main(int argc, char** argv)
     {
       myInstrument = new Careme;
       myInterface = new CaremeInterface((Careme*) myInstrument,
-                                        sf::Vector2f(clientWinSize_x,360));
+                                        sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
       //La taille est inferieur à la taille de l'oscilloscope
-      clientWinSize_x=720; 
+      clientWinSize_x=720+borderButtonBar_left; 
       myInstrument = new PureSquare;
       myInterface = new PureSquareInterface((PureSquare*) myInstrument,
-                                            sf::Vector2f(clientWinSize_x,360));
+                                            sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
     }
 	else if (std::string("cado") == argv[1]) 
     {
       //La taille est inferieur à la taille de l'oscilloscope
-      clientWinSize_x=600; 
+      clientWinSize_x=600+borderButtonBar_left; 
       myInstrument = new Cado;
       myInterface = new CadoInterface((Cado*) myInstrument,
-                                            sf::Vector2f(clientWinSize_x,360));
+                                            sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
     }
     else 
     {
       myInstrument = new NELead6;
       myInterface = new NELead6Interface((NELead6*) myInstrument,
-                                          sf::Vector2f(clientWinSize_x,360)); 
+                                          sf::Vector2f(clientWinSize_x-borderButtonBar_left,360)); 
     }
   }
   else 
   {
     myInstrument = new NELead6;
     myInterface = new NELead6Interface((NELead6*) myInstrument,
-                                        sf::Vector2f(clientWinSize_x,360));
+                                        sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
   }
   
   ///Initialisation de la piste d'enregistrement
@@ -216,6 +217,32 @@ int main(int argc, char** argv)
   closeButton.setClickedColor(sf::Color(142,42,42,255));
   closeButton.setIdleColor(sf::Color(100,42,42,255));
   
+  
+  //texture des boutons
+  sf::Texture buttonTexture;
+  buttonTexture.loadFromFile("img/button.png");
+  
+  //Bouton play
+  int playState=0;
+  Button playButton(&playState, buttonTexture, 
+                                sf::IntRect(0,22,30,22),
+                                sf::IntRect(30, 22, 30, 22));
+  playButton.setPosition(borderWinSize_left,borderWinSize_up);
+  //Bouton enregistrement
+  int recordState=0;
+  Button recordButton(&recordState, buttonTexture, 
+                                    sf::IntRect(0,0,30,22),
+                                    sf::IntRect(30, 0, 30, 22));
+  recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
+
+  //Bouton retour au debut
+  int rewindState=0;
+  Button rewindButton(&rewindState, buttonTexture, 
+                                    sf::IntRect(0,44,30,22),
+                                    sf::IntRect(30, 44, 30, 22),
+                                    ButtonMode::on);
+  rewindButton.setPosition(borderWinSize_left,borderWinSize_up+44);
+  
   //Triangle de redimensionnement
   sf::ConvexShape resizeTriangle;
   resizeTriangle.setPointCount(3);
@@ -261,14 +288,15 @@ int main(int argc, char** argv)
   float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
   float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
   float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+  float viewPortButtonBar_left=borderButtonBar_left/(float)window.getSize().x;
   //Réglages des viewports
-  myInterface->setViewport(sf::FloatRect(viewPortMin_x,
+  myInterface->setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
                                          viewPortMin_y,
-                                         viewPortMax_x,
+                                         viewPortMax_x-viewPortButtonBar_left,
                                          360.f*viewPortMax_y/clientWinSize_y));
-  myScope.setViewport(sf::FloatRect(viewPortMin_x,
+  myScope.setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
                                     viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,
-                                    viewPortMax_x,
+                                    viewPortMax_x-viewPortButtonBar_left,
                                     100.f*viewPortMax_y/clientWinSize_y));
   
   ///Gestionnaire de Notes
@@ -286,6 +314,9 @@ int main(int argc, char** argv)
   MouseCatcher* currentMouseCatcher=NULL;
   std::vector<MouseCatcher*> _mouseCatchers; 
   _mouseCatchers.push_back(&closeButton);
+  _mouseCatchers.push_back(&playButton);
+  _mouseCatchers.push_back(&recordButton);
+  _mouseCatchers.push_back(&rewindButton);
   
   while (window.isOpen())
   {
@@ -302,25 +333,34 @@ int main(int argc, char** argv)
         ///Resizing
         case sf::Event::Resized:
           {
-            float clientWinSize_x=window.getSize().x-borderWinSize_left-borderWinSize_right;
-            float clientWinSize_y=window.getSize().y-borderWinSize_up-borderWinSize_down;
+            clientWinSize_x=window.getSize().x-borderWinSize_left-borderWinSize_right;
+            clientWinSize_y=window.getSize().y-borderWinSize_up-borderWinSize_down;
             winView = sf::View(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));                                     
-            float viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
-            float viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
-            float viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
-            float viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
-          
+            viewPortMin_x=borderWinSize_left/(float)window.getSize().x;
+            viewPortMin_y=borderWinSize_up/(float)window.getSize().y;
+            viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
+            viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
+            viewPortButtonBar_left=borderButtonBar_left/(float)window.getSize().x;
+
             resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
             closeButton.setPosition(clientWinSize_x,0);
+            playButton.setPosition(borderWinSize_left,borderWinSize_up);
+            recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
               myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y);
               float y1 = myInterface->getIdealSize().y/(float)clientWinSize_y;
-              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
+              myInterface->setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
+                                                     viewPortMin_y,
+                                                     viewPortMax_x-viewPortButtonBar_left,
+                                                     y1*viewPortMax_y));
               myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y);
               float y2 = myScope.getIdealSize().y/(float)clientWinSize_y;
-              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
+              myScope.setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
+                                                viewPortMin_y+y1*viewPortMax_y,
+                                                viewPortMax_x-viewPortButtonBar_left,
+                                                y2*viewPortMax_y));
               y1+=y2;
             }
             else //on alloue proportionellement à la place dispo
@@ -328,10 +368,17 @@ int main(int argc, char** argv)
               float tot = myInterface->getIdealSize().y + myScope.getIdealSize().y;
               myInterface->setViewSize(clientWinSize_x,myInterface->getIdealSize().y*clientWinSize_y/tot);
               float y1 = myInterface->getIdealSize().y/tot;
-              myInterface->setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y,viewPortMax_x,y1*viewPortMax_y));
-              myScope.setViewSize(clientWinSize_x,myScope.getIdealSize().y*clientWinSize_y/tot);
+              myInterface->setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
+                                                     viewPortMin_y,
+                                                     viewPortMax_x-viewPortButtonBar_left,
+                                                     y1*viewPortMax_y));
+              myScope.setViewSize(clientWinSize_x,
+                                  myScope.getIdealSize().y*clientWinSize_y/tot);
               float y2 = myScope.getIdealSize().y/tot;
-              myScope.setViewport(sf::FloatRect(viewPortMin_x,viewPortMin_y+y1*viewPortMax_y,viewPortMax_x,y2*viewPortMax_y));
+              myScope.setViewport(sf::FloatRect(viewPortMin_x+viewPortButtonBar_left,
+                                                viewPortMin_y+y1*viewPortMax_y,
+                                                viewPortMax_x-viewPortButtonBar_left,
+                                                y2*viewPortMax_y));
               y1+=y2;
             }
             
@@ -480,7 +527,10 @@ int main(int argc, char** argv)
             {
               if (notes.find(event.key.code) == notes.end())
               {     
-                notes[event.key.code] = myTrack.recordNoteStart(id,1.0);
+                if (recordState) 
+                  notes[event.key.code] = myTrack.recordNoteStart(id,1.0);
+                else
+                  notes[event.key.code] = new Note(0,id,1.0);
                 myInstrument->playNote(*notes[event.key.code]);
               }  
             }
@@ -489,10 +539,15 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            myTrack.recordNoteRelease(notes[event.key.code]);
-            //équivalent à
-            //notes[event.key.code]->lenght= track.time() - notes[event.key.code]->start;
+            if (recordState || notes[event.key.code]->start)
+               myTrack.recordNoteRelease(notes[event.key.code]);
+               //équivalent à
+               //notes[event.key.code]->length= track.time() - notes[event.key.code]->start;
+
             notes[event.key.code]->sendStopSignal();
+            
+            if (!notes[event.key.code]->start) 
+               delete notes[event.key.code];
             notes.erase(event.key.code);
           }
           break;
@@ -503,11 +558,19 @@ int main(int argc, char** argv)
     //Interruption : appuis du bouton quitter
     if (onClose) window.close();
     
+    
+    if (rewindState) {
+      rewindState=0;
+      myTrack.seek(0);
+    }
+    if (recordState) playButton.forceOn();
+    
     //Mise à jour de l'interface
     myInterface->update();
     
     //Mise à jour du son
-    myTrack.tick(); //et hop !!!
+    if (playState)
+      myTrack.tick(); //et hop !!!
     //if ((myTrack.time())/((120/60)*4*Signal::refreshRate)) myTrack.seek(0);
     //std::cout << "Mesure : " << (myTrack.time())/((120/60)*Signal::refreshRate) << " battement " << (myTrack.time())/((120/60)*Signal::refreshRate/4)%4 << std::endl;
     //le verre d'eau est vide donc on le rempli

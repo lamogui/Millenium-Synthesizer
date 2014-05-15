@@ -68,16 +68,52 @@ class Button : public MouseCatcher, public sf::Transformable
                                  , const sf::IntRect &idle
                                  , const sf::IntRect &clicked
                                  , ButtonMode::Mode mode=ButtonMode::toggle);
+    Button(int *val, const sf::Texture &texture
+                   , const sf::IntRect &idle
+                   , const sf::IntRect &clicked
+                   , ButtonMode::Mode mode=ButtonMode::toggle);
     virtual ~Button();
     
     inline void setParam(InstrumentParameter* p,
                          ButtonMode::Mode mode=ButtonMode::toggle) {
                             _param=p;
                             _mode=mode;
+                            if (mode==ButtonMode::toggle && _param)
+                            {
+                              if (_param->active()) _shape.setTextureRect(_clickedRect);
+                              else _shape.setTextureRect(_idleRect);
+                            }
                          }
     
     //Val setter
-    inline void linkTo(int* v) { _val=v;}
+    inline void linkTo(int* v) { 
+      _val=v;
+      if (_mode==ButtonMode::toggle && _val)
+       {
+         if (*_val) _shape.setTextureRect(_clickedRect);
+         else _shape.setTextureRect(_idleRect);
+       }
+    }
+    
+    inline void forceOn()
+    {
+      if (_mode==ButtonMode::toggle)
+      {
+         if (_val) *_val=1;
+         if (_param) _param->on();
+         _shape.setTextureRect(_clickedRect);
+      }
+    }
+    
+    inline void forceOff()
+    {
+      if (_mode==ButtonMode::toggle)
+      {
+         if (_val) *_val=0;
+         if (_param) _param->off();
+         _shape.setTextureRect(_idleRect);
+      }
+    }
     
     //Shape setters    
     inline void setOutlineThickness(float f) {_shape.setOutlineThickness(f);}
