@@ -221,53 +221,75 @@ class Midi_var {
 
 class Midi_abstractevent {
   protected:
-    Midi_abstractevent( BYTE type) : _type(type) {} 
+    Midi_abstractevent(Midi_var d, BYTE type) : delta(d), _type(type) {} 
+    Midi_abstractevent( BYTE type) : delta(0), _type(type) {} 
   public:
-    virtual ~Midi_abstractevent();
+    virtual ~Midi_abstractevent() {}
 
     inline BYTE type() { return (_type & 0xF0==0xF0) ? _type : _type >> 4; }
     
     //Return event validity
-    virtual bool is_valid() const = 0;
+    //virtual bool is_valid() const = 0;
     //Return event size in bytes
     virtual unsigned int size() const =0;
     
-    //Return event size in bytes
+    //Return writed size in bytes WRITE THE WHOLE EVENT !
     virtual unsigned int write_to_buffer( unsigned char* buffer, 
                                          unsigned int size,
                                          unsigned int& offset) const=0;
                                          
-    unsigned int write_to_buffer( unsigned char* buffer, 
+    inline unsigned int write_to_buffer( unsigned char* buffer, 
                                   unsigned int size ) const
     {
       unsigned int o=0;
       return write_to_buffer(buffer,size,o);
     }
                                          
-  static Midi_abstractevent* create_from_buffer(unsigned char* buffer, 
+  static Midi_abstractevent* create_from_buffer(const unsigned char* buffer, 
                                                 unsigned int buffer_size,
                                                 unsigned int& offset);
                                               
-  //Must return number of readed bytes                                           
-  virtual unsigned int read_from_buffer(unsigned char* buffer, 
+  //Must return number of readed bytes READ ONLY SPEC EVENT PARAMETERS (not delta and type)                                          
+  virtual unsigned int read_from_buffer(const unsigned char* buffer, 
                                         unsigned int buffer_size,
                                         unsigned int& offset) = 0;
+                                        
+  inline unsigned int read_from_buffer(const unsigned char* buffer, 
+                                       unsigned int size)
+  {
+    unsigned int o=0;
+    return read_from_buffer(buffer,size,o);
+  }
   
   //Attributes
   public: Midi_var delta;
   protected: BYTE _type;
 };
-/*
+
 class Midi_event : public Midi_abstractevent {
   public:
-    Midi_event(BYTE type, BYTE chan, WORD p1 );
-    Midi_event(BYTE type, BYTE chan, WORD p1 , WORD p2);
+    Midi_event(Midi_var d,BYTE type);
+    Midi_event(BYTE type, BYTE channel, WORD p1 );
+    Midi_event(BYTE type, BYTE channel, WORD p1 , WORD p2);
     virtual ~Midi_event();
     
-  private:
-    bool _use_p2;
+    virtual unsigned int size() const;
+    virtual unsigned int write_to_buffer( unsigned char* buffer, 
+                                          unsigned int size,
+                                          unsigned int& offset) const;
+    virtual unsigned int read_from_buffer(const unsigned char* buffer, 
+                                          unsigned int buffer_size,
+                                          unsigned int& offset);
+    
+    bool use_p2() const;
+    inline BYTE channel() const { return _type & 0xF; }
+    
+  //Attributes
+  public:
+    WORD p1;
+    WORD p2;
 };
-*/
+
 
 
 
