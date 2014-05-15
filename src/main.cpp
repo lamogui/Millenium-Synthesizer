@@ -191,7 +191,18 @@ int main(int argc, char** argv)
           else 
           {
             std::cout << "Error: " << argv[2] << " failed to load track 0" << std::endl;
-          }
+          } 
+        }
+        else if (head.format() == 0)
+        {
+           Midi_track track(head);
+           unsigned int track_len;
+           if (track_len = track.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+           {
+             myTrack.importFromMidiTrack(track);
+             std::cout << "Track 0 (" << track_len << " bytes) Time " << myTrack.fastLength() << std::endl;
+           }
+           else std::cout << "Failed to read MIDI 0 " << std::endl;
         }
         
       }

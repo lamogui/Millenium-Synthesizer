@@ -60,8 +60,8 @@ bool Midi_head::read_from_buffer(const unsigned char* buffer, unsigned int size 
   WORD format, tracks, division;
   format = buffer[g++] << 8;
   format |= buffer[g++];
-  if (format !=1){
-    printf("Midi_head error: Format %u unsupported yet\n",format); 
+  if (format !=1 && format !=0){
+    printf("Midi_head error: Format %u unsupported in reading yet\n",format); 
     return false;
   }
   
@@ -90,6 +90,7 @@ bool Midi_head::read_from_buffer(const unsigned char* buffer, unsigned int size 
     _beat=true;
   }
   
+  _format = format;
   _tracks=tracks;
   _division=division;
   
@@ -111,7 +112,7 @@ bool Midi_head::write_to_buffer(unsigned char* buffer, unsigned int size ) const
   *buffer++=6;
 
   if (_format!=1) {
-    printf("Midi_head error: Format %u unsupported yet\n",_format); 
+    printf("Midi_head error: Format %u unsupported in writing yet\n",_format); 
     return false;
   }
   else {
