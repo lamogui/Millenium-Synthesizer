@@ -1,11 +1,11 @@
-/*******************************************************
+/****************************************************************************
 Nom ......... : midi.hpp
 Role ........ : Déclare les classes ayant une relation avec le format MIDI
                 voir : http://www.sonicspot.com/guide/midifiles.html
 Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
 Version ..... : V1.0 olol
 Licence ..... : © Copydown™
-********************************************************/
+****************************************************************************/
 
 #ifndef __MIDI_MINUIT
 #define __MIDI_MINUIT
@@ -160,15 +160,22 @@ class Midi_var {
     ~Midi_var() {}
 
     inline unsigned int read_from_buffer(const unsigned char* buffer, 
+                                         unsigned int size,
+                                         unsigned int& offset)
+    {
+      const unsigned save_off=offset;
+      _var=0;
+      while (size > offset && buffer[offset] & 0x80)
+        _var = (_var << 7) | (buffer[offset++] & 0x7F);
+      if (size > offset)
+        _var = buffer[offset++];
+      return offset-save_off;
+    }
+    inline unsigned int read_from_buffer(const unsigned char* buffer, 
                                          unsigned int size)
     {
-      unsigned g=0;
-      _var=0;
-      while (size > g && buffer[g] & 0x80)
-        _var = (_var << 7) | (buffer[g++] & 0x7F);
-      if (size > g)
-        _var = buffer[g++];
-      return g;
+      unsigned int o=0;
+      return read_from_buffer(buffer,size,o);
     }
     
     inline unsigned int size() const
@@ -181,17 +188,24 @@ class Midi_var {
     }
     
     inline unsigned int write_to_buffer( unsigned char* buffer, 
-                                         unsigned int size) const 
+                                         unsigned int size,
+                                         unsigned int& offset) const 
     {
       const unsigned int parts = this->size() - 1;
-      unsigned g=0;
-      if (size > parts) {
+      const unsigned save_off=offset;
+      if (size > offset + parts) {
         for (unsigned int i=0; i<parts; i++) 
-            buffer[g++] = ((_var>>(7*(parts-i))) & 0x7F) | 0x80;
-        buffer[g++] = _var & 0x7F;
+            buffer[offset++] = ((_var>>(7*(parts-i))) & 0x7F) | 0x80;
+        buffer[offset++] = _var & 0x7F;
       }
-      return g;                               
+      return offset - save_off;                               
     }
+    inline unsigned int write_to_buffer( unsigned char* buffer, 
+                                         unsigned int size) const
+    {
+      unsigned int o=0;
+      return write_to_buffer(buffer,size,o);
+    }    
     
     inline void set_var(unsigned int var) { _var=var;}
     inline unsigned int var() const { return _var;}
@@ -203,16 +217,55 @@ class Midi_var {
   private:
     unsigned int _var;
 };
-/*
-class Midi_event {
+
+
+class Midi_abstractevent {
+  protected:
+    Midi_abstractevent( BYTE type) : _type(type) {} 
   public:
-    Midi_event();
-    virtual Midi_event();
+    virtual ~Midi_abstractevent();
+
+    inline BYTE type() { return (_type & 0xF0==0xF0) ? _type : _type >> 4; }
     
-    unsigned int delta;
+    //Return event validity
+    virtual bool is_valid() const = 0;
+    //Return event size in bytes
+    virtual unsigned int size() const =0;
+    
+    //Return event size in bytes
+    virtual unsigned int write_to_buffer( unsigned char* buffer, 
+                                         unsigned int size,
+                                         unsigned int& offset) const=0;
+                                         
+    unsigned int write_to_buffer( unsigned char* buffer, 
+                                  unsigned int size ) const
+    {
+      unsigned int o=0;
+      return write_to_buffer(buffer,size,o);
+    }
+                                         
+  static Midi_abstractevent* create_from_buffer(unsigned char* buffer, 
+                                                unsigned int buffer_size,
+                                                unsigned int& offset);
+                                              
+  //Must return number of readed bytes                                           
+  virtual unsigned int read_from_buffer(unsigned char* buffer, 
+                                        unsigned int buffer_size,
+                                        unsigned int& offset) = 0;
+  
+  //Attributes
+  public: Midi_var delta;
+  protected: BYTE _type;
+};
+/*
+class Midi_event : public Midi_abstractevent {
+  public:
+    Midi_event(BYTE type, BYTE chan, WORD p1 );
+    Midi_event(BYTE type, BYTE chan, WORD p1 , WORD p2);
+    virtual ~Midi_event();
     
   private:
-    
+    bool _use_p2;
 };
 */
 
