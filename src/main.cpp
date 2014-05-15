@@ -171,7 +171,8 @@ int main(int argc, char** argv)
             {
               if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
               {
-                myTrack.importFromMidiTrack(track);
+                if (count==0)
+                  myTrack.importFromMidiTrack(track);
                 delta+=track_len;
                 std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes)" << std::endl;
                 count++;
