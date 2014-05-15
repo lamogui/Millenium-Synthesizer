@@ -1,3 +1,12 @@
+/*******************************************************
+Nom ......... : midi.hpp
+Role ........ : Déclare les classes ayant une relation avec le format MIDI
+                voir : http://www.sonicspot.com/guide/midifiles.html
+Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __MIDI_MINUIT
 #define __MIDI_MINUIT
 
@@ -138,5 +147,78 @@ class Midi_track {
 #define MIDI_MAIN_VOLUME 0x07
 #define MIDI_NOTE_ON 0x9
 #define MIDI_NOTE_OFF 0x8
+
+
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+
+class Midi_var {
+  public:
+    Midi_var() : _var(0) {}
+    Midi_var(unsigned int var) : _var(var) {}
+    Midi_var(const Midi_var& m) : _var(m._var) {}
+    ~Midi_var() {}
+
+    inline unsigned int read_from_buffer(const unsigned char* buffer, 
+                                         unsigned int size)
+    {
+      unsigned g=0;
+      _var=0;
+      while (size > g && buffer[g] & 0x80)
+        _var = (_var << 7) | (buffer[g++] & 0x7F);
+      if (size > g)
+        _var = buffer[g++];
+      return g;
+    }
+    
+    inline unsigned int size() const
+    {
+      unsigned int bit=0;
+      for (DWORD i=0; i<32; i++) {
+        if ((_var >> bit)&1) bit=i;
+      }
+      return bit/7 + 1;
+    }
+    
+    inline unsigned int write_to_buffer( unsigned char* buffer, 
+                                         unsigned int size) const 
+    {
+      const unsigned int parts = this->size() - 1;
+      unsigned g=0;
+      if (size > parts) {
+        for (unsigned int i=0; i<parts; i++) 
+            buffer[g++] = ((_var>>(7*(parts-i))) & 0x7F) | 0x80;
+        buffer[g++] = _var & 0x7F;
+      }
+      return g;                               
+    }
+    
+    inline void set_var(unsigned int var) { _var=var;}
+    inline unsigned int var() const { return _var;}
+    
+    inline operator unsigned int () { return _var;}
+    inline Midi_var& operator=(const Midi_var& m) { _var=m._var; return *this;}
+    inline unsigned int operator=(const unsigned int v) { _var=v; return v;}
+    
+  private:
+    unsigned int _var;
+};
+/*
+class Midi_event {
+  public:
+    Midi_event();
+    virtual Midi_event();
+    
+    unsigned int delta;
+    
+  private:
+    
+};
+*/
+
+
+
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
 
 #endif

@@ -1,3 +1,12 @@
+/*******************************************************
+Nom ......... : midi.hpp
+Role ........ : Implemente les classes ayant une relation avec le format MIDI
+                voir : http://www.sonicspot.com/guide/midifiles.html
+Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "midi.hpp"
