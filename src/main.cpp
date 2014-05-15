@@ -165,16 +165,17 @@ int main(int argc, char** argv)
             track0.print_infos();
             unsigned int delta = Midi_head::size + track0_len;
             Midi_track track(head);
+            Track tempTrack;
             unsigned int track_len;
             unsigned count=0;
             while (filesize > (int) delta)
             {
               if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
               {
-                if (count==0)
-                  myTrack.importFromMidiTrack(track);
+                tempTrack.importFromMidiTrack(track);
+                myTrack.concatenate(tempTrack); 
                 delta+=track_len;
-                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes)" << std::endl;
+                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes) Time " << tempTrack.fastLength() << std::endl;
                 count++;
               }
               else {
@@ -182,7 +183,9 @@ int main(int argc, char** argv)
                 break;
               }
             }
+            
             std::cout << "Readed " << count + 1 << "/" << head.tracks() << "  with success !" << std::endl;
+            std::cout << "Duree  " << myTrack.fastLength() << std::endl;
             
           }
           else 
