@@ -22,7 +22,7 @@ class Midi_head {
     void print_infos() const ;
     
     inline float gain() const {if (!_gain) return 1.f; return _gain;}
-    inline bool need_bpm() { return _beat; }
+    inline bool need_bpm() const { return _beat; }
     inline WORD format() const { return _format; }
     inline WORD tracks() const { return _tracks; }
     inline void set_tracks(WORD tracks) {  _tracks = tracks; }
@@ -30,10 +30,12 @@ class Midi_head {
   private:
     bool _beat;
     float _gain; //Represent the "precision tick gain" in relation to the signal refresh rate
+                 //Valable pour le mode FPS
                  // Gain =  Midi Rate / Signal refreshRate
                  // Midi Rate = Signal refreshRate * Gain
                  // Midi Ticks = Signal Ticks * Gain
                  // Signal Ticks = Midi Ticks / Gain
+                 //Valable pour le mode Beat
     WORD _format;
     WORD _tracks;
     WORD _division;
@@ -86,6 +88,13 @@ class Midi_track {
     ~Midi_track();
     
     unsigned int size() const ; //size in the final file in bytes
+    inline unsigned int chunk_size() const {
+      return _chunk_size;
+    }
+    
+    inline const unsigned char* get_chunk() const {
+      return _chunk;
+    }
     
     unsigned int read_from_buffer(const unsigned char* buffer, unsigned int size);
     
@@ -97,7 +106,7 @@ class Midi_track {
     
     inline void reset() {_chunk_size=0;}
     
-    inline Midi_head& get_head() { return *_head; }
+     inline const Midi_head& get_head() const { return *_head; }
     
   private:
     void push_varlength(DWORD var);

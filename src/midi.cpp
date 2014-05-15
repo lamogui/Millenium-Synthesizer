@@ -7,7 +7,7 @@
 
 Midi_head::Midi_head(WORD format, WORD tracks, WORD tick_per_beat) :
   _beat(false),
-  _gain((float) tick_per_beat / (float) (Signal::refreshRate * 60.f)),
+  _gain((float) tick_per_beat / (float) (Signal::refreshRate * 60.0 )),
   _format(format),
   _tracks(tracks),
   _division(tick_per_beat)
@@ -17,7 +17,7 @@ Midi_head::Midi_head(WORD format, WORD tracks, WORD tick_per_beat) :
 
 Midi_head::Midi_head(WORD format, WORD tracks, BYTE frame, BYTE ticks) :
   _beat(true),
-  _gain((float) frame*ticks / (float) Signal::refreshRate),
+  _gain((float) frame*ticks /  (float) Signal::refreshRate ),
   _format(format),
   _tracks(tracks),
   _division(((frame | 0x80) << 8) | ticks)
@@ -244,7 +244,7 @@ unsigned int Midi_track0::read_from_buffer(const unsigned char* buffer, unsigned
         }
         else  { //Midi event
           if (g >= target_size) break;
-          switch (buffer[g++] >> 4) {
+          switch (type >> 4) {
             case 0xC:
             case 0xD:
               g++; //don't care
@@ -456,7 +456,7 @@ unsigned int Midi_track::read_from_buffer(const unsigned char* buffer, unsigned 
       _chunk_size = target_size;
       if (_chunk[_chunk_size-3] == 0xFF && 
           _chunk[_chunk_size-2] == 0x2F && 
-          _chunk[_chunk_size-1] == 0x00) //detect End Of Track
+          _chunk[_chunk_size-1] == 0x00) //detect End Of Track Meta Event
       {
         _chunk_size-=4;
       }
