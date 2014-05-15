@@ -3,7 +3,7 @@ Nom ......... : note.cpp
 Role ........ : Implémente les classes permettant de 
                 manipuler des données rythmiques en 
                 lien avec un morceau et un instrument
-Auteur ...... : Julien DE LOOR
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
 Version ..... : V1.0 olol
 Licence ..... : © Copydown™
 ********************************************************/
@@ -191,7 +191,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
             p1=buffer[g++];
             p2=buffer[g++];
             if (20<p1<109 && keyboard.find(p1) == keyboard.end()) {
-               std::cout << "add note " << (int) p1 << " time " << _time << std::endl;
+               //std::cout << "add note " << (int) p1 << " time " << _time << std::endl;
                Note* note = new Note(_time, p1-20, (float)p2/(float)127.f);
                keyboard[p1]=note;
                _notes.push_back(note);
@@ -328,10 +328,10 @@ void Track::recordNoteRelease(Note* n)
     n->length=_time-n->start;
 }
 
-bool Track::concatene(const Track &track_extern) {
+bool Track::concatenate(const Track &track_extern) {
   std::vector<Note*> tempo;
   unsigned int g_this=0, g_extern=0, g_tempo=0;
-  while (g_this<_notes.size() || g_extern<track_extern._notes.size()) {
+  while (g_this<_notes.size() && g_extern<track_extern._notes.size()) {
     if (_notes[g_this]->start>track_extern._notes[g_extern]->start) {
       tempo.push_back(new Note(*track_extern._notes[g_extern++]));
     }
