@@ -7,12 +7,19 @@
 class Scope : public Interface
 {
    public:
-      Scope(const sf::Vector2f& size);
-      Scope(const sf::Vector2f& size,Signal* s);
+      Scope(const sf::Vector2f& size, bool spectrum=false);
+      Scope(const sf::Vector2f& size,Signal* s, bool spectrum=false);
       virtual ~Scope();
       
       void setYZoom(float z);
       void setSignal(Signal* s);
+
+      inline bool isSpectrum() {
+        return _spectrum;
+      }
+
+      void setSpectrum(bool spectrum);
+
       virtual void update();
       
       
@@ -26,6 +33,7 @@ class Scope : public Interface
       sf::RectangleShape _back;
       sf::Sprite _sprite;
       float _y_zoom;
+      bool _spectrum;
 };
 
 
