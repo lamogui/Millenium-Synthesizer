@@ -99,12 +99,10 @@ void Scope::update()
       }
     }
     else {
-      Signal scopeSignal;
-      _signal->tfd(scopeSignal);
     
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = scopeSignal.samples[x]*_texture.getSize().x*_y_zoom ;
+        int fakey = _signal->samples[x]*_texture.getSize().x*_y_zoom ;
         fakey += _texture.getSize().x >> 1;
         fakey >>= 1;
         fakey = fakey > (int)_texture.getSize().x ? _texture.getSize().x : fakey;
@@ -114,6 +112,7 @@ void Scope::update()
           _pixels[(x*_texture.getSize().x + (_texture.getSize().x-i-1))*4+3] = 255;
         }
       }
+      
     }
     _texture.update(_pixels);
   }
