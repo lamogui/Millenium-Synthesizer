@@ -25,6 +25,8 @@ class Scope : public Interface
       
       void setColor(const sf::Color& color);
       
+      void setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, bool axe);
+
    protected:
       Signal* _signal;
       sf::Uint8* _pixels;
