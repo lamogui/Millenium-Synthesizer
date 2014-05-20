@@ -30,16 +30,20 @@ class Knob : public MouseCatcher, public sf::Transformable
     inline void setParam(InstrumentParameter* p) {_param=p;}
     void setBackTexture(const sf::Texture &texture,const sf::IntRect &rect);
     void setKnobTexture(const sf::Texture &texture,const sf::IntRect &rect);
+	inline sf::Color overColor(){return _overColor;}
+	inline void setOverColor(const sf::Color& c){_overColor = c;}
     
     virtual bool onMousePress(float x, float y);
     virtual void onMouseMove(float x, float y);
     virtual void onMouseRelease(float x, float y);
     virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
     virtual void update();
+	
     
-    sf::Color overColor;
+    
     
   protected:
+    sf::Color _overColor;
     sf::Sprite _back_sprite;
     sf::Sprite _knob_sprite;
     InstrumentParameter* _param;
