@@ -294,7 +294,7 @@ int main(int argc, char** argv)
   //Oscilloscope
   Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4), true);
   myScope.setSignal(&leftout);
-  myScope.setColor(myInterface->getColor());
+  myScope.setFadeColor(sf::Color(0, 0, 255), sf::Color(255,0,0), 1);
   
   ///Vue et viewports
   //vue de la fenetre entière                       
