@@ -10,6 +10,8 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _back(sf::Vector2f(Signal::size,100)),
   _sprite(),
   _y_zoom(1),
+  _update_time(0),
+  _time(0),
   _spectrum(spectrum)
 {
   _back.setFillColor(sf::Color(42,42,42,128));
@@ -26,6 +28,8 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _back(sf::Vector2f(Signal::size,100)),
   _sprite(),
   _y_zoom(1),
+  _update_time(0),
+  _time(0),
   _spectrum(spectrum)
 {
   _back.setFillColor(sf::Color(42,42,42,128));
@@ -62,8 +66,9 @@ void Scope::setSignal(Signal* s)
 }
 void Scope::update()
 {
-  if (_pixels)
+  if (_pixels && _time++ > _update_time && _signal)
   {
+    _time=0;
     const unsigned int s = (_texture.getSize().x*_texture.getSize().y) << 2;
     for (unsigned int i=3; i < s;i+=4)
     {
@@ -94,9 +99,12 @@ void Scope::update()
       }
     }
     else {
+      Signal scopeSignal;
+      _signal->tfd(scopeSignal);
+    
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = _signal->samples[x]*_texture.getSize().x*_y_zoom ;
+        int fakey = scopeSignal.samples[x]*_texture.getSize().x*_y_zoom ;
         fakey += _texture.getSize().x >> 1;
         fakey >>= 1;
         fakey = fakey > (int)_texture.getSize().x ? _texture.getSize().x : fakey;

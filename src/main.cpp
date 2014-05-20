@@ -292,9 +292,9 @@ int main(int argc, char** argv)
                         420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
-  Signal scopeSignal;
   Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4), true);
-  myScope.setSignal(&scopeSignal);
+  myScope.setSignal(&leftout);
+  myScope.setUpdateRate(50);
   myScope.setFadeColor(sf::Color(0, 0, 255), sf::Color(255,0,0), 1);
   
   ///Vue et viewports
@@ -612,13 +612,6 @@ int main(int argc, char** argv)
     } while(!sendSignalSuccess);
     
     //Mise à jour de l'oscillo
-    if (0)
-    {
-      scopeSignal=leftout;
-    }
-    else {
-      leftout.tfd(scopeSignal);
-    }
     myScope.update();
     
    ///Dessin  !!! 

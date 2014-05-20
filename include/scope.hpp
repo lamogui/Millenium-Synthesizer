@@ -22,6 +22,7 @@ class Scope : public Interface
 
       virtual void update();
       
+      inline void setUpdateRate(unsigned int t) { _update_time=t;}
       
       void setColor(const sf::Color& color);
       
@@ -35,6 +36,8 @@ class Scope : public Interface
       sf::RectangleShape _back;
       sf::Sprite _sprite;
       float _y_zoom;
+      unsigned int _update_time;
+      unsigned int _time;
       bool _spectrum;
 };
 
