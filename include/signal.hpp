@@ -26,8 +26,9 @@ class Signal
     void constant(sample constant);
     void saturate(sample min, sample max);
     double energy();
+    
     void tfd(Signal& out_tfd);
-
+    void fft(Signal& out_fft);
 
       inline void reset()
       {
