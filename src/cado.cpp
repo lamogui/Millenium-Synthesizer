@@ -26,11 +26,11 @@ void CadoVoice::beginNote(Note& n)
   _osc3->resetTime();
   
   _osc1->setFrequency(_currentNote.frequency());
-  _osc1->setAmplitude(_currentNote.velocity);
+  _osc1->setAmplitude(_currentNote.velocity());
   _osc2->setFrequency(_currentNote.frequency());
-  _osc2->setAmplitude(_currentNote.velocity);
+  _osc2->setAmplitude(_currentNote.velocity());
   _osc3->setFrequency(_currentNote.frequency());
-  _osc3->setAmplitude(_currentNote.velocity);
+  _osc3->setAmplitude(_currentNote.velocity());
   
   _used=true;
 }

@@ -107,14 +107,14 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
   
   lfo2->scale(0.5f);
   
-  _osc1->setAmplitude(_currentNote.velocity);
+  _osc1->setAmplitude(_currentNote.velocity());
   _osc1->setFrequency(_currentNote.frequency());
   _osc1->setShape(osc1_shape);
   _osc2->setShape(osc2_shape);
   _osc2->getShape().add(lfo2);
   _osc2->getShape().saturate(0.f,1.f);
   
-  const int id = _currentNote.id + coarsetune;
+  const int id = _currentNote.id() + coarsetune;
   float osc2f = Note::getFrequencyFromID(id);
   if (finetune > 0)
   {
@@ -125,7 +125,7 @@ void NELead6Voice::step(Signal* leftout, Signal* rightout)
     osc2f += (osc2f - Note::getFrequencyFromID(id))*finetune/128.f;
   }
   _osc2->setFrequency(osc2f);
-  _osc2->setAmplitude(_currentNote.velocity);
+  _osc2->setAmplitude(_currentNote.velocity());
   
   
   _oscmix.constant(oscmix);
