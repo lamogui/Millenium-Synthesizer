@@ -292,8 +292,9 @@ int main(int argc, char** argv)
                         420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
+  Signal scopeSignal;
   Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4), true);
-  myScope.setSignal(&leftout);
+  myScope.setSignal(&scopeSignal);
   myScope.setFadeColor(sf::Color(0, 0, 255), sf::Color(255,0,0), 1);
   
   ///Vue et viewports
@@ -591,8 +592,7 @@ int main(int argc, char** argv)
     //std::cout << "Mesure : " << (myTrack.time())/((120/60)*Signal::refreshRate) << " battement " << (myTrack.time())/((120/60)*Signal::refreshRate/4)%4 << std::endl;
     //le verre d'eau est vide donc on le rempli
     myInstrument->step(&leftout, &rightout); 
-    //Mise à jour de l'oscillo
-    myScope.update();
+    
     
     unsigned l;
     do
@@ -610,6 +610,16 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
       stream.unlock();
     } while(!sendSignalSuccess);
+    
+    //Mise à jour de l'oscillo
+    if (0)
+    {
+      scopeSignal=leftout;
+    }
+    else {
+      leftout.tfd(scopeSignal);
+    }
+    myScope.update();
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface

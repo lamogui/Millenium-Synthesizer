@@ -45,13 +45,7 @@ void Scope::setYZoom(float z)
 }
 void Scope::setSignal(Signal* s)
 {
-  if (_spectrum) {
-    Signal *tfdSpectrum;
-    s->tfd(tfdSpectrum);
-    _signal=tfdSpectrum;
-  }
-  else
-    _signal=s;
+  _signal=s;
   if (_pixels) free(_pixels);
   if (_signal)
   {
@@ -70,11 +64,6 @@ void Scope::update()
 {
   if (_pixels)
   {
-    if (_spectrum) {
-      Signal *tfdSpectrum;
-      _signal->tfd(tfdSpectrum);
-      _signal=tfdSpectrum;
-    }
     const unsigned int s = (_texture.getSize().x*_texture.getSize().y) << 2;
     for (unsigned int i=3; i < s;i+=4)
     {
