@@ -26,7 +26,7 @@ class Signal
     void constant(sample constant);
     void saturate(sample min, sample max);
     double energy();
-    void tfd(Signal* out_tfd);
+    void tfd(Signal& out_tfd);
 
 
       inline void reset()
