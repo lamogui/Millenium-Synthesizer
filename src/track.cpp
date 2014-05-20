@@ -76,15 +76,15 @@ bool Track::seek(unsigned int time)
   bool found = false;
   for (unsigned int i=0;i<_notes.size();i++)
   {
-    if (_notes[i]->start >= time) {
+    if (_notes[i]->start() >= time) {
       _currentNote=i;
       found=true;
       _time=time;
       break;
     }
-    else if (_notes[i]->start + _notes[i]->length >= time) {
+    else if (_notes[i]->start() + _notes[i]->length() >= time) {
       _currentNote=i;
-      _time=_notes[i]->start;
+      _time=_notes[i]->start();
       found=true;
     }
   }
@@ -103,7 +103,7 @@ bool Track::seek(unsigned int time)
 unsigned int Track::fastLength()
 {
   if (_notes.size())
-    return _notes[_notes.size()-1]->start + _notes[_notes.size()-1]->length;
+    return _notes[_notes.size()-1]->start() + _notes[_notes.size()-1]->length();
   else return 0;
 }
 
@@ -201,7 +201,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
             p1=buffer[g++];
             p2=buffer[g++];
             if (20<p1<109 && keyboard.find(p1) != keyboard.end()) {
-               keyboard[p1]->length = _time-keyboard[p1]->start;
+               keyboard[p1]->setLength(_time-keyboard[p1]->start());
                keyboard.erase(p1);
             }
             break;
@@ -236,7 +236,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
   for (;_notes.size() > currentNote || played.size(); time++)
   {
     //Add currently pressed notes !
-    while (_notes.size() > currentNote && _notes[currentNote]->start == time)
+    while (_notes.size() > currentNote && _notes[currentNote]->start() == time)
     {
       played.push_back(_notes[currentNote]);
       float delta=(float)(time-last_time);
@@ -244,7 +244,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
       //std::cout << "Delta " << (DWORD)delta << std::endl;
       last_time=time;
       //Envoie message Note On !
-      midi.push_midi_event((DWORD)delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id + 21, _notes[currentNote]->velocity*127);
+      midi.push_midi_event((DWORD)delta, MIDI_NOTE_ON, 0, _notes[currentNote]->id() + 21, _notes[currentNote]->velocity()*127);
       currentNote++;
     }
     //Add current moved knob !
@@ -259,14 +259,14 @@ void Track::exportToMidiTrack(Midi_track& midi) const
     //remove current releases notes !
     for (int i=0;i<(int)played.size();i++)
     {
-      if( played[i]->start + played[i]->length <= time)
+      if( played[i]->start() + played[i]->length() <= time)
       {
         float delta=(float)(time-last_time);
         delta *=gain;
         last_time=time;
         //std::cout << "Delta " << (DWORD)delta << std::endl;
         //Envoie Message Note Off
-        midi.push_midi_event((DWORD)delta, MIDI_NOTE_OFF, 0, played[i]->id + 21 , played[i]->velocity*127);
+        midi.push_midi_event((DWORD)delta, MIDI_NOTE_OFF, 0, played[i]->id() + 21 , played[i]->velocity()*127);
         played.erase(played.begin() + i);
         i--;
       }
@@ -277,9 +277,9 @@ void Track::exportToMidiTrack(Midi_track& midi) const
 bool Track::tick()
 {
   //Add currently pressed notes !
-  while (_notes.size() > _currentNote && _notes[_currentNote]->start == _time)
+  while (_notes.size() > _currentNote && _notes[_currentNote]->start() == _time)
   {
-    if (_instrument && _notes[_currentNote]->length) {
+    if (_instrument && _notes[_currentNote]->length()) {
       _instrument->playNote(*_notes[_currentNote]);
       _played.push_back(_notes[_currentNote]);
     }
@@ -296,7 +296,7 @@ bool Track::tick()
   //remove current releases notes !
   for (int i=0;(unsigned)i<_played.size();i++)
   {
-    if(_played[i]->start + _played[i]->length <= _time)
+    if(_played[i]->start() + _played[i]->length() <= _time)
     {
       _played[i]->sendStopSignal();
       _played.erase(_played.begin() + i);
@@ -324,15 +324,15 @@ Note* Track::recordNoteStart(unsigned char id, float v)
 
 void Track::recordNoteRelease(Note* n)
 {
-  if (n && _time > n->start)
-    n->length=_time-n->start;
+  if (n && _time > n->start())
+    n->setLength(_time-n->start());
 }
 
 bool Track::concatenate(const Track &track_extern) {
   std::vector<Note*> tempo;
   unsigned int g_this=0, g_extern=0;
   while (g_this<_notes.size() && g_extern<track_extern._notes.size()) {
-    if (this->_notes[g_this]->start > track_extern._notes[g_extern]->start) {
+    if (this->_notes[g_this]->start() > track_extern._notes[g_extern]->start()) {
       tempo.push_back(new Note(*track_extern._notes[g_extern++]));
     }
     else {
