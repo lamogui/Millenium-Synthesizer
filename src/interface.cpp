@@ -5,7 +5,7 @@
 extern sf::Font globalfont; 
 
 Knob::Knob() :
-overColor(242,42,42,255),
+_overColor(242,42,42,255),
 _back_sprite(),
 _knob_sprite(),
 _param(0),
@@ -18,7 +18,7 @@ _catch_angle(0)
 }
 
 Knob::Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
-overColor(242,42,42,255),
+_overColor(242,42,42,255),
 _back_sprite(texture,backRect),
 _knob_sprite(texture,knobRect),
 _param(p),
@@ -68,7 +68,7 @@ bool Knob::onMousePress(float x, float y)
     
     _catch_angle=_param->getValueToUnsigned(300);
     //std::cout << "catch angle " << _catch_angle << std::endl;
-    _knob_sprite.setColor(overColor);
+    _knob_sprite.setColor(_overColor);
     
     _catched=true;
     return true;

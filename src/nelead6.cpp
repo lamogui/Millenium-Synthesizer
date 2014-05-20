@@ -411,7 +411,7 @@ Knob( p, texture, backRect, knobRect),
 _selector(sf::Vector2f(17.5f,8.5f)),
 _autoSelector(sf::Vector2f(17.5f,8))
 {
-  overColor = sf::Color(255,255,255,255);
+  _overColor = sf::Color(255,255,255,255);
   _selector.setOrigin(60,4.1f);
   _selector.setPosition(64,64);
   _autoSelector.setOrigin(60,4.1f);
