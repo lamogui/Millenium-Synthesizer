@@ -292,7 +292,7 @@ int main(int argc, char** argv)
                         420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
-  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
+  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4), true);
   myScope.setSignal(&leftout);
   myScope.setColor(myInterface->getColor());
   
