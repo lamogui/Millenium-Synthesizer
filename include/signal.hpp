@@ -28,8 +28,7 @@ class Signal
     double energy();
     
     void tfd(Signal& out_tfd);
-    void fft(Signal& out_fft);
-
+    
       inline void reset()
       {
         memset((void*) samples,0,Signal::byteSize);
