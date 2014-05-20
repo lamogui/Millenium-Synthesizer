@@ -34,43 +34,72 @@ class Note
     inline unsigned int getEndTime()
     {
       return _end;
-    }
-    
-    inline unsigned float getFrequency()
-    {
-      return _frequency;
-    }
-    inline unsigned float getVelocity()
-    {
-      return _velocity;
     }*/
     
+    inline unsigned char id()
+    {
+      return _id;
+    }
+	
+	inline void setId(unsigned char i)
+	{
+	  _id=i;
+	}
+	
+    inline float velocity()
+    {
+      return _velocity;
+    }
+    
+	inline void setVelocity(float v)
+	{
+	  _velocity=v;
+	}
+	
+	inline unsigned int start()
+	{
+	  return _start;
+	}
+	
+	inline void setStart(unsigned int s)
+	{
+	  _start=s;
+	}
+	
+	inline unsigned int length()
+	{
+	  return _length;
+	}
+	
+	inline void setLength(unsigned int l)
+	{
+	  _length=l;
+	}
+	
     //how it's working : 
     // - the InstrumentVoice tell to the note that she will be played by it
     void receivePlayedSignal(InstrumentVoice* v);
     // - when the note is finished she should tell it the voice actually used;
     void sendStopSignal();
     
-    inline float frequency() { return noteFrequency[id]; }
+    inline float frequency() { return noteFrequency[_id]; }
     
     static inline float getFrequencyFromID(unsigned char id)
     {
       return noteFrequency[id];
     }
-    
+	
   
   private:
     static float noteFrequency[256];
     InstrumentVoice* _voiceUsed;
     
+	unsigned int _start; //time where the note is appeared
+    unsigned int _length; //note duration
+	float _velocity;
+	unsigned char _id;
     
-  public:
-    unsigned int start; //time where the note is appeared
-    unsigned int length; //note duration
 
-    float velocity;
-    unsigned char id;
-    
 };
 
 class InstrumentParameter

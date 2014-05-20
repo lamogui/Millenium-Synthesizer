@@ -16,19 +16,19 @@ float Note::noteFrequency[256]={
  
 Note::Note(unsigned int st, unsigned char i, float v):
 _voiceUsed(0),
-start(st),
-length(0),
-velocity(v),
-id(i)
+_start(st),
+_length(0),
+_velocity(v),
+_id(i)
 {
 }
 
 Note::Note(const Note& c) : 
 _voiceUsed(0),
-start(c.start),
-length(c.length),
-velocity(c.velocity),
-id(c.id)
+_start(c._start),
+_length(c._length),
+_velocity(c._velocity),
+_id(c._id)
 {
 
 }
@@ -56,10 +56,10 @@ Note& Note::operator=(const Note& c)
 {
   sendStopSignal();
   _voiceUsed = 0;
-  start = c.start;
-  length = c.length;
-  id = c.id;
-  velocity = c.velocity;
+  _start = c._start;
+  _length = c._length;
+  _id = c._id;
+  _velocity = c._velocity;
   return *this;
 }
 

@@ -555,14 +555,14 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            if (recordState || notes[event.key.code]->start)
+            if (recordState || notes[event.key.code]->start())
                myTrack.recordNoteRelease(notes[event.key.code]);
                //équivalent à
                //notes[event.key.code]->length= track.time() - notes[event.key.code]->start;
 
             notes[event.key.code]->sendStopSignal();
             
-            if (!notes[event.key.code]->start) 
+            if (!notes[event.key.code]->start()) 
                delete notes[event.key.code];
             notes.erase(event.key.code);
           }
