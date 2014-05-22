@@ -2,7 +2,6 @@
 #define __FASTFURIOUS8TRANSFORM
 
 #include "signal.hpp"
-#define PI 3.14159
 
 class FFT
 {

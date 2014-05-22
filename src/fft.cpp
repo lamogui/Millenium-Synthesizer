@@ -59,11 +59,8 @@ void FFT::realloc(unsigned int size) {
   sample* glisseur=_twidleFactor;
   for (unsigned int N=2; N<=(_size>>1); N<<=1) {
     for (unsigned int n=0; n<N/2; n++) {
-      std::cout << n << " " << N << std::endl;
-      *glisseur++=cos(2.f*M_PI*(float)n/(float)N);
-      std::cout << glisseur[-1]<< std::endl;
-      *glisseur++=sin(-2.f*M_PI*(float)n/(float)N);
-      std::cout << glisseur[-1]<< std::endl;
+      *glisseur++=std::cos(2.f*M_PI*(float)n/(float)N);
+      *glisseur++=std::sin(-2.f*M_PI*(float)n/(float)N);
     }
   }
 
@@ -90,8 +87,8 @@ void FFT::compute(const Signal& s) {
     _values[i]=s.samples[i];
   }
 
-  for (unsigned int i=0; i<_size; i++) {
-    _values[i]=_values[_indexTable[i]];
+  for (unsigned int i=0; i<_size>>1; i++) {
+    swap(_values[i],_values[_indexTable[i]]);
   }
 
 
