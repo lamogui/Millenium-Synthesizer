@@ -54,8 +54,8 @@ void FFT::realloc(unsigned int size) {
   }
   if (_pow2) {
     for (unsigned int j=0; j<_size; j++) {
-      unsigned int g_init=0, g_fin=_pow2, index=0;
-      unsigned int i_delta=_pow2;
+      unsigned int g_init=0, g_fin=_pow2-1, index=0;
+      unsigned int i_delta=_pow2-1;
       for (unsigned int i=0; i<(unsigned)(_pow2>>1); i++) {
         unsigned int b1=0,b2=0;
         b1=(j&(1<<g_init))<<i_delta;
@@ -66,16 +66,18 @@ void FFT::realloc(unsigned int size) {
         i_delta-=2;
       }
       _indexTable[j]=index;
-      std::cout << _indexTable[j] << std::endl;
     }
   }
 }
 
 void FFT::compute(const Signal& s) {
-  for (unsigned int i=0; i<_size; i++) {
-    _values[i<<1]=s.samples[i];
+  for (unsigned int i=0; i<_size; i+=2) {
+    _values[i]=s.samples[i];
   }
 
-  for (unsigned int i=0; i<_size<<1; i++) {
+  for (unsigned int i=0; i<_size; i++) {
+    _values[i]=_values[_indexTable[i]];
   }
+
+
 }
