@@ -2,6 +2,7 @@
 #define SCOPE__
 #include "signal.hpp"
 #include "interface.hpp"
+#include "fft.hpp"
 #include <cstdlib>
 
 class Scope : public Interface
@@ -30,6 +31,7 @@ class Scope : public Interface
 
    protected:
       Signal* _signal;
+      FFT* _fft;
       sf::Uint8* _pixels;
       sf::Color _color;
       sf::Texture _texture;
