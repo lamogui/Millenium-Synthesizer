@@ -14,6 +14,8 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _time(0),
   _spectrum(spectrum)
 {
+  if (_spectrum)
+    _fft= new FFT(Signal::size);
   _back.setFillColor(sf::Color(42,42,42,128));
   addDrawable(&_sprite);
   addDrawable(&_back);
@@ -32,6 +34,8 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _time(0),
   _spectrum(spectrum)
 {
+  if (_spectrum)
+    _fft=new FFT(Signal::size);
   _back.setFillColor(sf::Color(42,42,42,128));
   setSignal(s);
   addDrawable(&_sprite);
@@ -41,6 +45,7 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
 Scope::~Scope()
 {
   if (_pixels) free(_pixels);
+  if (_fft) delete(_fft);
 }
 
 void Scope::setYZoom(float z)
@@ -49,7 +54,10 @@ void Scope::setYZoom(float z)
 }
 void Scope::setSignal(Signal* s)
 {
-  _signal=s;
+  if (_spectrum)
+    _fft->compute(*s);
+  else
+    _signal=s;
   if (_pixels) free(_pixels);
   if (_signal)
   {
@@ -102,7 +110,7 @@ void Scope::update()
     
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = _signal->samples[x]*_texture.getSize().x*_y_zoom ;
+        int fakey = _fft->get_values()[x]*_texture.getSize().x*_y_zoom ;
         fakey += _texture.getSize().x >> 1;
         fakey >>= 1;
         fakey = fakey > (int)_texture.getSize().x ? _texture.getSize().x : fakey;
@@ -164,21 +172,5 @@ void Scope::setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, 
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
