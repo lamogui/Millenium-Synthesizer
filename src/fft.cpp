@@ -2,10 +2,11 @@
 #include <iostream>
 
 FFT::FFT(unsigned int size) :
- _values(NULL),
-  _indexTable(0),
- _size(0),
- _pow2(FFT::getSupPow2(size)+1)
+  _values(NULL),
+  _indexTable(NULL),
+  _twidleFactor(NULL),
+  _size(0),
+  _pow2(FFT::getSupPow2(size)+1)
 {
   _size=1<<_pow2;
   this->realloc(size);
@@ -15,6 +16,7 @@ FFT::~FFT() {
   if (_values) {
     free(_values);
     free(_indexTable);
+    free(_twidleFactor);
   }
 }
 
@@ -46,12 +48,25 @@ void FFT::realloc(unsigned int size) {
   if (_pow2) {
     _size = 1 << _pow2;
     _values=(sample*)std::realloc((void*)_values,_size*sizeof(float));
+    _twidleFactor=(sample*)std::realloc((void*)_twidleFactor,(_size-2)*sizeof(float));
     _indexTable=(unsigned int*)std::realloc((void*)_indexTable,
                                             _size*sizeof(unsigned int));
   }
   for (unsigned int i=0; i<_size;i++) {
     _values[i]=0;
   }
+  
+  sample* glisseur=_twidleFactor;
+  for (unsigned int N=2; N<=(_size>>1); N<<=1) {
+    for (unsigned int n=0; n<N/2; n++) {
+      std::cout << n << " " << N << std::endl;
+      *glisseur++=cos(2.f*M_PI*(float)n/(float)N);
+      std::cout << glisseur[-1]<< std::endl;
+      *glisseur++=sin(-2.f*M_PI*(float)n/(float)N);
+      std::cout << glisseur[-1]<< std::endl;
+    }
+  }
+
   if (_pow2) {
     for (unsigned int j=0; j<_size; j++) {
       unsigned int g_init=0, g_fin=_pow2-1, index=0;
