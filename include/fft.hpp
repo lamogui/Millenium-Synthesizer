@@ -2,6 +2,7 @@
 #define __FASTFURIOUS8TRANSFORM
 
 #include "signal.hpp"
+#define PI 3.14159
 
 class FFT
 {
@@ -31,6 +32,7 @@ class FFT
   private:
     sample* _values;
     unsigned int* _indexTable;
+    sample* _twidleFactor;
     unsigned int _size;
     unsigned short _pow2;
 
