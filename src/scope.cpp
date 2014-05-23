@@ -54,10 +54,7 @@ void Scope::setYZoom(float z)
 }
 void Scope::setSignal(Signal* s)
 {
-  if (_spectrum)
-    _fft->compute(*s);
-  else
-    _signal=s;
+  _signal=s;
   if (_pixels) free(_pixels);
   if (_signal)
   {
@@ -108,6 +105,7 @@ void Scope::update()
     }
     else {
     
+      _fft->compute(*_signal);
       for (unsigned int x=0; x < l;x++)
       {
         int fakey = _fft->get_values()[x]*_texture.getSize().x*_y_zoom ;
@@ -120,7 +118,6 @@ void Scope::update()
           _pixels[(x*_texture.getSize().x + (_texture.getSize().x-i-1))*4+3] = 255;
         }
       }
-      
     }
     _texture.update(_pixels);
   }
