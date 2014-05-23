@@ -26,14 +26,7 @@
 #include "track.hpp"
 #include "cado.hpp"
 #include "midi.hpp"
- 
- int fsize(FILE *fp){
-    int prev=ftell(fp);
-    fseek(fp, 0L, SEEK_END);
-    int sz=ftell(fp);
-    fseek(fp,prev,SEEK_SET); //go back to where we were
-    return sz;
-}
+#include "file.hpp"
  
 sf::Font globalfont; 
 
