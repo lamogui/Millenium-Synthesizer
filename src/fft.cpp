@@ -44,25 +44,73 @@ unsigned short FFT::getSupPow2(unsigned int v)
     return bit+1;
 }
 
+//calcul et allocation de l'espace requis pour la fft
+//size represente le nombre de point complexe que contient le signal
+//dans notre exemple : 9
 void FFT::realloc(unsigned int size) {
+  //on recupere la puissance de 2 superieur a size, un tableau de la taille 2^_pow2
+  //nous permettra donc de contenir le signal
+  //pratiquement puisque l'on travail avec des complexes, il nous faut doubler la taille
+  //car on stocke les parties reels et imaginaires dans le meme tableau
+  //dans notre cas, on obtient 5 car
+  //la puissance de 2 superieur a 9 est 16(2^4) puis on ajoute 1 pour doubler _size
   _pow2=getSupPow2(size)+1;
   if (_pow2) {
+    //calcul de _size
+    //_size est la taille du tableau contenant les parties reels et imaginaires des 
+    //points du signal
+    //_size doit toujours etre une puissance de 2
+    //c'est pour cela que l'on calcul _size par rapport a _pow2
+    //_size=2*(puissance de 2 superieur au nbre de points du signal)
+    //dans notre exemple 16*2=32
     _size = 1 << _pow2;
     _values=(sample*)std::realloc((void*)_values,_size*sizeof(float));
+    //le nombre de twidleFator sera toujours de : nbre de points du signal -1
+    //les twidleFactor sont aussi des complexes donc il nous faut allouer le double
+    //on alloue donc 2*(nbre de points du signal -1)
+    //=2*nbre de points du signal -2
+    //=_size-2
+    //dans notre exemple 30 c'est a dire : [0, 29]
     _twidleFactor=(sample*)std::realloc((void*)_twidleFactor,(_size-2)*sizeof(float));
+    //_indexTable contient tous les index inverse
+    //ici on se refere aux index du signal remonte a la puissance de 2 superieur
+    //dans notre exemple : 9->16 : index de 0 a 15
     _indexTable=(unsigned int*)std::realloc((void*)_indexTable,
                                             (_size>>1)*sizeof(unsigned int));
   }
+  //on initialise les _values a 0
   for (unsigned int i=0; i<_size;i++) {
     _values[i]=0;
   }
   
+  //calcul des twidleFactor
+  //la formule est : exp(-j*2*PI*n/N)
+  //si on explose en partie reel et imaginaire
+  //Re(W)=cos(2*PI*n/N)
+  //Im(W)=sin(-2*PI*n/N)
+  //Pour la FFT, N varie en en multiple de 2 en commencant par 2 : 2, 4, 8, ...
+  //N s'arrete a la puissance de 2 superieur au nombre de points du signal
+  //dans notre exemple : 16
+  //n varie de [0 a N/2[
+  //pour le stockage, on les stocke dans l'ordre
+  //W02, W04, W14, W08, W18, W28, W38
+  //pour les retrouver dans le tableau, il suffit donc juste de faire :
+  //_twidleFactor[N_sum+n*2] avec N_sum+=N a la fin de chaque tour de boucle avec 
+  //initialisation a 0
+  //exemples : Re(W20)=_twidleFactor(0+0)
+  //exemples : Im(W20)=_twidleFactor(0+0+1)
+  //exemples : Re(W41)=_twidleFactor(2+1)
+  //exemples : W83=_twidleFactor(2+4+3)
   sample* glisseur=_twidleFactor;
+  //unsigned int N_sum=0;
   for (unsigned int N=2; N<=(_size>>1); N<<=1) {
     for (unsigned int n=0; n<N/2; n++) {
+    //  std::cout << N_sum+n*2 << std::endl;
       *glisseur++=std::cos(2.f*M_PI*(float)n/(float)N);
+      //std::cout << N_sum+n*2+1 << std::endl;
       *glisseur++=std::sin(-2.f*M_PI*(float)n/(float)N);
     }
+      //N_sum+=N;
   }
 
   if (_pow2) {
