@@ -19,8 +19,9 @@ OBJ= build/signal.o \
 	build/cado.o \
 	build/midi.o \
 	build/fft.o \
-	build/file.o
-
+	build/file.o \
+	build/preset.o 
+	
 CFLAGS= --std=c99 -W -Wall -I"include" -g
 CXXFLAGS= -I"include" -g -W 
 FILECPP=src/signal.cpp \
@@ -43,7 +44,8 @@ FILECPP=src/signal.cpp \
 	src/cado.cpp \
 	src/midi.cpp \
 	src/fft.cpp \
-	src/file.cpp
+	src/file.cpp \
+	src/preset.cpp
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -67,7 +69,8 @@ HEADER=	include/signal.hpp \
 	include/cado.hpp \
 	include/midi.hpp \
 	include/fft.hpp \
-	include/file.hpp
+	include/file.hpp \
+	include/preset.hpp
 
 defaut:
 	@echo you must choose :
