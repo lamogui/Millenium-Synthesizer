@@ -2,14 +2,15 @@
 #define __FILE
 
 #include <cstdio>
+#include <cstdlib>
+
+unsigned int fsize(FILE *fp);
 
 class AbstractFileParser
 {
    public:
-      AbstractFileParser() : _buffer(0) {}
-      ~AbstractFileParser() {
-         if (_buffer) free(_buffer);
-      }
+      AbstractFileParser(); 
+      virtual ~AbstractFileParser(); 
       
       virtual unsigned int read_from_buffer(const unsigned char* buffer, 
                                             unsigned int size,
@@ -21,6 +22,7 @@ class AbstractFileParser
          return read_from_buffer(buffer,size,offset);
       }
       
+      /* Return the number of writed bytes */
       virtual unsigned int write_to_buffer( unsigned char* buffer, 
                                          unsigned int size,
                                          unsigned int& offset) const = 0;
@@ -32,10 +34,11 @@ class AbstractFileParser
          return write_to_buffer(buffer,size,offset);
       }    
       
-      virtual unsigned int size() const = 0;
+      unsigned int write_to_file(FILE* file) const;
+      
+      virtual unsigned int byte_size() const = 0;
       
    protected:
-      unsigned char* _buffer;
 };
 
 
