@@ -77,4 +77,5 @@ bool Preset::unpack(AbstractInstrument* instrument)
                                   (_buffer[offset++]<<8) | 
                                   (_buffer[offset++]));
   }
+  return true;
 }
