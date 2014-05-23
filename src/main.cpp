@@ -39,6 +39,13 @@ sf::Font globalfont;
 
 int main(int argc, char** argv)
 {
+  FFT fft(9);
+  sample s[9]={0};
+  for (int i=0; i<9; i++) {
+    s[i]=sin(M_PI*(float)i/(float)8);
+  }
+  fft.compute(s, 9);
+
   ///Initialisation de l'aléatoire
   srand(time(NULL));
   

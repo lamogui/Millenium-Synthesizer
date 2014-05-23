@@ -2,6 +2,7 @@
 #define __FASTFURIOUS8TRANSFORM
 
 #include "signal.hpp"
+#include <algorithm>
 
 class FFT
 {
@@ -19,7 +20,8 @@ class FFT
     //get nearest superior power of 2
     static unsigned short getSupPow2(unsigned int v);
 
-    void compute(const Signal&);
+    void compute(const sample* s, unsigned int size);
+    void compute(const Signal &s);
 
     //Realloc 
     void realloc(unsigned int size);
