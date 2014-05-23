@@ -113,20 +113,34 @@ void FFT::realloc(unsigned int size) {
       //N_sum+=N;
   }
 
+  //generation du tableau d'index a bit renverse
+  //les indexes sont de taille en bits de : puissance de 2 superieur au nombre de 
+  //point du signal
+  //dans notre exemple : 9 -> 16 : les indexes vont de [0,15]
+  //Pour calculer les indexes renverse, on fait :
+  //&######0 -> 0######&
+  //#&####0# -> #0####&#
+  //...
+  //Pour la premiere de boucle, il faut donc diviser _size par 2 pour retrouver
+  //la bonne taille de l'index
+  //la deuxieme boucle boucle sur la taille en bit d'un index
+  //g_init donne la position du bit 0
+  //g_fin donne la position du bit &
+  //g_delta donne l'ecart entre ces deux bits
   if (_pow2) {
     for (unsigned int j=0; j<(_size>>1); j++) {
-      unsigned int g_init=0, g_fin=_pow2-1, index=0;
-      unsigned int i_delta=_pow2-1;
+      unsigned int g_init=0, g_fin=_pow2-2, index=0;
+      unsigned int i_delta=_pow2-2;
       for (unsigned int i=0; i<(unsigned)(_pow2>>1); i++) {
         unsigned int b1=0,b2=0;
         b1=(j&(1<<g_init))<<i_delta;
         b2=(j&(1<<g_fin))>>i_delta;
         index=index|(b1|b2);
         g_init++;
-        g_fin++;
+        g_fin--;
         i_delta-=2;
       }
-      std::cout <<index << std::endl;
+      //std::cout << "l'index vaut "<<index << std::endl;
       _indexTable[j]=index;
     }
   }
