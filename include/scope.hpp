@@ -30,6 +30,8 @@ class Scope : public Interface
       void setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, bool axe);
 
    protected:
+      void _allocate();
+   
       Signal* _signal;
       FFT* _fft;
       sf::Uint8* _pixels;

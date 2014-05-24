@@ -32,7 +32,7 @@ sf::Font globalfont;
 
 int main(int argc, char** argv)
 {
-  //on realise une fft de 9 point d'un sinus
+  /*//on realise une fft de 9 point d'un sinus
   FFT fft(9);
   //on remplie le sample s de 9 points d'un premier lobe de sinus
   //le sinus est de frequence f=16Hz
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
     s[i]=sin(M_PI*(float)i/(float)8);
   }
   //on calcul la fft
-  fft.compute(s, 9);
+  fft.compute(s, 9);*/
 
   ///Initialisation de l'aléatoire
   srand(time(NULL));
@@ -297,9 +297,8 @@ int main(int argc, char** argv)
                         420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
-  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4), true);
+  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4),true);
   myScope.setSignal(&leftout);
-  myScope.setUpdateRate(0);
   myScope.setFadeColor(sf::Color(0, 0, 255), sf::Color(255,0,0), 1);
   
   ///Vue et viewports
@@ -643,6 +642,9 @@ int main(int argc, char** argv)
     
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
+  
+  driver->stop();
+  driver->free();
   
   
   Midi_head head(1,2,25,2);
