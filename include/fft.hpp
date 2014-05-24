@@ -33,6 +33,10 @@ class FFT
       return _imaginary;
     }
 
+    inline sample* get_module() {
+      return _module;
+    }
+
     void compute_module();
 
   private:
