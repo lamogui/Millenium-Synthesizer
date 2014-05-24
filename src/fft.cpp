@@ -2,22 +2,23 @@
 #include <iostream>
 
 FFT::FFT(unsigned int size) :
-  _values(NULL),
+  _real(NULL),
+  _imaginary(NULL),
   _indexTable(NULL),
   _twidleFactor(NULL),
+  _twidleFactorI(NULL),
   _size(0),
-  _pow2(FFT::getSupPow2(size)+1)
+  _pow2(0)
 {
-  _size=1<<_pow2;
   this->realloc(size);
 }
 
 FFT::~FFT() {
-  if (_values) {
-    free(_values);
-    free(_indexTable);
-    free(_twidleFactor);
-  }
+  if (_real) free(_real);
+  if (_imaginary) free(_imaginary);
+  if (_indexTable) free(_indexTable);
+  if (_twidleFactor) free(_twidleFactor);
+  if (_twidleFactorI) free(_twidleFactorI);
 }
 
 unsigned short FFT::getInfPow2(unsigned int v)
@@ -54,8 +55,9 @@ void FFT::realloc(unsigned int size) {
   //car on stocke les parties reels et imaginaires dans le meme tableau
   //dans notre cas, on obtient 5 car
   //la puissance de 2 superieur a 9 est 16(2^4) puis on ajoute 1 pour doubler _size
-  _pow2=getSupPow2(size)+1;
-  if (_pow2) {
+  
+  if (getSupPow2(size)) {
+    _pow2=getSupPow2(size);
     //calcul de _size
     //_size est la taille du tableau contenant les parties reels et imaginaires des 
     //points du signal
@@ -64,23 +66,23 @@ void FFT::realloc(unsigned int size) {
     //_size=2*(puissance de 2 superieur au nbre de points du signal)
     //dans notre exemple 16*2=32
     _size = 1 << _pow2;
-    _values=(sample*)std::realloc((void*)_values,_size*sizeof(float));
+    _real=(sample*)std::realloc((void*)_real,_size*sizeof(float));
+    _imaginary=(sample*)std::realloc((void*)_imaginary,_size*sizeof(float));
     //le nombre de twidleFator sera toujours de : nbre de points du signal -1
-    //les twidleFactor sont aussi des complexes donc il nous faut allouer le double
-    //on alloue donc 2*(nbre de points du signal -1)
-    //=2*nbre de points du signal -2
-    //=_size-2
+    //les twidleFactor sont aussi des complexes donc il nous faut allouer 2 tableaux
     //dans notre exemple 30 c'est a dire : [0, 29]
-    _twidleFactor=(sample*)std::realloc((void*)_twidleFactor,(_size-2)*sizeof(float));
+    _twidleFactor=(sample*)std::realloc((void*)_twidleFactor,(_size-1)*sizeof(float));
+    _twidleFactorI=(sample*)std::realloc((void*)_twidleFactorI,(_size-1)*sizeof(float));
     //_indexTable contient tous les index inverse
     //ici on se refere aux index du signal remonte a la puissance de 2 superieur
     //dans notre exemple : 9->16 : index de 0 a 15
     _indexTable=(unsigned int*)std::realloc((void*)_indexTable,
-                                            (_size>>1)*sizeof(unsigned int));
+                                            _size*sizeof(unsigned int));
   }
-  //on initialise les _values a 0
+  //on initialise les valeurs a 0
   for (unsigned int i=0; i<_size;i++) {
-    _values[i]=0;
+    _real[i]=0;
+    _imaginary[i]=0;
   }
   
   //calcul des twidleFactor
@@ -94,21 +96,20 @@ void FFT::realloc(unsigned int size) {
   //n varie de [0 a N/2[
   //pour le stockage, on les stocke dans l'ordre
   //W02, W04, W14, W08, W18, W28, W38
-  //pour les retrouver dans le tableau, il suffit donc juste de faire :
-  //_twidleFactor[N_sum+n*2] avec N_sum+=N a la fin de chaque tour de boucle avec 
   //initialisation a 0
   //exemples : Re(W20)=_twidleFactor(0+0)
   //exemples : Im(W20)=_twidleFactor(0+0+1)
   //exemples : Re(W41)=_twidleFactor(2+1)
   //exemples : W83=_twidleFactor(2+4+3)
-  sample* glisseur=_twidleFactor;
+  sample* g=_twidleFactor;
+  sample* gi=_twidleFactorI;
   //unsigned int N_sum=0;
-  for (unsigned int N=2; N<=(_size>>1); N<<=1) {
+  for (unsigned int N=2; N<=_size; N<<=1) {
     for (unsigned int n=0; n<N/2; n++) {
     //  std::cout << N_sum+n*2 << std::endl;
-      *glisseur++=std::cos(2.f*M_PI*(float)n/(float)N);
+      *g++=std::cos(2.f*M_PI*(float)n/(float)N);
       //std::cout << N_sum+n*2+1 << std::endl;
-      *glisseur++=std::sin(-2.f*M_PI*(float)n/(float)N);
+      *gi++=std::sin(-2.f*M_PI*(float)n/(float)N);
     }
       //N_sum+=N;
   }
@@ -121,17 +122,15 @@ void FFT::realloc(unsigned int size) {
   //&######0 -> 0######&
   //#&####0# -> #0####&#
   //...
-  //Pour la premiere de boucle, il faut donc diviser _size par 2 pour retrouver
-  //la bonne taille de l'index
   //la deuxieme boucle boucle sur la taille en bit d'un index
   //g_init donne la position du bit 0
   //g_fin donne la position du bit &
-  //g_delta donne l'ecart entre ces deux bits
+  //i_delta donne l'ecart entre ces deux bits
   if (_pow2) {
-    for (unsigned int j=0; j<(_size>>1); j++) {
-      unsigned int g_init=0, g_fin=_pow2-2, index=0;
-      unsigned int i_delta=_pow2-2;
-      for (unsigned int i=0; i<(unsigned)(_pow2>>1); i++) {
+    for (unsigned int j=0; j<_size; j++) {
+      unsigned int g_init=0, g_fin=_pow2-1, index=0;
+      unsigned int i_delta=g_fin-g_init;   
+      for (unsigned int i=0; i<(unsigned int)(_pow2>>1); i++) {
         unsigned int b1=0,b2=0;
         b1=(j&(1<<g_init))<<i_delta;
         b2=(j&(1<<g_fin))>>i_delta;
@@ -148,68 +147,40 @@ void FFT::realloc(unsigned int size) {
 
 
 void FFT::compute(const Signal &s) {
-  for (unsigned int i=0; i<Signal::size; i++) {
-    _values[i<<1]=s.samples[i];
-  }
-
-  for (unsigned int i=0; i<_size>>1; i++) {
-    std::swap(_values[i],_values[_indexTable[i>>1]]);
-    std::swap(_values[i+1],_values[_indexTable[i>>1]+1]);
-  }
-
-  unsigned int N_sum=0;
-  sample c1_reel=0, c1_img=0, c2_reel=0, c2_img=0, W_reel=0, W_img=0;
-  sample *glisseur=_values;
-  sample *glisseur_fin=glisseur+_size;
-  for (unsigned int N=2; N<=(_size>>1); N<<=1) {
-    for (unsigned int n=0; n<N/2; n++) {
-      W_reel=_twidleFactor[N_sum+n];
-      W_img=_twidleFactor[N_sum+n+1];
-      c1_reel=glisseur[0];
-      c1_img=glisseur[1];
-      c2_reel=glisseur[N];
-      c2_reel=glisseur[N+1];
-      glisseur[0]=c1_reel + c2_reel*W_reel - c2_img*W_img;
-      glisseur[1]=c1_img + c2_reel*W_img + c2_img*W_reel;
-
-      glisseur[N]=c1_reel - c2_reel*W_reel + c2_img*W_img;
-      glisseur[N+1]=c1_img - c2_reel*W_img - c2_img*W_reel;
-      glisseur++;
-    }
-    N_sum+=N;
-  }
-  
+  compute(s.samples, Signal::size);
 }
-void FFT::compute(const sample* s, unsigned int size) {
-  for (unsigned int i=0; i<size; i++) {
-    _values[i<<1]=s[i];
-  }
 
-  for (unsigned int i=0; i<_size>>1; i++) {
-    std::swap(_values[i<<1],_values[_indexTable[i]<<1]);
-    std::cout << "je swap "<<(i<<1)<<" avec "<<(_indexTable[i]<<1)<<std::endl;
-    std::swap(_values[(i<<1)+1],_values[(_indexTable[i]<<1)+1]);
-    std::cout << "je swap "<<((i<<1)+1)<<" avec "<<((_indexTable[i]<<1)+1)<<std::endl;
-  }
+
+void FFT::compute(const sample* s, unsigned int size) {
+  if (size > _size) return;
+  unsigned int k=0;
+  //Copy AND swap (no need to SWAP for imaginary (always 0))
+  for (; k<size; k++) {_real[_indexTable[k]]=s[k]; _imaginary[k]=0;}
+  //zero-padding
+  for (; k<_size; k++) {_real[_indexTable[k]]=0; _imaginary[k]=0;}
+
 
   unsigned int N_sum=0;
   sample c1_reel=0, c1_img=0, c2_reel=0, c2_img=0, W_reel=0, W_img=0;
-  sample *glisseur=_values;
-  sample *glisseur_fin=glisseur+_size;
-  for (unsigned int N=2; N<=(_size>>1); N<<=1) {
-    for (unsigned int n=0; n<N/2; n++) {
+  sample* g=_real;
+  sample* gi=_imaginary;
+  
+  for (unsigned int N=2; N<=_size; N<<=1) {
+    for (unsigned int n=0; n<N>>1; n++) {
       W_reel=_twidleFactor[N_sum+n];
-      W_img=_twidleFactor[N_sum+n+1];
-      c1_reel=glisseur[0];
-      c1_img=glisseur[1];
-      c2_reel=glisseur[N];
-      c2_reel=glisseur[N+1];
-      glisseur[0]=c1_reel + c2_reel*W_reel - c2_img*W_img;
-      glisseur[1]=c1_img + c2_reel*W_img + c2_img*W_reel;
+      W_img=_twidleFactorI[N_sum+n];
+      c1_reel=*g;
+      c1_img=*gi;
+      c2_reel=g[N];
+      c2_img=gi[N];
+      *g=c1_reel + c2_reel*W_reel - c2_img*W_img;
+      *gi=c1_img + c2_reel*W_img + c2_img*W_reel;
 
-      glisseur[N]=c1_reel - c2_reel*W_reel + c2_img*W_img;
-      glisseur[N+1]=c1_img - c2_reel*W_img - c2_img*W_reel;
-      glisseur++;
+      g[N]=c1_reel - c2_reel*W_reel + c2_img*W_img;
+      gi[N]=c1_img - c2_reel*W_img - c2_img*W_reel;
+      
+      g++;
+      gi++;
     }
     N_sum+=N;
   }

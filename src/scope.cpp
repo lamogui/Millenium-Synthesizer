@@ -4,6 +4,7 @@
 Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   Interface(sf::Vector2i(Signal::size,100),size),
   _signal(0),
+  _fft(0),
   _pixels(0),
   _color(255,255,255,255),
   _texture(),
@@ -14,16 +15,16 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _time(0),
   _spectrum(spectrum)
 {
-  if (_spectrum)
-    _fft= new FFT(Signal::size);
   _back.setFillColor(sf::Color(42,42,42,128));
   addDrawable(&_sprite);
   addDrawable(&_back);
+  _allocate();
 }
 
 Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   Interface(sf::Vector2i(Signal::size,100),size),
   _signal(0),
+  _fft(0),
   _pixels(0),
   _color(255,255,255,255),
   _texture(),
@@ -34,12 +35,10 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _time(0),
   _spectrum(spectrum)
 {
-  if (_spectrum)
-    _fft=new FFT(Signal::size);
   _back.setFillColor(sf::Color(42,42,42,128));
-  setSignal(s);
   addDrawable(&_sprite);
   addDrawable(&_back);
+  _allocate();
 }
 
 Scope::~Scope()
@@ -55,9 +54,18 @@ void Scope::setYZoom(float z)
 void Scope::setSignal(Signal* s)
 {
   _signal=s;
+  _allocate();
+}
+
+void Scope::_allocate()
+{
   if (_pixels) free(_pixels);
+  if (_fft) delete _fft;
+  _fft=0;
+  _pixels=0;
   if (_signal)
   {
+    if (_spectrum) _fft=new FFT(Signal::size);
     _texture.create(_zone.y, _zone.x);
     unsigned p = _texture.getSize().x* _texture.getSize().y*4;
     _pixels = (sf::Uint8*) malloc(p);
@@ -68,7 +76,9 @@ void Scope::setSignal(Signal* s)
     _sprite.setPosition(_zone.x/2,_zone.y/2);
     _sprite.setRotation(90);
   }
+  
 }
+
 void Scope::update()
 {
   if (_pixels && _time++ > _update_time && _signal)
@@ -80,11 +90,8 @@ void Scope::update()
       _pixels[i]=0;
     }
 
-    const unsigned int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
-    //std::cout << "l" << l  << "signal size " << Signal::size << "y" << _texture.getSize().y << "x"  << _texture.getSize().x << std::endl;
-
     if (!_spectrum) {
-
+      const unsigned int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
       for (unsigned int x=0; x < l;x++)
       {
         const int y = _signal->samples[x]*_y_zoom*_texture.getSize().x*0.5;
@@ -97,25 +104,21 @@ void Scope::update()
           _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;
 
         }
-        /* else {
-           std::cout << "y" << y << std::endl;
-           }*/
-
       }
     }
-    else {
-    
+    else if (_fft) {
       _fft->compute(*_signal);
+      const unsigned int l = _fft->size() < _texture.getSize().y ? _fft->size() : _texture.getSize().y;
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = _fft->get_values()[x]*_texture.getSize().x*_y_zoom ;
+        int fakey = _fft->get_real()[x]*_texture.getSize().x*_y_zoom ;
         fakey += _texture.getSize().x >> 1;
         fakey >>= 1;
         fakey = fakey > (int)_texture.getSize().x ? _texture.getSize().x : fakey;
         const int y = fakey < 0 ? 0 : fakey;
-
-        for (int i=0; i<y; i++) {
-          _pixels[(x*_texture.getSize().x + (_texture.getSize().x-i-1))*4+3] = 255;
+        const unsigned delta_x = x*_texture.getSize().x*4;
+        for (int i=_texture.getSize().x-1; i>y; i--) {
+          _pixels[delta_x + i*4 + 3] = 255;
         }
       }
     }
@@ -145,6 +148,7 @@ void Scope::setColor(const sf::Color& color)
 
 void Scope::setSpectrum(bool spectrum) {
   _spectrum=spectrum;
+  _allocate();
 }
 
 void Scope::setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, bool axe)
