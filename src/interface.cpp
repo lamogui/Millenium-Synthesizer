@@ -345,7 +345,7 @@ void Button::update()
 }
 
 
-ScrollBar::ScrollBar(sf::View& view, int zone,bool h):
+ScrollBar::ScrollBar(sf::View& view, unsigned int zone,bool h):
 _view(&view),
 _bar(),
 _decoration(),
@@ -367,6 +367,12 @@ _horizontal(h)
 
 ScrollBar::~ScrollBar() {
   
+}
+
+void ScrollBar::setZoneSize(unsigned int zone)
+{
+  _zone_size=zone;
+  update();
 }
 
 bool ScrollBar::onMousePress(float x, float y)
@@ -530,5 +536,10 @@ void Interface::addMouseCatcher(MouseCatcher* c)
 void Interface::addDrawable(sf::Drawable* c)
 {
    _drawables.push_back(c);
+}
+
+bool Interface::onIt(float x, float y)
+{
+  return true;
 }
 

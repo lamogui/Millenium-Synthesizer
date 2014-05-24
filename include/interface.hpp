@@ -15,6 +15,9 @@ class MouseCatcher : public sf::Drawable
     virtual bool onMousePress(float x, float y)=0; //return true if the device catch the mouse
     virtual void onMouseMove(float x, float y)=0;
     virtual void onMouseRelease(float x, float y)=0;
+    virtual void onMouseOver(float x, float y) {
+      (void) x; (void) y;
+    }
     //update something ?
     virtual void update()=0;
 };
@@ -30,8 +33,8 @@ class Knob : public MouseCatcher, public sf::Transformable
     inline void setParam(InstrumentParameter* p) {_param=p;}
     void setBackTexture(const sf::Texture &texture,const sf::IntRect &rect);
     void setKnobTexture(const sf::Texture &texture,const sf::IntRect &rect);
-	inline sf::Color overColor(){return _overColor;}
-	inline void setOverColor(const sf::Color& c){_overColor = c;}
+    inline sf::Color overColor(){return _overColor;}
+    inline void setOverColor(const sf::Color& c){_overColor = c;}
     
     virtual bool onMousePress(float x, float y);
     virtual void onMouseMove(float x, float y);
@@ -158,7 +161,7 @@ class Button : public MouseCatcher, public sf::Transformable
 class ScrollBar : public MouseCatcher
 {
   public:
-    ScrollBar(sf::View& view, int zone,bool horizontal=false);
+    ScrollBar(sf::View& view, unsigned int zone,bool horizontal=false);
     virtual ~ScrollBar();
     
     virtual bool onMousePress(float x, float y);
@@ -167,6 +170,8 @@ class ScrollBar : public MouseCatcher
     virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
     virtual void update();
 
+    void setZoneSize(unsigned int zone);
+    
     
   private:
     sf::View *_view;
@@ -174,7 +179,7 @@ class ScrollBar : public MouseCatcher
     sf::RectangleShape _decoration;
     float _catch;
     int _current_offset;
-    int _zone_size;
+    unsigned int _zone_size;
     bool _horizontal;
 };
 
@@ -207,6 +212,9 @@ class Interface : public sf::Drawable
     //x and y in opengl coordinates
     MouseCatcher* onMousePress(float x, float y);
 
+    
+    //is the mouse on the interface now ?
+    bool onIt(float x, float y);
 
     inline void setViewport(const sf::FloatRect &viewport)
     {
@@ -227,7 +235,7 @@ class Interface : public sf::Drawable
       return sf::Color(255,255,255,0);
     }
 
-    void setViewSize(float x, float y);
+    virtual void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     virtual void update();
 

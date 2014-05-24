@@ -109,16 +109,16 @@ void Scope::update()
     else if (_fft) {
       _fft->compute(*_signal);
       const unsigned int l = _fft->size() < _texture.getSize().y ? _fft->size() : _texture.getSize().y;
+      const unsigned int sy =_texture.getSize().x;
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = _fft->get_real()[x]*_texture.getSize().x*_y_zoom ;
-        fakey += _texture.getSize().x >> 1;
-        fakey >>= 1;
-        fakey = fakey > (int)_texture.getSize().x ? _texture.getSize().x : fakey;
+        int fakey = _fft->get_real()[x]*sy*_y_zoom ;
+        fakey = fakey > (int)sy ? sy : fakey;
         const int y = fakey < 0 ? 0 : fakey;
-        const unsigned delta_x = x*_texture.getSize().x*4;
-        for (int i=_texture.getSize().x-1; i>y; i--) {
-          _pixels[delta_x + i*4 + 3] = 255;
+        const unsigned delta_x = x*sy*4;
+        
+        for (int i=0; i<y; i++) {
+          _pixels[delta_x + (sy-i-1)*4 + 3] = 255;
         }
       }
     }
