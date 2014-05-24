@@ -180,6 +180,7 @@ void FFT::compute(const Signal &s) {
   }
   
 }
+
 void FFT::compute(const sample* s, unsigned int size) {
   for (unsigned int i=0; i<size; i++) {
     _values[i<<1]=s[i];
