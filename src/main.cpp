@@ -32,7 +32,7 @@ sf::Font globalfont;
 
 int main(int argc, char** argv)
 {
-  /*//on realise une fft de 9 point d'un sinus
+  //on realise une fft de 9 point d'un sinus
   FFT fft(9);
   //on remplie le sample s de 9 points d'un premier lobe de sinus
   //le sinus est de frequence f=16Hz
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
     s[i]=sin(M_PI*(float)i/(float)8);
   }
   //on calcul la fft
-  fft.compute(s, 9);*/
+  fft.compute(s, 9);
 
   ///Initialisation de l'aléatoire
   srand(time(NULL));
