@@ -190,6 +190,6 @@ void FFT::compute_module() {
       _module[i]=8*sqrt(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size;
     }
     maxi=std::max(maxi,*(std::max_element(_module, _module+_size)));
-    std::cout << maxi << std::endl;
+    //std::cout << maxi << std::endl;
   }
 }

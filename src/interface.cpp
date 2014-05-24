@@ -538,8 +538,13 @@ void Interface::addDrawable(sf::Drawable* c)
    _drawables.push_back(c);
 }
 
-bool Interface::onIt(float x, float y)
+bool Interface::onIt(unsigned int x, unsigned int y, 
+                     unsigned int sx, unsigned int sy)
 {
-  return true;
+  const sf::FloatRect& r= _view.getViewport();
+  return !(x > sx*(float)(r.left+r.width) || 
+           x < sx*(float)(r.left) || 
+           y > sy*(float)(r.top+r.height) ||
+           y < sy*(float)(r.top));
 }
 

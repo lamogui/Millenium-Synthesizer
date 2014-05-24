@@ -420,6 +420,12 @@ int main(int argc, char** argv)
             {
               for (unsigned int i =0; i < _interfaces.size(); i++)
               {
+                if (!_interfaces[i]->onIt(event.mouseButton.x,
+                                          event.mouseButton.y,
+                                          window.getSize().x,
+                                          window.getSize().y
+                                          )) continue;
+              
                 sf::Vector2f v = window.mapPixelToCoords(mousePosition,
                                                     _interfaces[i]->getView()); 
                 if (currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y))

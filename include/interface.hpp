@@ -214,7 +214,8 @@ class Interface : public sf::Drawable
 
     
     //is the mouse on the interface now ?
-    bool onIt(float x, float y);
+    bool onIt(unsigned int x, unsigned int y, 
+              unsigned int sx, unsigned int sy);
 
     inline void setViewport(const sf::FloatRect &viewport)
     {
