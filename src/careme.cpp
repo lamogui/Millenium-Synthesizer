@@ -1,4 +1,10 @@
-
+/*******************************************************
+Nom ......... : careme.cpp
+Role ........ : Instrument de Mr CHOI
+Auteur ...... : Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 #include "careme.hpp"
 
 CaremeVoice::CaremeVoice(AbstractInstrument* creator):

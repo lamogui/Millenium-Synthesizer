@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : filter.hpp
+Role ........ : Pleins de filtres !!!
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __FILTERRRR
 #define __FILTERRRR
 #include "signal.hpp"

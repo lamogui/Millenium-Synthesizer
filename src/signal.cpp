@@ -1,3 +1,12 @@
+/****************************************************************************
+Nom ......... : signal.cpp
+Role ........ : Implémente une classe gérant une unité de son (classe Signal) 
+                Ainsi que des modeles abstrait pour le générer ce son...
+Auteur ...... : Julien DE LOOR & Nadher ALI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #include "signal.hpp"
 
 unsigned int Signal::frequency=44100;

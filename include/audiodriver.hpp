@@ -1,4 +1,12 @@
-
+/*******************************************************
+Nom ......... : audiodriver.hpp
+Role ........ : Defini les contraintes que doivent 
+                respecter les drivers pour être 
+                compatible avec AudioStream
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 
 #ifndef ___AUDIODRIVER
 #define ___AUDIODRIVER

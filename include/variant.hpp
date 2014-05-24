@@ -1,3 +1,13 @@
+
+/****************************************************************************
+Nom ......... : variant.hpp
+Role ........ : Un équivalent à QVariant plus simple
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
+
 #ifndef VARIANT___
 #define VARIANT___
 

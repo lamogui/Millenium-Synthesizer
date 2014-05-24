@@ -1,3 +1,11 @@
+/****************************************************************************
+Nom ......... : preset.cpp
+Role ........ : Classe permettant de parser des fichiers très simples pour 
+                preset des instruments...
+Auteur ...... : Julien DE LOOR 
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
 
 #include "preset.hpp"
 

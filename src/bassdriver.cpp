@@ -1,4 +1,10 @@
-
+/*******************************************************
+Nom ......... : bassdriver.cpp
+Role ........ : Drivers utilisant la lib BASS
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 
 #include "bassdriver.hpp"
 #include <iostream>

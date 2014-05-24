@@ -1,3 +1,12 @@
+/****************************************************************************
+Nom ......... : signal.hpp
+Role ........ : Déclare une classe gérant une unité de son (classe Signal) 
+                Ainsi que des modeles abstrait pour le générer ce son...
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #ifndef __SIGNAL
 #define __SIGNAL
 

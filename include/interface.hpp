@@ -1,3 +1,12 @@
+/*******************************************************
+Nom ......... : interface.hpp
+Role ........ : Classes de base pour l'interface 
+                compatible avec opengl
+Auteur ...... : Julien DE LOOR 
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __INTERFACE
 #define __INTERFACE
 

@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : filter.cpp
+Role ........ : Pleins de filtres !!!
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #include "filter.hpp"
 #include <iostream>
 

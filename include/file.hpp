@@ -1,3 +1,12 @@
+/****************************************************************************
+Nom ......... : file.hpp
+Role ........ : Des fonctions et classes utiles pour manipuler facilement des 
+                fichiers
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #ifndef __FILE
 #define __FILE
 

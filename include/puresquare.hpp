@@ -1,3 +1,13 @@
+/****************************************************************************
+Nom ......... : puresquare.hpp
+Role ........ : Le premier instrument de test du programme
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
+
+
 #ifndef __PURESQUARE
 #define __PURESQUARE
 
