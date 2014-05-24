@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : audiostream.hpp
+Role ........ : Permet de convertir les signaux en flux 
+                tendu pour la carte son
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 
 #include "config.hpp"
 #include "signal.hpp"

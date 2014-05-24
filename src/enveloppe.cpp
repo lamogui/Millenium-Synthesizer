@@ -1,3 +1,10 @@
+/*******************************************************
+Nom ......... : enveloppe.cpp
+Role ........ : les enveloppe (pas pour laposte)
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 
 #include "enveloppe.hpp"
 #include <cmath>

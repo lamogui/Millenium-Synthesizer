@@ -1,12 +1,11 @@
-/*******************************************************
-Nom ......... : note.cpp
-Role ........ : Implémente les classes permettant de 
-                manipuler des données rythmiques en 
-                lien avec un morceau et un instrument
+
+/****************************************************************************
+Nom ......... : track.cpp
+Role ........ : Definie une piste (partition de musique)
 Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
 Version ..... : V1.0 olol
 Licence ..... : © Copydown™
-********************************************************/
+****************************************************************************/
 
 #include "track.hpp"
 #include <iostream>

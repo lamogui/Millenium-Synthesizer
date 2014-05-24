@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : careme.hpp
+Role ........ : Instrument de Mr CHOI
+Auteur ...... : Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __CAREME
 #define __CAREME
 

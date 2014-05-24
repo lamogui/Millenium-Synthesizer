@@ -1,3 +1,10 @@
+/****************************************************************************
+Nom ......... : oscillator.hpp
+Role ........ : Différents oscillateurs pour génerer des signaux fondamentaux
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
 
 #include "oscillator.hpp"
 #include <cmath>

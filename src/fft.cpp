@@ -1,7 +1,17 @@
+/****************************************************************************
+Nom ......... : fft.cpp
+Role ........ : Implémente une classe permettant de faire une transformé de 
+                fourrier continue...
+Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #include "fft.hpp" 
 #include <iostream>
 
 FFT::FFT(unsigned int size) :
+  _input(NULL),
   _real(NULL),
   _imaginary(NULL),
   _module(NULL),
@@ -9,12 +19,14 @@ FFT::FFT(unsigned int size) :
   _twidleFactor(NULL),
   _twidleFactorI(NULL),
   _size(0),
+  _inputOffset(0),
   _pow2(0)
 {
   this->realloc(size);
 }
 
 FFT::~FFT() {
+  if (_input) free(_input);
   if (_real) free(_real);
   if (_imaginary) free(_imaginary);
   if (_module) free(_module);
@@ -47,6 +59,18 @@ unsigned short FFT::getSupPow2(unsigned int v)
     return bit+1;
 }
 
+void FFT::pushSignal(const Signal &s){
+  const unsigned int copy_size = _inputOffset + Signal::size > _size ? _size : _inputOffset + Signal::size;
+  unsigned int i=0;
+  while (_inputOffset< copy_size)
+    _input[_inputOffset++] = s.samples[i++];
+  if (_inputOffset==_size) _inputOffset = 0;
+  while (i<Signal::size)
+    _input[_inputOffset++] = s.samples[i++]; 
+    
+  compute(_input,_size);
+}
+
 //calcul et allocation de l'espace requis pour la fft
 //size represente le nombre de point complexe que contient le signal
 //dans notre exemple : 9
@@ -68,6 +92,10 @@ void FFT::realloc(unsigned int size) {
     //_size=puissance de 2 superieur au nbre de points du signal
     //dans notre exemple 16
     _size = 1 << _pow2;
+    
+    std::cout << "FFT configuration : " << _size << " samples (2^" << _pow2 << ")" << std::endl;
+    _inputOffset=0;
+    _input=(sample*)std::realloc((void*)_input,_size*sizeof(float));
     _real=(sample*)std::realloc((void*)_real,_size*sizeof(float));
     _imaginary=(sample*)std::realloc((void*)_imaginary,_size*sizeof(float));
     _module=(sample*)std::realloc((void*)_module,_size*sizeof(float));
@@ -86,6 +114,8 @@ void FFT::realloc(unsigned int size) {
   for (unsigned int i=0; i<_size;i++) {
     _real[i]=0;
     _imaginary[i]=0;
+    _module[i]=0;
+    _input[i]=0;
   }
   
   //calcul des twidleFactor
@@ -147,7 +177,7 @@ void FFT::compute(const Signal &s) {
 }
 
 void FFT::compute(const sample* s, unsigned int size) {
-  if (size > _size) return;
+  if (size > _size) size = _size;
   unsigned int k=0;
   //Copy AND swap (no need to SWAP for imaginary (always 0))
   for (; k<size; k++) {_real[_indexTable[k]]=s[k]; _imaginary[k]=0;}
@@ -183,13 +213,13 @@ void FFT::compute(const sample* s, unsigned int size) {
   }
 }
 
-void FFT::compute_module() {
+void FFT::computeModule() {
   if (_real && _imaginary) {
-    static float maxi=0;
+    //static float maxi=0;
     for (unsigned int i=0; i<_size; i++) {
-      _module[i]=8*sqrt(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size;
+      _module[i]=sqrt(0.98*(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size);
     }
-    maxi=std::max(maxi,*(std::max_element(_module, _module+_size)));
+    //maxi=std::max(maxi,*(std::max_element(_module, _module+_size)));
     //std::cout << maxi << std::endl;
   }
 }

@@ -1,3 +1,12 @@
+
+/****************************************************************************
+Nom ......... : track.hpp
+Role ........ : Definie une piste (partition de musique)
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #ifndef ___TRACK
 #define ___TRACK
 

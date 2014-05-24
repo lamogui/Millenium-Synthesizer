@@ -1,3 +1,12 @@
+
+/****************************************************************************
+Nom ......... : settings.cpp
+Role ........ : Definie un clone de QSettings pour lire des fichiers ini
+Auteur ...... : Julien DE LOOR 
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #include "settings.hpp"
 
 Settings Settings::_instance = Settings();

@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : cado.hpp
+Role ........ : 
+Auteur ...... : Maxime CADORET
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __CADO
 #define __CADO
 

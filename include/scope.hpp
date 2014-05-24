@@ -1,3 +1,13 @@
+/****************************************************************************
+Nom ......... : scope.hpp
+Role ........ : Définie une interface de visualisation des signaux 
+                configurable en oscilloscope ou analyseur de spectre
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
+
 #ifndef SCOPE__
 #define SCOPE__
 #include "signal.hpp"

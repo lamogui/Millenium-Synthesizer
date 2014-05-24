@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : cado.cpp
+Role ........ : 
+Auteur ...... : Maxime CADORET
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #include "cado.hpp"
 #include <cmath>
 

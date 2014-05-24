@@ -1,4 +1,15 @@
-﻿#include "variant.hpp"
+﻿
+/****************************************************************************
+Nom ......... : variant.cpp
+Role ........ : Un équivalent à QVariant plus simple
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
+
+
+#include "variant.hpp"
 #include <sstream>
 
 Variant::Variant() : _str() {}

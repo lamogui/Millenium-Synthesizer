@@ -1,3 +1,11 @@
+/*******************************************************
+Nom ......... : nelead6.cpp
+Role ........ : Clone du Nord Lead 3
+Auteur ...... : Julien DE LOOR 
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #include "nelead6.hpp"
 #include <cmath>
 

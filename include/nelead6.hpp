@@ -1,4 +1,12 @@
 
+/*******************************************************
+Nom ......... : nelead6.hpp
+Role ........ : Clone du Nord Lead 3
+Auteur ...... : Julien DE LOOR 
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
+
 #ifndef __NELEAD6
 #define __NELEAD6
 

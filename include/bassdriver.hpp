@@ -1,3 +1,10 @@
+/*******************************************************
+Nom ......... : bassdriver.hpp
+Role ........ : Drivers utilisant la lib BASS
+Auteur ...... : Julien DE LOOR
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+********************************************************/
 
 #ifndef __BASSDRIVER
 #define __BASSDRIVER

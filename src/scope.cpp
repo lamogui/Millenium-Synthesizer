@@ -1,6 +1,15 @@
+/****************************************************************************
+Nom ......... : scope.hpp
+Role ........ : Implémente une interface de visualisation des signaux 
+                configurable en oscilloscope ou analyseur de spectre
+Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
+Version ..... : V1.0 olol
+Licence ..... : © Copydown™
+****************************************************************************/
+
 #include "scope.hpp"
 #include <iostream>
-
+#include "settings.hpp"
 Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   Interface(sf::Vector2i(Signal::size,100),size),
   _signal(0),
@@ -65,7 +74,7 @@ void Scope::_allocate()
   _pixels=0;
   if (_signal)
   {
-    if (_spectrum) _fft=new FFT(Signal::size);
+    if (_spectrum) _fft=new FFT(GetSettingsFor("FFT/Samples",16384));
     _texture.create(_zone.y, _zone.x);
     unsigned p = _texture.getSize().x* _texture.getSize().y*4;
     _pixels = (sf::Uint8*) malloc(p);
@@ -81,6 +90,8 @@ void Scope::_allocate()
 
 void Scope::update()
 {
+  Interface::update();
+
   if (_pixels && _time++ > _update_time && _signal)
   {
     _time=0;
@@ -107,13 +118,13 @@ void Scope::update()
       }
     }
     else if (_fft) {
-      _fft->compute(*_signal);
-      _fft->compute_module();
+      _fft->pushSignal(*_signal);
+      _fft->computeModule();
       const unsigned int l = _fft->size() < _texture.getSize().y ? _fft->size() : _texture.getSize().y;
       const unsigned int sy =_texture.getSize().x;
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = _fft->get_module()[x]*sy*_y_zoom ;
+        int fakey = sqrt(_fft->getModule()[x])*sy*_y_zoom ;
         fakey = fakey > (int)sy ? sy : fakey;
         const int y = fakey < 0 ? 0 : fakey;
         const unsigned delta_x = x*sy*4;
@@ -123,11 +134,10 @@ void Scope::update()
         }
       }
     }
+    else {
+      return; //no need update
+    }
     _texture.update(_pixels);
-  }
-  for (unsigned int i=0; i < _mouseCatcher.size();i++)
-  {
-    _mouseCatcher[i]->update(); 
   }
 }
 
