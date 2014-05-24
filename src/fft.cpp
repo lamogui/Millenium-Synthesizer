@@ -4,6 +4,7 @@
 FFT::FFT(unsigned int size) :
   _real(NULL),
   _imaginary(NULL),
+  _module(NULL),
   _indexTable(NULL),
   _twidleFactor(NULL),
   _twidleFactorI(NULL),
@@ -16,6 +17,7 @@ FFT::FFT(unsigned int size) :
 FFT::~FFT() {
   if (_real) free(_real);
   if (_imaginary) free(_imaginary);
+  if (_module) free(_module);
   if (_indexTable) free(_indexTable);
   if (_twidleFactor) free(_twidleFactor);
   if (_twidleFactorI) free(_twidleFactorI);
@@ -68,6 +70,7 @@ void FFT::realloc(unsigned int size) {
     _size = 1 << _pow2;
     _real=(sample*)std::realloc((void*)_real,_size*sizeof(float));
     _imaginary=(sample*)std::realloc((void*)_imaginary,_size*sizeof(float));
+    _module=(sample*)std::realloc((void*)_module,_size*sizeof(float));
     //le nombre de twidleFator sera toujours de : nbre de points du signal -1
     //les twidleFactor sont aussi des complexes donc il nous faut allouer 2 tableaux
     //dans notre exemple deux tableaux de la taille 15 c'est a dire : [0, 14]
@@ -155,30 +158,6 @@ void FFT::compute(const sample* s, unsigned int size) {
   //butterfly
   unsigned int N_sum=0;
   sample c1_reel=0, c1_img=0, c2_reel=0, c2_img=0, W_reel=0, W_img=0;
-  sample* g=_real;
-  sample* gi=_imaginary;
-  /*
-  //meme boucle que lorsque l'on a generer les twidleFactor
-  for (unsigned int N=2; N<=_size; N<<=1) {
-    for (unsigned int n=0; n<(N>>1); n++) {
-      W_reel=_twidleFactor[N_sum+n];
-      W_img=_twidleFactorI[N_sum+n];
-      c1_reel=*g;
-      c1_img=*gi;
-      c2_reel=g[N>>1];
-      c2_img=gi[N>>1];
-      *g=c1_reel + c2_reel*W_reel - c2_img*W_img;
-      *gi=c1_img + c2_reel*W_img + c2_img*W_reel;
-
-      g[N>>1]=c1_reel - c2_reel*W_reel + c2_img*W_img;
-      gi[N>>1]=c1_img - c2_reel*W_img - c2_img*W_reel;
-      
-      g++;
-      gi++;
-    }
-    N_sum+=N;
-  }
-  */
 
   for (unsigned int N=2; N<=_size; N<<=1) {
     for(unsigned int i=0; i<(_size/N); i++) {
@@ -201,5 +180,13 @@ void FFT::compute(const sample* s, unsigned int size) {
       }
     }
     N_sum+=N>>1;
+  }
+}
+
+void FFT::compute_module() {
+  if (_real && _imaginary) {
+    for (unsigned int i=0; i<_size; i++) {
+      _module[i]=_real[i]*_real[i] + _imaginary[i]*_imaginary[i];
+    }
   }
 }
