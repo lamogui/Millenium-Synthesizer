@@ -33,9 +33,12 @@ class FFT
       return _imaginary;
     }
 
+    void compute_module();
+
   private:
     sample* _real;
     sample* _imaginary;
+    sample* _module;
     unsigned int* _indexTable;
     sample* _twidleFactor;
     sample* _twidleFactorI;
