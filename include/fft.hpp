@@ -26,14 +26,19 @@ class FFT
     //Realloc 
     void realloc(unsigned int size);
 
-    inline sample* get_values() {
-      return _values;
+    inline sample* get_real() {
+      return _real;
+    }
+    inline sample* get_imaginary() {
+      return _imaginary;
     }
 
   private:
-    sample* _values;
+    sample* _real;
+    sample* _imaginary;
     unsigned int* _indexTable;
     sample* _twidleFactor;
+    sample* _twidleFactorI;
     unsigned int _size;
     unsigned short _pow2;
 
