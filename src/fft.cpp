@@ -150,15 +150,6 @@ void FFT::compute(const Signal &s) {
   compute(s.samples, Signal::size);
 }
 
-      glisseur[N]=c1_reel - c2_reel*W_reel + c2_img*W_img;
-      glisseur[N+1]=c1_img - c2_reel*W_img - c2_img*W_reel;
-      glisseur++;
-    }
-    N_sum+=N;
-  }
-  
-}
-
 void FFT::compute(const sample* s, unsigned int size) {
   if (size > _size) return;
   unsigned int k=0;
