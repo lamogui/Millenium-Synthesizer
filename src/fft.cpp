@@ -185,8 +185,11 @@ void FFT::compute(const sample* s, unsigned int size) {
 
 void FFT::compute_module() {
   if (_real && _imaginary) {
+    static float maxi=0;
     for (unsigned int i=0; i<_size; i++) {
-      _module[i]=_real[i]*_real[i] + _imaginary[i]*_imaginary[i];
+      _module[i]=8*sqrt(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size;
     }
+    maxi=std::max(maxi,*(std::max_element(_module, _module+_size)));
+    std::cout << maxi << std::endl;
   }
 }
