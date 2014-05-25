@@ -43,6 +43,7 @@ clean.bat
 *.odt#
 recordFile
 test.mid
+Thumbs.db
 
 #settings files
 settings.ini
