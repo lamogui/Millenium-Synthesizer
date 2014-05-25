@@ -21,9 +21,9 @@
 #include "bassdriver.hpp"
 #include "interface.hpp"
 #include "puresquare.hpp"
-#include "record.hpp"
 #include "careme.hpp"
 #include "scope.hpp"
+#include "window.hpp"
 
 sf::Font globalfont; 
 
@@ -68,26 +68,13 @@ int main(int argc, char** argv)
   if (!driver->start(&stream)) return 0xdead; //si elle échoue : tant pis
   
   
-  sf::VideoMode video=sf::VideoMode::getDesktopMode();
-  
   ///Paramètres de la fenêtre
-  //Taille alloué pour les interfaces
-  float clientWinSize_x=Signal::size/*+205-40*/; 
-  float clientWinSize_y=clientWinSize_x*video.height/(float)video.width;//360+100;
-  //Tailles des bordures
-  float borderWinSize_up=40;
-  float borderWinSize_down=20;
-  float borderWinSize_right=20;
-  float borderWinSize_left=20;
-  //Variables de gestion de l'état de la fenêtre
-  bool onMoveWin=false;
-  bool onResizeWin=false;
-  int onClose=0;
-  sf::Vector2i previousWinPos;
-  sf::Vector2i previousMousePos;
-  sf::Vector2u previousWinSize;
   //configuration des fonts 
   globalfont.loadFromFile("fonts/unispace rg.ttf");
+  
+  ///Création de la fenêtre
+  sf::VideoMode video=sf::VideoMode::getDesktopMode();
+  NEWindow window(video,"Millenium Synthesizer");
   
   ///Initialisation de l'instrument
   AbstractInstrument* myInstrument=NULL;  //L'instrument    
@@ -98,50 +85,30 @@ int main(int argc, char** argv)
     {
       myInstrument = new Careme;
       myInterface = new CaremeInterface((Careme*) myInstrument,
-                                        sf::Vector2f(clientWinSize_x,360));
+                                        sf::Vector2f(window.getSize().x,360));
     }
     else if (std::string("puresquare") == argv[1]) 
     {
       //La taille est inferieur à la taille de l'oscilloscope
-      clientWinSize_x=720; 
       myInstrument = new PureSquare;
       myInterface = new PureSquareInterface((PureSquare*) myInstrument,
-                                            sf::Vector2f(clientWinSize_x,360));
+                                            sf::Vector2f(window.getSize().x,360));
     }
     else 
     {
       myInstrument = new NELead6;
       myInterface = new NELead6Interface((NELead6*) myInstrument,
-                                          sf::Vector2f(clientWinSize_x,360)); 
+                                          sf::Vector2f(window.getSize().x,360)); 
     }
   }
   else 
   {
     myInstrument = new NELead6;
     myInterface = new NELead6Interface((NELead6*) myInstrument,
-                                        sf::Vector2f(clientWinSize_x,360));
+                                        sf::Vector2f(window.getSize().x,360));
   }
   
-  ///Création de la fenêtre
-  sf::RenderWindow window(video,"Millenium Synthesizer",0);
   
-  ///Création des éléments qui composent la fenêtre
-  //Bouton de fermeture de la fenetre
-  Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,
-                                  borderWinSize_up*0.5f),"X");
-  closeButton.setPosition(window.getSize().x-borderWinSize_right-borderWinSize_left,0);
-  closeButton.linkTo(&onClose);
-  closeButton.setOutlineThickness(0);
-  closeButton.setClickedColor(sf::Color(142,42,42,255));
-  closeButton.setIdleColor(sf::Color(100,42,42,255));
-  
-  //Titre de la fenêtre
-  sf::Text winTitle("Millenium Synthesizer",globalfont,11);
-  winTitle.setPosition(borderWinSize_left,5.f);
-  if (argc == 2) {
-    window.setTitle(sf::String("Millenium Synthesizer - ") + argv[1]);
-    winTitle.setString(sf::String("Millenium Synthesizer - ") + argv[1]);
-  } 
   
   //Texture de fond
   sf::Texture backTexture;
@@ -157,43 +124,18 @@ int main(int argc, char** argv)
                         420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
-  Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4));
+  Scope myScope(sf::Vector2f(window.clientSize().x,100));
   myScope.setSignal(&leftout);
   myScope.setColor(myInterface->getColor());
   
-  ///Vue et viewports
-  //vue de la fenetre entière                       
-  sf::View winView(sf::FloatRect(0,0,window.getSize().x,window.getSize().y)); 
-  //variables de gestion de gestion des viewport
-  float viewPortMin_x=borderWinSize_left/(float)(clientWinSize_x+borderWinSize_left+borderWinSize_right);
-  float viewPortMin_y=borderWinSize_up/(float)(clientWinSize_y+borderWinSize_down+borderWinSize_up);
-  float viewPortMax_x=clientWinSize_x/(float)(clientWinSize_x+borderWinSize_left+borderWinSize_right);
-  float viewPortMax_y=clientWinSize_y/(float)(clientWinSize_y+borderWinSize_down+borderWinSize_up);
-  //Réglages des viewports
-  myInterface->setViewport(sf::FloatRect(viewPortMin_x,
-                                         viewPortMin_y,
-                                         viewPortMax_x,
-                                         360.f*viewPortMax_y/clientWinSize_y));
-  myScope.setViewport(sf::FloatRect(viewPortMin_x,
-                                    viewPortMin_y+360.f*viewPortMax_y/clientWinSize_y,
-                                    viewPortMax_x,
-                                    400.f*viewPortMax_y/clientWinSize_y));
+  window.registerInterface(*myInterface);
+  window.registerInterface(myScope);
+  window.arrange();
   
   ///Gestionnaire de Notes
   std::map<sf::Keyboard::Key,Note*> notes;
   float dt=1.f/(float)Signal::refreshRate; 
   unsigned int time=0; //Temps / dt (entier)
-   
-  ///Variables de gestion des interfaces/mouseCatchers
-  //Interfaces
-  Interface* currentInterfaceCatcher=NULL;
-  std::vector<Interface*> _interfaces; 
-  _interfaces.push_back(myInterface);
-  _interfaces.push_back(&myScope);
-  //MouseCatchers (exterieurs au interfaces)
-  MouseCatcher* currentMouseCatcher=NULL;
-  std::vector<MouseCatcher*> _mouseCatchers; 
-  _mouseCatchers.push_back(&closeButton);
   
   while (window.isOpen())
   {
@@ -201,89 +143,8 @@ int main(int argc, char** argv)
     sf::Event event;
     while (window.pollEvent(event))
     {
-      
       switch (event.type)
       {
-        case sf::Event::Closed:
-          window.close(); // Close window : exit
-          break;
-        ///Gestion de la capture de la souris pour les Mouse Catchers
-        case sf::Event::MouseButtonPressed:
-          if (event.mouseButton.button == sf::Mouse::Left) 
-          {
-            const sf::Vector2i mousePosition(event.mouseButton.x,
-                                             event.mouseButton.y);
-            previousMousePos=mousePosition;
-            previousWinPos=window.getPosition();
-            previousWinSize=window.getSize();
-            if (!currentMouseCatcher) //Priorité aux interfaces
-            {
-              for (unsigned int i =0; i < _interfaces.size(); i++)
-              {
-                sf::Vector2f v = window.mapPixelToCoords(mousePosition,
-                                                    _interfaces[i]->getView()); 
-                if (currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y))
-                {
-                  currentInterfaceCatcher = _interfaces[i];
-                  break;
-                }
-              }
-            }
-            if (!currentMouseCatcher) //ensuite élèments de la fenetre
-            {
-              for (unsigned int i =0; i < _mouseCatchers.size(); i++)
-              {
-                sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
-                if (_mouseCatchers[i]->onMousePress(v.x,v.y))
-                {
-                  currentMouseCatcher=_mouseCatchers[i];
-                  currentInterfaceCatcher = 0;
-                  break;
-                }
-              }
-            }
-          }
-          break;
-        case sf::Event::MouseButtonReleased:
-          if (event.mouseButton.button == sf::Mouse::Left)
-          {
-            const sf::Vector2i mousePosition(event.mouseButton.x,
-                                             event.mouseButton.y);
-            if (currentMouseCatcher && currentInterfaceCatcher)
-            {
-              sf::Vector2f v = window.mapPixelToCoords(mousePosition,
-                                           currentInterfaceCatcher->getView()); 
-              currentMouseCatcher->onMouseRelease(v.x,v.y);
-              currentMouseCatcher=NULL;
-              currentInterfaceCatcher=NULL;
-            }
-            else if (currentMouseCatcher)
-            {
-              sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
-              currentMouseCatcher->onMouseRelease(v.x,v.y);
-              currentMouseCatcher=NULL;
-              currentInterfaceCatcher=NULL;
-            }
-          }
-          break;
-        case sf::Event::MouseMoved:
-          {
-          const sf::Vector2i mousePosition(event.mouseMove.x,
-                                           event.mouseMove.y);
-          if (currentMouseCatcher && currentInterfaceCatcher)
-          {
-            sf::Vector2f v = window.mapPixelToCoords(mousePosition,
-                                           currentInterfaceCatcher->getView());
-            currentMouseCatcher->onMouseMove(v.x,v.y);
-          }
-          else if (currentMouseCatcher)
-          {
-            sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
-            currentMouseCatcher->onMouseMove(v.x,v.y);
-          }
-          }
-          break;
-          
         case sf::Event::KeyPressed:
           {
             unsigned char id=NOT_A_NOTE;
@@ -321,17 +182,16 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            notes[event.key.code]->lenght= time - notes[event.key.code]->start;
+            notes[event.key.code]->setLength(time - notes[event.key.code]->start());
             delete notes[event.key.code]; //a virer
             notes.erase(event.key.code);
           }
           break;
         default:
+          window.useEvent(event);
           break;
       }
    }
-    //Interruption : appuis du bouton quitter
-    if (onClose) window.close();
     
     //Mise à jour de l'interface
     myInterface->update();
@@ -362,22 +222,9 @@ int main(int argc, char** argv)
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
-    window.setView(winView);               //On dessine les éléments de la fenetre
+    window.setView(window.getFullView());
     window.draw(backSprite);               //Le fond
-    window.draw(winTitle);                 //Le titre
-    //On dessine tous les élèments propre à la fenêtre (bouton close)
-    for (unsigned int i =0; i < _mouseCatchers.size(); i++)
-    {
-      window.draw(*(_mouseCatchers[i]));
-    }
-    
-    //On dessine Les interfaces
-    for (unsigned int i =0; i < _interfaces.size(); i++)
-    {
-      window.setView(_interfaces[i]->getView());
-      window.draw(*(_interfaces[i]));
-    }
-    
+    window.drawContent();
     //Mise à jour réele à l'écran. + limitation du framerate
     window.display();
     
