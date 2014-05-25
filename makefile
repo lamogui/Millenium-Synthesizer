@@ -20,7 +20,8 @@ OBJ= build/signal.o \
 	build/midi.o \
 	build/fft.o \
 	build/file.o \
-	build/preset.o 
+	build/preset.o \
+	build/window.o 
 	
 CFLAGS= --std=c99 -W -Wall -I"include" -g
 CXXFLAGS= -I"include" -g -W 
@@ -45,7 +46,8 @@ FILECPP=src/signal.cpp \
 	src/midi.cpp \
 	src/fft.cpp \
 	src/file.cpp \
-	src/preset.cpp
+	src/preset.cpp \
+	src/window.cpp
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -70,7 +72,8 @@ HEADER=	include/signal.hpp \
 	include/midi.hpp \
 	include/fft.hpp \
 	include/file.hpp \
-	include/preset.hpp
+	include/preset.hpp \
+	include/window.hpp
 
 defaut:
 	@echo you must choose :
