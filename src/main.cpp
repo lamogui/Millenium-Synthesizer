@@ -632,7 +632,8 @@ int main(int argc, char** argv)
       if (l<Signal::size)
       {
         //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
-        sf::sleep(sf::microseconds(m*Signal::size));
+        //sf::sleep(sf::microseconds(m*Signal::size));
+	sf::sleep(sf::microseconds(40));
       }
       stream.lock();
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);

@@ -106,7 +106,7 @@ linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 	
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
+	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
 
 linux64enib: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
