@@ -94,8 +94,10 @@ int main(int argc, char** argv)
   float clientWinSize_x=Signal::size/*+205-40*/; 
   float clientWinSize_y=360+100+borderButtonBar_left;
   //Variables de gestion de l'état de la fenêtre
+  #ifdef COMPILE_WINDOWS
   bool onMoveWin=false;
   bool onResizeWin=false;
+  #endif
   int onClose=0;
   sf::Vector2i previousWinPos;
   sf::Vector2i previousMousePos;
@@ -225,11 +227,16 @@ int main(int argc, char** argv)
   ///Création de la fenêtre
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                       clientWinSize_y+borderWinSize_up+borderWinSize_down);
+  #ifdef COMPILE_WINDOWS
   sf::RenderWindow window(video,"Millenium Synthesizer",0);
+  #else
+  sf::RenderWindow window(video,"Millenium Synthesizer");
+  #endif
   //window.setFramerateLimit(Signal::refreshRate);
   
   ///Création des éléments qui composent la fenêtre
   //Bouton de fermeture de la fenetre
+  #ifdef COMPILE_WINDOWS
   Button closeButton(sf::Vector2f(borderWinSize_right+borderWinSize_left,
                                   borderWinSize_up*0.5f),"X");
   closeButton.setPosition(clientWinSize_x,0);
@@ -237,7 +244,7 @@ int main(int argc, char** argv)
   closeButton.setOutlineThickness(0);
   closeButton.setClickedColor(sf::Color(142,42,42,255));
   closeButton.setIdleColor(sf::Color(100,42,42,255));
-  
+  #endif
   
   //texture des boutons
   sf::Texture buttonTexture;
@@ -265,6 +272,7 @@ int main(int argc, char** argv)
   rewindButton.setPosition(borderWinSize_left,borderWinSize_up+44);
   
   //Triangle de redimensionnement
+  #ifdef COMPILE_WINDOWS
   sf::ConvexShape resizeTriangle;
   resizeTriangle.setPointCount(3);
   resizeTriangle.setPoint(0, sf::Vector2f(15, 0));
@@ -275,6 +283,7 @@ int main(int argc, char** argv)
   resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,
                              clientWinSize_y+borderWinSize_up);
   
+  #endif
   //Titre de la fenêtre
   sf::Text winTitle("Millenium Synthesizer",globalfont,11);
   winTitle.setPosition(borderWinSize_left,5.f);
@@ -334,7 +343,9 @@ int main(int argc, char** argv)
   //MouseCatchers (exterieurs au interfaces)
   MouseCatcher* currentMouseCatcher=NULL;
   std::vector<MouseCatcher*> _mouseCatchers; 
+  #ifdef COMPILE_WINDOWS
   _mouseCatchers.push_back(&closeButton);
+  #endif
   _mouseCatchers.push_back(&playButton);
   _mouseCatchers.push_back(&recordButton);
   _mouseCatchers.push_back(&rewindButton);
@@ -362,9 +373,10 @@ int main(int argc, char** argv)
             viewPortMax_x=clientWinSize_x/(float)window.getSize().x;
             viewPortMax_y=clientWinSize_y/(float)window.getSize().y;
             viewPortButtonBar_left=borderButtonBar_left/(float)window.getSize().x;
-
+#ifdef COMPILE_WINDOWS
             resizeTriangle.setPosition(clientWinSize_x+borderWinSize_left,clientWinSize_y+borderWinSize_up);
             closeButton.setPosition(clientWinSize_x,0);
+#endif
             playButton.setPosition(borderWinSize_left,borderWinSize_up);
             recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
             // Toute la place est disponible 
@@ -448,6 +460,7 @@ int main(int argc, char** argv)
                 }
               }
             }
+#ifdef COMPILE_WINDOWS
             if (!currentMouseCatcher) //enfins éléments spéciaux
             {
               if (mousePosition.x > window.getSize().x - borderWinSize_right && 
@@ -459,6 +472,7 @@ int main(int argc, char** argv)
               else
                 onMoveWin=true;
             }
+#endif
           }
           break;
         case sf::Event::MouseButtonReleased:
@@ -481,6 +495,7 @@ int main(int argc, char** argv)
               currentMouseCatcher=NULL;
               currentInterfaceCatcher=NULL;
             }
+ #ifdef COMPILE_WINDOWS
             else if (onResizeWin)
             {
               onResizeWin=false;
@@ -490,6 +505,7 @@ int main(int argc, char** argv)
             {
               onMoveWin=false;
             }
+#endif
           }
           break;
         case sf::Event::MouseMoved:
@@ -507,6 +523,7 @@ int main(int argc, char** argv)
             sf::Vector2f v = window.mapPixelToCoords(mousePosition,winView); 
             currentMouseCatcher->onMouseMove(v.x,v.y);
           }
+#ifdef COMPILE_WINDOWS
           else if (onMoveWin)
           {
             window.setPosition(mousePosition-previousMousePos+previousWinPos);
@@ -523,9 +540,10 @@ int main(int argc, char** argv)
               window.setSize(newSize);
             }
           }
+#endif
           }
           break;
-          
+
         case sf::Event::KeyPressed:
           {
             unsigned char id=NOT_A_NOTE;
@@ -628,7 +646,9 @@ int main(int argc, char** argv)
     window.clear(sf::Color(42,42,42,255)); //on efface
     window.setView(winView);               //On dessine les éléments de la fenetre
     window.draw(backSprite);               //Le fond
+    #ifdef COMPILE_WINDOWS
     window.draw(resizeTriangle);           //Triangle de redimensionnement
+    #endif
     window.draw(winTitle);                 //Le titre
     //On dessine tous les élèments propre à la fenêtre (bouton close)
     for (unsigned int i =0; i < _mouseCatchers.size(); i++)
