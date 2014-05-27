@@ -40,7 +40,7 @@ Midi_head::~Midi_head() {
 
 void Midi_head::print_infos() const 
 {
-  printf("Midi_head 0x%X infos: \n",(unsigned int) this);
+  printf("Midi_head 0x%X infos: \n", this);
   printf("      format: %u \n", _format);
   printf("      tracks: %u \n", _tracks);
   printf("      division: 0x%X \n", _division);
@@ -277,7 +277,7 @@ unsigned int Midi_track0::read_from_buffer(const unsigned char* buffer, unsigned
 
 
 void Midi_track0::print_infos() const {
-  printf("Midi_track0 0x%X infos: \n",(unsigned int) this);
+  printf("Midi_track0 0x%X infos: \n", this);
   printf("      name: %s \n", _music_name.c_str());
   printf("      copyright: %s \n", _copyright.c_str());
   printf("      comment: %s \n", _comment.c_str());
