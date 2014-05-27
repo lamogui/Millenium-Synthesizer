@@ -26,13 +26,16 @@ _viewportMax((float)_clientSize.x/(float)mode.width,
 _onMoveWin(false),
 _onResizeWin(false),
 _onClose(0),
+#ifdef COMPILE_WINDOWS
 _closeButton(sf::Vector2f(_borderSizeRight+_borderSizeLeft,
                           _borderSizeUp*0.5f),"X"),
+#endif
 _title(title,globalfont,11),
 _currentInterfaceCatcher(NULL),
 _currentMouseCatcher(NULL),
 _fullView(sf::FloatRect(0,0,mode.width,mode.height))                 
 {
+#ifdef COMPILE_WINDOWS
   //Close Button params
   _closeButton.linkTo(&_onClose);
   _closeButton.setOutlineThickness(0);
@@ -47,8 +50,9 @@ _fullView(sf::FloatRect(0,0,mode.width,mode.height))
   _resizeTriangle.setPoint(2, sf::Vector2f(0, 15));
   _resizeTriangle.setOrigin(0,0);
   _resizeTriangle.setFillColor(sf::Color(75,75,75,255));
-  
+
   registerMouseCatcher(_closeButton);
+#endif 
   arrange();
 }
 
@@ -109,6 +113,7 @@ bool NEWindow::useEvent(const sf::Event& event)
             }
           }
         }
+#ifdef COMPILE_WINDOWS
         if (!_currentMouseCatcher) //enfins éléments spéciaux
         {
           if (mousePosition.x > getSize().x - _borderSizeRight && 
@@ -122,6 +127,7 @@ bool NEWindow::useEvent(const sf::Event& event)
             _onMoveWin=true;
           return true;
         }
+#endif
       }
       break;
     case sf::Event::MouseButtonReleased:
@@ -144,6 +150,7 @@ bool NEWindow::useEvent(const sf::Event& event)
           _currentMouseCatcher=NULL;
           _currentInterfaceCatcher=NULL;
         }
+#ifdef COMPILE_WINDOWS
         else if (_onResizeWin)
         {
           _onResizeWin=false;
@@ -153,6 +160,7 @@ bool NEWindow::useEvent(const sf::Event& event)
         {
           _onMoveWin=false;
         }
+#endif
         else return false;
         checkInterrupt();
         return true;
@@ -173,6 +181,7 @@ bool NEWindow::useEvent(const sf::Event& event)
           sf::Vector2f v = mapPixelToCoords(mousePosition,_fullView); 
           _currentMouseCatcher->onMouseMove(v.x,v.y);
         }
+#ifdef COMPILE_WINDOWS
         else if (_onMoveWin)
         {
           setPosition(mousePosition-_previousMousePos+_previousWinPos);
@@ -190,6 +199,7 @@ bool NEWindow::useEvent(const sf::Event& event)
             arrange();
           }
         }
+#endif
         else return false;
         checkInterrupt();
         return true;
@@ -217,11 +227,11 @@ void NEWindow::arrange() {
   _viewportMin.y=_borderSizeUp/(float)getSize().y;
   _viewportMax.x=_clientSize.x/(float)getSize().x;
   _viewportMax.y=_clientSize.y/(float)getSize().y;
-
+#ifdef COMPILE_WINDOWS
   _resizeTriangle.setPosition(_clientSize.x+_borderSizeLeft,
                               _clientSize.y+_borderSizeUp);
   _closeButton.setPosition(_clientSize.x,0);
-  
+#endif
   // Toute la place est disponible 
   sf::Vector2i idealSize(0,0);
   for (unsigned int k=0;k<_interfaces.size();k++)
@@ -262,8 +272,10 @@ void NEWindow::arrange() {
 void NEWindow::drawContent()
 {
   setView(_fullView);
+#ifdef COMPILE_WINDOWS
   draw(_title);
-  draw(_resizeTriangle); 
+  draw(_resizeTriangle);
+#endif
   for (unsigned int i =0; i < _mouseCatchers.size(); i++)
   {
     draw(*(_mouseCatchers[i]));

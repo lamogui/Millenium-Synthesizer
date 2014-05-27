@@ -108,6 +108,9 @@ win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 	
+diapolinux64: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
+	g++ -o diapo.x64 $(OBJ) build/diapo.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
+
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
 
