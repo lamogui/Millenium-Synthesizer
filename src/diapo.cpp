@@ -144,6 +144,7 @@ int main(int argc, char** argv)
   myScope.setSignal(&leftout);
   myScope.setColor(myInterface->getColor());
   
+  window.registerInterface(*myMenuBar);
   window.registerInterface(*myInterface);
   window.registerInterface(myScope);
   window.arrange();

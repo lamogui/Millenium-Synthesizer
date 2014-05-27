@@ -15,6 +15,7 @@ Licence ..... : © Copydown™
 #include <SFML/Graphics.hpp>
 #include "interface.hpp"
 #include <vector>
+#include "config.hpp"
 
 class NEWindow : public sf::RenderWindow
 {
@@ -75,12 +76,13 @@ class NEWindow : public sf::RenderWindow
     sf::Vector2i _previousMousePos;
     sf::Vector2u _previousWinSize;
     
+#ifdef COMPILE_WINDOWS
     //Buttons
     Button _closeButton;
     
     //Resize Triangle
     sf::ConvexShape _resizeTriangle;
-    
+#endif    
     //Windows Title
     sf::Text _title;
     
