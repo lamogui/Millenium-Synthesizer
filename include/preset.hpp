@@ -14,14 +14,14 @@ Licence ..... : © Copydown™
 #include "instrument.hpp"
 #include "file.hpp"
 
-class Preset {
+class Preset : public AbstractFileParser {
    public:
       Preset();
       virtual ~Preset();
       
-      virtual unsigned int read_from_buffer(const unsigned char* buffer, 
-                                            unsigned int size,
-                                            unsigned int& offset);
+      virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
+                                                   unsigned int size,
+                                                   unsigned int& offset);
                                             
                                             
       inline virtual unsigned int byte_size() const
@@ -35,9 +35,9 @@ class Preset {
       //Unpack and apply a preset buffer to an instrument
       bool unpack(AbstractInstrument* i);
       
-      virtual unsigned int write_to_buffer( unsigned char* buffer, 
-                                         unsigned int size,
-                                         unsigned int& offset) const;
+      virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
+                                                   unsigned int size,
+                                                   unsigned int& offset) const;
       
    private:
       unsigned int _size;

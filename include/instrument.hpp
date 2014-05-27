@@ -42,6 +42,7 @@ class AbstractInstrument
     inline bool setParameterValue(unsigned char id, short value)
     {
       InstrumentParameter* p = this->getParameter(id);
+      //std::cout << " id " << (unsigned int) id << " p " << p << std::endl; 
       if (p)
         return p->setValue(value);
       return false;
