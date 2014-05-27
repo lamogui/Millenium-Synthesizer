@@ -162,12 +162,12 @@ class NELead6Interface : public Interface
   public:
     NELead6Interface(NELead6* instrument, const sf::Vector2f& size);
     virtual ~NELead6Interface();
-    
+
     virtual inline sf::Color getColor() //Couleur de l'interface
     {
       return sf::Color(255,0,0,0);
     }
-    
+
   protected:
     sf::Texture _texture;
     sf::Sprite _back;
@@ -178,7 +178,7 @@ class NELead6Interface : public Interface
     NELead6TriangleLED* _lfo2TypeLED;
     NELead6TriangleLED* _filterTypeLED;
     NELead6TriangleLED* _modTypeLED;
-	NELead6TriangleLED* _lfo1DestLED;
+    NELead6TriangleLED* _lfo1DestLED;
     NELead6Knob* _outputKnob;
     NELead6Knob* _oscmixKnob;
     NELead6Knob* _oscmodKnob;
@@ -207,7 +207,7 @@ class NELead6Interface : public Interface
     Button* _lfo2TypeButton;
     Button* _filterTypeButton;
     Button* _modTypeButton;
-	Button* _lfo1DestButton;
+    Button* _lfo1DestButton;
 };
 
 

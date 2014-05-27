@@ -555,14 +555,14 @@ unsigned int Midi_event::byte_size() const {
     return delta.byte_size() + 1 + 2 + 2; 
   return delta.byte_size() + 1 + 2; 
 }
-unsigned int Midi_event::write_to_buffer( unsigned char* buffer, 
-                                          unsigned int s,
-                                          unsigned int& offset) const
+unsigned int Midi_event::write_to_buffer_offset( unsigned char* buffer, 
+                                                 unsigned int s,
+                                                 unsigned int& offset) const
 {
   const unsigned int save_off=offset;
   if (s >= byte_size() + offset)
   {
-    delta.write_to_buffer(buffer,s,offset);
+    delta.write_to_buffer_offset(buffer,s,offset);
     buffer[offset++]=_type;
     buffer[offset++]=p1>>8;
     buffer[offset++]=p1&0xFF;
@@ -574,9 +574,9 @@ unsigned int Midi_event::write_to_buffer( unsigned char* buffer,
   return offset-save_off;
 }
 
-unsigned int Midi_event::read_from_buffer(const unsigned char* buffer, 
-                                          unsigned int buffer_size,
-                                          unsigned int& offset) {
+unsigned int Midi_event::read_from_buffer_offset(const unsigned char* buffer, 
+                                                 unsigned int buffer_size,
+                                                 unsigned int& offset) {
   const unsigned int save_off=offset;
   if (buffer_size >= offset + 2)
   {

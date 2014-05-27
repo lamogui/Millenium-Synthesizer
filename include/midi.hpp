@@ -160,9 +160,9 @@ class Midi_var : public AbstractFileParser {
     Midi_var(const Midi_var& m) : _var(m._var) {}
     ~Midi_var() {}
 
-    virtual unsigned int read_from_buffer(const unsigned char* buffer, 
-                                          unsigned int size,
-                                          unsigned int& offset)
+    virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
+                                                 unsigned int size,
+                                                 unsigned int& offset)
     {
       const unsigned save_off=offset;
       _var=0;
@@ -182,9 +182,9 @@ class Midi_var : public AbstractFileParser {
       return bit/7 + 1;
     }
     
-    virtual unsigned int write_to_buffer( unsigned char* buffer, 
-                                         unsigned int size,
-                                         unsigned int& offset) const 
+    virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
+                                                 unsigned int size,
+                                                 unsigned int& offset) const 
     {
       const unsigned int parts = this->byte_size() - 1;
       const unsigned save_off=offset;
@@ -224,19 +224,20 @@ class Midi_abstractevent : public AbstractFileParser{
     virtual unsigned int byte_size() const =0;
     
     //Return writed size in bytes WRITE THE WHOLE EVENT !
-    virtual unsigned int write_to_buffer( unsigned char* buffer, 
-                                         unsigned int size,
-                                         unsigned int& offset) const=0;
+    virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
+                                                 unsigned int size,
+                                                 unsigned int& offset) 
+                                                 const=0;
                                          
   static Midi_abstractevent* create_from_buffer(const unsigned char* buffer, 
                                                 unsigned int buffer_size,
                                                 unsigned int& offset);
                                               
   //Must return number of readed bytes READ ONLY SPEC EVENT PARAMETERS (not delta and type)                                          
-  virtual unsigned int read_from_buffer(const unsigned char* buffer, 
-                                        unsigned int buffer_size,
-                                        unsigned int& offset) = 0;
-                                        
+  virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
+                                               unsigned int buffer_size,
+                                               unsigned int& offset) = 0;
+                                                 
   
   //Attributes
   public: Midi_var delta;
@@ -251,12 +252,12 @@ class Midi_event : public Midi_abstractevent {
     virtual ~Midi_event();
     
     virtual unsigned int byte_size() const;
-    virtual unsigned int write_to_buffer( unsigned char* buffer, 
-                                          unsigned int size,
-                                          unsigned int& offset) const;
-    virtual unsigned int read_from_buffer(const unsigned char* buffer, 
-                                          unsigned int buffer_size,
-                                          unsigned int& offset);
+    virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
+                                                 unsigned int size,
+                                                 unsigned int& offset) const;
+    virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
+                                                 unsigned int buffer_size,
+                                                 unsigned int& offset);
     
     bool use_p2() const;
     inline BYTE channel() const { return _type & 0xF; }

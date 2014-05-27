@@ -10,6 +10,7 @@ Licence ..... : © Copydown™
 #include "preset.hpp"
 
 Preset::Preset() : 
+AbstractFileParser(),
 _buffer(0),
 _size(0)
 {
@@ -23,16 +24,19 @@ Preset::~Preset()
 }
 
 
-unsigned int Preset::read_from_buffer(const unsigned char* buffer, 
-                                      unsigned int size,
-                                      unsigned int& offset)
+unsigned int Preset::read_from_buffer_offset(const unsigned char* buffer, 
+                                             unsigned int size,
+                                             unsigned int& offset)
 {
   const unsigned int previous_offset=offset;
-  if (size >= offset + 4) return 0;
-  if (   buffer[offset] == 'P' && buffer[offset] == 'R'
-      && buffer[offset] == 'S' && buffer[offset] == 'T')
+  if (size <= offset + 4) return 0;
+  
+  std::cout << "try Load PRST file" << std::endl;
+  if (   buffer[offset] == 'P' && buffer[offset+1] == 'R'
+      && buffer[offset+2] == 'S' && buffer[offset+3] == 'T')
   {
     offset+=4;
+    std::cout << "Load PRST file" << std::endl;
     if (size - offset)
     {
       _size = size - offset;
@@ -43,9 +47,9 @@ unsigned int Preset::read_from_buffer(const unsigned char* buffer,
   return offset - previous_offset;
 }
 
-unsigned int Preset::write_to_buffer( unsigned char* buffer, 
-                                      unsigned int size,
-                                      unsigned int& offset) const
+unsigned int Preset::write_to_buffer_offset( unsigned char* buffer, 
+                                             unsigned int size,
+                                             unsigned int& offset) const
 {
   if (size < offset + byte_size()) return 0;
   buffer[offset++]='P';
@@ -67,8 +71,9 @@ bool Preset::pack(AbstractInstrument* instrument)
   {
     InstrumentParameter* p;
     if (p=instrument->getParameter(i)) {
+      //std::cout << "save param " <<  i << " value " << p->getValue() << std::endl;
       _buffer[_size++]=i;
-      _buffer[_size++]=p->getValue() >> 8;
+      _buffer[_size++]=(p->getValue() >> 8) & 0xFF;
       _buffer[_size++]=p->getValue() & 0xFF;
     }
   }
@@ -81,9 +86,13 @@ bool Preset::unpack(AbstractInstrument* instrument)
   unsigned offset=0;
   for (unsigned int i=0; i < _size/3; i++)
   {
-    instrument->setParameterValue( _buffer[offset++],
-                                  (_buffer[offset++]<<8) | 
-                                  (_buffer[offset++]));
+    unsigned char id = _buffer[offset++];
+    unsigned int p1 = _buffer[offset++];
+    unsigned int p2 = _buffer[offset++];
+    short param = (p1 << 8) | p2;
+    //std::cout << "Loading param " << (unsigned int) id << " value " << param  << " " << p1  <<  " " << p2 << std::endl;
+    bool lol = instrument->setParameterValue( id, param );
+    //std::cout << "return " << lol << std::endl;
   }
   return true;
 }

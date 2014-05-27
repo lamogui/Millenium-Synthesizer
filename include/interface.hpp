@@ -10,6 +10,8 @@ Licence ..... : © Copydown™
 #ifndef __INTERFACE
 #define __INTERFACE
 
+#define BUTTON_WIDTH 22
+#define BUTTON_HEIGHT 30
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -260,7 +262,5 @@ class Interface : public sf::Drawable
     ScrollBar _verticalBar;
     ScrollBar _horizontalBar;
 };
-
-
 
 #endif
