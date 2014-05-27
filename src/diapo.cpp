@@ -24,6 +24,7 @@
 #include "careme.hpp"
 #include "scope.hpp"
 #include "window.hpp"
+#include "menuBar.hpp"
 
 sf::Font globalfont; 
 
@@ -107,8 +108,23 @@ int main(int argc, char** argv)
     myInterface = new NELead6Interface((NELead6*) myInstrument,
                                         sf::Vector2f(window.getSize().x,360));
   }
+  //texture des boutons
+  sf::Texture buttonTexture;
+  buttonTexture.loadFromFile("img/button.png");
   
-  
+  //initialisation de la barre de bouton
+  int playState=0;
+  Button *playButton = new Button(&playState, buttonTexture,
+                                              sf::IntRect(0,
+                                                          BUTTON_WIDTH,
+                                                          BUTTON_HEIGHT,
+                                                          BUTTON_WIDTH ),
+                                              sf::IntRect(BUTTON_HEIGHT,
+                                                          BUTTON_WIDTH ,
+                                                          BUTTON_HEIGHT,
+                                                          BUTTON_WIDTH ));
+
+  MenuBar *myMenuBar = new MenuBar(sf::Vector2i(BUTTON_HEIGHT, BUTTON_WIDTH),sf::Vector2f(BUTTON_HEIGHT, BUTTON_WIDTH), 1, playButton);
   
   //Texture de fond
   sf::Texture backTexture;

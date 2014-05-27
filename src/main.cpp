@@ -27,6 +27,7 @@
 #include "cado.hpp"
 #include "midi.hpp"
 #include "file.hpp"
+#include "preset.hpp"
  
 sf::Font globalfont; 
 
@@ -146,6 +147,17 @@ int main(int argc, char** argv)
                                         sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
   }
   
+  FILE* f=fopen("preset.prst","rb");
+  if (f) {
+     Preset p;
+     unsigned int fs = fsize(f);
+     std::cout << "Preset file size " << fs << std::endl;
+     unsigned char* buf=(unsigned char*)malloc(fs);
+     fread((void*) buf,1,fs,f);
+     p.read_from_buffer(buf,fs);
+     p.unpack(myInstrument);
+     fclose(f);
+  }
   ///Initialisation de la piste d'enregistrement
   Track myTrack(myInstrument);
   
@@ -674,14 +686,20 @@ int main(int argc, char** argv)
   driver->free();
   
   
+  FILE* file=fopen("preset.prst","wb");
+  Preset preset;
+  preset.pack(myInstrument);
+  preset.write_to_file(file);
+  fclose(file);
+  
   Midi_head head(1,2,25,2);
   Midi_track0 track0;
   Midi_track track(head);
   myTrack.exportToMidiTrack(track);
   
   std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
-  
-  FILE* file=fopen("test.mid","wb");
+   
+  file=fopen("test.mid","wb");
   head.write_to_file(file);
   track0.write_to_file(file);
   track.write_to_file(file);
