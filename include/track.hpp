@@ -72,8 +72,6 @@ class Track
       panic();
       _instrument=i;
     }
-
-    void saveToMIDIFileRoutine();
   
   private:
     AbstractInstrument* _instrument;
@@ -88,25 +86,7 @@ class Track
     
 };
 
-class SaveTrackToMidiButton : public AbstractButton
-{
-  public:
-    SaveTrackToMidiButton(const sf::Vector2f& size, const sf::String text);
-    SaveTrackToMidiButton(const sf::Texture &texture, 
-                          const sf::IntRect &idle, 
-                          const sf::IntRect &clicked);
-     
-    virtual ~SaveTrackToMidiButton();
-    
-    void setTrack(Track* t);
-    
-  protected:
-    inline bool allowed() { return _track; }
-    void clicked();
-  private:
-    Track* _track;
-    sf::Thread* _thread;
-    
-};
+void SaveTrackToMIDIFileRoutine(const Track* t);
+void OpenFromMIDIFileRoutine(Track* t);
 
 #endif

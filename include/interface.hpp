@@ -115,7 +115,7 @@ class AbstractButton : public MouseCatcher, public sf::Transformable
       
       
   protected:
-    inline virtual bool allowed() { return true;} ;
+    inline virtual bool allowed() { return true;}
     virtual void clicked()=0;   
    
     sf::Color _idleColor;
@@ -239,6 +239,44 @@ class Button : public ModulableButton
       return false;
     }
     int* _val; 
+};
+
+
+class SingleProcessButton : public AbstractButton
+{
+  public:
+    SingleProcessButton(const sf::Vector2f& size, const sf::String text);
+    
+    SingleProcessButton(const sf::Texture &texture,
+                         const sf::IntRect &idle,
+                         const sf::IntRect &clicked);
+                   
+    virtual ~SingleProcessButton();
+  
+    template<typename F > 
+    void setProcess(F function) {
+      if (_thread) delete _thread;
+      _thread=new sf::Thread(function);
+    }
+  
+    template<typename F , typename A >
+    void setProcess(F function, A argument){
+      if (_thread) delete _thread;
+      _thread=new sf::Thread(function,argument);
+    }
+  
+    template<typename C >
+    void setProcess(void(C::*function)(), C *object) {
+      if (_thread) delete _thread;
+      _thread=new sf::Thread(function,object);
+    }
+  
+  protected:
+    inline virtual bool allowed() { 
+      return _thread;
+    } 
+    virtual void clicked();
+    sf::Thread* _thread;
 };
 
 
