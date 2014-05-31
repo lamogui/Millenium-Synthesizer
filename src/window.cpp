@@ -223,9 +223,6 @@ bool NEWindow::useEvent(const sf::Event& event)
 }
 
 void NEWindow::arrange() {
-   _backSprite.setPosition(_backCenter.x-_backCenter.x*getSize().x/(_backTexture.getSize().x+1),
-                           _backCenter.y*getSize().y/(_backTexture.getSize().y+1)-_backCenter.y);
-
   _title.setPosition(_borderSizeLeft,5.f);
   
   _clientSize.x=getSize().x-_borderSizeLeft-_borderSizeRight;
@@ -241,6 +238,10 @@ void NEWindow::arrange() {
                               _clientSize.y+_borderSizeUp);
   _closeButton.setPosition(_clientSize.x,0);
 #endif
+
+   _backSprite.setPosition(-(int)_backCenter.x+(int)_backCenter.x*(int)getSize().x/((int)_backTexture.getSize().x+1),
+                           (int)_backCenter.y*(int)getSize().y/(float)(_backTexture.getSize().y+1)-(int)_backCenter.y);
+
   // Toute la place est disponible 
   sf::Vector2i idealSize(0,0);
   for (unsigned int k=0;k<_interfaces.size();k++)
@@ -316,8 +317,6 @@ void NEWindow::setBackgroundTexture(const std::string& name,
    _backCenter=center;
    _backTexture.loadFromFile(name);
    _backSprite.setTexture(_backTexture,true);
-   _backSprite.setOrigin(_backTexture.getSize().x,0);
-   _backSprite.setPosition(_backCenter.x-_backCenter.x*getSize().x/(float)(_backTexture.getSize().x+1),
-                           _backCenter.y*getSize().y/(float)(_backTexture.getSize().y+1)-_backCenter.y);
-
+   _backSprite.setPosition(-(int)_backCenter.x+(int)_backCenter.x*(int)getSize().x/((int)_backTexture.getSize().x+1),
+                           (int)_backCenter.y*(int)getSize().y/(float)(_backTexture.getSize().y+1)-(int)_backCenter.y);
 }
