@@ -201,13 +201,13 @@ class NELead6Interface : public Interface
     NELead6Knob* _osc2ShapeKnob;
     NELead6Knob* _filter1RateKnob;
     NELead6Knob* _filter1ResKnob;
-    Button* _osc1TypeButton;
-    Button* _osc2TypeButton;
-    Button* _lfo1TypeButton;
-    Button* _lfo2TypeButton;
-    Button* _filterTypeButton;
-    Button* _modTypeButton;
-    Button* _lfo1DestButton;
+    InstrumentButton* _osc1TypeButton;
+    InstrumentButton* _osc2TypeButton;
+    InstrumentButton* _lfo1TypeButton;
+    InstrumentButton* _lfo2TypeButton;
+    InstrumentButton* _filterTypeButton;
+    InstrumentButton* _modTypeButton;
+    InstrumentButton* _lfo1DestButton;
 };
 
 

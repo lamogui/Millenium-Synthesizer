@@ -1,6 +1,8 @@
 /*******************************************************
 Nom ......... : interface.hpp
-Role ........ : Classes de base pour l'interface 
+Role ........ : Définis des classes abstraites (ou très
+                générique) permettant de créer des élements 
+                d'interface
                 compatible avec opengl
 Auteur ...... : Julien DE LOOR 
 Version ..... : V1.0 olol
@@ -80,51 +82,51 @@ namespace ButtonMode {
 //Defini comment dessiner un bouton 
 class AbstractButton : public MouseCatcher, public sf::Transformable
 {
-   public:
-      AbstractButton(const sf::Vector2f& size, const sf::String text);
-      AbstractButton( const sf::Texture &texture, 
-                      const sf::IntRect &idle, 
-                      const sf::IntRect &clicked);
+  public:
+    AbstractButton(const sf::Vector2f& size, const sf::String text);
+    AbstractButton( const sf::Texture &texture, 
+                    const sf::IntRect &idle, 
+                    const sf::IntRect &clicked);
               
-      virtual ~AbstractButton();      
+    virtual ~AbstractButton();      
       
       
-      //Shape setters    
-      inline void setOutlineThickness(float f) {_shape.setOutlineThickness(f);}
-      inline void setOutlineColor(const sf::Color& c) {_shape.setOutlineColor(c); _text.setColor(c);}
+    //Shape setters    
+    inline void setOutlineThickness(float f) {_shape.setOutlineThickness(f);}
+    inline void setOutlineColor(const sf::Color& c) {_shape.setOutlineColor(c); _text.setColor(c);}
 
-      //Color setters
-      inline void setColors(const sf::Color& i, const sf::Color& c) {setClickedColor(c);setIdleColor(i);}
-      inline void setClickedColor(const sf::Color& c) {_clickedColor=c;}
-      inline void setIdleColor(const sf::Color& i) {_idleColor=i; _shape.setFillColor(_idleColor);}
-       
-      //Text setter
-      void setText(const sf::String& t);
-      inline sf::Text& getText() { return _text; }
-       
-      //Texture setter (assume button is not catched)
-      void setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked);
-       
-      virtual bool onMousePress(float x, float y);
-      virtual void onMouseMove(float x, float y);
-      virtual void onMouseRelease(float x, float y);
-      virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-      virtual void update();
+    //Color setters
+    inline void setColors(const sf::Color& i, const sf::Color& c) {setClickedColor(c);setIdleColor(i);}
+    inline void setClickedColor(const sf::Color& c) {_clickedColor=c;}
+    inline void setIdleColor(const sf::Color& i) {_idleColor=i; _shape.setFillColor(_idleColor);}
+  
+    //Text setter
+    void setText(const sf::String& t);
+    inline sf::Text& getText() { return _text; }
+     
+    //Texture setter (assume button is not catched)
+    void setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked);
+     
+    virtual bool onMousePress(float x, float y);
+    virtual void onMouseMove(float x, float y);
+    virtual void onMouseRelease(float x, float y);
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    virtual void update();
       
       
-   protected:
-      inline virtual bool allowed() { return true;} ;
-      virtual void clicked()=0;   
+  protected:
+    inline virtual bool allowed() { return true;} ;
+    virtual void clicked()=0;   
    
-      sf::Color _idleColor;
-      sf::Color _clickedColor;
-      sf::RectangleShape _shape;
-      sf::Text _text;
-      sf::IntRect _idleRect;
-      sf::IntRect _clickedRect;
+    sf::Color _idleColor;
+    sf::Color _clickedColor;
+    sf::RectangleShape _shape;
+    sf::Text _text;
+    sf::IntRect _idleRect;
+    sf::IntRect _clickedRect;
 };
 
-class ModulableButton : public AbstractButton :
+class ModulableButton : public AbstractButton 
 {
   public:
     ModulableButton( const sf::Texture &texture,
@@ -132,7 +134,7 @@ class ModulableButton : public AbstractButton :
                      const sf::IntRect &clicked,
                      ButtonMode::Mode mode=ButtonMode::toggle);
                      
-    ModulableButton( const sf::Vector2f& size, const sf::String text
+    ModulableButton( const sf::Vector2f& size, const sf::String text,
                      ButtonMode::Mode mode=ButtonMode::toggle);
                      
     virtual ~ModulableButton();
@@ -151,13 +153,12 @@ class ModulableButton : public AbstractButton :
   protected:
     //return the state of the button in ToggleMode
     virtual bool toggleState()=0;
-  
     ButtonMode::Mode _mode;
 };
 
 
 
-class InstrumentButton : public ModulableButton :
+class InstrumentButton : public ModulableButton 
 {
   public:
     InstrumentButton(InstrumentParameter* p, 
@@ -170,7 +171,8 @@ class InstrumentButton : public ModulableButton :
                      
     virtual ~InstrumentButton();
     
-    void setParam(InstrumentParameter* p,ButtonMode::Mode mode=ButtonMode::toggle);
+    void setParam(InstrumentParameter* p,
+                  ButtonMode::Mode mode=ButtonMode::toggle);
     
     inline virtual void forceOn()
     {
@@ -196,19 +198,25 @@ class InstrumentButton : public ModulableButton :
     InstrumentParameter* _param;
 };
 
-class Button : public ModulableButton :
+class Button : public ModulableButton 
 {
   public:
+    Button(const sf::Vector2f& size, const sf::String text,
+            ButtonMode::Mode mode=ButtonMode::toggle);
+  
     Button(int* v, 
            const sf::Texture &texture,
            const sf::IntRect &idle,
            const sf::IntRect &clicked,
            ButtonMode::Mode mode=ButtonMode::toggle);
            
-    Button( int* v,  const sf::Vector2f& size, const sf::String text
+    Button( int* v,  const sf::Vector2f& size, const sf::String text,
             ButtonMode::Mode mode=ButtonMode::toggle);
     
-    virtual ~InstrumentButton();
+    virtual ~Button();
+    
+    void linkTo(int* v,
+                ButtonMode::Mode mode=ButtonMode::toggle);
     
     inline virtual void forceOn()
     {
@@ -233,77 +241,6 @@ class Button : public ModulableButton :
     int* _val; 
 };
 
-
-class Button : public AbstractButton
-{
-  public:
-    Button(const sf::Vector2f& size, const sf::String text);
-    Button(InstrumentParameter* p, const sf::Texture &texture
-                                 , const sf::IntRect &idle
-                                 , const sf::IntRect &clicked
-                                 , ButtonMode::Mode mode=ButtonMode::toggle);
-    Button(int *val, const sf::Texture &texture
-                   , const sf::IntRect &idle
-                   , const sf::IntRect &clicked
-                   , ButtonMode::Mode mode=ButtonMode::toggle);
-    virtual ~Button();
-    
-    inline void setParam(InstrumentParameter* p,
-                         ButtonMode::Mode mode=ButtonMode::toggle) {
-                            _param=p;
-                            _mode=mode;
-                            if (mode==ButtonMode::toggle && _param)
-                            {
-                              if (_param->active()) _shape.setTextureRect(_clickedRect);
-                              else _shape.setTextureRect(_idleRect);
-                            }
-                         }
-    
-    //Val setter
-    inline void linkTo(int* v) { 
-      _val=v;
-      if (_mode==ButtonMode::toggle && _val)
-       {
-         if (*_val) _shape.setTextureRect(_clickedRect);
-         else _shape.setTextureRect(_idleRect);
-       }
-    }
-    
-    inline void forceOn()
-    {
-      if (_mode==ButtonMode::toggle)
-      {
-         if (_val) *_val=1;
-         if (_param) _param->on();
-         _shape.setTextureRect(_clickedRect);
-      }
-    }
-    
-    inline void forceOff()
-    {
-      if (_mode==ButtonMode::toggle)
-      {
-         if (_val) *_val=0;
-         if (_param) _param->off();
-         _shape.setTextureRect(_idleRect);
-      }
-    }
-    virtual bool onMousePress(float x, float y);
-    virtual void onMouseMove(float x, float y);
-    virtual void onMouseRelease(float x, float y);
-    virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
-    virtual void update();
-    
-    
-    
-  protected:
-      bool _catched;
-      
-       InstrumentParameter* _param;
-       int* _val; 
-       ButtonMode::Mode _mode;
-    
-};
 
 class ScrollBar : public MouseCatcher
 {

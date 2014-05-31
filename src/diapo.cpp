@@ -124,7 +124,7 @@ int main(int argc, char** argv)
                                                           BUTTON_HEIGHT,
                                                           BUTTON_WIDTH ));
 
-  MenuBar *myMenuBar = new MenuBar(sf::Vector2i(BUTTON_HEIGHT, BUTTON_WIDTH),sf::Vector2f(BUTTON_HEIGHT, BUTTON_WIDTH), 1, playButton);
+  //MenuBar *myMenuBar = new MenuBar(sf::Vector2i(BUTTON_HEIGHT, BUTTON_WIDTH),sf::Vector2f(BUTTON_HEIGHT, BUTTON_WIDTH), 1, playButton);
   
   //Texture de fond
   sf::Texture backTexture;
@@ -140,7 +140,7 @@ int main(int argc, char** argv)
   myScope.setSignal(&leftout);
   myScope.setColor(myInterface->getColor());
   
-  window.registerInterface(*myMenuBar);
+  //window.registerInterface(*myMenuBar);
   window.registerInterface(*myInterface);
   window.registerInterface(myScope);
   window.arrange();
