@@ -132,7 +132,7 @@ int main(int argc, char** argv)
   {
     window.setBackgroundTexture(GetSettingsFor("GUI/BackgroundImage",
                                 std::string("img/background.png")),
-                                sf::Vector2i(1347,450));
+                                sf::Vector2i(600,500));
   }
   
   //Oscilloscope
