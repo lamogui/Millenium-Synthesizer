@@ -46,6 +46,10 @@ class NEWindow : public sf::RenderWindow
       return _clientSize;
     }
     
+    void setBackgroundTexture(const std::string& name,
+                              const sf::Vector2i center);
+    
+    
     //Arrange interfaces disposal
     void arrange(); 
     bool useEvent(const sf::Event& event);
@@ -76,6 +80,7 @@ class NEWindow : public sf::RenderWindow
     sf::Vector2i _previousMousePos;
     sf::Vector2u _previousWinSize;
     
+    
 #ifdef COMPILE_WINDOWS
     //Buttons
     Button _closeButton;
@@ -96,6 +101,11 @@ class NEWindow : public sf::RenderWindow
     
     //windows FULL VIEW
     sf::View _fullView;
+    
+    //Background image
+    sf::Sprite _backSprite;
+    sf::Texture _backTexture;
+    sf::Vector2i _backCenter;
     
 };
 
