@@ -283,6 +283,12 @@ int main(int argc, char** argv)
                                     ButtonMode::interrupt);
   rewindButton.setPosition(borderWinSize_left,borderWinSize_up+44);
   
+  SaveTrackToMidiButton saveMIDIButton(buttonTexture,
+                                       sf::IntRect(0,88,30,22),
+                                       sf::IntRect(30, 88, 30, 22));
+  saveMIDIButton.setTrack(&myTrack);
+  saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
+  
   //Triangle de redimensionnement
   #ifdef COMPILE_WINDOWS
   sf::ConvexShape resizeTriangle;
@@ -359,6 +365,7 @@ int main(int argc, char** argv)
   _mouseCatchers.push_back(&closeButton);
   #endif
   _mouseCatchers.push_back(&playButton);
+  _mouseCatchers.push_back(&saveMIDIButton);
   _mouseCatchers.push_back(&recordButton);
   _mouseCatchers.push_back(&rewindButton);
   
@@ -391,6 +398,7 @@ int main(int argc, char** argv)
 #endif
             playButton.setPosition(borderWinSize_left,borderWinSize_up);
             recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
+            saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
@@ -696,14 +704,6 @@ int main(int argc, char** argv)
   Midi_track0 track0;
   Midi_track track(head);
   myTrack.exportToMidiTrack(track);
-  
-  std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
-   
-  file=fopen("test.mid","wb");
-  head.write_to_file(file);
-  track0.write_to_file(file);
-  track.write_to_file(file);
-  fclose(file);
   
   //Nettoyage
   myTrack.setInstrument(NULL);
