@@ -96,3 +96,108 @@ bool Preset::unpack(AbstractInstrument* instrument)
   }
   return true;
 }
+
+PresetSaveButton::PresetSaveButton(const sf::Vector2f& size, 
+                                   const sf::String text, 
+                                   AbstractInstrument *instrument) :
+  AbstractButton(size, text),
+  _instrument(instrument)
+{}
+
+PresetSaveButton::PresetSaveButton( const sf::Texture &texture,
+                  const sf::IntRect &idle,
+                  const sf::IntRect &clicked,
+                  AbstractInstrument *instrument) :
+  AbstractButton(texture,
+                 idle,
+                 clicked),
+  _instrument(instrument)
+{}
+
+void PresetSaveButton::clicked() {
+  if (!_instrument) {
+    std::cerr << "No instrument to save" << std::endl;
+    return;
+  }
+  char filename[0x104]={0};
+#ifdef COMPILE_WINDOWS
+  OPENFILENAME savefilename;
+  memset(&savefilename, 0, sizeof(savefilename) );
+  savefilename.lStructSize=sizeof(OPENFILENAME);
+  savefilename.lpstrFilter="Preset Files\0*.prst;*.prst\0\0";
+  savefilename.nMaxFile=0x104;
+  savefilename.lpstrFile=filename;
+  savefilename.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+  savefilename.lpstrTitle="Save to preset";
+  if(!GetSaveFileNameA(&savefilename)) return ;
+#else
+  std::string output;
+  std::cout << "Please specify preset output filename: " << std::endl;
+  std::cin.clear();
+  getline(std::cin, output);
+  if (input.empty()) return;
+  strncpy(filename,output.c_str(),0x103);
+#endif
+  FILE* file=fopen(filename, "wb");
+  Preset preset;
+  preset.pack(_instrument);
+  preset.write_to_file(file);
+  fclose(file);
+
+}
+
+PresetLoadButton::PresetLoadButton(const sf::Vector2f& size, 
+                                   const sf::String text,
+                                   AbstractInstrument *instrument) :
+  AbstractButton(size, text),
+  _instrument(instrument)
+{}
+
+PresetLoadButton::PresetLoadButton( const sf::Texture &texture,
+                                    const sf::IntRect &idle,
+                                    const sf::IntRect &clicked,
+                                    AbstractInstrument *instrument) :
+  AbstractButton(texture,
+      idle,
+      clicked),
+  _instrument(instrument)
+{}
+
+void PresetLoadButton::clicked() {
+  if (!_instrument) {
+    std::cerr << "No instrument to load" << std::endl;
+    return;
+  }
+  char filename[0x104]={0};
+#ifdef COMPILE_WINDOWS
+  OPENFILENAME openfilename;
+  memset(&openfilename, 0, sizeof(openfilename) );
+  openfilename.lStructSize=sizeof(OPENFILENAME);
+  openfilename.lpstrFilter="Preset Files\0*.prst;*.prst\0\0";
+  openfilename.nMaxFile=0x104;
+  openfilename.lpstrFile=filename;
+  openfilename.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+  openfilename.lpstrTitle="Save to preset";
+  if(!GetSaveFileNameA(&openfilename)) return ;
+#else
+  std::string input;
+  std::cout << "Please specify preset input filename: " << std::endl;
+  std::cin.clear();
+  getline(std::cin, input);
+  if (input.empty()) return;
+  strncpy(filename,input.c_str(),0x103);
+#endif
+  FILE* f=fopen(filename,"rb");
+  if (f) {
+    Preset p;
+    unsigned int fs = fsize(f);
+    std::cout << "Preset file size " << fs << std::endl;
+    unsigned char* buf=(unsigned char*)malloc(fs);
+    fread((void*) buf,1,fs,f);
+    p.read_from_buffer(buf,fs);
+    p.unpack(_instrument);
+    fclose(f);
+  }
+
+}
+
