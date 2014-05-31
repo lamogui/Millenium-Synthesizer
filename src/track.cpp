@@ -345,3 +345,73 @@ bool Track::concatenate(const Track &track_extern) {
   _notes.swap(tempo);
 }
 
+SaveTrackToMidiButton::SaveTrackToMidiButton(const sf::Vector2f& size, 
+                                             const sf::String text):
+AbstractButton(size,text),
+_track(NULL)
+{
+
+}
+                                             
+SaveTrackToMidiButton::SaveTrackToMidiButton(const sf::Texture &texture, 
+                                             const sf::IntRect &idle, 
+                                             const sf::IntRect &clicked):
+AbstractButton(texture,idle,clicked),
+_track(NULL)
+{
+
+}
+
+SaveTrackToMidiButton::~SaveTrackToMidiButton()
+{
+}
+
+void SaveTrackToMidiButton::setTrack(Track* t)
+{
+  _track=t;
+}
+
+void SaveTrackToMidiButton::clicked()
+{
+  if (!_track) {
+    std::cerr << "No track to save" << std::endl;
+    return;
+  }
+
+  char filename[0x104]=""; //Maxpath
+  #ifdef COMPILE_WINDOWS
+  OPENFILENAME ofn;
+  memset(&ofn, 0, sizeof(ofn) );
+  ofn.lStructSize=sizeof(OPENFILENAME);
+  ofn.lpstrFilter="MIDI Files\0*.mid;*.midi\0\0";
+  ofn.nMaxFile=0x104;
+  ofn.lpstrFile=filename;
+  ofn.lpstrTitle="Save to midi";
+  ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+  if (!GetOpenFileName(&ofn)) return;
+  #else
+  std::string input;
+  std::cout << "Please specify MIDI output filename: " << std::endl;
+  std::cin.clear();
+  getline(std::cin, input);
+  if (input.empty()) return;
+  strncpy(filename,input.c_str(),0x103);
+  #endif
+   
+  Midi_head head(1,2,25,2);
+  Midi_track0 track0;
+  Midi_track track(head);
+  _track->exportToMidiTrack(track);
+   
+  FILE* file=fopen(filename,"wb");
+  if (!file) {
+    std::cout << "Unable to open file " << filename << std::endl;
+    return;
+  }
+  head.write_to_file(file);
+  track0.write_to_file(file);
+  track.write_to_file(file);
+  fclose(file);
+  
+  std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
+}

@@ -7,8 +7,8 @@ Version ..... : V1.0 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
-#ifndef ___TRACK
-#define ___TRACK
+#ifndef ___JAI_LE__TRACK
+#define ___JAI_LE__TRACK
 
 #include "instrument.hpp"
 #include "midi.hpp"
@@ -16,6 +16,14 @@ Licence ..... : © Copydown™
 #include <fstream>
 #include "bass.h"
 #include "midi.hpp"
+#include "config.hpp"
+#include "interface.hpp"
+#ifdef COMPILE_WINDOWS
+#include <windows.h>
+#else
+#include <cstring>
+#include <iostream>
+#endif
 
 //Define an instrument track which contains event and notes
 class Track
@@ -76,6 +84,25 @@ class Track
     std::vector<Note*> _notes;
     std::vector<Note*> _played;
     
+};
+
+class SaveTrackToMidiButton : public AbstractButton
+{
+  public:
+    SaveTrackToMidiButton(const sf::Vector2f& size, const sf::String text);
+    SaveTrackToMidiButton(const sf::Texture &texture, 
+                          const sf::IntRect &idle, 
+                          const sf::IntRect &clicked);
+     
+    virtual ~SaveTrackToMidiButton();
+    
+    void setTrack(Track* t);
+    
+  protected:
+    inline bool allowed() { return _track; }
+    void clicked();
+  private:
+    Track* _track;
 };
 
 #endif
