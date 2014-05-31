@@ -49,6 +49,9 @@ class Preset : public AbstractFileParser {
       unsigned char* _buffer;
 };
 
+void SaveInstrumentPresetRoutine(AbstractInstrument* instrument);
+void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument);
+/*
 class PresetSaveButton : public AbstractButton {
   public:
     PresetSaveButton(const sf::Vector2f& size, 
@@ -80,5 +83,5 @@ class PresetLoadButton : public AbstractButton {
   private:
     AbstractInstrument *_instrument;
 };
-
+*/
 #endif
