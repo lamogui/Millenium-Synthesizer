@@ -280,7 +280,7 @@ int main(int argc, char** argv)
   Button rewindButton(&rewindState, buttonTexture, 
                                     sf::IntRect(0,44,30,22),
                                     sf::IntRect(30, 44, 30, 22),
-                                    ButtonMode::on);
+                                    ButtonMode::interrupt);
   rewindButton.setPosition(borderWinSize_left,borderWinSize_up+44);
   
   //Triangle de redimensionnement

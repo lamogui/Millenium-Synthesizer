@@ -7,6 +7,7 @@ Version ..... : V1.0 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
+#include <iostream>
 #include "window.hpp"
 extern sf::Font globalfont;
 NEWindow::NEWindow(sf::VideoMode mode, 
@@ -33,7 +34,10 @@ _closeButton(sf::Vector2f(_borderSizeRight+_borderSizeLeft,
 _title(title,globalfont,11),
 _currentInterfaceCatcher(NULL),
 _currentMouseCatcher(NULL),
-_fullView(sf::FloatRect(0,0,mode.width,mode.height))                 
+_fullView(sf::FloatRect(0,0,mode.width,mode.height)),
+_backSprite(),
+_backTexture(),
+_backCenter(0,0)         
 {
 #ifdef COMPILE_WINDOWS
   //Close Button params
@@ -54,6 +58,8 @@ _fullView(sf::FloatRect(0,0,mode.width,mode.height))
   registerMouseCatcher(_closeButton);
 #endif 
   arrange();
+  
+  
 }
 
 NEWindow::~NEWindow(){
@@ -217,6 +223,9 @@ bool NEWindow::useEvent(const sf::Event& event)
 }
 
 void NEWindow::arrange() {
+   _backSprite.setPosition(_backCenter.x-_backCenter.x*getSize().x/(_backTexture.getSize().x+1),
+                           _backCenter.y*getSize().y/(_backTexture.getSize().y+1)-_backCenter.y);
+
   _title.setPosition(_borderSizeLeft,5.f);
   
   _clientSize.x=getSize().x-_borderSizeLeft-_borderSizeRight;
@@ -272,6 +281,7 @@ void NEWindow::arrange() {
 void NEWindow::drawContent()
 {
   setView(_fullView);
+  draw(_backSprite);
 #ifdef COMPILE_WINDOWS
   draw(_title);
   draw(_resizeTriangle);
@@ -297,4 +307,17 @@ bool NEWindow::checkInterrupt()
     return true;
   }
   return false;
+}
+
+
+void NEWindow::setBackgroundTexture(const std::string& name,
+                                    const sf::Vector2i center)
+{
+   _backCenter=center;
+   _backTexture.loadFromFile(name);
+   _backSprite.setTexture(_backTexture,true);
+   _backSprite.setOrigin(_backTexture.getSize().x,0);
+   _backSprite.setPosition(_backCenter.x-_backCenter.x*getSize().x/(float)(_backTexture.getSize().x+1),
+                           _backCenter.y*getSize().y/(float)(_backTexture.getSize().y+1)-_backCenter.y);
+
 }

@@ -44,6 +44,7 @@ clean.bat
 recordFile
 test.mid
 Thumbs.db
+preset.prst
 
 #settings files
 settings.ini
