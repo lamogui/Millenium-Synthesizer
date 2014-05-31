@@ -130,14 +130,10 @@ int main(int argc, char** argv)
   sf::Texture backTexture;
   if (GetSettingsFor("GUI/Background",true))
   {
-    backTexture.loadFromFile(GetSettingsFor("GUI/BackgroundImage",
-                             std::string("img/background.png")));
+    window.setBackgroundTexture(GetSettingsFor("GUI/BackgroundImage",
+                                std::string("img/background.png")),
+                                sf::Vector2i(600,500));
   }
-  sf::Sprite backSprite(backTexture);
-  backSprite.setOrigin(2048,0);
-  //backSprite.setOrigin(205,423);
-  backSprite.setPosition(window.getSize().x+1347-1347*window.getSize().x/2048,
-                        420*window.getSize().y/(float)1024-500);
   
   //Oscilloscope
   Scope myScope(sf::Vector2f(window.clientSize().x,100));
@@ -239,8 +235,6 @@ int main(int argc, char** argv)
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
-    window.setView(window.getFullView());
-    window.draw(backSprite);               //Le fond
     window.drawContent();
     //Mise à jour réele à l'écran. + limitation du framerate
     window.display();

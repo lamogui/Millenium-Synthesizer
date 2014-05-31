@@ -76,6 +76,8 @@ namespace ButtonMode {
   } Mode;
 }
 
+
+
 class Button : public MouseCatcher, public sf::Transformable
 {
   public:
@@ -152,6 +154,7 @@ class Button : public MouseCatcher, public sf::Transformable
     virtual void onMouseRelease(float x, float y);
     virtual void draw (sf::RenderTarget &target, sf::RenderStates states) const;
     virtual void update();
+    
     
     
   protected:
