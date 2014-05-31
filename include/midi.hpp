@@ -16,6 +16,8 @@ Licence ..... : © Copydown™
 #include <cstdlib>
 #include "signal.hpp"
 
+
+
 class Midi_head {
   public:
     Midi_head(WORD format, WORD tracks, WORD tick_per_beat);
@@ -135,6 +137,8 @@ class Midi_track {
     DWORD _chunk_size;        //Size of actual track datas
                               //Never include EndOfTrack
 };
+
+
 
 #define MIDI_META 0xFF
 #define MIDI_TRACK_NAME 0x03
