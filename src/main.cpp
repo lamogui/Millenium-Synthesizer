@@ -147,6 +147,9 @@ int main(int argc, char** argv)
                                         sf::Vector2f(clientWinSize_x-borderButtonBar_left,360));
   }
   
+  ///Initialisation de la piste d'enregistrement
+  Track myTrack(myInstrument);
+  
   FILE* f=fopen("preset.prst","rb");
   if (f) {
      Preset p;
@@ -157,83 +160,6 @@ int main(int argc, char** argv)
      p.read_from_buffer(buf,fs);
      p.unpack(myInstrument);
      fclose(f);
-  }
-  ///Initialisation de la piste d'enregistrement
-  Track myTrack(myInstrument);
-  
-  if (argc >= 3) {
-    FILE* file = fopen(argv[2], "rb");
-    if (file)
-    {
-      int filesize = fsize(file);
-      unsigned char* buffer= (unsigned char*) malloc(filesize);
-      fread(buffer,1,filesize,file);
-      Midi_head head(1, 0, 25, 2);
-      if (head.read_from_buffer(buffer, filesize))
-      {
-        std::cout << "File " << argv[2] << " infos" << std::endl;
-        std::cout << "Header (" << Midi_head::size << " bytes):" << std::endl;
-        head.print_infos();
-        if (head.format() == 1)
-        {        
-          Midi_track0 track0;
-          unsigned int track0_len;
-          if (track0_len = track0.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
-          {
-            std::cout << "Track 0 (" << track0_len << " bytes):"<< std::endl;
-            track0.print_infos();
-            unsigned int delta = Midi_head::size + track0_len;
-            Midi_track track(head);
-            Track tempTrack;
-            unsigned int track_len;
-            unsigned count=0;
-            while (filesize > (int) delta)
-            {
-              if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
-              {
-                tempTrack.importFromMidiTrack(track);
-                myTrack.concatenate(tempTrack); 
-                delta+=track_len;
-                std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes) Time " << tempTrack.fastLength() << " concatenate time " << myTrack.fastLength() << std::endl;
-                count++;
-              }
-              else {
-                std::cout << "Failed to read Track " << count + 1 << std::endl;
-                break;
-              }
-            }
-            
-            std::cout << "Readed " << count + 1 << "/" << head.tracks() << "  with success !" << std::endl;
-            std::cout << "Duree  " << myTrack.fastLength() << std::endl;
-            
-          }
-          else 
-          {
-            std::cout << "Error: " << argv[2] << " failed to load track 0" << std::endl;
-          } 
-        }
-        else if (head.format() == 0)
-        {
-           Midi_track track(head);
-           unsigned int track_len;
-           if (track_len = track.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
-           {
-             myTrack.importFromMidiTrack(track);
-             std::cout << "Track 0 (" << track_len << " bytes) Time " << myTrack.fastLength() << std::endl;
-           }
-           else std::cout << "Failed to read MIDI 0 " << std::endl;
-        }
-        
-      }
-      else
-      {
-        std::cout << "Error: " << argv[2] << " is not a compatible midi file" << std::endl; 
-      }
-      fclose(file);
-    }
-    else {
-      std::cout << "Unable to open: " << argv[2] << std::endl; 
-    }
   }
   
   ///Création de la fenêtre
@@ -288,6 +214,12 @@ int main(int argc, char** argv)
                                        sf::IntRect(30, 88, 30, 22));
   saveMIDIButton.setProcess(SaveTrackToMIDIFileRoutine,&myTrack);
   saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
+  
+  SingleProcessButton openMIDIButton(buttonTexture,
+                                       sf::IntRect(0,110,30,22),
+                                       sf::IntRect(30, 110, 30, 22));
+  openMIDIButton.setProcess(OpenFromMIDIFileRoutine,&myTrack);
+  openMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+66);
   
   //Triangle de redimensionnement
   #ifdef COMPILE_WINDOWS
@@ -366,6 +298,7 @@ int main(int argc, char** argv)
   #endif
   _mouseCatchers.push_back(&playButton);
   _mouseCatchers.push_back(&saveMIDIButton);
+  _mouseCatchers.push_back(&openMIDIButton);
   _mouseCatchers.push_back(&recordButton);
   _mouseCatchers.push_back(&rewindButton);
   
@@ -399,6 +332,7 @@ int main(int argc, char** argv)
             playButton.setPosition(borderWinSize_left,borderWinSize_up);
             recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
             saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
+            openMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+66);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
