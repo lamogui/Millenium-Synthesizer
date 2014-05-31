@@ -41,7 +41,7 @@ _backCenter(0,0)
 {
 #ifdef COMPILE_WINDOWS
   //Close Button params
-  _closeButton.linkTo(&_onClose);
+  _closeButton.linkTo(&_onClose,ButtonMode::on);
   _closeButton.setOutlineThickness(0);
   _closeButton.setClickedColor(sf::Color(142,42,42,255));
   _closeButton.setIdleColor(sf::Color(100,42,42,255));

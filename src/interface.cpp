@@ -26,7 +26,9 @@ _catch_angle(0)
    
 }
 
-Knob::Knob(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &knobRect) :
+Knob::Knob(InstrumentParameter* p, const sf::Texture &texture, 
+                                   const sf::IntRect &backRect, 
+                                   const sf::IntRect &knobRect) :
 _overColor(242,42,42,255),
 _back_sprite(texture,backRect),
 _knob_sprite(texture,knobRect),
@@ -133,14 +135,14 @@ void Knob::update()
 
 
 
-AbstractButton::AbstractButton(const sf::Vector2f& size, const sf::String text):
+AbstractButton::AbstractButton(const sf::Vector2f& size, 
+                               const sf::String text):
 _idleColor(75,75,75,255),
 _clickedColor(142,142,142,255),
 _shape(size),
 _text(),
 _idleRect(),
-_clickedRect(),
-_catched(false)
+_clickedRect()
 {
   _text.setFont(globalfont);
   _text.setCharacterSize(11);
@@ -157,8 +159,7 @@ _idleColor(255,255,255,255),
 _clickedColor(255,255,255,255),
 _shape(sf::Vector2f(idle.width,idle.height)),
 _idleRect(idle),
-_clickedRect(clicked),
-_catched(false)
+_clickedRect(clicked)
 {
   _text.setFont(globalfont);
   _text.setCharacterSize(11);
@@ -173,7 +174,9 @@ AbstractButton::~AbstractButton()
 {
 }
 
-void AbstractButton::setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked)
+void AbstractButton::setTexture(const sf::Texture &texture, 
+                                const sf::IntRect &idle, 
+                                const sf::IntRect &clicked)
 {
   _idleRect = idle;
   _clickedRect = clicked;
@@ -209,21 +212,18 @@ void AbstractButton::setText(const sf::String& t)
 bool AbstractButton::onMousePress(float x, float y)
 {
 
-   sf::Vector2f v(getInverseTransform().transformPoint(x,y));
+  sf::Vector2f v(getInverseTransform().transformPoint(x,y));
 
-   float x = v.x - _shape.getPosition().x;
-   float y = v.y - _shape.getPosition().y;
+  float rx = v.x - _shape.getPosition().x;
+  float ry = v.y - _shape.getPosition().y;
 
-   if ((x > _shape.getSize().x ||
-       x < 0 ||
-       y > _shape.getSize().y ||
-       y < 0 ) && allowed() ) {
-       
-      _shape.setFillColor(_clickedColor);
-      _shape.setTextureRect(_clickedRect);
-      return true;
-   }
-   return false;
+  if ((rx > _shape.getSize().x || rx < 0 ||
+        ry > _shape.getSize().y || ry < 0 ) && allowed() ) {
+    return false;
+  }
+  _shape.setFillColor(_clickedColor);
+  _shape.setTextureRect(_clickedRect);
+  return true;
 }
 
 void AbstractButton::onMouseMove(float x, float y)
@@ -237,17 +237,19 @@ void AbstractButton::onMouseRelease(float x, float y)
    
    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
     
-   float x = v.x - _shape.getPosition().x;
-   float y = v.y - _shape.getPosition().y;
-   if (x > _shape.getSize().x || x < 0 ||
-       y > _shape.getSize().y || y < 0) 
-      clicked();  
+   float rx = v.x - _shape.getPosition().x;
+   float ry = v.y - _shape.getPosition().y;
+   if (rx > _shape.getSize().x || rx < 0 ||
+       ry > _shape.getSize().y || ry < 0) 
+    return;
+   else    
+    clicked();  
 }
 
 ModulableButton::ModulableButton( const sf::Texture &texture,
                                   const sf::IntRect &idle,
                                   const sf::IntRect &clicked,
-                                  ButtonMode::Mode mode=ButtonMode::toggle) :
+                                  ButtonMode::Mode mode) :
 AbstractButton(texture,idle,clicked),
 _mode(mode)
 {
@@ -258,8 +260,8 @@ _mode(mode)
 
                      
 ModulableButton::ModulableButton( const sf::Vector2f& size, 
-                                  const sf::String text
-                                  ButtonMode::Mode mode=ButtonMode::toggle):
+                                  const sf::String text,
+                                  ButtonMode::Mode mode):
 AbstractButton(size,text),
 _mode(mode)                                
 {
@@ -275,39 +277,36 @@ bool ModulableButton::onMousePress(float x, float y)
 
   sf::Vector2f v(getInverseTransform().transformPoint(x,y));
 
-   float x = v.x - _shape.getPosition().x;
-   float y = v.y - _shape.getPosition().y;
+   float rx = v.x - _shape.getPosition().x;
+   float ry = v.y - _shape.getPosition().y;
 
-   if ((x > _shape.getSize().x ||
-       x < 0 ||
-       y > _shape.getSize().y ||
-       y < 0 ) && allowed() ) {
-       
-      if (_mode != ButtonMode::toggle) {
-        _shape.setFillColor(_clickedColor);
-        _shape.setTextureRect(_clickedRect);
-      }
-      return true;
-   }
-   return false;
+   if ((rx > _shape.getSize().x || rx < 0 ||
+        ry > _shape.getSize().y || ry < 0 ) && allowed() ) {
+    return false;   
+  }
+  else if (_mode != ButtonMode::toggle) {
+    _shape.setFillColor(_clickedColor);
+    _shape.setTextureRect(_clickedRect);
+  }
+  return true;
 }
 
-virtual void ModulableButton::onMouseRelease(float x, float y)
+void ModulableButton::onMouseRelease(float x, float y)
 {
   sf::Vector2f v(getInverseTransform().transformPoint(x,y));
     
-  float x = v.x - _shape.getPosition().x;
-  float y = v.y - _shape.getPosition().y;
-  if (x > _shape.getSize().x || x < 0 ||
-      y > _shape.getSize().y || y < 0) 
-     clicked();
+  float rx = v.x - _shape.getPosition().x;
+  float ry = v.y - _shape.getPosition().y;
+  if (rx > _shape.getSize().x || rx < 0 ||
+      ry > _shape.getSize().y || ry < 0);
+  else clicked();
      
   if (_mode==ButtonMode::toggle)
   {
     if (toggleState())
     {
       _shape.setFillColor(_clickedColor);
-      _shape.setTextureRect(_clickedColor);
+      _shape.setTextureRect(_clickedRect);
     }
     else
     {
@@ -326,7 +325,7 @@ InstrumentButton::InstrumentButton(InstrumentParameter* p,
                                    const sf::Texture &texture,
                                    const sf::IntRect &idle,
                                    const sf::IntRect &clicked,
-                                   ButtonMode::Mode mode=ButtonMode::toggle):
+                                   ButtonMode::Mode mode):
 ModulableButton(texture,idle,clicked,mode),
 _param(p)
 {
@@ -338,15 +337,15 @@ InstrumentButton::~InstrumentButton()
 }
 
 void InstrumentButton::setParam(InstrumentParameter* p,
-                                ButtonMode::Mode mode=ButtonMode::toggle) 
+                                ButtonMode::Mode mode) 
 {
-   _param=p;
-   _mode=mode;
-    if (mode==ButtonMode::toggle && _param)
-    {
-      if (_param->active()) _shape.setTextureRect(_clickedRect);
-      else _shape.setTextureRect(_idleRect);
-    }
+  _param=p;
+  _mode=mode;
+  if (mode==ButtonMode::toggle && _param)
+  {
+    if (_param->active()) _shape.setTextureRect(_clickedRect);
+    else _shape.setTextureRect(_idleRect);
+  }
 }
 
 void InstrumentButton::clicked() {
@@ -377,203 +376,85 @@ void InstrumentButton::clicked() {
   }
 }
 
-
-
-
-Button::Button(const sf::Vector2f& size, const sf::String text) :
-_idleColor(75,75,75,255),
-_clickedColor(142,142,142,255),
-_shape(size),
-_text(),
-_idleRect(),
-_clickedRect(),
-_param(NULL), 
-_val(NULL),
-_catched(false),
-_mode(ButtonMode::toggle)
+Button::Button(const sf::Vector2f& size, const sf::String text,
+                ButtonMode::Mode mode) :
+ModulableButton(size,text,mode),
+_val(NULL)
 {
-  _text.setFont(globalfont);
-  _text.setCharacterSize(11);
-  setText(text);
-  _shape.setFillColor(_idleColor);
-  _shape.setOutlineThickness(1.f);
-  setOutlineColor(sf::Color(255,255,255,255));
-}
-
-Button::Button(InstrumentParameter* p, const sf::Texture &texture
-                                     , const sf::IntRect &idle
-                                     , const sf::IntRect &clicked
-                                     , ButtonMode::Mode mode) :
-_idleColor(255,255,255,255),
-_clickedColor(255,255,255,255),
-_shape(sf::Vector2f(idle.width,idle.height)),
-_idleRect(idle),
-_clickedRect(clicked),
-_param(p), 
-_val(NULL),
-_catched(false),
-_mode(mode)
-{
-  _text.setFont(globalfont);
-  _text.setCharacterSize(11);
-  _shape.setFillColor(_idleColor);
-  //_shape.setOutlineThickness(1.f);
-  setOutlineColor(sf::Color(255,255,255,255));
-  _shape.setTexture(&texture);
-  _shape.setTextureRect(_idleRect);
-}
-
-
-
-Button::Button(int *val, const sf::Texture &texture
-               , const sf::IntRect &idle
-               , const sf::IntRect &clicked
-               , ButtonMode::Mode mode) :
-_idleColor(255,255,255,255),
-_clickedColor(255,255,255,255),
-_shape(sf::Vector2f(idle.width,idle.height)),
-_idleRect(idle),
-_clickedRect(clicked),
-_param(NULL), 
-_val(val),
-_catched(false),
-_mode(mode)
-{
-  _text.setFont(globalfont);
-  _text.setCharacterSize(11);
-  _shape.setFillColor(_idleColor);
-  //_shape.setOutlineThickness(1.f);
-  setOutlineColor(sf::Color(255,255,255,255));
-  _shape.setTexture(&texture);
-  _shape.setTextureRect(_idleRect);
-}
-
-Button::~Button()
-{
-}
-
-
-
-
-
-bool Button::onMousePress(float x, float y)
-{
-  if (_param || _val)
-  {
-    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
-    
-    float x = v.x - _shape.getPosition().x;
-    float y = v.y - _shape.getPosition().y;
-    
-    if (x > _shape.getSize().x ||
-        x < 0 ||
-        y > _shape.getSize().y ||
-        y < 0 ) 
-        
-        return false;
-    
-    
-    _catched=true;
-    _shape.setFillColor(_clickedColor);
-    if (_mode != ButtonMode::toggle)
-      _shape.setTextureRect(_clickedRect);
-    return true;
-  }
-  return false;
-}
-
-void Button::onMouseMove(float x, float y)
-{
-}
-
-void Button::onMouseRelease(float x, float y)
-{
-  _catched=false;
-  _shape.setFillColor(_idleColor);
-  if (_mode != ButtonMode::toggle)
-   _shape.setTextureRect(_idleRect);
-
-  if (_param || _val)
-  {
-    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
-    
-    float x = v.x - _shape.getPosition().x;
-    float y = v.y - _shape.getPosition().y;
-    if (x > _shape.getSize().x ||
-        x < 0 ||
-        y > _shape.getSize().y ||
-        y < 0 ) 
-        return;
-    
-    if (_val)
-    {
-      switch (_mode)
-      {
-        case ButtonMode::toggle:
-          if (*_val) {
-            *_val=0;
-            _shape.setTextureRect(_idleRect);
-          }
-          else {
-            *_val=1;
-            _shape.setTextureRect(_clickedRect);
-          }
-          break;
-          
-        case ButtonMode::increment:
-         ( *_val)++;
-          break;
-
-        case ButtonMode::decrement:
-          (*_val)--;
-          break;
-        
-        case ButtonMode::interrupt:
-        case ButtonMode::on:
-          *_val=1;
-          break;
-          
-        case ButtonMode::off:
-          *_val=0;
-          break;
-      }
-    
-    }
-    if (_param)
-    {
-      switch (_mode)
-      {
-        case ButtonMode::toggle:
-          _param->toggle();
-          if (_param->active()) _shape.setTextureRect(_clickedRect);
-          else _shape.setTextureRect(_idleRect);
-          
-          break;
-          
-        case ButtonMode::increment:
-          //std::cout << _param->getValue() << std::endl;
-          (*_param)++;
-          break;
-
-        case ButtonMode::decrement:
-          (*_param)--;
-          break;
-          
-        case ButtonMode::on:
-          _param->on();
-          break;
-          
-        case ButtonMode::off:
-          _param->off();
-          break;
-      }
-    }
-  }
   
 }
 
+Button::Button(int* v, 
+               const sf::Texture &texture,
+               const sf::IntRect &idle,
+               const sf::IntRect &clicked,
+               ButtonMode::Mode mode) :
+ModulableButton(texture,idle,clicked,mode),
+_val(v)
+{
+  
+}
+           
+Button::Button( int* v,  const sf::Vector2f& size, const sf::String text,
+                ButtonMode::Mode mode) :
+ModulableButton(size,text,mode),
+_val(v)
+{
+  
+}
+    
+Button::~Button()
+{
 
+}
 
+void Button::clicked()
+{
+  if (_val)
+  {
+    switch (_mode)
+    {
+      case ButtonMode::toggle:
+        if (*_val) {
+          *_val=0;
+        }
+        else {
+          *_val=1;
+        }
+        break;
+        
+      case ButtonMode::increment:
+       ( *_val)++;
+        break;
+
+      case ButtonMode::decrement:
+        (*_val)--;
+        break;
+      
+      case ButtonMode::interrupt:
+      case ButtonMode::on:
+        *_val=1;
+        break;
+        
+      case ButtonMode::off:
+        *_val=0;
+        break;
+    }
+  
+  }
+}
+
+void Button::linkTo(int* v,
+                    ButtonMode::Mode mode)
+{
+  _val=v;
+  _mode=mode;
+  if (mode==ButtonMode::toggle && _val)
+  {
+    if (*_val) _shape.setTextureRect(_clickedRect);
+    else _shape.setTextureRect(_idleRect);
+  }
+}
 
 ScrollBar::ScrollBar(sf::View& view, unsigned int zone,bool h):
 _view(&view),

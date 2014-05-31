@@ -638,42 +638,42 @@ _lfo1DestButton(0)
                                       sf::IntRect(1792,0,128,128),
                                       sf::IntRect(1792,128,128,128));
                                       
-    _osc1TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_OSC1TYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _osc1TypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_OSC1TYPE),
+                                           _texture,
+                                           sf::IntRect(1792,256,48,26),
+                                           sf::IntRect(1792,282,48,26),
+                                           ButtonMode::increment);
                                  
-    _osc2TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_OSC2TYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _osc2TypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_OSC2TYPE),
+                                           _texture,
+                                           sf::IntRect(1792,256,48,26),
+                                           sf::IntRect(1792,282,48,26),
+                                           ButtonMode::increment);
                                  
                                  
-    _lfo1TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_LFO1TYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _lfo1TypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_LFO1TYPE),
+                                           _texture,
+                                           sf::IntRect(1792,256,48,26),
+                                           sf::IntRect(1792,282,48,26),
+                                           ButtonMode::increment);
                                  
-    _lfo2TypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_LFO2TYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _lfo2TypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_LFO2TYPE),
+                                           _texture,
+                                           sf::IntRect(1792,256,48,26),
+                                           sf::IntRect(1792,282,48,26),
+                                           ButtonMode::increment);
                                  
-    _filterTypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_FILTERTYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _filterTypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_FILTERTYPE),
+                                             _texture,
+                                             sf::IntRect(1792,256,48,26),
+                                             sf::IntRect(1792,282,48,26),
+                                             ButtonMode::increment);
     
-    _modTypeButton = new Button(_instrument->getParameter(PARAM_NELEAD6_MODTYPE),
-                                 _texture,
-                                 sf::IntRect(1792,256,48,26),
-                                 sf::IntRect(1792,282,48,26),
-                                 ButtonMode::increment);
+    _modTypeButton = new InstrumentButton(_instrument->getParameter(PARAM_NELEAD6_MODTYPE),
+                                         _texture,
+                                         sf::IntRect(1792,256,48,26),
+                                         sf::IntRect(1792,282,48,26),
+                                         ButtonMode::increment);
                                  
     sf::Vector2f scale(0.59f,0.59f);
     _outputKnob->setScale(scale); 

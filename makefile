@@ -21,8 +21,7 @@ OBJ= build/signal.o \
 	build/fft.o \
 	build/file.o \
 	build/preset.o \
-	build/window.o \
-	build/menuBar.o
+	build/window.o 
 	
 CFLAGS= --std=c99 -W -Wall -I"include" -g
 CXXFLAGS= -I"include" -g -W 
@@ -48,8 +47,7 @@ FILECPP=src/signal.cpp \
 	src/fft.cpp \
 	src/file.cpp \
 	src/preset.cpp \
-	src/window.cpp \
-	src/menuBar.cpp
+	src/window.cpp 
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -75,8 +73,7 @@ HEADER=	include/signal.hpp \
 	include/fft.hpp \
 	include/file.hpp \
 	include/preset.hpp \
-	include/window.hpp \
-	include/menuBar.hpp
+	include/window.hpp 
 
 defaut:
 	@echo you must choose :
