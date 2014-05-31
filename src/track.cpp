@@ -348,7 +348,8 @@ bool Track::concatenate(const Track &track_extern) {
 SaveTrackToMidiButton::SaveTrackToMidiButton(const sf::Vector2f& size, 
                                              const sf::String text):
 AbstractButton(size,text),
-_track(NULL)
+_track(NULL),
+_thread(NULL)
 {
 
 }
@@ -357,26 +358,39 @@ SaveTrackToMidiButton::SaveTrackToMidiButton(const sf::Texture &texture,
                                              const sf::IntRect &idle, 
                                              const sf::IntRect &clicked):
 AbstractButton(texture,idle,clicked),
-_track(NULL)
+_track(NULL),
+_thread(NULL)
 {
 
 }
 
 SaveTrackToMidiButton::~SaveTrackToMidiButton()
 {
+    if (_thread)
+      delete _thread;
 }
 
 void SaveTrackToMidiButton::setTrack(Track* t)
 {
   _track=t;
+  if (_thread)
+      delete _thread;
+  _thread=new sf::Thread(&Track::saveToMIDIFileRoutine,_track);
 }
 
 void SaveTrackToMidiButton::clicked()
 {
-  if (!_track) {
+  if (!_thread || !_track) {
     std::cerr << "No track to save" << std::endl;
     return;
   }
+  
+  _thread->wait();
+  _thread->launch();
+}
+
+void Track::saveToMIDIFileRoutine()
+{
 
   char filename[0x104]=""; //Maxpath
   #ifdef COMPILE_WINDOWS
@@ -388,7 +402,7 @@ void SaveTrackToMidiButton::clicked()
   ofn.lpstrFile=filename;
   ofn.lpstrTitle="Save to midi";
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
-  if (!GetOpenFileName(&ofn)) return;
+  if (!GetSaveFileNameA(&ofn)) return;
   #else
   std::string input;
   std::cout << "Please specify MIDI output filename: " << std::endl;
@@ -401,7 +415,7 @@ void SaveTrackToMidiButton::clicked()
   Midi_head head(1,2,25,2);
   Midi_track0 track0;
   Midi_track track(head);
-  _track->exportToMidiTrack(track);
+  this->exportToMidiTrack(track);
    
   FILE* file=fopen(filename,"wb");
   if (!file) {

@@ -108,6 +108,10 @@ int main(int argc, char** argv)
     myInterface = new NELead6Interface((NELead6*) myInstrument,
                                         sf::Vector2f(window.getSize().x,360));
   }
+  
+  //Piste
+  Track myTrack(myInstrument);
+  
   //texture des boutons
   sf::Texture buttonTexture;
   buttonTexture.loadFromFile("img/button.png");
@@ -141,6 +145,7 @@ int main(int argc, char** argv)
   myScope.setColor(myInterface->getColor());
   
   //window.registerInterface(*myMenuBar);
+  window.registerMouseCatcher()
   window.registerInterface(*myInterface);
   window.registerInterface(myScope);
   window.arrange();

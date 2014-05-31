@@ -72,6 +72,8 @@ class Track
       panic();
       _instrument=i;
     }
+
+    void saveToMIDIFileRoutine();
   
   private:
     AbstractInstrument* _instrument;
@@ -103,6 +105,8 @@ class SaveTrackToMidiButton : public AbstractButton
     void clicked();
   private:
     Track* _track;
+    sf::Thread* _thread;
+    
 };
 
 #endif
