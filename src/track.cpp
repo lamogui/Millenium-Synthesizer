@@ -42,7 +42,7 @@ Track::~Track()
 
 void Track::reset()
 {
-   panic();
+  panic();
   for (unsigned int i=0;i<_notes.size();i++)
   {
     delete _notes[i];
@@ -384,4 +384,106 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
   fclose(file);
   
   std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
+}
+
+void OpenFromMIDIFileRoutine(Track* t)
+{
+  if (!t) {
+    std::cerr << "No track to load" << std::endl;
+    return;
+  }
+
+  char filename[0x104]=""; //Maxpath
+  #ifdef COMPILE_WINDOWS
+  OPENFILENAME ofn;
+  memset(&ofn, 0, sizeof(ofn) );
+  ofn.lStructSize=sizeof(OPENFILENAME);
+  ofn.lpstrFilter="MIDI Files\0*.mid;*.midi\0\0";
+  ofn.nMaxFile=0x104;
+  ofn.lpstrFile=filename;
+  ofn.lpstrTitle="Load from midi";
+  ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+  if (!GetOpenFileNameA(&ofn)) return;
+  #else
+  std::string input;
+  std::cout << "Please specify MIDI input filename: " << std::endl;
+  std::cin.clear();
+  getline(std::cin, input);
+  if (input.empty()) return;
+  strncpy(filename,input.c_str(),0x103);
+  #endif
+  
+  FILE* file = fopen(filename, "rb");
+  if (file)
+  {
+    t->reset();
+    int filesize = fsize(file);
+    unsigned char* buffer= (unsigned char*) malloc(filesize);
+    fread(buffer,1,filesize,file);
+    Midi_head head(1, 0, 25, 2);
+    if (head.read_from_buffer(buffer, filesize))
+    {
+      std::cout << "File " << filename << " infos" << std::endl;
+      std::cout << "Header (" << Midi_head::size << " bytes):" << std::endl;
+      head.print_infos();
+      if (head.format() == 1)
+      {        
+        Midi_track0 track0;
+        unsigned int track0_len;
+        if (track0_len = track0.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+        {
+          std::cout << "Track 0 (" << track0_len << " bytes):"<< std::endl;
+          track0.print_infos();
+          unsigned int delta = Midi_head::size + track0_len;
+          Midi_track track(head);
+          Track tempTrack;
+          unsigned int track_len;
+          unsigned count=0;
+          while (filesize > (int) delta)
+          {
+            if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
+            {
+              tempTrack.importFromMidiTrack(track);
+              t->concatenate(tempTrack); 
+              delta+=track_len;
+              std::cout << "Track " << count + 1 <<  " (" << track_len << " bytes) Time " << tempTrack.fastLength() << " concatenate time " << t->fastLength() << std::endl;
+              count++;
+            }
+            else {
+              std::cout << "Failed to read Track " << count + 1 << std::endl;
+              break;
+            }
+          }
+          
+          std::cout << "Readed " << count + 1 << "/" << head.tracks() << "  with success !" << std::endl;
+          std::cout << "Duree  " << t->fastLength() << std::endl;
+          
+        }
+        else 
+        {
+          std::cout << "Error: " << filename << " failed to load track 0" << std::endl;
+        } 
+      }
+      else if (head.format() == 0)
+      {
+         Midi_track track(head);
+         unsigned int track_len;
+         if (track_len = track.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+         {
+           t->importFromMidiTrack(track);
+           std::cout << "Track 0 (" << track_len << " bytes) Time " << t->fastLength() << std::endl;
+         }
+         else std::cout << "Failed to read MIDI 0 " << std::endl;
+      }
+      
+    }
+    else
+    {
+      std::cout << "Error: " << filename << " is not a compatible midi file" << std::endl; 
+    }
+    fclose(file);
+  }
+  else {
+    std::cout << "Unable to open: " << filename << std::endl; 
+  }
 }
