@@ -567,6 +567,37 @@ void ScrollBar::update()
     _decoration.setSize(sf::Vector2f( 12.f,_view->getSize().y));
   }              
 }
+
+SingleProcessButton::SingleProcessButton(const sf::Vector2f& size,
+                                         const sf::String text) :
+AbstractButton(size,text),
+_thread(0)
+{
+}
+
+SingleProcessButton::SingleProcessButton(const sf::Texture &texture,
+                                         const sf::IntRect &idle,
+                                         const sf::IntRect &clicked) :
+AbstractButton(texture,idle,clicked),
+_thread(0)
+{
+}
+
+SingleProcessButton::~SingleProcessButton()
+{
+  if (_thread) delete _thread;
+}
+
+void SingleProcessButton::clicked()
+{
+  if (_thread)
+  {
+    _thread->wait();
+    _thread->launch();
+  }
+}
+
+
 /*
 Fader::Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRect &backRect, const sf::IntRect &faderRect) :
   _param(p),

@@ -283,10 +283,10 @@ int main(int argc, char** argv)
                                     ButtonMode::interrupt);
   rewindButton.setPosition(borderWinSize_left,borderWinSize_up+44);
   
-  SaveTrackToMidiButton saveMIDIButton(buttonTexture,
+  SingleProcessButton saveMIDIButton(buttonTexture,
                                        sf::IntRect(0,88,30,22),
                                        sf::IntRect(30, 88, 30, 22));
-  saveMIDIButton.setTrack(&myTrack);
+  saveMIDIButton.setProcess(SaveTrackToMIDIFileRoutine,&myTrack);
   saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
   
   //Triangle de redimensionnement
@@ -652,8 +652,8 @@ int main(int argc, char** argv)
       if (l<Signal::size)
       {
         //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
-        //sf::sleep(sf::microseconds(m*Signal::size));
-	sf::sleep(sf::microseconds(40));
+        sf::sleep(sf::microseconds(m*Signal::size));
+        //sf::sleep(sf::microseconds(40));
       }
       stream.lock();
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
