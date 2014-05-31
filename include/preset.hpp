@@ -13,6 +13,11 @@ Licence ..... : © Copydown™
 
 #include "instrument.hpp"
 #include "file.hpp"
+#include "interface.hpp"
+#include "config.hpp"
+#ifdef COMPILE_WINDOWS
+#include <windows.h>
+#endif
 
 class Preset : public AbstractFileParser {
    public:
@@ -42,6 +47,38 @@ class Preset : public AbstractFileParser {
    private:
       unsigned int _size;
       unsigned char* _buffer;
+};
+
+class PresetSaveButton : public AbstractButton {
+  public:
+    PresetSaveButton(const sf::Vector2f& size, 
+                     const sf::String text, 
+                     AbstractInstrument *instrument);
+    PresetSaveButton(const sf::Texture &texture, 
+                     const sf::IntRect &idle, 
+                     const sf::IntRect &clicked,
+                     AbstractInstrument *instrument);
+  protected:
+    virtual void clicked();   
+
+  private:
+    AbstractInstrument *_instrument;
+};
+
+class PresetLoadButton : public AbstractButton {
+  public:
+    PresetLoadButton(const sf::Vector2f& size, 
+                     const sf::String text,
+                     AbstractInstrument *instrument);
+    PresetLoadButton( const sf::Texture &texture, 
+                      const sf::IntRect &idle, 
+                      const sf::IntRect &clicked,
+                      AbstractInstrument *instrument);
+  protected:
+    virtual void clicked();   
+
+  private:
+    AbstractInstrument *_instrument;
 };
 
 #endif
