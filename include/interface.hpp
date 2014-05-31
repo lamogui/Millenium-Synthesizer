@@ -10,8 +10,6 @@ Licence ..... : © Copydown™
 #ifndef __INTERFACE
 #define __INTERFACE
 
-#define BUTTON_WIDTH 22
-#define BUTTON_HEIGHT 30
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
