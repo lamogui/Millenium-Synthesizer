@@ -150,18 +150,6 @@ int main(int argc, char** argv)
   ///Initialisation de la piste d'enregistrement
   Track myTrack(myInstrument);
   
-  FILE* f=fopen("preset.prst","rb");
-  if (f) {
-     Preset p;
-     unsigned int fs = fsize(f);
-     std::cout << "Preset file size " << fs << std::endl;
-     unsigned char* buf=(unsigned char*)malloc(fs);
-     fread((void*) buf,1,fs,f);
-     p.read_from_buffer(buf,fs);
-     p.unpack(myInstrument);
-     fclose(f);
-  }
-  
   ///Création de la fenêtre
   sf::VideoMode video(clientWinSize_x+borderWinSize_right+borderWinSize_left,
                       clientWinSize_y+borderWinSize_up+borderWinSize_down);
@@ -220,6 +208,18 @@ int main(int argc, char** argv)
                                        sf::IntRect(30, 110, 30, 22));
   openMIDIButton.setProcess(OpenFromMIDIFileRoutine,&myTrack);
   openMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+66);
+  
+  SingleProcessButton openPresetButton(buttonTexture,
+                                       sf::IntRect(0,132,30,22),
+                                       sf::IntRect(30, 132, 30, 22));
+  openPresetButton.setProcess(LoadInstrumentPresetRoutine,myInstrument);
+  openPresetButton.setPosition(borderWinSize_left,borderWinSize_up+110);
+  
+  SingleProcessButton savePresetButton(buttonTexture,
+                                       sf::IntRect(0,66,30,22),
+                                       sf::IntRect(30, 66, 30, 22));
+  savePresetButton.setProcess(SaveInstrumentPresetRoutine,myInstrument);
+  savePresetButton.setPosition(borderWinSize_left,borderWinSize_up+132);
   
   //Triangle de redimensionnement
   #ifdef COMPILE_WINDOWS
@@ -299,6 +299,8 @@ int main(int argc, char** argv)
   _mouseCatchers.push_back(&playButton);
   _mouseCatchers.push_back(&saveMIDIButton);
   _mouseCatchers.push_back(&openMIDIButton);
+  _mouseCatchers.push_back(&savePresetButton);
+  _mouseCatchers.push_back(&openPresetButton);
   _mouseCatchers.push_back(&recordButton);
   _mouseCatchers.push_back(&rewindButton);
   
@@ -333,6 +335,8 @@ int main(int argc, char** argv)
             recordButton.setPosition(borderWinSize_left,borderWinSize_up+22);
             saveMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+88);
             openMIDIButton.setPosition(borderWinSize_left,borderWinSize_up+66);
+            openPresetButton.setPosition(borderWinSize_left,borderWinSize_up+110);
+            savePresetButton.setPosition(borderWinSize_left,borderWinSize_up+132);
             // Toute la place est disponible 
             if (clientWinSize_y > myInterface->getIdealSize().y + myScope.getIdealSize().y)
             {
@@ -626,18 +630,6 @@ int main(int argc, char** argv)
   
   driver->stop();
   driver->free();
-  
-  
-  FILE* file=fopen("preset.prst","wb");
-  Preset preset;
-  preset.pack(myInstrument);
-  preset.write_to_file(file);
-  fclose(file);
-  
-  Midi_head head(1,2,25,2);
-  Midi_track0 track0;
-  Midi_track track(head);
-  myTrack.exportToMidiTrack(track);
   
   //Nettoyage
   myTrack.setInstrument(NULL);
