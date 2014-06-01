@@ -351,11 +351,11 @@ MenuBar::MenuBar(const sf::Vector2i& zone,
              sf::IntRect(0,4*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
              sf::IntRect(BUTTON_WIDTH, 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
   _load_preset(buttonTexture,
-               sf::IntRect(0,132,30,22),
-               sf::IntRect(30, 132, 30, 22)),
-  _save_midi(buttonTexture,
-             sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-             sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
+               sf::IntRect(0,6*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+               sf::IntRect(BUTTON_WIDTH, 6*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)),
+  _save_preset(buttonTexture,
+               sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+               sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
 
 {
   _play.setPosition(0,0);
