@@ -3,7 +3,7 @@ Nom ......... : signal.cpp
 Role ........ : Implémente une classe gérant une unité de son (classe Signal) 
                 Ainsi que des modeles abstrait pour le générer ce son...
 Auteur ...... : Julien DE LOOR & Nadher ALI
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 

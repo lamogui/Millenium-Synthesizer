@@ -3,7 +3,7 @@ Nom ......... : audiostream.cpp
 Role ........ : Permet de convertir les signaux en flux 
                 tendu pour la carte son
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.1
 Licence ..... : © Copydown™
 ********************************************************/
 

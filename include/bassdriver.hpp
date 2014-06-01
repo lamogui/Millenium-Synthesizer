@@ -2,7 +2,7 @@
 Nom ......... : bassdriver.hpp
 Role ........ : Drivers utilisant la lib BASS
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.1
 Licence ..... : © Copydown™
 ********************************************************/
 

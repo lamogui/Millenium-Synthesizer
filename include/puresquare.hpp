@@ -2,7 +2,7 @@
 Nom ......... : puresquare.hpp
 Role ........ : Le premier instrument de test du programme
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.1
 Licence ..... : © Copydown™
 ****************************************************************************/
 

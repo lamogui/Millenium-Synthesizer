@@ -3,7 +3,7 @@
 Nom ......... : settings.cpp
 Role ........ : Definie un clone de QSettings pour lire des fichiers ini
 Auteur ...... : Julien DE LOOR 
-Version ..... : V1.0 olol
+Version ..... : V1.0 
 Licence ..... : © Copydown™
 ****************************************************************************/
 

@@ -2,7 +2,7 @@
 Nom ......... : cado.cpp
 Role ........ : 
 Auteur ...... : Maxime CADORET
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ********************************************************/
 

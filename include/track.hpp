@@ -78,7 +78,7 @@ class Track
     unsigned int _time;
     unsigned int _currentNote;
     unsigned int _currentEvent;
-    
+    mutable sf::Mutex _mutex;    
     
     std::vector<InstrumentParameterEvent*> _events;
     std::vector<Note*> _notes;

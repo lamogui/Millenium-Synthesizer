@@ -3,7 +3,7 @@
 Nom ......... : track.cpp
 Role ........ : Definie une piste (partition de musique)
 Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
@@ -43,6 +43,7 @@ Track::~Track()
 void Track::reset()
 {
   panic();
+  sf::Lock lock(_mutex);
   for (unsigned int i=0;i<_notes.size();i++)
   {
     delete _notes[i];
@@ -60,6 +61,7 @@ void Track::reset()
 
 void Track::panic()
 {
+  sf::Lock lock(_mutex);
   for (unsigned int i=0;i<_played.size();i++)
   {
     _played[i]->sendStopSignal();
@@ -70,6 +72,7 @@ void Track::panic()
 bool Track::seek(unsigned int time)
 {
   panic();
+  sf::Lock lock(_mutex);
   _currentNote=0;
   _currentEvent=0;
   bool found = false;
@@ -101,6 +104,7 @@ bool Track::seek(unsigned int time)
 
 unsigned int Track::fastLength()
 {
+  sf::Lock lock(_mutex);
   if (_notes.size())
     return _notes[_notes.size()-1]->start() + _notes[_notes.size()-1]->length();
   else return 0;
@@ -109,11 +113,12 @@ unsigned int Track::fastLength()
 bool Track::importFromMidiTrack(const Midi_track& midi)
 {
    reset();
+   sf::Lock lock(_mutex);
    unsigned int target_size=midi.chunk_size();
    unsigned g=0;
    const unsigned char* buffer=midi.get_chunk();
    std::map<BYTE, Note*> keyboard;
-   
+    
    unsigned int integ_delta;
    while (g < target_size)
    {
@@ -223,6 +228,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
 
 void Track::exportToMidiTrack(Midi_track& midi) const
 {
+  sf::Lock lock(_mutex);
   unsigned int currentNote=0;
   unsigned int  currentEvent=0;
   unsigned int  time=0;
@@ -275,6 +281,7 @@ void Track::exportToMidiTrack(Midi_track& midi) const
 
 bool Track::tick()
 {
+  sf::Lock lock(_mutex);
   //Add currently pressed notes !
   while (_notes.size() > _currentNote && _notes[_currentNote]->start() == _time)
   {
@@ -323,11 +330,14 @@ Note* Track::recordNoteStart(unsigned char id, float v)
 
 void Track::recordNoteRelease(Note* n)
 {
+  sf::Lock lock(_mutex);
   if (n && _time > n->start())
     n->setLength(_time-n->start());
 }
 
 bool Track::concatenate(const Track &track_extern) {
+  sf::Lock lock(_mutex);
+  sf::Lock extlock(track_extern._mutex);
   std::vector<Note*> tempo;
   unsigned int g_this=0, g_extern=0;
   while (g_this<_notes.size() && g_extern<track_extern._notes.size()) {

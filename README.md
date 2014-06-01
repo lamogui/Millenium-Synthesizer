@@ -66,14 +66,26 @@ Modifiez les paramètres à l'aide des potards (souris) et appuez sur les touche
 pour jouer les différentes notes. Les instruments sont polyphoniques il est donc possible de jouer 
 plusieurs notes en même temps.
 
+Configuration
+=============
+
+Driver ASIO
+-----------
+Si vous avez un driver ASIO (sous windows) comme par exemple ASIO4ALL il est possible de l'utiliser
+en changeant la ligne UseASIODriver=False; en True...
+
+
 Repertoires 
 ===========
 
  - build : contient les fichiers compilés par mingw/gcc
  - img : contient les textures et captures d'écrans
+ - fonts : contient les fonts utilisés par le projet
+ - musics : contients quelques musiques au format MIDI 
+ - presets : contients des presets pour l'instrument NELEAD6
  - include : contient les déclarations (hpp) et les en-têtes des librairies
- - libXXXX : contints les librairies pour la platforme XXXX
- - mis : contient lUML
+ - libXXXX : contient les librairies pour la platforme XXXX
+ - mis : contient l'UML
  - src : contient les fichiers sources du projet
  - visual : contient les fichiers pour compiler avec visual studio 11 (2012) en 64bits.
  
@@ -82,12 +94,22 @@ Repertoires
 UML et MODELIO
 ==============
 Les fichiers concernant la MIS sont dans le repertoire "mis" :
- - Scénario.doc 
- - Fichiers Modelio
+ - Les dossiers des différentes versions du projet (Uniquement V1 et V1.1 pour le moment)
+ - Fichiers Modelio les plus récents
 
-Pour faire l'uml il vous faut : Modelio 3.1.0, ensuite cliquez sur 
+Pour ouvrir l'uml il vous faut : Modelio 3.1.0, ensuite cliquez sur 
 File -> Switch Workspace -> Selectionner le dossier workspace dans 
-"Mes Documents\Github\POO\mis\workspace"
+"Documents\Github\POO\mis\workspace"
+
+Les fichiers modelio ne contienne pas les diagrammes UML pour une version spécifique... 
+Consultez les dossiers pour cela...
+
+
+Attention ! Le code est actuellement en version 1.7 certaines classes ont été rajoutés par 
+rapport à l'UML de la V1.1 mais le fonctionnement des classes présentes dans la V1.1 reste 
+le même (il y a uniquement eu des ajouts)
+
+
 
 Textures
 ========
@@ -108,14 +130,11 @@ Procédez par un classique Fork puis Pull Request et je vous ajouterai sur les c
 TODO
 ====
 
- - ~~Coder les oscillateurs : random, smooth random, noise et triple sin~~
- - Coder le Fader ~~et le Button~~ (dans interface.hpp/cpp)
- - **Faire le code qui lit les fichiers midi**
- - **Coder les getters/setters (Regarder dans les notations)**
- - **se mettre d'accord sur les notations des attributs et utiliser la même PARTOUT**
+ - Coder le Fader
+ - **Réecrire le code qui lit les fichiers midi**
+ - **fixer une convention sur les notations des méthodes et attributs et utiliser la même PARTOUT**
  - Indenter/commenter 
  - Finir le NELead6 
  - Coder d'autres drivers
- - Mettre des cartouches avec des ASCII Art (lol)
  - Coder la méthode bool readSignal(Signal& signal) dans AudioStream, et regarder ce que l'on peut faire avec SoundStream de la SFML.
  - Faire un fichier instrument.cpp

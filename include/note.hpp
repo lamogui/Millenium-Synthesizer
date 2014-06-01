@@ -5,7 +5,7 @@ Role ........ : Déclare les classes permettant de
                 manipuler des données rythmiques en 
                 lien avec un morceau et un instrument
 Auteur ...... : Julien DE LOOR & Maxime CADORET
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ********************************************************/
 
@@ -94,11 +94,10 @@ class Note
     static float noteFrequency[256];
     InstrumentVoice* _voiceUsed;
     
-	unsigned int _start; //time where the note is appeared
+    unsigned int _start; //time where the note is appeared
     unsigned int _length; //note duration
-	float _velocity;
-	unsigned char _id;
-    
+	  float _velocity;
+	  unsigned char _id;
 
 };
 

@@ -3,9 +3,12 @@ Nom ......... : audiostream.hpp
 Role ........ : Permet de convertir les signaux en flux 
                 tendu pour la carte son
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.1 
 Licence ..... : © Copydown™
 ********************************************************/
+
+#ifndef __AUDIOSTREAM
+#define __AUDIOSTREAM
 
 #include "config.hpp"
 #include "signal.hpp"
@@ -71,60 +74,5 @@ class AudioStream : public sf::Mutex
   
 };
 
+#endif
 
-/*
-class AudioStream
-{
-  public:
-    AudioStream();
-    virtual ~AudioStream();  
- 
-    static const unsigned int nBuffers = 3; //minimum 3 le but c'est d'en avoir le moins possible (ça augmente la latence)
- 
-    //Get an access to the buffers
-    //NON-THREAD SAFE BUT YOU SHOULD NOT WRITE WITH MULTIPLES THREADS
-    //(SHOULD BE) SAFE WITH READING (WILL NOT ERASE THE CURRENT PLAYED BUFFER !)
-    Signal* getPreparedBuffer(); //get current prepared buffer
-    bool prepareNextBuffer(); //finnish prepare the current buffer
-    
-    //Play the playable buffer
-    //DON'T USE 4 FOLLOWING WITH BASS CALLBACK STREAM !
-    bool pushInBass(); //push the current buffer in bass stream (push method)
-    Signal* usePlayableBuffer(); //use the current played buffer DON'T USE WITH BASS CALLBACK STREAM !
-    void releasePlayableBuffer(); //release the current playable buffer and go to the next
-    //DON'T forget to RELEASE the PlayableBuffer ! AND DON'T BE TIME EXCESSIVE BETWEEN USE AND RELEASE
-    
-    
-    //Create the bass stream erase previous created
-    HSTREAM createCompatibleBassStream(bool callback=true); //use callback method -> direct played into speakers and no need 
-    HSTREAM getBassStream(); //getter
-      
-  protected:
-    void _pop(); //Remove the first in buffer from the queue (because it has been played)
-  
-    std::vector<Signal*> _buffers; //fifo/circular signal buffers
-    volatile unsigned int _prepared;  //Current prepared buffer
-    volatile unsigned int _played;   //Current played buffer
-    volatile unsigned int _filled;   //Number of filled buffer
-    HSTREAM _stream;        //Bass Stream
-    
-  private:
-    //Callback mutex
-    sf::Mutex _callbackMutex;
-    
-    //Delta into a buffer for _BassStreamProc
-    unsigned int _relativeDelta;
-  
-    //The Bass Stream proc available 
-    static DWORD CALLBACK _BassStreamProc(HSTREAM handle,
-                                          void *buffer,
-                                          DWORD length,
-                                          void *user);
-    #if defined(COMPILE_WINDOWS)
-    static DWORD CALLBACK _BassAsioProc(BOOL input, 
-                                        DWORD channel, 
-                                        void *buffer, 
-                                        DWORD length, 
-                                        void *user);
-    #endif
-};*/

@@ -3,7 +3,7 @@ Nom ......... : fft.cpp
 Role ........ : Implémente une classe permettant de faire une transformé de 
                 fourrier continue...
 Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
