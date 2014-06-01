@@ -17,6 +17,13 @@ Licence ..... : © Copydown™
 #include <vector>
 #include "config.hpp"
 
+#define PLAY 1
+#define RECORD 2
+#define REWIND 3
+#define BUTTON_WIDTH 30
+#define BUTTON_HEIGHT 22
+
+
 class NEWindow : public sf::RenderWindow
 {
   public:
@@ -107,6 +114,33 @@ class NEWindow : public sf::RenderWindow
     sf::Texture _backTexture;
     sf::Vector2i _backCenter;
     
+};
+
+class MenuBar : public Interface
+{
+  public:
+    template<typename F , typename A >
+    MenuBar(const sf::Vector2i& zone, 
+            const sf::Vector2f &size, 
+            sf::Texture &buttonTexture,
+            int *playState,
+            int *recordState,
+            int *rewindState,
+            Track *track,
+            Instrument *instrument);
+
+    virtual ~MenuBar();
+
+  private:
+    sf::vector2i _xy_buttonTexture;
+    sf::Vector2i _xy_menuBar;
+    Button _play;
+    Button _record;
+    Button _rewind;
+    Button _load_midi;
+    Button _save_midi;
+    Button _load_preset;
+    Button _save_preset;
 };
 
 #endif
