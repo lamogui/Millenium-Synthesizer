@@ -24,7 +24,6 @@
 #include "careme.hpp"
 #include "scope.hpp"
 #include "window.hpp"
-#include "menuBar.hpp"
 
 sf::Font globalfont; 
 
@@ -116,19 +115,11 @@ int main(int argc, char** argv)
   sf::Texture buttonTexture;
   buttonTexture.loadFromFile("img/button.png");
   
-  //initialisation de la barre de bouton
-  int playState=0;
-  Button *playButton = new Button(&playState, buttonTexture,
-                                              sf::IntRect(0,
-                                                          BUTTON_WIDTH,
-                                                          BUTTON_HEIGHT,
-                                                          BUTTON_WIDTH ),
-                                              sf::IntRect(BUTTON_HEIGHT,
-                                                          BUTTON_WIDTH ,
-                                                          BUTTON_HEIGHT,
-                                                          BUTTON_WIDTH ));
 
-  //MenuBar *myMenuBar = new MenuBar(sf::Vector2i(BUTTON_HEIGHT, BUTTON_WIDTH),sf::Vector2f(BUTTON_HEIGHT, BUTTON_WIDTH), 1, playButton);
+  TrackControlBar trackControlBar(sf::Vector2f(window.getSize().x,BUTTON_HEIGHT+10));
+  trackControlBar.setTrack(&myTrack);
+  trackControlBar.setInstrument(myInstrument);
+  
   
   //Texture de fond
   sf::Texture backTexture;
@@ -145,7 +136,7 @@ int main(int argc, char** argv)
   myScope.setColor(myInterface->getColor());
   
   //window.registerInterface(*myMenuBar);
-  window.registerMouseCatcher()
+  window.registerInterface(trackControlBar);
   window.registerInterface(*myInterface);
   window.registerInterface(myScope);
   window.arrange();
