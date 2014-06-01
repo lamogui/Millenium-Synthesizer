@@ -382,6 +382,7 @@ _savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
 
 
 void TrackControlBar::setTrack(Track* t){
+  _rewindButton.setProcess(RewindTrackRoutine,t);
   _loadMIDIButton.setProcess(OpenFromMIDIFileRoutine,t);
   _saveMIDIButton.setProcess(SaveTrackToMIDIFileRoutine,t);
 }
