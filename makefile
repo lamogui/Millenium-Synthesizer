@@ -23,8 +23,8 @@ OBJ= build/signal.o \
 	build/preset.o \
 	build/window.o 
 	
-CFLAGS= --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= -I"include" -g -W 
+CFLAGS= --std=c99 -W -Wall -I"include" -O2 -Os -s
+CXXFLAGS= -I"include" -O2 -Os -s -W 
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \
