@@ -108,19 +108,13 @@ int main(int argc, char** argv)
                                         sf::Vector2f(window.getSize().x,360));
   }
   
-  //Piste
-  Track myTrack(myInstrument);
   
+  
+  
+  ///Textures
   //texture des boutons
   sf::Texture buttonTexture;
   buttonTexture.loadFromFile("img/button.png");
-  
-
-  TrackControlBar trackControlBar(sf::Vector2f(window.getSize().x,BUTTON_HEIGHT+10));
-  trackControlBar.setTrack(&myTrack);
-  trackControlBar.setInstrument(myInstrument);
-  
-  
   //Texture de fond
   sf::Texture backTexture;
   if (GetSettingsFor("GUI/Background",true))
@@ -129,6 +123,18 @@ int main(int argc, char** argv)
                                 std::string("img/background.png")),
                                 sf::Vector2i(600,500));
   }
+
+  //Piste
+  Track myTrack(myInstrument);
+  int playing=0;
+  int recording=0;
+  //Controleur de piste
+  TrackControlBar trackControlBar(sf::Vector2f(window.getSize().x,BUTTON_HEIGHT+10));
+  trackControlBar.setTrack(&myTrack);
+  trackControlBar.setInstrument(myInstrument);
+  trackControlBar.setRecordState(&recording);
+  trackControlBar.setPlayingState(&playing);
+  
   
   //Oscilloscope
   Scope myScope(sf::Vector2f(window.clientSize().x,100));
@@ -181,8 +187,11 @@ int main(int argc, char** argv)
             if (id!=NOT_A_NOTE)
             {
               if (notes.find(event.key.code) == notes.end())
-              {
-                notes[event.key.code] = new Note(time,id,1.0);
+              {     
+                if (recording) 
+                  notes[event.key.code] = myTrack.recordNoteStart(id,1.0);
+                else
+                  notes[event.key.code] = new Note(0,id,1.0);
                 myInstrument->playNote(*notes[event.key.code]);
               }  
             }
@@ -191,8 +200,15 @@ int main(int argc, char** argv)
         case sf::Event::KeyReleased:
           if (notes.find(event.key.code) != notes.end())
           {
-            notes[event.key.code]->setLength(time - notes[event.key.code]->start());
-            delete notes[event.key.code]; //a virer
+            if (recording || notes[event.key.code]->start())
+               myTrack.recordNoteRelease(notes[event.key.code]);
+               //équivalent à
+               //notes[event.key.code]->length= track.time() - notes[event.key.code]->start;
+
+            notes[event.key.code]->sendStopSignal();
+            
+            if (!notes[event.key.code]->start()) 
+               delete notes[event.key.code];
             notes.erase(event.key.code);
           }
           break;
@@ -205,12 +221,17 @@ int main(int argc, char** argv)
     //Mise à jour de l'interface
     myInterface->update();
     
+    
+    if (recording) trackControlBar.playButton().forceOn();
+    if (playing)
+      myTrack.tick();
+    
     //Mise à jour du son
     time++;
-      //le verre d'eau est vide donc on le rempli
-      myInstrument->step(&leftout, &rightout); 
-      //Mise à jour de l'oscillo
-      myScope.update();
+    //le verre d'eau est vide donc on le rempli
+    myInstrument->step(&leftout, &rightout); 
+    //Mise à jour de l'oscillo
+    myScope.update();
     
     unsigned l;
     do

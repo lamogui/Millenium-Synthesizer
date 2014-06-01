@@ -395,3 +395,13 @@ void TrackControlBar::setInstrument(AbstractInstrument* i){
 TrackControlBar::~TrackControlBar()
 {
 }
+
+void TrackControlBar::setRecordState(int* rs) 
+{
+  _recordButton.linkTo(rs);
+}
+
+void TrackControlBar::setPlayingState(int* ps)
+{
+  _playButton.linkTo(ps);
+}
