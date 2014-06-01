@@ -17,9 +17,9 @@ Licence ..... : © Copydown™
 #include <vector>
 #include "config.hpp"
 
-#define PLAY 1
-#define RECORD 2
-#define REWIND 3
+#define BUTTON_PLAY 1
+#define BUTTON_RECORD 2
+#define BUTTON_REWIND 3
 #define BUTTON_WIDTH 30
 #define BUTTON_HEIGHT 22
 
@@ -116,31 +116,31 @@ class NEWindow : public sf::RenderWindow
     
 };
 
-class MenuBar : public Interface
+class TrackControlBar : public Interface
 {
   public:
-    template<typename F , typename A >
-    MenuBar(const sf::Vector2i& zone, 
-            const sf::Vector2f &size, 
-            sf::Texture &buttonTexture,
-            int *playState,
-            int *recordState,
-            int *rewindState,
-            Track *track,
-            Instrument *instrument);
+    TrackControlBar(const sf::Vector2i& zone, 
+                    const sf::Vector2f &size, 
+                    int *playState,
+                    int *recordState,
+                    Track *track,
+                    Instrument *instrument);
 
-    virtual ~MenuBar();
-
+    virtual ~TrackControlBar();
+    
+    inline Button& playButton() { return _playButton;}
+    inline Button& recordButton() { return _recordButton;}
+    
   private:
-    sf::vector2i _xy_buttonTexture;
-    sf::Vector2i _xy_menuBar;
-    Button _play;
-    Button _record;
-    Button _rewind;
-    Button _load_midi;
-    Button _save_midi;
-    Button _load_preset;
-    Button _save_preset;
+    sf::Texture _buttonTexture;
+    Button _playButton;
+    Button _recordButton;
+    SingleProcessButton _rewindButton;
+    SingleProcessButton _loadMIDIButton;
+    SingleProcessButton _saveMidiButton;
+    SingleProcessButton _loadPresetButton;
+    SingleProcessButton _savePresetButton;
+    
 };
 
 #endif
