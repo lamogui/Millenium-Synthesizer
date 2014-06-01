@@ -123,11 +123,6 @@ class TrackControlBar : public Interface
 
     virtual ~TrackControlBar();
     
-    int *playState,
-                    int *recordState,
-                    Instrument *AbstractInstrument
-    void setTrack(Track& t);
-    
     inline Button& playButton() { return _playButton;}
     inline Button& recordButton() { return _recordButton;}
     
