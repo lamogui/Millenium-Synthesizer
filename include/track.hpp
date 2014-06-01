@@ -88,5 +88,5 @@ class Track
 
 void SaveTrackToMIDIFileRoutine(const Track* t);
 void OpenFromMIDIFileRoutine(Track* t);
-
+void RewindTrackRoutine(Track* t);
 #endif

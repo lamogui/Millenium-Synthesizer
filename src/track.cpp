@@ -504,3 +504,8 @@ void OpenFromMIDIFileRoutine(Track* t)
     std::cout << "Unable to open: " << filename << std::endl; 
   }
 }
+
+void RewindTrackRoutine(Track* t)
+{
+  if (t) t->seek(0);
+}
