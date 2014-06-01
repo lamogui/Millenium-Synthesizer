@@ -69,10 +69,29 @@ plusieurs notes en même temps.
 Configuration
 =============
 
+Le projet à un fichier de configuration nommé **settings.ini**
+Il suffit de modifier les valeurs des paramètre à la main via un
+bloc note.
+
 Driver ASIO
 -----------
 Si vous avez un driver ASIO (sous windows) comme par exemple ASIO4ALL il est possible de l'utiliser
 en changeant la ligne UseASIODriver=False; en True...
+Utiliser un driver ASIO diminue fortement les "bugs sonores" (car le driver BASS est plus lent)
+
+
+FFT 
+---
+Par défaut le programme est réglé sur une FFT qui utilise beaucoup d'échantillons, 
+Cela peut causer des lags si vous utilisez à la fois : la FFT, des Releases Times très long
+combinés à la lecture d'un fichier MIDI.
+Vous pouvez augmenter les performances en diminuant le nombre d'échantillons :
+Un exemple qui marche bien.
+
+Samples = 4096;
+
+Notes qu'il faut que la valeur soit une puissance de 2 codé sur un nombre de bit paire
+(Il y a un bug avec les nombres de bit impairs)
 
 
 Repertoires 
