@@ -56,7 +56,7 @@ int main(int argc, char** argv)
   if (!driver->init(Signal::frequency)) return 0xdead;
   
   ///Initialisation du stream
-  unsigned int streamSize=Signal::size<<2; //4 fois la taille d'un signal
+  unsigned int streamSize=Signal::size*6; //4 fois la taille d'un signal
   AudioStream stream(streamSize);
   //initialisation des signaux
   Signal leftout, rightout;
@@ -259,7 +259,11 @@ int main(int argc, char** argv)
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   
+  driver->stop();
+  driver->free();
+  
   //Nettoyage
+  myTrack.setInstrument(NULL);
   delete myInterface;
   delete myInstrument;
   delete driver;
