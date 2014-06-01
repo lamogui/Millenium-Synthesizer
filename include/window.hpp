@@ -16,6 +16,7 @@ Licence ..... : © Copydown™
 #include "interface.hpp"
 #include <vector>
 #include "config.hpp"
+#include "track.hpp"
 
 #define BUTTON_PLAY 1
 #define BUTTON_RECORD 2
@@ -126,6 +127,8 @@ class TrackControlBar : public Interface
     inline Button& playButton() { return _playButton;}
     inline Button& recordButton() { return _recordButton;}
     
+    void setTrack(Track* t);
+    void setInstrument(AbstractInstrument* i);
   private:
     sf::Texture _buttonTexture;
     Button _playButton;
