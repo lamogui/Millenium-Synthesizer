@@ -331,7 +331,7 @@ _rewindButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _loadMIDIButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _saveMIDIButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _loadPresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
-_savePresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())          
+_savePresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())         
 {
   _buttonTexture.loadFromFile("img/button.png");
   _playButton.setTexture(_buttonTexture,
@@ -378,5 +378,4 @@ _savePresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
 void TrackControlBar::setTrack(Track& t){
   _loadMIDIButton.setProcess(OpenFromMIDIFileRoutine,&t);
   _saveMIDIButton.setProcess(SaveTrackToMIDIFileRoutine,&t);
-
 }
