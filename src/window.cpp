@@ -322,51 +322,61 @@ void NEWindow::setBackgroundTexture(const std::string& name,
 }
 
 
-MenuBar::MenuBar(const sf::Vector2i& zone, 
-        const sf::Vector2f &size, 
-        sf::Texture &buttonTexture,
-        int *playState,
-        int *recordState,
-        int *rewindState,
-        Track *track,
-        Instrument *instrument) :
-  Interface(zone,size),
-  _play(playState,
-        buttonTexture,
-        sf::IntRect(0, BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-        sf::IntRect(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)),
-  _record(recordState, 
-          buttonTexture, 
-          sf::IntRect(0,0,BUTTON_WIDTH,BUTTON_HEIGHT),
-          sf::IntRect(BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT)),
-  _rewind(&rewindState,
-          buttonTexture, 
-          sf::IntRect(0,2*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-          sf::IntRect(BUTTON_WIDTH, 2*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT),
-          ButtonMode::interrupt),
-  _load_midi(buttonTexture,
-             sf::IntRect(0,5*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-             sf::IntRect(BUTTON_WIDTH, 5*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)),
-  _save_midi(buttonTexture,
-             sf::IntRect(0,4*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-             sf::IntRect(BUTTON_WIDTH, 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
-  _load_preset(buttonTexture,
-               sf::IntRect(0,132,30,22),
-               sf::IntRect(30, 132, 30, 22)),
-  _save_midi(buttonTexture,
-             sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-             sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
-
+TrackControlBar::TrackControlBar( const sf::Vector2f &size) :
+Interface(sf::Vector2i(BUTTON_WIDTH*10,BUTTON_HEIGHT+10),size),
+_buttonTexture(),
+_playButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_recordButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_rewindButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_loadMIDIButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_saveMIDIButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_loadPresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_savePresetButton(sf::Vector2i(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())          
 {
-  _play.setPosition(0,0);
-  _record.setPosition(BUTTON_WIDTH,0);
-  _rewind.setPosition(2*BUTTON_WIDTH,0);
-  _load_midi.setProcess(OpenFromMIDIFileRoutine,track);
-  _load_midi.setPosition(3*BUTTON_WIDTH,0);
-  _save_midi.setProcess(SaveTrackToMIDIFileRoutine,track);
-  _save_midi.setPosition(4*BUTTON_WIDTH,0);
-  _load_preset.setProcess(LoadInstrumentPresetRoutine,instrument);
-  _load_preset.setPosition(5*BUTTON_WIDTH,0);
-  _save_preset.setProcess(SaveInstrumentPresetRoutine,instrument);
-  _save_preset.setPosition(6*BUTTON_WIDTH,0);
+  _buttonTexture.loadFromFile("img/button.png");
+  _playButton.setTexture(_buttonTexture,
+                         sf::IntRect(0,BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                         sf::IntRect(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                        
+  _playButton.setPosition(0,0);
+  
+  _recordButton.setTexture(_buttonTexture,
+                           sf::IntRect(0,0,BUTTON_WIDTH,BUTTON_HEIGHT),
+                           sf::IntRect(BUTTON_WIDTH,0, BUTTON_WIDTH, BUTTON_HEIGHT));  
+  _recordButton.setPosition(BUTTON_WIDTH,0);
+  
+  _rewindButton.setTexture(_buttonTexture,
+                           sf::IntRect(0,2*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                           sf::IntRect(BUTTON_WIDTH, 2*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                        
+  _rewindButton.setPosition(2*BUTTON_WIDTH,0);
+  
+  _loadMIDIButton.setTexture(_buttonTexture,
+                             sf::IntRect(0,5*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                             sf::IntRect(BUTTON_WIDTH, 5*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                   
+  _loadMIDIButton.setProcess(OpenFromMIDIFileRoutine,track);
+  _loadMIDIButton.setPosition(3*BUTTON_WIDTH,0);
+  
+  
+  _saveMIDIButton.setPosition(4*BUTTON_WIDTH,0);
+  _saveMIDIButton.setTexture(_buttonTexture,
+                             sf::IntRect(0,4*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                             sf::IntRect(BUTTON_WIDTH, 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
+  
+  _loadPresetButton.setProcess(LoadInstrumentPresetRoutine,instrument);
+  _loadPresetButton.setPosition(5*BUTTON_WIDTH,0);
+  _loadPresetButton.setTexture(_buttonTexture,
+                               sf::IntRect(0,6*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                               sf::IntRect(BUTTON_WIDTH, 6*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
+  
+  _savePresetButton.setProcess(SaveInstrumentPresetRoutine,instrument);
+  _savePresetButton.setPosition(6*BUTTON_WIDTH,0);
+  _savePresetButton.setTexture(_buttonTexture,
+                               sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                               sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
+}
+
+
+void TrackControlBar::setTrack(Track& t){
+  _loadMIDIButton.setProcess(OpenFromMIDIFileRoutine,&t);
+  _saveMIDIButton.setProcess(SaveTrackToMIDIFileRoutine,&t);
+
 }
