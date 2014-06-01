@@ -116,26 +116,26 @@ class NEWindow : public sf::RenderWindow
     
 };
 
-class MenuBar : public Interface
+class TrackControlBar : public Interface
 {
   public:
-    MenuBar(const sf::Vector2i& zone, 
-            const sf::Vector2f &size, 
-            int *playState,
-            int *recordState,
-            int *rewindState,
-            Track *track,
-            Instrument *instrument);
+    TrackControlBar(const sf::Vector2i& zone, 
+                    const sf::Vector2f &size, 
+                    int *playState,
+                    int *recordState,
+                    Track *track,
+                    Instrument *instrument);
 
-    virtual ~MenuBar();
+    virtual ~TrackControlBar();
     
     inline Button& playButton() { return _playButton;}
     inline Button& recordButton() { return _recordButton;}
-    inline Button& rewindButton() { return _rewindButton;}
+    
   private:
+    sf::Texture _buttonTexture;
     Button _playButton;
     Button _recordButton;
-    Button _rewindButton;
+    SingleProcessButton _rewindButton;
     SingleProcessButton _loadMIDIButton;
     SingleProcessButton _saveMidiButton;
     SingleProcessButton _loadPresetButton;
