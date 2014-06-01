@@ -17,9 +17,9 @@ Licence ..... : © Copydown™
 #include <vector>
 #include "config.hpp"
 
-#define PLAY 1
-#define RECORD 2
-#define REWIND 3
+#define BUTTON_PLAY 1
+#define BUTTON_RECORD 2
+#define BUTTON_REWIND 3
 #define BUTTON_WIDTH 30
 #define BUTTON_HEIGHT 22
 
@@ -119,10 +119,8 @@ class NEWindow : public sf::RenderWindow
 class MenuBar : public Interface
 {
   public:
-    template<typename F , typename A >
     MenuBar(const sf::Vector2i& zone, 
             const sf::Vector2f &size, 
-            sf::Texture &buttonTexture,
             int *playState,
             int *recordState,
             int *rewindState,
@@ -130,17 +128,19 @@ class MenuBar : public Interface
             Instrument *instrument);
 
     virtual ~MenuBar();
-
+    
+    inline Button& playButton() { return _playButton;}
+    inline Button& recordButton() { return _recordButton;}
+    inline Button& rewindButton() { return _rewindButton;}
   private:
-    sf::vector2i _xy_buttonTexture;
-    sf::Vector2i _xy_menuBar;
-    Button _play;
-    Button _record;
-    Button _rewind;
-    Button _load_midi;
-    Button _save_midi;
-    Button _load_preset;
-    Button _save_preset;
+    Button _playButton;
+    Button _recordButton;
+    Button _rewindButton;
+    SingleProcessButton _loadMIDIButton;
+    SingleProcessButton _saveMidiButton;
+    SingleProcessButton _loadPresetButton;
+    SingleProcessButton _savePresetButton;
+    
 };
 
 #endif
