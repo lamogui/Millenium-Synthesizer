@@ -133,8 +133,8 @@ void FFT::realloc(unsigned int size) {
   sample* gi=_twidleFactorI;
   for (unsigned int N=2; N<=_size; N<<=1) {
     for (unsigned int n=0; n<(N>>1); n++) {
-      *g++=std::cos(2.f*M_PI*(float)n/(float)N);
-      *gi++=std::sin(-2.f*M_PI*(float)n/(float)N);
+      *g++=(sample)std::cos(2.f*3.14159265359*(float)n/(float)N);
+      *gi++=(sample)std::sin(-2.f*3.14159265359*(float)n/(float)N);
     }
   }
 
@@ -217,7 +217,7 @@ void FFT::computeModule() {
   if (_real && _imaginary) {
     //static float maxi=0;
     for (unsigned int i=0; i<_size; i++) {
-      _module[i]=sqrt(0.98*(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size);
+      _module[i]=(sample)sqrt(0.98*(_real[i]*_real[i] + _imaginary[i]*_imaginary[i])/(float)_size);
     }
     //maxi=std::max(maxi,*(std::max_element(_module, _module+_size)));
     //std::cout << maxi << std::endl;

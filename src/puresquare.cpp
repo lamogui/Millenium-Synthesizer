@@ -8,6 +8,11 @@ Licence ..... : © Copydown™
 
 #include "puresquare.hpp"
 
+
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#endif
+
 PureSquareVoice::PureSquareVoice(AbstractInstrument* creator):
 InstrumentVoice(creator)
 {

@@ -10,6 +10,12 @@ Licence ..... : © Copydown™
 #include "scope.hpp"
 #include <iostream>
 #include "settings.hpp"
+
+
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#endif
+
 Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   Interface(sf::Vector2i(Signal::size,100),size),
   _signal(0),

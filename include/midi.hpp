@@ -220,7 +220,7 @@ class Midi_abstractevent : public AbstractFileParser{
   public:
     virtual ~Midi_abstractevent() {}
 
-    inline BYTE type() { return (_type & 0xF0==0xF0) ? _type : _type >> 4; }
+    inline BYTE type() { return ((_type & 0xF0)==0xF0) ? _type : _type >> 4; }
     
     //Return event validity
     //virtual bool is_valid() const = 0;

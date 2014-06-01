@@ -235,7 +235,7 @@ class Button : public ModulableButton
     inline virtual bool toggleState()
     {
       if (_val)
-        return *_val;
+        return *_val ? true : false;
       return false;
     }
     int* _val; 
@@ -273,7 +273,7 @@ class SingleProcessButton : public AbstractButton
   
   protected:
     inline virtual bool allowed() { 
-      return _thread;
+      return _thread ? true : false;
     } 
     virtual void clicked();
     sf::Thread* _thread;

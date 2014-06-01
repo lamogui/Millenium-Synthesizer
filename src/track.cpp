@@ -7,6 +7,13 @@ Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#pragma warning( disable : 4804 )
+#pragma warning( disable : 4267 )
+#pragma warning( disable : 4996 )
+#endif
+
 #include "track.hpp"
 #include <iostream>
 #include "bass.h"
@@ -119,7 +126,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
    const unsigned char* buffer=midi.get_chunk();
    std::map<BYTE, Note*> keyboard;
     
-   unsigned int integ_delta;
+   unsigned int integ_delta=0;
    while (g < target_size)
    {
      //Read delta 
@@ -335,7 +342,7 @@ void Track::recordNoteRelease(Note* n)
     n->setLength(_time-n->start());
 }
 
-bool Track::concatenate(const Track &track_extern) {
+void Track::concatenate(const Track &track_extern) {
   sf::Lock lock(_mutex);
   sf::Lock extlock(track_extern._mutex);
   std::vector<Note*> tempo;
@@ -360,7 +367,7 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
 {
   char filename[0x104]=""; //Maxpath
   #ifdef COMPILE_WINDOWS
-  OPENFILENAME ofn;
+  OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
   ofn.lpstrFilter="MIDI Files\0*.mid;*.midi\0\0";
@@ -405,7 +412,7 @@ void OpenFromMIDIFileRoutine(Track* t)
 
   char filename[0x104]=""; //Maxpath
   #ifdef COMPILE_WINDOWS
-  OPENFILENAME ofn;
+  OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
   ofn.lpstrFilter="MIDI Files\0*.mid;*.midi\0\0";

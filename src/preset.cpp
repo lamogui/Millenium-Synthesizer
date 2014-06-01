@@ -9,6 +9,10 @@ Licence ..... : © Copydown™
 
 #include "preset.hpp"
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4996 )
+#endif
+
 Preset::Preset() : 
 AbstractFileParser(),
 _buffer(0),
@@ -107,7 +111,7 @@ void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument)
   }
   char filename[0x104]={0};
 #ifdef COMPILE_WINDOWS
-  OPENFILENAME ofn;
+  OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
   ofn.lpstrFilter="Preset Files\0*.prst\0\0";
@@ -145,7 +149,7 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
   }
   char filename[0x104]={0};
 #ifdef COMPILE_WINDOWS
-  OPENFILENAME ofn;
+  OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
   ofn.lpstrFilter="Preset Files\0*.prst\0\0";

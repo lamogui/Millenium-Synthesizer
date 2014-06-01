@@ -12,6 +12,12 @@ Licence ..... : © Copydown™
 #include "midi.hpp"
 #include <iostream>
 
+
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#pragma warning( disable : 4267 )
+#endif
+
 //////////MIDI HEAD\\\\\\\\\\\\\\\\\\\\
 
 Midi_head::Midi_head(WORD format, WORD tracks, WORD tick_per_beat) :
