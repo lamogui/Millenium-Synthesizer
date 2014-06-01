@@ -371,7 +371,13 @@ _savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
   _savePresetButton.setTexture(_buttonTexture,
                                sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
                                sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
-  
+  addMouseCatcher(&_playButton);
+  addMouseCatcher(&_recordButton);
+  addMouseCatcher(&_rewindButton);
+  addMouseCatcher(&_loadMIDIButton);
+  addMouseCatcher(&_saveMIDIButton);
+  addMouseCatcher(&_loadPresetButton);
+  addMouseCatcher(&_savePresetButton);
 }
 
 

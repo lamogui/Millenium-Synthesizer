@@ -186,7 +186,12 @@ void AbstractButton::setTexture(const sf::Texture &texture,
   _idleRect = idle;
   _clickedRect = clicked;
 
+  _idleColor=sf::Color(255,255,255,255);
+  _clickedColor=sf::Color(255,255,255,255);
+  _shape.setFillColor(_idleColor);
+  _shape.setOutlineThickness(0);
   _shape.setTexture(&texture);
+  _shape.setTextureRect(_idleRect);
   /*if (_mode != ButtonMode::toggle)
   {
      if (_catched)
