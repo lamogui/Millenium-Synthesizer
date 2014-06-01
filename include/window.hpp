@@ -127,6 +127,8 @@ class TrackControlBar : public Interface
     inline Button& playButton() { return _playButton;}
     inline Button& recordButton() { return _recordButton;}
     
+    void setRecordState(int* rs);
+    void setPlayingState(int* ps);
     void setTrack(Track* t);
     void setInstrument(AbstractInstrument* i);
   private:
