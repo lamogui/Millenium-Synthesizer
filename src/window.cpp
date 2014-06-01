@@ -320,3 +320,53 @@ void NEWindow::setBackgroundTexture(const std::string& name,
    _backSprite.setPosition(-(int)_backCenter.x+(int)_backCenter.x*(int)getSize().x/((int)_backTexture.getSize().x+1),
                            (int)_backCenter.y*(int)getSize().y/(float)(_backTexture.getSize().y+1)-(int)_backCenter.y);
 }
+
+
+MenuBar::MenuBar(const sf::Vector2i& zone, 
+        const sf::Vector2f &size, 
+        sf::Texture &buttonTexture,
+        int *playState,
+        int *recordState,
+        int *rewindState,
+        Track *track,
+        Instrument *instrument) :
+  Interface(zone,size),
+  _play(playState,
+        buttonTexture,
+        sf::IntRect(0, BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+        sf::IntRect(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)),
+  _record(recordState, 
+          buttonTexture, 
+          sf::IntRect(0,0,BUTTON_WIDTH,BUTTON_HEIGHT),
+          sf::IntRect(BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT)),
+  _rewind(&rewindState,
+          buttonTexture, 
+          sf::IntRect(0,2*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+          sf::IntRect(BUTTON_WIDTH, 2*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT),
+          ButtonMode::interrupt),
+  _load_midi(buttonTexture,
+             sf::IntRect(0,5*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+             sf::IntRect(BUTTON_WIDTH, 5*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)),
+  _save_midi(buttonTexture,
+             sf::IntRect(0,4*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+             sf::IntRect(BUTTON_WIDTH, 4*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
+  _load_preset(buttonTexture,
+               sf::IntRect(0,132,30,22),
+               sf::IntRect(30, 132, 30, 22)),
+  _save_midi(buttonTexture,
+             sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+             sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT))
+
+{
+  _play.setPosition(0,0);
+  _record.setPosition(BUTTON_WIDTH,0);
+  _rewind.setPosition(2*BUTTON_WIDTH,0);
+  _load_midi.setProcess(OpenFromMIDIFileRoutine,track);
+  _load_midi.setPosition(3*BUTTON_WIDTH,0);
+  _save_midi.setProcess(SaveTrackToMIDIFileRoutine,track);
+  _save_midi.setPosition(4*BUTTON_WIDTH,0);
+  _load_preset.setProcess(LoadInstrumentPresetRoutine,instrument);
+  _load_preset.setPosition(5*BUTTON_WIDTH,0);
+  _save_preset.setProcess(SaveInstrumentPresetRoutine,instrument);
+  _save_preset.setPosition(6*BUTTON_WIDTH,0);
+}
