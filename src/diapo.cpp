@@ -149,9 +149,6 @@ int main(int argc, char** argv)
   
   ///Gestionnaire de Notes
   std::map<sf::Keyboard::Key,Note*> notes;
-  float dt=1.f/(float)Signal::refreshRate; 
-  unsigned int time=0; //Temps / dt (entier)
-  
   while (window.isOpen())
   {
     ///Gestion des evenements
@@ -226,12 +223,9 @@ int main(int argc, char** argv)
     if (playing)
       myTrack.tick();
     
-    //Mise à jour du son
-    time++;
     //le verre d'eau est vide donc on le rempli
     myInstrument->step(&leftout, &rightout); 
-    //Mise à jour de l'oscillo
-    myScope.update();
+    
     
     unsigned l;
     do
@@ -249,6 +243,9 @@ int main(int argc, char** argv)
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
       stream.unlock();
     } while(!sendSignalSuccess);
+    
+    //Mise à jour de l'oscillo
+    myScope.update();
     
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface

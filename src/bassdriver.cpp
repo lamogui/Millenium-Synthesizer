@@ -285,8 +285,8 @@ void BassAsioDriver::free()
 bool BassAsioDriver::start(AudioStream* stream)
 {
   unsigned count;
-  _right=GetSettingsFor("ASIO/ChannelRightID",0);
-  _left=GetSettingsFor("ASIO/ChannelLeftID",1);
+  _right=GetSettingsFor("ASIO/ChannelRightID",1);
+  _left=GetSettingsFor("ASIO/ChannelLeftID",0);
   BASS_ASIO_CHANNELINFO channel_info;
   std::cout << "Looking for Channels available..." << std::endl;
   for (count=0; BASS_ASIO_ChannelGetInfo(0,count, &channel_info); count++)
