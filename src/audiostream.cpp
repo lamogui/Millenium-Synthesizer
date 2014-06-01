@@ -87,7 +87,7 @@ bool AudioStream::writeSignal(const Signal& signal)
   if (_pwrite == _end) _pwrite = _buffer;
   while (Signal::size > i)
   {
-    const short v = (signal.samples[i++]*MULTIPLIER_16);
+    const short v = (const short) (signal.samples[i++]*MULTIPLIER_16);
     *_pwrite++ = v;
     *_pwrite++ = v;
   }

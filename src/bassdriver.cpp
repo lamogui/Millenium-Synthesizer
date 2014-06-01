@@ -255,7 +255,7 @@ bool BassAsioDriver::init(unsigned int rate)
     {
       //change global configuration 
       std::cout << "Warning: Cannot set ASIO sample rate to " << rate << "Hz, this will reconfigure alls signals frequency at " << BASS_ASIO_GetRate() << "Hz now" << std::endl;
-      Signal::globalConfiguration(BASS_ASIO_GetRate(),Signal::refreshRate);
+      Signal::globalConfiguration((unsigned int) BASS_ASIO_GetRate(),Signal::refreshRate);
     }
     else
     {

@@ -57,7 +57,7 @@ class Track
     unsigned int fastLength();
     
     //concatene track_extern dans this
-    bool concatenate(const Track &track_extern);
+    void concatenate(const Track &track_extern);
 
     bool importFromMidiTrack(const Midi_track& midi);
     void exportToMidiTrack(Midi_track& midi) const;

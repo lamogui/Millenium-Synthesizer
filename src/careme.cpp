@@ -7,6 +7,10 @@ Licence ..... : © Copydown™
 ********************************************************/
 #include "careme.hpp"
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4305 )
+#endif
+
 CaremeVoice::CaremeVoice(AbstractInstrument* creator):
 InstrumentVoice(creator),
 _osc1(new SinusoidalOscillator),

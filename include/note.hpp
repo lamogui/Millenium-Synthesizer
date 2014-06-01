@@ -82,16 +82,16 @@ class Note
     // - when the note is finished she should tell it the voice actually used;
     void sendStopSignal();
     
-    inline float frequency() { return noteFrequency[_id]; }
+    inline float frequency() { return (float) noteFrequency[_id]; }
     
     static inline float getFrequencyFromID(unsigned char id)
     {
-      return noteFrequency[id];
+      return (float) noteFrequency[id];
     }
 	
   
   private:
-    static float noteFrequency[256];
+    static double noteFrequency[256];
     InstrumentVoice* _voiceUsed;
     
     unsigned int _start; //time where the note is appeared

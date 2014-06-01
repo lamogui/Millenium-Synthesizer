@@ -12,6 +12,10 @@ Licence ..... : © Copydown™
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#endif
+
 Oscillator::Oscillator() 
 {
   /*frequency=&_frequency;

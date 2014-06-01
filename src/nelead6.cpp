@@ -9,6 +9,10 @@ Licence ..... : © Copydown™
 #include "nelead6.hpp"
 #include <cmath>
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 )
+#endif
+
 NELead6Voice::NELead6Voice(AbstractInstrument* creator) :
 InstrumentVoice(creator),
 _osc1(new SawOscillator),
