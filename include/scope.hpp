@@ -3,7 +3,7 @@ Nom ......... : scope.hpp
 Role ........ : Définie une interface de visualisation des signaux 
                 configurable en oscilloscope ou analyseur de spectre
 Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 

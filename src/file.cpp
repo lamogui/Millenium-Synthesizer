@@ -3,7 +3,7 @@ Nom ......... : file.cpp
 Role ........ : Des fonctions et classes utiles pour manipuler facilement des 
                 fichiers
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 

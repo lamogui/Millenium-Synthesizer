@@ -3,7 +3,7 @@
 Nom ......... : variant.cpp
 Role ........ : Un équivalent à QVariant plus simple
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.0
 Licence ..... : © Copydown™
 ****************************************************************************/
 

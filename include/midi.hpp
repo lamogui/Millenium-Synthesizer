@@ -3,7 +3,7 @@ Nom ......... : midi.hpp
 Role ........ : Déclare les classes ayant une relation avec le format MIDI
                 voir : http://www.sonicspot.com/guide/midifiles.html
 Auteur ...... : Kwon-Young CHOI & Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 

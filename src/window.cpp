@@ -3,7 +3,7 @@
 Nom ......... : window.cpp
 Role ........ : Defini une fenetre qui utilise des interfaces
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 

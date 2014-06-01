@@ -3,7 +3,7 @@ Nom ......... : preset.hpp
 Role ........ : Classe permettant de parser des fichiers très simples pour 
                 preset des instruments...
 Auteur ...... : Julien DE LOOR 
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
@@ -51,37 +51,4 @@ class Preset : public AbstractFileParser {
 
 void SaveInstrumentPresetRoutine(AbstractInstrument* instrument);
 void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument);
-/*
-class PresetSaveButton : public AbstractButton {
-  public:
-    PresetSaveButton(const sf::Vector2f& size, 
-                     const sf::String text, 
-                     AbstractInstrument *instrument);
-    PresetSaveButton(const sf::Texture &texture, 
-                     const sf::IntRect &idle, 
-                     const sf::IntRect &clicked,
-                     AbstractInstrument *instrument);
-  protected:
-    virtual void clicked();   
-
-  private:
-    AbstractInstrument *_instrument;
-};
-
-class PresetLoadButton : public AbstractButton {
-  public:
-    PresetLoadButton(const sf::Vector2f& size, 
-                     const sf::String text,
-                     AbstractInstrument *instrument);
-    PresetLoadButton( const sf::Texture &texture, 
-                      const sf::IntRect &idle, 
-                      const sf::IntRect &clicked,
-                      AbstractInstrument *instrument);
-  protected:
-    virtual void clicked();   
-
-  private:
-    AbstractInstrument *_instrument;
-};
-*/
 #endif

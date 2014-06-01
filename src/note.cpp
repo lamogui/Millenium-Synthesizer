@@ -5,7 +5,7 @@ Role ........ : Implement les classes permettant de
                 manipuler des données rythmiques en 
                 lien avec un morceau et un instrument
 Auteur ...... : Julien DE LOOR & Maxime CADORET
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ********************************************************/
 

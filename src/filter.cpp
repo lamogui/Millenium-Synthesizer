@@ -2,7 +2,7 @@
 Nom ......... : filter.cpp
 Role ........ : Pleins de filtres !!!
 Auteur ...... : Julien DE LOOR & Kwon-Young CHOI
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ********************************************************/
 

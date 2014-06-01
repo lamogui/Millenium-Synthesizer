@@ -5,7 +5,7 @@ Role ........ : Définis des classes abstraites (ou très
                 d'interface
                 compatible avec opengl
 Auteur ...... : Julien DE LOOR 
-Version ..... : V1.0 olol
+Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ********************************************************/
 
