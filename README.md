@@ -13,7 +13,7 @@ Installation
 
 Releases
 -------
-Quand une version du programme est potable est compilée sous windows elle est disponible
+Quand une version potable du programme est compilée sous windows elle est disponible
 en release ici :
  - [Millenium Synthesizer Win32](http://bdene666.site90.net/PRO_RELEASES/MiLLENiUM_SYNTH_WIN32.zip)
  - [Millenium Synthesizer Win64](http://bdene666.site90.net/PRO_RELEASES/MiLLENiUM_SYNTH_WIN64.zip)
@@ -85,8 +85,9 @@ FFT
 Par défaut le programme est réglé sur une FFT qui utilise beaucoup d'échantillons, 
 Cela peut causer des lags si vous utilisez à la fois : la FFT, des Releases Times très long
 combinés à la lecture d'un fichier MIDI.
-Vous pouvez augmenter les performances en diminuant le nombre d'échantillons :
-Un exemple qui marche bien.
+Vous pouvez augmenter les performances en diminuant le nombre d'échantillons.
+
+Un exemple qui marche bien:
 
 Samples = 4096;
 
