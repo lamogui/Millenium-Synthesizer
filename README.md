@@ -7,7 +7,6 @@ Aperçus
 
 
 
-
 Installation
 ============
 
@@ -21,17 +20,20 @@ en release ici :
  
 Avec ces versions il suffit de décompresser et d'utiliser ! ;)
 
-
- 
-Sinon cloner le git (ou télécharger le zip de l'état actuel)
+Sinon cloner le [git](https://github.com/lamogui/Millenium-Synthesizer)
+(ou télécharger le zip de l'état actuel)
 
 Windows
 -------
  - 64 bits : copiez bass.dll et bassasio.dll depuis le repertoire win64 vers 
    la racine du projet et lancez Synthesizer Millenium x64.exe
-    
+   Si vous souhaitez recompiler vous aurez besoin de Visual Studio 11 (2012), 
+   il vous suffit d'utiliser le fichier de projet fournis dans le dossier "visual"
+   
  - 32 bits : copiez bass.dll et bassasio.dll depuis le repertoire win32 vers 
    la racine du projet et lancez Synthesizer Millenium.exe
+   Si vous souhaitez recompiler vous aurez besoin de MinGW, il vous suffit 
+   ensuite d'utiliser la commande "make win32"
    
 Attention si vous recompilez le projet une version modifié (hacké) de la sfml est utilisé 
 (incluse dans libwin32 et libwin64) La compilation avec la version officielle fonctionnera
@@ -39,6 +41,8 @@ mais le redimensionnement de la fenetre sera pénible.
    
 Linux
 -----
+
+LE SON EST DEFECTEUX SELON LES VERSIONS DE LINUX !
 
  - 32 bits [JAMAIS TESTE]  : compilez le projet avec la commande "make linux32" 
    puis lancez "./test.x32". Vous devez avoir la version officielle (non compatible ENIB)
@@ -57,14 +61,28 @@ Sous linux le son semble bugué (c'est ennuyeux c'est vrai).
 MACOSX
 ------
 
- Désolé d'être pauvre Trololol
+ Pas de support
  
 Utilisation
 ===========
 
-Modifiez les paramètres à l'aide des potards (souris) et appuez sur les touches : QZSEDFTGYHUJKOLPM 
+Par défaut l'instrument lancé est le NELEAD6 mais il est possible de lancer d'autres instruments
+Notament Puresquare en tapant en ligne de commande ./SynthesizerMillenium puresquare
+
+Modifiez les paramètres à l'aide des potards (souris) et appuyez sur les touches : QZSEDFTGYHUJKOLPM 
 pour jouer les différentes notes. Les instruments sont polyphoniques il est donc possible de jouer 
 plusieurs notes en même temps.
+
+Vous pouvez à tout moment sauvegarder/charger la configuration courante du synthétiseur via le bouton 
+enregistrer/ouvrir PRESET, les fichiers prst n'ont pas d'information sur l'instrument correspondant
+il peuvent donc être utilisez sur n'importe quel instrument.
+
+Le dossier "presets" contients quelques presets pour l'instrument NELEAD6.
+
+Vous pouvez également charger et interpréter des fichier MIDI (seuls les MIDI format 1 et 0 à 
+plus ou moins 140 bpm sont supportés pour l'instant). Le dossier "musics" contient quelques
+morceaux compatibles avec le synthétiseur.
+Il également possible de s'enregistrer et d'exporter le résultat dans un fichier MIDI (format 1).
 
 Configuration
 =============
@@ -91,7 +109,7 @@ Un exemple qui marche bien:
 
 Samples = 4096;
 
-Notes qu'il faut que la valeur soit une puissance de 2 codé sur un nombre de bit paire
+Notez qu'il faut que la valeur soit une puissance de 2 codé sur un nombre de bit paire
 (Il y a un bug avec les nombres de bit impairs)
 
 
@@ -124,10 +142,9 @@ File -> Switch Workspace -> Selectionner le dossier workspace dans
 Les fichiers modelio ne contienne pas les diagrammes UML pour une version spécifique... 
 Consultez les dossiers pour cela...
 
-
 Attention ! Le code est actuellement en version 1.7 certaines classes ont été rajoutés par 
 rapport à l'UML de la V1.1 mais le fonctionnement des classes présentes dans la V1.1 reste 
-le même (il y a uniquement eu des ajouts)
+le même (il y a eu uniquement des ajouts)
 
 
 
@@ -135,6 +152,17 @@ Textures
 ========
 
 Background : Gabriel Gajdoš (http://pipper-svk.deviantart.com/art/Hyperdrive-411313660)
+
+
+Bugs et support
+===============
+
+La version la plus supportée est la version WIN32, si vous voulez être sur que 
+le programme fonctionne utilisez cette version
+
+Les versions linux ne sont que très peu testées et le son est défectueux.
+
+La version linux64enib ne supporte pas le chargement des fontes.
 
 
 S'impliquer dans le projet
