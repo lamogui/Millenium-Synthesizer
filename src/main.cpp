@@ -28,12 +28,7 @@
 #include "midi.hpp"
 #include "file.hpp"
 #include "preset.hpp"
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4244 )
-#pragma warning( disable : 4267 )
-#endif
-
+ 
 sf::Font globalfont; 
 
 int main(int argc, char** argv)
@@ -262,6 +257,7 @@ int main(int argc, char** argv)
   
   //Oscilloscope
   Scope myScope(sf::Vector2f(clientWinSize_x,clientWinSize_y/4),true);
+  myScope.setYZoom(0.5);
   myScope.setSignal(&leftout);
   myScope.setFadeColor(sf::Color(0, 0, 255), sf::Color(255,0,0), 1);
   
