@@ -146,6 +146,8 @@ Attention ! Le code est actuellement en version 1.7 certaines classes ont été 
 rapport à l'UML de la V1.1 mais le fonctionnement des classes présentes dans la V1.1 reste 
 le même (il y a eu uniquement des ajouts)
 
+Enfin il existe une doc du projet disponible directement sur GitHub section [wiki](https://github.com/lamogui/Millenium-Synthesizer/wiki)
+
 
 
 Textures
