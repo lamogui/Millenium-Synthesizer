@@ -350,8 +350,8 @@ _panicButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
   _recordButton.setPosition(BUTTON_WIDTH,0);
   
   _switchScopeButton.setTexture(_buttonTexture,
-                         sf::IntRect(0,7*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
-                         sf::IntRect(BUTTON_WIDTH, 7*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                        
+                         sf::IntRect(0,8*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                         sf::IntRect(BUTTON_WIDTH, 8*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                        
   _switchScopeButton.setPosition(8*BUTTON_WIDTH,0);
   
   _rewindButton.setTexture(_buttonTexture,
