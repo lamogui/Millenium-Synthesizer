@@ -66,6 +66,9 @@ class NEWindow : public sf::RenderWindow
     bool checkInterrupt();
    
     void drawContent();
+    inline void removeInterfaces() {
+      _interfaces.clear();
+    }
     
   protected:
     ///Paramètres de la fenêtre

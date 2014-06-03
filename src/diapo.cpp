@@ -80,6 +80,11 @@ int main(int argc, char** argv)
   ///Paramètres de la fenêtre
   //configuration des fonts 
   globalfont.loadFromFile("fonts/unispace rg.ttf");
+  bool diapoMode=true;
+  sf::Texture diapoTexture;
+  diapoTexture.loadFromFile("img/diapo1.png");
+  sf::Sprite diapoSprite;
+  diapoSprite.setTexture(diapoTexture,true);
   
   ///Création de la fenêtre
   sf::VideoMode video=sf::VideoMode::getDesktopMode();
@@ -152,9 +157,9 @@ int main(int argc, char** argv)
   trackControlBar.setScope(&myScope);
   
   //window.registerInterface(*myMenuBar);
-  window.registerInterface(trackControlBar);
+  /*window.registerInterface(trackControlBar);
   window.registerInterface(*myInterface);
-  window.registerInterface(myScope);
+  window.registerInterface(myScope);*/
   window.arrange();
   
   ///Gestionnaire de Notes
@@ -172,6 +177,46 @@ int main(int argc, char** argv)
             unsigned char id=NOT_A_NOTE;
             switch (event.key.code)
             {
+              case sf::Keyboard::W:
+                window.removeInterfaces();
+                diapoTexture.loadFromFile("img/diapo1.png");
+                diapoSprite.setTexture(diapoTexture,true);
+                diapoMode=true;
+                break;
+              case sf::Keyboard::N: 
+                window.removeInterfaces();
+                myTrack.panic();
+                notes.clear();
+                delete myInstrument;
+                delete myInterface;
+                myInstrument = new NELead6;
+                myInterface = new NELead6Interface((NELead6*) myInstrument,
+                                        sf::Vector2f(window.getSize().x,360));
+                trackControlBar.setInstrument(myInstrument);
+                window.registerInterface(trackControlBar);
+                window.registerInterface(*myInterface);
+                window.registerInterface(myScope);
+                myScope.setColor(myInterface->getColor());
+                window.arrange();
+                diapoMode=false;
+                break;
+              case sf::Keyboard::B: 
+                window.removeInterfaces();
+                myTrack.panic();
+                notes.clear();
+                delete myInstrument;
+                delete myInterface;
+                myInstrument = new PureSquare;
+                myInterface = new PureSquareInterface((PureSquare*) myInstrument,
+                                            sf::Vector2f(window.getSize().x,360));
+                trackControlBar.setInstrument(myInstrument);
+                window.registerInterface(trackControlBar);
+                window.registerInterface(*myInterface);
+                window.registerInterface(myScope);
+                myScope.setColor(myInterface->getColor());
+                window.arrange();
+                diapoMode=false;
+                break;
               case sf::Keyboard::Q: id=DO_3; break;
               case sf::Keyboard::Z: id=REb_3; break;
               case sf::Keyboard::S: id=RE_3; break;
@@ -260,6 +305,14 @@ int main(int argc, char** argv)
    ///Dessin  !!! 
     window.clear(sf::Color(42,42,42,255)); //on efface
     window.drawContent();
+    
+    if (diapoMode) {
+      sf::Vector2u s=diapoTexture.getSize();
+      sf::View view(sf::Vector2f(s.x/2,s.y/2),sf::Vector2f(s.x,s.y));
+      view.setViewport(sf::FloatRect(0.05,0.05,0.9,0.9));
+      window.setView(view);
+      window.draw(diapoSprite);
+    }
     //Mise à jour réele à l'écran. + limitation du framerate
     window.display();
     
