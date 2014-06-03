@@ -27,6 +27,16 @@
 
 sf::Font globalfont; 
 
+AudioStream *stream=NULL;
+AudioDriver* driver;
+
+void panic() {
+  driver->stop();
+  driver->free();
+  stream->unlock();
+  if (!driver->init(Signal::frequency)) exit(0xdead);
+  if (!driver->start(stream)) exit(0xdead); //si elle échoue : tant pis
+}
 int main(int argc, char** argv)
 {
   ///Initialisation de l'aléatoire
@@ -39,7 +49,6 @@ int main(int argc, char** argv)
   Signal::globalConfiguration(signalFrequency,signalRefreshRate);
   
   ///Création du driver audio
-  AudioDriver* driver;
   #ifdef COMPILE_WINDOWS //BASSASIO (ONLY ON WINDOWS)
   if (GetSettingsFor("ASIO/UseASIODriver",false))
   {
@@ -56,16 +65,16 @@ int main(int argc, char** argv)
   if (!driver->init(Signal::frequency)) return 0xdead;
   
   ///Initialisation du stream
-  unsigned int streamSize=Signal::size*6; //4 fois la taille d'un signal
-  AudioStream stream(streamSize);
+  unsigned int stream_size=Signal::size*6; //4 fois la taille d'un signal
+  stream=new AudioStream(stream_size);
   //initialisation des signaux
   Signal leftout, rightout;
-  //On remplis le stream avec du silence
-  while (stream.writeStereoSignal(leftout, rightout));
+  //On remplis le stream->avec du silence
+  while (stream->writeStereoSignal(leftout, rightout));
   //Acquitement
   bool sendSignalSuccess=true;
   //on demmarre la lecture du stream
-  if (!driver->start(&stream)) return 0xdead; //si elle échoue : tant pis
+  if (!driver->start(stream)) return 0xdead; //si elle échoue : tant pis
   
   
   ///Paramètres de la fenêtre
@@ -128,18 +137,19 @@ int main(int argc, char** argv)
   Track myTrack(myInstrument);
   int playing=0;
   int recording=0;
+
+  //Oscilloscope
+  Scope myScope(sf::Vector2f(window.clientSize().x,100));
+  myScope.setSignal(&leftout);
+  myScope.setColor(myInterface->getColor());
+  
   //Controleur de piste
   TrackControlBar trackControlBar(sf::Vector2f(window.getSize().x,BUTTON_HEIGHT+10));
   trackControlBar.setTrack(&myTrack);
   trackControlBar.setInstrument(myInstrument);
   trackControlBar.setRecordState(&recording);
   trackControlBar.setPlayingState(&playing);
-  
-  
-  //Oscilloscope
-  Scope myScope(sf::Vector2f(window.clientSize().x,100));
-  myScope.setSignal(&leftout);
-  myScope.setColor(myInterface->getColor());
+  trackControlBar.setScope(&myScope);
   
   //window.registerInterface(*myMenuBar);
   window.registerInterface(trackControlBar);
@@ -230,18 +240,18 @@ int main(int argc, char** argv)
     unsigned l;
     do
     {
-      stream.lock();
-      l = (stream.getBufferLength() - stream.getAvailableSamplesCount()) >> 1;
-      stream.unlock();
+      stream->lock();
+      l = (stream->getBufferLength() - stream->getAvailableSamplesCount()) >> 1;
+      stream->unlock();
       unsigned m=(float)((1.f/(float)Signal::frequency) *  100000.f);
       if (l<Signal::size)
       {
         //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
         sf::sleep(sf::microseconds(m*Signal::size));
       }
-      stream.lock();
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-      stream.unlock();
+      stream->lock();
+      sendSignalSuccess = stream->writeStereoSignal(leftout, rightout);
+      stream->unlock();
     } while(!sendSignalSuccess);
     
     //Mise à jour de l'oscillo

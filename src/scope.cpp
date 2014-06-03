@@ -191,4 +191,14 @@ void Scope::setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, 
   }
 }
 
+void SwitchSpectrumRoutine(Scope *s) {
+  if (s) {
+    if (s->isSpectrum()) {
+      s->setSpectrum(false);
+    }
+    else {
+      s->setSpectrum(true);
+    }
+  }
+}
 

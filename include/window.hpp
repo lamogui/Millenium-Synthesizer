@@ -17,6 +17,7 @@ Licence ..... : © Copydown™
 #include <vector>
 #include "config.hpp"
 #include "track.hpp"
+#include "scope.hpp"
 
 #define BUTTON_PLAY 1
 #define BUTTON_RECORD 2
@@ -131,15 +132,19 @@ class TrackControlBar : public Interface
     void setPlayingState(int* ps);
     void setTrack(Track* t);
     void setInstrument(AbstractInstrument* i);
+    void setScope(Scope* s);
+
   private:
     sf::Texture _buttonTexture;
     Button _playButton;
     Button _recordButton;
+    SingleProcessButton _switchScopeButton;
     SingleProcessButton _rewindButton;
     SingleProcessButton _loadMIDIButton;
     SingleProcessButton _saveMIDIButton;
     SingleProcessButton _loadPresetButton;
     SingleProcessButton _savePresetButton;
+    SingleProcessButton _panicButton;
     
 };
 

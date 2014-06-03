@@ -55,5 +55,6 @@ class Scope : public Interface
       bool _spectrum;
 };
 
+void SwitchSpectrumRoutine(Scope *s);
 
 #endif

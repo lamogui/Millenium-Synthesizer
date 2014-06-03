@@ -323,17 +323,20 @@ void NEWindow::setBackgroundTexture(const std::string& name,
                            (int)_backCenter.y*(int)getSize().y/(float)(_backTexture.getSize().y+1)-(int)_backCenter.y);
 }
 
+extern void panic();
 
 TrackControlBar::TrackControlBar( const sf::Vector2f &size) :
 Interface(sf::Vector2i(BUTTON_WIDTH*10,BUTTON_HEIGHT+10),size),
 _buttonTexture(),
 _playButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String(),ButtonMode::toggle),
 _recordButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String(),ButtonMode::toggle),
+_switchScopeButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _rewindButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _loadMIDIButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _saveMIDIButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
 _loadPresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
-_savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())         
+_savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String()),
+_panicButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
 {
   _buttonTexture.loadFromFile("img/button.png");
   _playButton.setTexture(_buttonTexture,
@@ -345,6 +348,11 @@ _savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
                            sf::IntRect(0,0,BUTTON_WIDTH,BUTTON_HEIGHT),
                            sf::IntRect(BUTTON_WIDTH,0, BUTTON_WIDTH, BUTTON_HEIGHT));  
   _recordButton.setPosition(BUTTON_WIDTH,0);
+  
+  _switchScopeButton.setTexture(_buttonTexture,
+                         sf::IntRect(0,7*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                         sf::IntRect(BUTTON_WIDTH, 7*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));                        
+  _switchScopeButton.setPosition(8*BUTTON_WIDTH,0);
   
   _rewindButton.setTexture(_buttonTexture,
                            sf::IntRect(0,2*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
@@ -371,13 +379,20 @@ _savePresetButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
   _savePresetButton.setTexture(_buttonTexture,
                                sf::IntRect(0,3*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
                                sf::IntRect(BUTTON_WIDTH, 3*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
+  _panicButton.setPosition(7*BUTTON_WIDTH,0);
+  _panicButton.setTexture(_buttonTexture,
+                          sf::IntRect(0,7*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
+                          sf::IntRect(BUTTON_WIDTH, 7*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
+  _panicButton.setProcess(panic);
   addMouseCatcher(&_playButton);
   addMouseCatcher(&_recordButton);
+  addMouseCatcher(&_switchScopeButton);
   addMouseCatcher(&_rewindButton);
   addMouseCatcher(&_loadMIDIButton);
   addMouseCatcher(&_saveMIDIButton);
   addMouseCatcher(&_loadPresetButton);
   addMouseCatcher(&_savePresetButton);
+  addMouseCatcher(&_panicButton);
 }
 
 
@@ -405,3 +420,9 @@ void TrackControlBar::setPlayingState(int* ps)
 {
   _playButton.linkTo(ps);
 }
+
+void TrackControlBar::setScope(Scope* s) {
+  _switchScopeButton.setProcess(SwitchSpectrumRoutine,s);
+}
+
+
