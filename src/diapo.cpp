@@ -186,6 +186,7 @@ int main(int argc, char** argv)
               case sf::Keyboard::N: 
                 window.removeInterfaces();
                 myTrack.panic();
+                
                 notes.clear();
                 delete myInstrument;
                 delete myInterface;
@@ -193,6 +194,7 @@ int main(int argc, char** argv)
                 myInterface = new NELead6Interface((NELead6*) myInstrument,
                                         sf::Vector2f(window.getSize().x,360));
                 trackControlBar.setInstrument(myInstrument);
+                myTrack.setInstrument(myInstrument);
                 window.registerInterface(trackControlBar);
                 window.registerInterface(*myInterface);
                 window.registerInterface(myScope);
@@ -210,6 +212,7 @@ int main(int argc, char** argv)
                 myInterface = new PureSquareInterface((PureSquare*) myInstrument,
                                             sf::Vector2f(window.getSize().x,360));
                 trackControlBar.setInstrument(myInstrument);
+                myTrack.setInstrument(myInstrument);
                 window.registerInterface(trackControlBar);
                 window.registerInterface(*myInterface);
                 window.registerInterface(myScope);
