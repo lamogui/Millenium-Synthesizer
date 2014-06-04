@@ -82,7 +82,7 @@ int main(int argc, char** argv)
   globalfont.loadFromFile("fonts/unispace rg.ttf");
   bool diapoMode=true;
   sf::Texture diapoTexture;
-  diapoTexture.loadFromFile("img/diapo1.png");
+  diapoTexture.loadFromFile("img/projet synthe 1.png");
   sf::Sprite diapoSprite;
   diapoSprite.setTexture(diapoTexture,true);
   
@@ -177,9 +177,33 @@ int main(int argc, char** argv)
             unsigned char id=NOT_A_NOTE;
             switch (event.key.code)
             {
+              case sf::Keyboard::A:
+                window.removeInterfaces();
+                diapoTexture.loadFromFile("img/projet synthe 1.png");
+                diapoSprite.setTexture(diapoTexture,true);
+                diapoMode=true;
+                break;
               case sf::Keyboard::W:
                 window.removeInterfaces();
-                diapoTexture.loadFromFile("img/diapo1.png");
+                diapoTexture.loadFromFile("img/projet synthe 2.png");
+                diapoSprite.setTexture(diapoTexture,true);
+                diapoMode=true;
+                break;
+              case sf::Keyboard::X:
+                window.removeInterfaces();
+                diapoTexture.loadFromFile("img/projet synthe 3.png");
+                diapoSprite.setTexture(diapoTexture,true);
+                diapoMode=true;
+                break;
+              case sf::Keyboard::C:
+                window.removeInterfaces();
+                diapoTexture.loadFromFile("img/projet synthe 4.png");
+                diapoSprite.setTexture(diapoTexture,true);
+                diapoMode=true;
+                break;
+              case sf::Keyboard::V:
+                window.removeInterfaces();
+                diapoTexture.loadFromFile("img/projet synthe 5.png");
                 diapoSprite.setTexture(diapoTexture,true);
                 diapoMode=true;
                 break;
