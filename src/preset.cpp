@@ -109,8 +109,11 @@ void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument)
     std::cerr << "No instrument to load" << std::endl;
     return;
   }
+ 
   char filename[0x104]={0};
 #ifdef COMPILE_WINDOWS
+  char path[0x104]={0};
+  GetCurrentDirectoryA(0x104, path);
   OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
@@ -120,6 +123,7 @@ void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument)
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   ofn.lpstrTitle="Load from preset";
   if(!GetSaveFileNameA(&ofn)) return ;
+  SetCurrentDirectoryA(path);
 #else
   std::string input;
   std::cout << "Please specify preset input filename: " << std::endl;
@@ -139,6 +143,7 @@ void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument)
     p.unpack(_instrument);
     fclose(f);
   }
+  
 }
 
 void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
@@ -147,8 +152,11 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
     std::cerr << "No instrument to save" << std::endl;
     return;
   }
+  
   char filename[0x104]={0};
 #ifdef COMPILE_WINDOWS
+  char path[0x104]={0};
+  GetCurrentDirectoryA(0x104, path);
   OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
@@ -158,6 +166,7 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   ofn.lpstrTitle="Save to preset";
   if(!GetSaveFileNameA(&ofn)) return ;
+  SetCurrentDirectory(path);
 #else
   std::string input;
   std::cout << "Please specify preset output filename: " << std::endl;
@@ -171,4 +180,5 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
   preset.pack(_instrument);
   preset.write_to_file(file);
   fclose(file);
+  
 }

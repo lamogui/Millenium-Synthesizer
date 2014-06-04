@@ -367,6 +367,8 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
 {
   char filename[0x104]=""; //Maxpath
   #ifdef COMPILE_WINDOWS
+  char path[0x104]={0};
+  GetCurrentDirectoryA(0x104, path);
   OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
@@ -376,6 +378,7 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
   ofn.lpstrTitle="Save to midi";
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   if (!GetSaveFileNameA(&ofn)) return;
+  SetCurrentDirectoryA(path);
   #else
   std::string input;
   std::cout << "Please specify MIDI output filename: " << std::endl;
@@ -400,6 +403,7 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
   track.write_to_file(file);
   fclose(file);
   
+  
   std::cout << "File size : " << head.size + track0.size() + track.size() << "\n";
 }
 
@@ -409,9 +413,12 @@ void OpenFromMIDIFileRoutine(Track* t)
     std::cerr << "No track to load" << std::endl;
     return;
   }
-
   char filename[0x104]=""; //Maxpath
+  
   #ifdef COMPILE_WINDOWS
+  char path[0x104]={0};
+  GetCurrentDirectoryA(0x104, path);
+  
   OPENFILENAMEA ofn;
   memset(&ofn, 0, sizeof(ofn) );
   ofn.lStructSize=sizeof(OPENFILENAME);
@@ -421,6 +428,7 @@ void OpenFromMIDIFileRoutine(Track* t)
   ofn.lpstrTitle="Load from midi";
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   if (!GetOpenFileNameA(&ofn)) return;
+  SetCurrentDirectoryA(path);
   #else
   std::string input;
   std::cout << "Please specify MIDI input filename: " << std::endl;
@@ -503,6 +511,7 @@ void OpenFromMIDIFileRoutine(Track* t)
   else {
     std::cout << "Unable to open: " << filename << std::endl; 
   }
+  
 }
 
 void RewindTrackRoutine(Track* t)

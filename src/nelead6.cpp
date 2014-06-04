@@ -31,6 +31,7 @@ NELead6Voice::~NELead6Voice()
   delete _osc2;
   delete _lfo1;
   delete _lfo2;
+  delete _filter1;
 }
 
 void NELead6Voice::beginNote(Note& n)
@@ -480,6 +481,7 @@ _osc1TypeLED(0),
 _osc2TypeLED(0),
 _lfo1TypeLED(0),
 _lfo2TypeLED(0),
+_filterTypeLED(0),
 _modTypeLED(0),
 _lfo1DestLED(0),
 _outputKnob(0),
@@ -508,6 +510,7 @@ _osc1TypeButton(0),
 _osc2TypeButton(0),
 _lfo1TypeButton(0),
 _lfo2TypeButton(0),
+_filterTypeButton(0),
 _modTypeButton(0),
 _lfo1DestButton(0)
 {

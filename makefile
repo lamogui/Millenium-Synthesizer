@@ -23,8 +23,8 @@ OBJ= build/signal.o \
 	build/preset.o \
 	build/window.o 
 	
-CFLAGS= --std=c99 -W -Wall -I"include" -O2 -Os -s
-CXXFLAGS= -I"include" -O2 -Os -s -W 
+CFLAGS= --std=c99 -W -Wall -I"include" -g
+CXXFLAGS= -I"include" -W -g
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \
@@ -97,10 +97,10 @@ build/%.o: src/%.rc
 	windres $< $@ -v
 	
 diapo: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
-	g++ -o diapo.exe $(OBJ) build/diapo.o $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a"
+	g++ -o diapo.exe $(OBJ) build/diapo.o $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32
 
 win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" 
+	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW

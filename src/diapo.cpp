@@ -186,7 +186,6 @@ int main(int argc, char** argv)
               case sf::Keyboard::N: 
                 window.removeInterfaces();
                 myTrack.panic();
-                
                 notes.clear();
                 delete myInstrument;
                 delete myInterface;
