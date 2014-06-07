@@ -19,7 +19,6 @@ OBJ= build/signal.o \
 	build/filter.o \
 	build/scope.o \
 	build/track.o \
-	build/cado.o \
 	build/midi.o \
 	build/fft.o \
 	build/file.o \
@@ -43,7 +42,6 @@ FILECPP=src/signal.cpp \
 	src/filter.cpp \
 	src/scope.cpp \
 	src/track.cpp \
-	src/cado.cpp \
 	src/midi.cpp \
 	src/fft.cpp \
 	src/file.cpp \
@@ -69,7 +67,6 @@ HEADER=	include/signal.hpp \
 	include/filter.hpp \
 	include/scope.hpp \
 	include/track.hpp \
-	include/cado.hpp \
 	include/midi.hpp \
 	include/fft.hpp \
 	include/file.hpp \

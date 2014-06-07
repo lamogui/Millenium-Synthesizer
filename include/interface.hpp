@@ -327,7 +327,7 @@ class Fader : public MouseCatcher {
 class Interface : public sf::Drawable
 {
   public:
-    Interface(const sf::Vector2i& zone,const sf::Vector2f &size);
+    Interface(const sf::Vector2u& zone,const sf::Vector2f &size);
     virtual ~Interface();
 
     //is the interface have an object to interact with
@@ -348,7 +348,7 @@ class Interface : public sf::Drawable
       return _view;
     }
     
-    virtual inline sf::Vector2i getIdealSize() //pas forcement la "zone occupé"
+    virtual inline sf::Vector2u getIdealSize() //pas forcement la "zone occupé"
     {
       return _zone;
     }
@@ -366,10 +366,12 @@ class Interface : public sf::Drawable
     void addDrawable(sf::Drawable* c);
 
   protected:
+    virtual void _internalZoneChanged(const sf::Vector2u& nz);
+  
     std::vector<MouseCatcher*> _mouseCatcher;
     std::vector<sf::Drawable*> _drawables;
     sf::View _view;
-    sf::Vector2i _zone;
+    sf::Vector2u _zone;
     ScrollBar _verticalBar;
     ScrollBar _horizontalBar;
 };

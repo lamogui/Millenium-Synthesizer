@@ -90,7 +90,7 @@ InstrumentParameter* Careme::getParameter(unsigned char id)
 
 
 CaremeInterface::CaremeInterface(Careme* instrument,const sf::Vector2f& size):
-Interface(sf::Vector2i(1120,691),size),
+Interface(sf::Vector2u(1120,691),size),
 _texture(),
 _back(),
 _instrument(instrument),

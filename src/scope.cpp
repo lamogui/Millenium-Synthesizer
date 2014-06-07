@@ -17,7 +17,7 @@ Licence ..... : © Copydown™
 #endif
 
 Scope::Scope(const sf::Vector2f& size, bool spectrum) :
-  Interface(sf::Vector2i(Signal::size,100),size),
+  Interface(sf::Vector2u(Signal::size,100),size),
   _signal(0),
   _fft(0),
   _pixels(0),
@@ -37,7 +37,7 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
 }
 
 Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
-  Interface(sf::Vector2i(Signal::size,100),size),
+  Interface(sf::Vector2u(Signal::size,100),size),
   _signal(s),
   _fft(0),
   _pixels(0),

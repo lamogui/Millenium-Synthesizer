@@ -473,7 +473,7 @@ void NELead6::step(Signal* l, Signal* r)
 }
 
 NELead6Interface::NELead6Interface(NELead6* instrument, const sf::Vector2f& size):
-Interface(sf::Vector2i(1792,360),size),
+Interface(sf::Vector2u(1792,360),size),
 _texture(),
 _back(),
 _instrument(instrument),

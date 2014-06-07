@@ -21,7 +21,6 @@
 #include "bassdriver.hpp"
 #include "interface.hpp"
 #include "puresquare.hpp"
-#include "careme.hpp"
 #include "scope.hpp"
 #include "window.hpp"
 
@@ -80,13 +79,7 @@ int main(int argc, char** argv)
   Interface* myInterface=NULL;            //Son interface
   if (argc == 2)
   {
-    if (std::string("careme") == argv[1]) 
-    {
-      myInstrument = new Careme;
-      myInterface = new CaremeInterface((Careme*) myInstrument,
-                                        sf::Vector2f(window.getSize().x,360));
-    }
-    else if (std::string("puresquare") == argv[1]) 
+    if (std::string("puresquare") == argv[1]) 
     {
       //La taille est inferieur à la taille de l'oscilloscope
       myInstrument = new PureSquare;

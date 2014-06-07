@@ -135,13 +135,11 @@ class TrackControlBar : public Interface
     void setPlayingState(int* ps);
     void setTrack(Track* t);
     void setInstrument(AbstractInstrument* i);
-    void setScope(Scope* s);
 
   private:
     sf::Texture _buttonTexture;
     Button _playButton;
     Button _recordButton;
-    SingleProcessButton _switchScopeButton;
     SingleProcessButton _rewindButton;
     SingleProcessButton _loadMIDIButton;
     SingleProcessButton _saveMIDIButton;

@@ -222,13 +222,14 @@ void AbstractButton::setText(const sf::String& t)
 bool AbstractButton::onMousePress(float x, float y)
 {
 
+  if (!allowed()) return false;
   sf::Vector2f v(getInverseTransform().transformPoint(x,y));
 
   float rx = v.x - _shape.getPosition().x;
   float ry = v.y - _shape.getPosition().y;
 
-  if ((rx > _shape.getSize().x || rx < 0 ||
-        ry > _shape.getSize().y || ry < 0 ) && allowed() ) {
+  if (rx > _shape.getSize().x || rx < 0 ||
+      ry > _shape.getSize().y || ry < 0 ) {
     return false;
   }
   _shape.setFillColor(_clickedColor);
@@ -285,14 +286,14 @@ ModulableButton::~ModulableButton() {
 
 bool ModulableButton::onMousePress(float x, float y)
 {
-
+  if (!allowed()) return false;
   sf::Vector2f v(getInverseTransform().transformPoint(x,y));
 
    float rx = v.x - _shape.getPosition().x;
    float ry = v.y - _shape.getPosition().y;
 
-   if ((rx > _shape.getSize().x || rx < 0 ||
-        ry > _shape.getSize().y || ry < 0 ) && allowed() ) {
+   if (rx > _shape.getSize().x || rx < 0 ||
+       ry > _shape.getSize().y || ry < 0 ) {
     return false;   
   }
   else if (_mode != ButtonMode::toggle) {
@@ -624,7 +625,7 @@ Fader::Fader(InstrumentParameter* p, const sf::Texture &texture, const sf::IntRe
   _fader_sprite.setPosition(backRect.width/2.f,backRect.height/2.f);
 }
 */
-Interface::Interface(const sf::Vector2i& zone,const sf::Vector2f &size):
+Interface::Interface(const sf::Vector2u& zone,const sf::Vector2f &size):
 _mouseCatcher(),
 _drawables(),
 _view(size/2.f,size),
@@ -703,3 +704,10 @@ bool Interface::onIt(unsigned int x, unsigned int y,
            y < sy*(float)(r.top));
 }
 
+
+void Interface::_internalZoneChanged(const sf::Vector2u& nz)
+{
+  _zone = nz;
+  _verticalBar.setZoneSize(nz.y);
+  _horizontalBar.setZoneSize(nz.x);
+}

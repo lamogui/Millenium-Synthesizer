@@ -91,7 +91,7 @@ InstrumentParameter* PureSquare::getParameter(unsigned char id)
 }
 
 PureSquareInterface::PureSquareInterface(PureSquare* instrument,const sf::Vector2f& size):
-Interface(sf::Vector2i(720,360),size),
+Interface(sf::Vector2u(720,360),size),
 _texture(),
 _back(),
 _lfoAmpKnob(0),
