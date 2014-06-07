@@ -238,6 +238,7 @@ bool AbstractButton::onMousePress(float x, float y)
 
 void AbstractButton::onMouseMove(float x, float y)
 {
+  (void)x;(void)y;
 }
 
 void AbstractButton::onMouseRelease(float x, float y)
@@ -381,6 +382,8 @@ void InstrumentButton::clicked() {
         
       case ButtonMode::off:
         _param->off();
+        break;
+      default:
         break;
     }
   }

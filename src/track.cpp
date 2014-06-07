@@ -201,7 +201,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
          case 0x9:
             p1=buffer[g++];
             p2=buffer[g++];
-            if (20<p1<109 && keyboard.find(p1) == keyboard.end()) {
+            if (20<p1 && p1 <109 && keyboard.find(p1) == keyboard.end()) {
                //std::cout << "add note " << (int) p1 << " time " << _time << std::endl;
                Note* note = new Note(_time, p1-21, (float)p2/(float)127.f);
                keyboard[p1]=note;
@@ -211,7 +211,7 @@ bool Track::importFromMidiTrack(const Midi_track& midi)
          case 0x8:
             p1=buffer[g++];
             p2=buffer[g++];
-            if (20<p1<109 && keyboard.find(p1) != keyboard.end()) {
+            if (20<p1 && p1<109 && keyboard.find(p1) != keyboard.end()) {
                keyboard[p1]->setLength(_time-keyboard[p1]->start());
                keyboard.erase(p1);
             }
@@ -442,7 +442,7 @@ void OpenFromMIDIFileRoutine(Track* t)
   if (file)
   {
     t->reset();
-    int filesize = fsize(file);
+    unsigned int filesize = fsize(file);
     unsigned char* buffer= (unsigned char*) malloc(filesize);
     fread(buffer,1,filesize,file);
     Midi_head head(1, 0, 25, 2);
@@ -455,7 +455,7 @@ void OpenFromMIDIFileRoutine(Track* t)
       {        
         Midi_track0 track0;
         unsigned int track0_len;
-        if (track0_len = track0.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+        if ((track0_len = track0.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size)))
         {
           std::cout << "Track 0 (" << track0_len << " bytes):"<< std::endl;
           track0.print_infos();
@@ -464,9 +464,9 @@ void OpenFromMIDIFileRoutine(Track* t)
           Track tempTrack;
           unsigned int track_len;
           unsigned count=0;
-          while (filesize > (int) delta)
+          while (filesize > delta)
           {
-            if (track_len=track.read_from_buffer(buffer+delta, filesize-delta))
+            if ((track_len=track.read_from_buffer(buffer+delta, filesize-delta)))
             {
               tempTrack.importFromMidiTrack(track);
               t->concatenate(tempTrack); 
@@ -493,7 +493,7 @@ void OpenFromMIDIFileRoutine(Track* t)
       {
          Midi_track track(head);
          unsigned int track_len;
-         if (track_len = track.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size))
+         if ((track_len = track.read_from_buffer(buffer+Midi_head::size, filesize-Midi_head::size)))
          {
            t->importFromMidiTrack(track);
            std::cout << "Track 0 (" << track_len << " bytes) Time " << t->fastLength() << std::endl;

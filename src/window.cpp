@@ -101,7 +101,7 @@ bool NEWindow::useEvent(const sf::Event& event)
           
             sf::Vector2f v = mapPixelToCoords(mousePosition,
                                               _interfaces[i]->getView()); 
-            if (_currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y))
+            if ((_currentMouseCatcher = _interfaces[i]->onMousePress(v.x,v.y)))
             {
               _currentInterfaceCatcher = _interfaces[i];
               return true;
@@ -383,7 +383,7 @@ _panicButton(sf::Vector2f(BUTTON_WIDTH,BUTTON_HEIGHT),sf::String())
   _panicButton.setTexture(_buttonTexture,
                           sf::IntRect(0,7*BUTTON_HEIGHT,BUTTON_WIDTH,BUTTON_HEIGHT),
                           sf::IntRect(BUTTON_WIDTH, 7*BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT));
-  _panicButton.setProcess(panic);
+  //_panicButton.setProcess(panic);
   addMouseCatcher(&_playButton);
   addMouseCatcher(&_recordButton);
   addMouseCatcher(&_switchScopeButton);

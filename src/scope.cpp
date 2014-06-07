@@ -38,7 +38,7 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
 
 Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   Interface(sf::Vector2i(Signal::size,100),size),
-  _signal(0),
+  _signal(s),
   _fft(0),
   _pixels(0),
   _color(255,255,255,255),
@@ -179,7 +179,7 @@ void Scope::setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, 
       for (unsigned int i=0; i<sizeX ; i++) {
         float k=(float)i/(float)sizeX;
         for (unsigned int j=0; j<sizeY ; j++) {
-          unsigned p = _texture.getSize().x* _texture.getSize().y*4;
+          //unsigned p = _texture.getSize().x* _texture.getSize().y*4;
           unsigned int a=(i*sizeY+j)*4;
           _pixels[a]=_color.r*k+colorEnd.r*(1-k);
           _pixels[a+1]=_color.g*k+colorEnd.g*(1-k);

@@ -18,7 +18,7 @@ Licence ..... : © Copydown™
 #pragma warning( disable : 4267 )
 #endif
 
-//////////MIDI HEAD\\\\\\\\\\\\\\\\\\\\
+//////////MIDI HEAD///////////////////////////////////////////////
 
 Midi_head::Midi_head(WORD format, WORD tracks, WORD tick_per_beat) :
   _beat(false),
@@ -153,7 +153,7 @@ bool Midi_head::write_to_file(FILE* file) const
   return false;
 }
 
-//////////MIDI TRACK0\\\\\\\\\\\\\\\
+//////////MIDI TRACK0////////////////////////////////////////
 
 Midi_track0::Midi_track0() :
 _mpqn(0),
@@ -379,7 +379,7 @@ bool Midi_track0::write_to_file(FILE* file) const
   return false;
 }
 
-//////////MIDI TRACK\\\\\\\\\\\\\\\\\\\\
+//////////MIDI TRACK///////////////////////////////////////////
 
 Midi_track::Midi_track(Midi_head& head) :
 _head(&head),

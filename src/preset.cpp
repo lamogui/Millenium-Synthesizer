@@ -15,8 +15,8 @@ Licence ..... : © Copydown™
 
 Preset::Preset() : 
 AbstractFileParser(),
-_buffer(0),
-_size(0)
+_size(0),
+_buffer(0)
 {
 
 }
@@ -74,7 +74,7 @@ bool Preset::pack(AbstractInstrument* instrument)
   for (unsigned int i=0; i < 255; i++)
   {
     InstrumentParameter* p;
-    if (p=instrument->getParameter(i)) {
+    if ((p=instrument->getParameter(i))) {
       //std::cout << "save param " <<  i << " value " << p->getValue() << std::endl;
       _buffer[_size++]=i;
       _buffer[_size++]=(p->getValue() >> 8) & 0xFF;
@@ -94,9 +94,7 @@ bool Preset::unpack(AbstractInstrument* instrument)
     unsigned int p1 = _buffer[offset++];
     unsigned int p2 = _buffer[offset++];
     short param = (p1 << 8) | p2;
-    //std::cout << "Loading param " << (unsigned int) id << " value " << param  << " " << p1  <<  " " << p2 << std::endl;
-    bool lol = instrument->setParameterValue( id, param );
-    //std::cout << "return " << lol << std::endl;
+    instrument->setParameterValue( id, param );
   }
   return true;
 }
