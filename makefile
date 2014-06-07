@@ -1,5 +1,8 @@
 
 TARGET_NAME=test
+CFLAGS= --std=c99 -W -Wall -I"include" -g
+CXXFLAGS= -I"include" -W -Wall -g
+
 OBJ= build/signal.o \
 	build/audiostream.o \
 	build/oscillator.o \
@@ -21,10 +24,8 @@ OBJ= build/signal.o \
 	build/fft.o \
 	build/file.o \
 	build/preset.o \
-	build/window.o 
-	
-CFLAGS= --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= -I"include" -W -g
+	build/window.o 	
+
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
 	src/audiostream.cpp \
@@ -85,7 +86,7 @@ defaut:
 
 build/%.o: src/%.c $(HEADER)
 	@echo Compilation C $< to $@
-	gcc -c $< -o $@ -std=c99 $(CFLAGS)
+	gcc -c $< -o $@ -std=c89 $(CFLAGS)
 
 build/%.o: src/%.cpp $(HEADER)
 	@echo Compilation C++ $< to $@
@@ -96,18 +97,12 @@ build/%.o: src/%.rc
 	@echo RC compiling $< to $@
 	windres $< $@ -v
 	
-diapo: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
-	g++ -o diapo.exe $(OBJ) build/diapo.o $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32
-
 win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 	
-diapolinux64: $(HEADER) $(OBJ) $(FILECPP) build/diapo.o
-	g++ -o diapo.x64 $(OBJ) build/diapo.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
-
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
 
