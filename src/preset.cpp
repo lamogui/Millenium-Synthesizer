@@ -177,7 +177,7 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   ofn.lpstrTitle="Save to preset";
   if(!GetSaveFileNameA(&ofn)) return ;
-  SetCurrentDirectory(path);
+  SetCurrentDirectoryA(path);
 #elif defined  HAVE_QT
   QString input = QFileDialog::getSaveFileName(NULL, "Save to preset",
                                                  QString(),

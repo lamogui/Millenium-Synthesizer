@@ -140,7 +140,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(SolutionDir)/../libwin64/sfml-system.lib;$(SolutionDir)/../libwin64/sfml-window.lib;$(SolutionDir)/../libwin64/sfml-graphics.lib;$(SolutionDir)/../libwin64/bass.lib;$(SolutionDir)/../libwin64/bassasio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)/../libwin64/sfml-system.lib;$(SolutionDir)/../libwin64/sfml-window.lib;$(SolutionDir)/../libwin64/sfml-graphics.lib;$(SolutionDir)/../libwin64/sfml-audio.lib;$(SolutionDir)/../libwin64/bass.lib;$(SolutionDir)/../libwin64/bassasio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -163,9 +163,11 @@
     <ClCompile Include="..\..\src\puresquare.cpp" />
     <ClCompile Include="..\..\src\scope.cpp" />
     <ClCompile Include="..\..\src\settings.cpp" />
+    <ClCompile Include="..\..\src\sfmlaudiodriver.cpp" />
     <ClCompile Include="..\..\src\signal.cpp" />
     <ClCompile Include="..\..\src\track.cpp" />
     <ClCompile Include="..\..\src\variant.cpp" />
+    <ClCompile Include="..\..\src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\audiodriver.hpp" />
@@ -190,9 +192,11 @@
     <ClInclude Include="..\..\include\puresquare.hpp" />
     <ClInclude Include="..\..\include\scope.hpp" />
     <ClInclude Include="..\..\include\settings.hpp" />
+    <ClInclude Include="..\..\include\sfmlaudiodriver.hpp" />
     <ClInclude Include="..\..\include\signal.hpp" />
     <ClInclude Include="..\..\include\track.hpp" />
     <ClInclude Include="..\..\include\variant.hpp" />
+    <ClInclude Include="..\..\include\window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,7 @@
 
 #ifdef _MSC_VER
-#    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#pragma warning( disable : 4244 ) //"Possible perte de données"
 #endif
 
 #include "config.hpp"

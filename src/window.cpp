@@ -7,6 +7,10 @@ Version ..... : V1.7 olol
 Licence ..... : © Copydown™
 ****************************************************************************/
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4244 ) //"Possible perte de données"
+#endif
+
 #include <iostream>
 #include "window.hpp"
 #include "preset.hpp"
