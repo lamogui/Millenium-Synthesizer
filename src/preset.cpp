@@ -13,6 +13,13 @@ Licence ..... : © Copydown™
 #pragma warning( disable : 4996 )
 #endif
 
+
+#ifndef COMPILE_WINDOWS
+  #ifdef HAVE_QT
+  #include <QtGui/QFileDialog>
+  #endif
+#endif
+
 Preset::Preset() : 
 AbstractFileParser(),
 _size(0),
@@ -122,6 +129,12 @@ void LoadInstrumentPresetRoutine(AbstractInstrument* _instrument)
   ofn.lpstrTitle="Load from preset";
   if(!GetSaveFileNameA(&ofn)) return ;
   SetCurrentDirectoryA(path);
+#elif defined  HAVE_QT
+  QString input = QFileDialog::getOpenFileName(NULL, "Load from preset",
+                                                 QString(),
+                                                 "Preset Files (*.prst)");
+  if (input.isEmpty()) return;
+  strncpy(filename,input.toStdString().c_str(),0x103);
 #else
   std::string input;
   std::cout << "Please specify preset input filename: " << std::endl;
@@ -165,6 +178,12 @@ void SaveInstrumentPresetRoutine(AbstractInstrument* _instrument)
   ofn.lpstrTitle="Save to preset";
   if(!GetSaveFileNameA(&ofn)) return ;
   SetCurrentDirectory(path);
+#elif defined  HAVE_QT
+  QString input = QFileDialog::getSaveFileName(NULL, "Save to preset",
+                                                 QString(),
+                                                 "Preset Files (*.prst)");
+  if (input.isEmpty()) return;
+  strncpy(filename,input.toStdString().c_str(),0x103);
 #else
   std::string input;
   std::cout << "Please specify preset output filename: " << std::endl;

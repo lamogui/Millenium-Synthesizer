@@ -20,6 +20,14 @@ Licence ..... : © Copydown™
 #include <iostream>
 #include <map>
 
+#include "config.hpp"
+
+#ifndef COMPILE_WINDOWS
+  #ifdef HAVE_QT
+  #include <QtGui/QFileDialog>
+  #endif
+#endif
+
 Track::Track() :
   _instrument(0),
   _time(0),
@@ -379,6 +387,12 @@ void SaveTrackToMIDIFileRoutine(const Track* t)
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   if (!GetSaveFileNameA(&ofn)) return;
   SetCurrentDirectoryA(path);
+  #elif defined  HAVE_QT
+  QString input = QFileDialog::getSaveFileName(NULL, "Save to MIDI",
+                                                 QString(),
+                                                 "MIDI Files (*.mid *.midi)");
+  if (input.isEmpty()) return;
+  strncpy(filename,input.toStdString().c_str(),0x103);
   #else
   std::string input;
   std::cout << "Please specify MIDI output filename: " << std::endl;
@@ -429,6 +443,13 @@ void OpenFromMIDIFileRoutine(Track* t)
   ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
   if (!GetOpenFileNameA(&ofn)) return;
   SetCurrentDirectoryA(path);
+  #elif defined  HAVE_QT
+  QString input = QFileDialog::getOpenFileName(NULL, "Load from MIDI",
+                                                 QString(),
+                                                 "MIDI Files (*.mid *.midi)");
+  if (input.isEmpty()) return;
+  strncpy(filename,input.toStdString().c_str(),0x103);
+  
   #else
   std::string input;
   std::cout << "Please specify MIDI input filename: " << std::endl;

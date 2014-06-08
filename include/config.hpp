@@ -11,4 +11,12 @@
 
 #endif
 
+#if defined HAVE_QT4
+#define HAVE_QT
+#endif
+
+#if defined HAVE_QT3
+#define HAVE_QT
+#endif
+
 #endif

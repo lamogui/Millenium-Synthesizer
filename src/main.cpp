@@ -25,12 +25,24 @@
 #include "window.hpp"
 #include "sfmlaudiodriver.hpp"
 
+#ifndef COMPILE_WINDOWS
+  #ifdef HAVE_QT
+  #include <QtGui/QApplication>
+  #endif
+#endif
+
 
 sf::Font globalfont; 
 
 int main(int argc, char** argv)
 {
+  #ifndef COMPILE_WINDOWS
+    #ifdef HAVE_QT
+      QApplication app(argc,argv);
+    #endif
+  #endif
   ///Initialisation de l'aléatoire
+
   srand(time(NULL));
   
   ///Initialisation du fichier de configuration
@@ -255,7 +267,11 @@ int main(int argc, char** argv)
     window.drawContent();
     //Mise à jour réele à l'écran. + limitation du framerate
     window.display();
-    
+  #ifndef COMPILE_WINDOWS
+    #ifdef HAVE_QT4
+      app.processEvents();
+    #endif
+  #endif
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   

@@ -1,7 +1,14 @@
 
 TARGET_NAME=test
-CFLAGS= --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= -I"include" -W -Wall -g
+
+
+EXTRA_INCLUDE=#-I/usr/include/qt4 #Qt path
+EXTRA_LIB=#-lQtGui -lQtCore #Qt4 if you have it
+DEFINES=#-DHAVE_QT4 
+#DEFINES=-DNO_SFML_AUDIO -DHAVE_QT4 
+
+CFLAGS= $(DEFINES) $(EXTRA_INCLUDE) --std=c99 -W -Wall -I"include" -g
+CXXFLAGS= $(DEFINES) $(EXTRA_INCLUDE) -I"include" -W -Wall -g
 
 OBJ= build/signal.o \
 	build/audiostream.o \
@@ -98,14 +105,14 @@ build/%.o: src/%.rc
 	windres $< $@ -v
 	
 win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32
+	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32 $(EXTRA_LIB)
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
+	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW $(EXTRA_LIB)
 	
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
+	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW $(EXTRA_LIB)
 
 linux64enib: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) -DNO_SFML_AUDIO "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
+	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a" $(EXTRA_LIB)
 	
