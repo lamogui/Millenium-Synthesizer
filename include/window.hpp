@@ -18,10 +18,8 @@ Licence ..... : © Copydown™
 #include "config.hpp"
 #include "track.hpp"
 #include "scope.hpp"
+#include "config.hpp"
 
-#define BUTTON_PLAY 1
-#define BUTTON_RECORD 2
-#define BUTTON_REWIND 3
 #define BUTTON_WIDTH 30
 #define BUTTON_HEIGHT 22
 

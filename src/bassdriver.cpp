@@ -59,7 +59,9 @@ bool BassDriver::init(unsigned int rate)
   BASS_GetInfo(&info);
 	// default buffer size = update period + 'minbuf' + 1ms extra margin
 	BASS_SetConfig(BASS_CONFIG_BUFFER,10+info.minbuf+1);
-	std::cout << "BASS buffer " << BASS_GetConfig(BASS_CONFIG_BUFFER) << "ms" <<  std::endl;
+
+
+  std::cout << "BASS buffer " << BASS_GetConfig(BASS_CONFIG_BUFFER) << "ms" <<  std::endl;
   std::cout << "Device latency " << info.latency << "ms" << std::endl;
   
   _initialized=true;
@@ -155,7 +157,7 @@ DWORD CALLBACK BassDriver::_StreamProc(HSTREAM handle,
 {
   (void)handle;
   sf::Lock(*((AudioStream*) user));
-  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length >> 1)) << 1;
+  unsigned c = (((AudioStream*) user)->read((short*)buffer,length >> 1)) << 1;
   if (!c)
   {
     std::cerr << "Critical here: BASS want " << length << " but there is no data in queue" << std::endl;
@@ -354,7 +356,7 @@ DWORD CALLBACK BassAsioDriver::_AsioProc(BOOL input,
   (void)channel;
   if (input) return 0;
   sf::Lock lock(*((AudioStream*) user));
-  unsigned c = (((AudioStream*) user)->read((unsigned short*)buffer,length>>1))<<1;
+  unsigned c = (((AudioStream*) user)->read((short*)buffer,length>>1))<<1;
   if (!c)
   {
     std::cerr << "Critical here: ASIO want " << length << " but there is no data in queue" << std::endl;

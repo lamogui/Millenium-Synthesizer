@@ -23,7 +23,8 @@ OBJ= build/signal.o \
 	build/fft.o \
 	build/file.o \
 	build/preset.o \
-	build/window.o 	
+	build/window.o \
+	build/sfmlaudiodriver.o
 
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
@@ -46,7 +47,8 @@ FILECPP=src/signal.cpp \
 	src/fft.cpp \
 	src/file.cpp \
 	src/preset.cpp \
-	src/window.cpp 
+	src/window.cpp \
+	src/sfmlaudiodriver.cpp
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -71,7 +73,8 @@ HEADER=	include/signal.hpp \
 	include/fft.hpp \
 	include/file.hpp \
 	include/preset.hpp \
-	include/window.hpp 
+	include/window.hpp \
+	include/sfmlaudiodriver.hpp
 
 defaut:
 	@echo you must choose :
@@ -101,8 +104,8 @@ linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW
 	
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
+	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW
 
 linux64enib: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
+	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) -DNO_SFML_AUDIO "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a"
 	

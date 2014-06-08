@@ -23,6 +23,8 @@
 #include "puresquare.hpp"
 #include "scope.hpp"
 #include "window.hpp"
+#include "sfmlaudiodriver.hpp"
+
 
 sf::Font globalfont; 
 
@@ -47,7 +49,15 @@ int main(int argc, char** argv)
   else
   {
   #endif
-    driver = new BassDriver(); 
+    std::string driver_name=GetSettingsFor("AudioDriver/Driver",std::string("BASS"));  
+    if (driver_name=="BASS")
+      driver = new BassDriver();
+    #ifndef NO_SFML_AUDIO
+    else if (driver_name=="SFML")
+      driver = new SFMLAudioDriver();
+    #endif
+    else
+      driver = new BassDriver(); 
   #ifdef COMPILE_WINDOWS
   }
   #endif
@@ -234,6 +244,7 @@ int main(int argc, char** argv)
       stream.lock();
       sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
       stream.unlock();
+
     } while(!sendSignalSuccess);
     
     //Mise à jour de l'oscillo

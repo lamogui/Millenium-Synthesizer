@@ -15,7 +15,11 @@ extern sf::Font globalfont;
 NEWindow::NEWindow(sf::VideoMode mode, 
                    const sf::String& title,
                    const sf::ContextSettings& settings) :
+#ifdef COMPILE_WINDOWS
 sf::RenderWindow(mode,title,0,settings),
+#else
+sf::RenderWindow(mode,title,sf::Style::Default,settings),
+#endif
 _borderSizeUp(40),
 _borderSizeDown(20),
 _borderSizeRight(20),

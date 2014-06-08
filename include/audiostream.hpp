@@ -45,9 +45,9 @@ class AudioStream : public sf::Mutex
     }
     
     //try to read samples into a buffer, return the number of samples readed
-    unsigned int read(unsigned short* buffer, unsigned int len);
+    unsigned int read(short* buffer, unsigned int len);
     //try to write samples into the buffer, return the number of samples writed
-    unsigned int write(const unsigned short* buffer, unsigned int len);
+    unsigned int write(const short* buffer, unsigned int len);
     
     //try to write an entire signal into the buffer return true if succeed
     bool writeSignal(const Signal& signal); 

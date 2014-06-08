@@ -39,7 +39,7 @@ bool AudioStream::setBufferLength(unsigned int buffer_length)
   return true;
 }
 
-unsigned int AudioStream::read(unsigned short* buffer, unsigned int len)
+unsigned int AudioStream::read(short* buffer, unsigned int len)
 {
   unsigned int readed=0;
   while (_count && _pread != _end && len > readed)
@@ -57,7 +57,7 @@ unsigned int AudioStream::read(unsigned short* buffer, unsigned int len)
   return readed;
 }
 
-unsigned int AudioStream::write(const unsigned short* buffer, unsigned int len)
+unsigned int AudioStream::write(const short* buffer, unsigned int len)
 {
   unsigned int writed=0;
   while (_count < _length && _pwrite != _end && len > writed)

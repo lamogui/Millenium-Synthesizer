@@ -7,4 +7,8 @@
 #define COMPILE_WINDOWS
 #endif 
 
+#if defined NO_SFML_AUDIO
+
+#endif
+
 #endif
