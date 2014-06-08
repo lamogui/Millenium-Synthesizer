@@ -40,7 +40,7 @@ bool SFMLAudioDriver::init(unsigned int rate)
       Signal::globalConfiguration((unsigned int) getSampleRate() ,Signal::refreshRate);
 
     }
-    _samplesToStream=Signal::size*2;
+    _samplesToStream=Signal::size*3;
     _samples=(short*)std::malloc(_samplesToStream*2);
     std::cout << "SFML Driver initialized with sample rate " << getSampleRate() << "Hz\n";
     std::cout << "  Samples to Stream each : " << _samplesToStream << std::endl;    
@@ -84,12 +84,17 @@ bool SFMLAudioDriver::onGetData(sf::SoundStream::Chunk& data)
 {
   sf::Lock lock(*_stream);
   unsigned c = _stream->read(_samples,_samplesToStream);
-  if (!c)
-    std::cerr << "SFML Driver Critical : No samples to stream" << std::endl;  
-  else 
-    std::cout << "Deserve " << c << " Samples to sfml" << std::endl;
-  data.samples=_samples;
-  data.sampleCount=c;
+  if (!c) {
+    std::cerr << "SFML Driver Critical : No samples to stream" << std::endl;   
+    for (unsigned int i=0;i<_samplesToStream;i++) _samples[i]=0; //Fill with silence
+    data.samples=_samples;
+    data.sampleCount=_samplesToStream;
+  } 
+  else { 
+    //std::cout << "Deserve " << c << " Samples to sfml" << std::endl;
+    data.samples=_samples;
+    data.sampleCount=c;
+  }
   return true;
 }
 
