@@ -92,19 +92,19 @@ Driver ASIO
 -----------
 Si vous avez un driver ASIO (sous windows) comme par exemple ASIO4ALL il est possible de l'utiliser
 en changeant la ligne UseASIODriver=False; en True...
-Utiliser un driver ASIO diminue fortement les "bugs sonores" (car le driver BASS est plus lent)
-
 
 Driver
 ------
-Si vous n'utilisez pas de driver ASIO, vous pouvez changer de driver
+Si vous n'utilisez pas de driver ASIO, vous pouvez changer de driver 
 Pour l'instant il y a 3 drivers différents :
  - SFML 
  - BASS
  - WINMM (Seulement pour windows)
- Entrez simplement le driver a utiliser dans le fichier ini
+ 
+ Entrez simplement le driver a utiliser dans le fichier ini.
  Notez que le driver BASS est bugué et ne sera plus supporté dans les 
  versions futures
+ 
  Je recommande donc SFML sous Linux et WINMM sous windows...
 
 FFT 
