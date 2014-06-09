@@ -42,8 +42,6 @@ mais le redimensionnement de la fenetre sera pénible.
 Linux
 -----
 
-LE SON EST DEFECTEUX SELON LES VERSIONS DE LINUX !
-
  - 32 bits [JAMAIS TESTE]  : compilez le projet avec la commande "make linux32" 
    puis lancez "./test.x32". Vous devez avoir la version officielle (non compatible ENIB)
    de la SFML 2.1 ainsi que toutes ces dépendances (OpenGL, X11, Xrand, freetype)
@@ -56,7 +54,6 @@ LE SON EST DEFECTEUX SELON LES VERSIONS DE LINUX !
    lors de la compilation. Elle est incluse dans le répértoire liblinux64/ENIB 
    Plus d'infos sur cette version modifié de la SFML 2.1 ici https://github.com/lamogui/SFML_2.1_ENIB
    
-Sous linux le son semble bugué (c'est ennuyeux c'est vrai).
  
 MACOSX
 ------
@@ -97,6 +94,18 @@ Si vous avez un driver ASIO (sous windows) comme par exemple ASIO4ALL il est pos
 en changeant la ligne UseASIODriver=False; en True...
 Utiliser un driver ASIO diminue fortement les "bugs sonores" (car le driver BASS est plus lent)
 
+
+Driver
+------
+Si vous n'utilisez pas de driver ASIO, vous pouvez changer de driver
+Pour l'instant il y a 3 drivers différents :
+ - SFML 
+ - BASS
+ - WINMM (Seulement pour windows)
+ Entrez simplement le driver a utiliser dans le fichier ini
+ Notez que le driver BASS est bugué et ne sera plus supporté dans les 
+ versions futures
+ Je recommande donc SFML sous Linux et WINMM sous windows...
 
 FFT 
 ---
@@ -185,6 +194,4 @@ TODO
  - **fixer une convention sur les notations des méthodes et attributs et utiliser la même PARTOUT**
  - Indenter/commenter 
  - Finir le NELead6 
- - Coder d'autres drivers
- - Coder la méthode bool readSignal(Signal& signal) dans AudioStream, et regarder ce que l'on peut faire avec SoundStream de la SFML.
- - Faire un fichier instrument.cpp
+ - Coder la méthode bool readSignal(Signal& signal) dans AudioStream.
