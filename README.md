@@ -101,11 +101,11 @@ Pour l'instant il y a 3 drivers différents :
  - BASS
  - WINMM (Seulement pour windows)
  
- Entrez simplement le driver a utiliser dans le fichier ini.
- Notez que le driver BASS est bugué et ne sera plus supporté dans les 
- versions futures
- 
- Je recommande donc SFML sous Linux et WINMM sous windows...
+Entrez simplement le driver a utiliser dans le fichier ini.
+Notez que le driver BASS est bugué et ne sera plus supporté dans les 
+versions futures
+
+Je recommande donc SFML sous Linux et WINMM sous windows...
 
 FFT 
 ---
