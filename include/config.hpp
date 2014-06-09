@@ -7,10 +7,6 @@
 #define COMPILE_WINDOWS
 #endif 
 
-#if defined NO_SFML_AUDIO
-
-#endif
-
 #if defined HAVE_QT4
 #define HAVE_QT
 #endif

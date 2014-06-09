@@ -25,6 +25,7 @@
 #include "scope.hpp"
 #include "window.hpp"
 #include "sfmlaudiodriver.hpp"
+#include "winmmdriver.hpp"
 
 #ifndef COMPILE_WINDOWS
   #ifdef HAVE_QT
@@ -53,7 +54,8 @@ int main(int argc, char** argv)
   Signal::globalConfiguration(signalFrequency,signalRefreshRate);
   
   ///Création du driver audio
-  AudioDriver* driver;
+  AudioDriver* driver=NULL;
+  DirectAudioStream* directStream=NULL; //Use a directStream Driver ?
   #ifdef COMPILE_WINDOWS //BASSASIO (ONLY ON WINDOWS)
   if (GetSettingsFor("ASIO/UseASIODriver",false))
   {
@@ -62,32 +64,41 @@ int main(int argc, char** argv)
   else
   {
   #endif
-    std::string driver_name=GetSettingsFor("AudioDriver/Driver",std::string("BASS"));  
-    if (driver_name=="BASS")
-      driver = new BassDriver();
-    #ifndef NO_SFML_AUDIO
-    else if (driver_name=="SFML")
+#ifdef COMPILE_WINDOWS
+    std::string driver_name=GetSettingsFor("AudioDriver/Driver",std::string("WINMM")); 
+#else
+	std::string driver_name=GetSettingsFor("AudioDriver/Driver",std::string("SFML")); 
+#endif
+    if (driver_name=="SFML")
       driver = new SFMLAudioDriver();
-    #endif
+    else if (driver_name=="BASS")
+      driver = new BassDriver();
+#ifdef COMPILE_WINDOWS
+    else if (driver_name=="WINMM")
+      directStream = new WinmmDriver();
+#endif
     else
-      driver = new BassDriver(); 
+      driver = new SFMLAudioDriver(); 
   #ifdef COMPILE_WINDOWS
   }
   #endif
   //Le driver ne demmarre pas ? tant pis...
-  if (!driver->init(Signal::frequency)) return 0xdead;
+  if (driver && !driver->init(Signal::frequency)) return 0xdead;
+  if (directStream && !directStream->init(Signal::frequency)) return 0xdead;
   
   ///Initialisation du stream
   unsigned int streamSize=Signal::size*6; //4 fois la taille d'un signal
-  AudioStream stream(streamSize);
+  AudioStream* stream=NULL;
+  if (driver) stream = new AudioStream(streamSize);
   //initialisation des signaux
   Signal leftout, rightout;
   //On remplis le stream avec du silence
-  while (stream.writeStereoSignal(leftout, rightout));
-  //Acquitement
+  while (stream && stream->writeStereoSignal(leftout, rightout));
+  while (directStream && directStream->pushStereoSignal(leftout, rightout));
+  //Acquitement    
   bool sendSignalSuccess=true;
   //on demmarre la lecture du stream
-  if (!driver->start(&stream)) return 0xdead; //si elle échoue : tant pis
+  if (driver && !driver->start(stream)) return 0xdead; //si elle échoue : tant pis
   
   
   ///Paramètres de la fenêtre
@@ -243,23 +254,38 @@ int main(int argc, char** argv)
     
     
     unsigned l;
-    do
-    {
-      stream.lock();
-      l = (stream.getBufferLength() - stream.getAvailableSamplesCount()) >> 1;
-      stream.unlock();
-      unsigned m=(float)((1.f/(float)Signal::frequency) *  100000.f);
-      if (l<Signal::size)
-      {
-        //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
-        sf::sleep(sf::microseconds(m*Signal::size));
-      }
-      stream.lock();
-      sendSignalSuccess = stream.writeStereoSignal(leftout, rightout);
-      stream.unlock();
-
-    } while(!sendSignalSuccess);
+    if (directStream) {
+      do {
+        l = directStream->getFreeSamplesCount() >> 1;
+        unsigned m=(float)((1.f/(float)Signal::frequency) *  100000.f);
+        if (l<Signal::size)
+        {
+          //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
+          sf::sleep(sf::microseconds(m*Signal::size));
+        }
+        sendSignalSuccess = directStream->pushStereoSignal(leftout, rightout);
+      } while(!sendSignalSuccess);
+    }
     
+    else if (driver && stream) {
+      do
+      {
+        stream->lock();
+        l = (stream->getBufferLength() - stream->getAvailableSamplesCount()) >> 1;
+        stream->unlock();
+        unsigned m=(float)((1.f/(float)Signal::frequency) *  100000.f);
+        if (l<Signal::size)
+        {
+          //std::cout<<"Waiting "<< m*Signal::size << " microseconds\n";
+          sf::sleep(sf::microseconds(m*Signal::size));
+          
+        }
+        stream->lock();
+        sendSignalSuccess = stream->writeStereoSignal(leftout, rightout);
+        stream->unlock();
+
+      } while(!sendSignalSuccess);
+    }
     //Mise à jour de l'oscillo
     myScope.update();
     
@@ -276,13 +302,19 @@ int main(int argc, char** argv)
     //std::cout << "CPU usage : " << BASS_ASIO_GetCPU() << std::endl;
   }
   
-  driver->stop();
-  driver->free();
+  if (driver) {
+    delete driver;
+  }
+  if (directStream) {
+    delete directStream;
+  }
+  
   
   //Nettoyage
   myTrack.setInstrument(NULL);
   delete myInterface;
   delete myInstrument;
-  delete driver;
+  if (stream) delete stream;
+  
   return 0;
 }

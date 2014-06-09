@@ -3,12 +3,14 @@ Nom ......... : audiostream.hpp
 Role ........ : Permet de convertir les signaux en flux 
                 tendu pour la carte son
 Auteur ...... : Julien DE LOOR
-Version ..... : V1.1 
+Version ..... : V2.0 
 Licence ..... : © Copydown™
 ********************************************************/
 
 #ifndef __AUDIOSTREAM
 #define __AUDIOSTREAM
+
+#define MULTIPLIER_16 (0.22*32768)
 
 #include "config.hpp"
 #include "signal.hpp"
@@ -72,6 +74,34 @@ class AudioStream : public sf::Mutex
     unsigned int _length; //size in samples
     unsigned int _count; //nombre de samples disponibles
   
+};
+
+
+//DirectAudioStream is an audiostream using driver buffers
+//When using an DirectAudioStream there is no need of an AudioDriver
+//because the driver is included in the stream
+//There should only have once DirectAudioStream at time
+//All length variables are in samples (not in bytes)
+class DirectAudioStream
+{
+  public:
+    DirectAudioStream();
+    virtual ~DirectAudioStream();
+  
+    //Initialize the driver (can fail)
+    virtual bool init(unsigned int rate)=0;
+    
+    //free the driver
+    virtual void free()=0;
+
+    //Push a signal block into driver buffers
+    virtual bool pushStereoSignal(const Signal& left,const Signal& right)=0; 
+    
+    //Return unplayed samples (at least an estimation)
+    //virtual unsigned int getAvailableSamplesCount()=0;
+    
+    //Return played samples (at least an estimation)
+    virtual unsigned int getFreeSamplesCount()=0;
 };
 
 #endif

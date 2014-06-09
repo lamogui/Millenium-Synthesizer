@@ -31,7 +31,8 @@ OBJ= build/signal.o \
 	build/file.o \
 	build/preset.o \
 	build/window.o \
-	build/sfmlaudiodriver.o
+	build/sfmlaudiodriver.o \
+	build/winmmdriver.o
 
 FILECPP=src/signal.cpp \
 	src/oscillator.cpp \
@@ -55,7 +56,8 @@ FILECPP=src/signal.cpp \
 	src/file.cpp \
 	src/preset.cpp \
 	src/window.cpp \
-	src/sfmlaudiodriver.cpp
+	src/sfmlaudiodriver.cpp \
+	src/winmmdriver.cpp
 
 HEADER=	include/signal.hpp \
 	include/oscillator.hpp \
@@ -81,7 +83,8 @@ HEADER=	include/signal.hpp \
 	include/file.hpp \
 	include/preset.hpp \
 	include/window.hpp \
-	include/sfmlaudiodriver.hpp
+	include/sfmlaudiodriver.hpp \
+	include/winmmdriver.hpp
 
 defaut:
 	@echo you must choose :

@@ -10,7 +10,7 @@ Licence ..... : © Copydown™
 #include "audiostream.hpp"
 #include <iostream>
 
-#define MULTIPLIER_16 (0.22*32768)
+
 
 AudioStream::AudioStream(unsigned int buffer_length) :
 _buffer(0),
@@ -114,3 +114,10 @@ bool AudioStream::writeStereoSignal(const Signal& left,const Signal& right)
   return true;
 }
 
+DirectAudioStream::DirectAudioStream()
+{
+}
+
+DirectAudioStream::~DirectAudioStream()
+{
+}
