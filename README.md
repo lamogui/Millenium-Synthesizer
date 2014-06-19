@@ -42,7 +42,7 @@ mais le redimensionnement de la fenetre sera pénible.
 Linux
 -----
 
- - 32 bits [JAMAIS TESTE]  : compilez le projet avec la commande "make linux32" 
+ - 32 bits : compilez le projet avec la commande "make linux32" 
    puis lancez "./test.x32". Vous devez avoir la version officielle (non compatible ENIB)
    de la SFML 2.1 ainsi que toutes ces dépendances (OpenGL, X11, Xrand, freetype)
  

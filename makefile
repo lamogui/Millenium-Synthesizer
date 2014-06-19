@@ -111,7 +111,7 @@ win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).exe build/main.o $(OBJ) $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-audio.a" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32 $(EXTRA_LIB)
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW $(EXTRA_LIB)
+	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW $(EXTRA_LIB)
 	
 linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x64 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" -ljpeg -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -lfreetype -lGLEW $(EXTRA_LIB)

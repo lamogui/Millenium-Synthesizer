@@ -6,6 +6,8 @@ Version ..... : V2.0
 Licence ..... : © Copydown™
 ****************************************************************************/
 
+#ifdef COMPILE_WINDOWS
+
 #include "winmmdriver.hpp"
 #include <iostream>
 
@@ -157,3 +159,5 @@ void CALLBACK WinmmDriver::_waveOutProc(HWAVEOUT, UINT uMsg, DWORD dwInstance, D
   a->_waveFreeBlockCount++;
   LeaveCriticalSection(&(a->_waveCriticalSection));
 }
+
+#endif
