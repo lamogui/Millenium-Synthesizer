@@ -5,10 +5,9 @@ Auteur ...... : Julien DE LOOR
 Version ..... : V2.0
 Licence ..... : © Copydown™
 ****************************************************************************/
+#include "winmmdriver.hpp"
 
 #ifdef COMPILE_WINDOWS
-
-#include "winmmdriver.hpp"
 #include <iostream>
 
 WinmmDriver::WinmmDriver():

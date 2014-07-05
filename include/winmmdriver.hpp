@@ -6,13 +6,15 @@ Version ..... : V2.0
 Licence ..... : © Copydown™
 ****************************************************************************/
 
+#ifndef ____WINMMMMMMMM
+#define ____WINMMMMMMMM
+
 #include "config.hpp"
 #include "audiodriver.hpp"
 #include "audiostream.hpp"
 
 #ifdef COMPILE_WINDOWS
-#ifndef ____WINMMMMMMMM
-#define ____WINMMMMMMMM
+
 
 #include <windows.h>
 #include <mmsystem.h>

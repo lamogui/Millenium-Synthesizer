@@ -271,7 +271,7 @@ class Midi_event : public Midi_abstractevent {
     WORD p1;
     WORD p2;
 };
-/*
+
 class Midi_metaevent : public Midi_abstractevent {
   public:
     Midi_metaevent(Midi_var d,BYTE meta_type);
@@ -279,15 +279,17 @@ class Midi_metaevent : public Midi_abstractevent {
     
     virtual unsigned int byte_size() const;
     
-    virtual write_meta_to_buffer
+    virtual unsigned intwrite_meta_to_buffer( unsigned char* buffer, 
+                                              unsigned int size,
+                                              unsigned int& offset) const; //implement this !
     
-    virtual unsigned int write_to_buffer( unsigned char* buffer, 
-                                          unsigned int size,
-                                          unsigned int& offset) const;
-    virtual unsigned int read_from_buffer(const unsigned char* buffer, 
-                                          unsigned int buffer_size,
-                                          unsigned int& offset);
-    //Offset MUST BE AFTER META-TYPE                                    
+    virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
+                                                 unsigned int size,
+                                                 unsigned int& offset) const;
+    virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
+                                                 unsigned int buffer_size,
+                                                 unsigned int& offset);
+    //Offset MUST BE AFTER the 0xFF  !!                                    
     static Midi_metaevent* create_from_buffer(const unsigned char* buffer, 
                                               unsigned int buffer_size,
                                               unsigned int& offset);
@@ -298,7 +300,7 @@ class Midi_metaevent : public Midi_abstractevent {
     
 }; 
 
-*/
+
 //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
 //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
 
