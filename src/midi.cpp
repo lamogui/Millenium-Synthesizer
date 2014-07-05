@@ -530,6 +530,20 @@ void Midi_track::push_midi_event(DWORD midi_delta, BYTE type, BYTE chan, BYTE p1
   _chunk[_chunk_size++] = p1 & 0x7F;
 }
 
+
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+
+
+
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+
+
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+//// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING //// WARNING ZONE COMPLETE RECODING 
+
+
 Midi_event::Midi_event(Midi_var d,BYTE type):
 Midi_abstractevent(d,type),
 p1(0),
@@ -538,7 +552,7 @@ p2(0)
 }
 
 Midi_event::Midi_event(BYTE type, BYTE channel, WORD _p1 ) : 
-Midi_abstractevent(type),
+Midi_abstractevent((type << 4) | channel),
 p1(_p1),
 p2(0)
 {
@@ -546,7 +560,7 @@ p2(0)
 }
 
 Midi_event::Midi_event(BYTE type, BYTE channel, WORD _p1 , WORD _p2) :
-Midi_abstractevent(type),
+Midi_abstractevent((type << 4) | channel),
 p1(_p1),
 p2(_p2)
 {
@@ -608,3 +622,111 @@ bool Midi_event::use_p2() const
       return true;
   }
 }
+
+Midi_metaevent::Midi_metaevent(Midi_var d,BYTE meta_type) :
+Midi_abstractevent(d,0xFF),
+_length(0),
+_meta_type(meta_type)
+{
+}
+
+Midi_metaevent::~Midi_metaevent() {
+}
+
+unsigned int Midi_metaevent::byte_size() const
+{
+  return delta.byte_size() + 1 + 1 + _length.byte_size() + _length.var();
+}
+
+unsigned int Midi_metaevent::write_meta_to_buffer( unsigned char* buffer, 
+                                                   unsigned int size,
+                                                   unsigned int& offset) const
+{
+  (void) buffer;
+  const unsigned int save_off=offset;
+  if (size >= _length.var() + offset)
+  {
+    offset+=_length.var(); //do nothing here must just jump....
+  }
+  return offset-save_off;
+}
+
+unsigned int Midi_metaevent::read_meta_from_buffer( const unsigned char* buffer, 
+                                                    unsigned int size,
+                                                    unsigned int& offset)                                            
+{
+  (void) buffer;
+  const unsigned int save_off=offset;
+  if (size >= _length.var() + offset)
+  {
+    offset+=_length.var(); //do nothing here must just jump....
+  }
+  return offset-save_off;
+}
+
+
+unsigned int Midi_metaevent::write_to_buffer_offset(unsigned char* buffer, 
+                                                    unsigned int s,
+                                                    unsigned int& offset) const
+{
+  const unsigned int save_off=offset;
+  if (s >= byte_size() + offset)
+  {
+    delta.write_to_buffer_offset(buffer,s,offset);
+    buffer[offset++]=_type;
+    buffer[offset++]=_meta_type;
+    _length.write_to_buffer_offset(buffer,s,offset);
+    write_meta_to_buffer(buffer,s,offset);
+  }
+  return offset-save_off;
+}
+
+unsigned int Midi_metaevent::read_from_buffer_offset(const unsigned char* buffer, 
+                                                     unsigned int buffer_size,
+                                                     unsigned int& offset){
+
+  const unsigned int save_off=offset;
+  _length.read_from_buffer_offset(buffer,buffer_size,offset);
+  read_meta_from_buffer(buffer,buffer_size,offset);
+  
+  return offset-save_off;
+}
+
+Midi_metaevent* Midi_metaevent::create_from_buffer(const unsigned char* buffer, 
+                                                          unsigned int buffer_size,
+                                                         unsigned int& offset) {
+  Midi_metaevent* meta=NULL;
+  if (buffer_size >= offset + 1) {
+    BYTE meta_type = buffer[offset++];
+    switch (meta_type)
+    {
+      default: 
+        meta = new Midi_metaevent(0,meta_type);
+        break;
+    }
+    meta->read_from_buffer_offset(buffer,buffer_size,offset);
+  }  
+  return meta;
+}
+
+Midi_abstractevent* Midi_abstractevent::create_from_buffer(const unsigned char* buffer, 
+                                                                  unsigned int buffer_size,
+                                                                  unsigned int& offset)
+{
+  Midi_abstractevent* event=NULL;
+  if (buffer_size >= offset + 1) {
+    BYTE type = buffer[offset++];
+    Midi_var delta(0);
+    delta.read_from_buffer_offset(buffer,buffer_size,offset);
+    if (type == 0xFF)
+    {
+      event=Midi_metaevent::create_from_buffer(buffer,buffer_size,offset);
+      event->delta = delta;
+    }
+    else {
+      event = new Midi_event(delta,type);
+      event->read_from_buffer_offset(buffer,buffer_size,offset);
+    }
+  }  
+  return event;
+}                                                                  

@@ -220,7 +220,7 @@ class Midi_abstractevent : public AbstractFileParser{
   public:
     virtual ~Midi_abstractevent() {}
 
-    inline BYTE type() { return ((_type & 0xF0)==0xF0) ? _type : _type >> 4; }
+    inline BYTE type() const { return ((_type & 0xF0)==0xF0) ? _type : _type >> 4; }
     
     //Return event validity
     //virtual bool is_valid() const = 0;
@@ -277,19 +277,26 @@ class Midi_metaevent : public Midi_abstractevent {
     Midi_metaevent(Midi_var d,BYTE meta_type);
     virtual ~Midi_metaevent();
     
+    inline BYTE meta_type() const { return _meta_type; }
+    
     virtual unsigned int byte_size() const;
     
-    virtual unsigned intwrite_meta_to_buffer( unsigned char* buffer, 
+    virtual unsigned int write_meta_to_buffer( unsigned char* buffer, 
                                               unsigned int size,
                                               unsigned int& offset) const; //implement this !
+    
+    virtual unsigned int read_meta_from_buffer( const unsigned char* buffer, 
+                                                unsigned int size,
+                                                unsigned int& offset); //implement this !
     
     virtual unsigned int write_to_buffer_offset( unsigned char* buffer, 
                                                  unsigned int size,
                                                  unsigned int& offset) const;
+    //offset must be after meta type !                                             
     virtual unsigned int read_from_buffer_offset(const unsigned char* buffer, 
                                                  unsigned int buffer_size,
                                                  unsigned int& offset);
-    //Offset MUST BE AFTER the 0xFF  !!                                    
+    //Offset MUST BE AFTER 0xFF but before META TYPE !    
     static Midi_metaevent* create_from_buffer(const unsigned char* buffer, 
                                               unsigned int buffer_size,
                                               unsigned int& offset);
