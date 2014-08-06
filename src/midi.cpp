@@ -693,8 +693,8 @@ unsigned int Midi_metaevent::read_from_buffer_offset(const unsigned char* buffer
 }
 
 Midi_metaevent* Midi_metaevent::create_from_buffer(const unsigned char* buffer, 
-                                                          unsigned int buffer_size,
-                                                         unsigned int& offset) {
+                                                   unsigned int buffer_size,
+                                                   unsigned int& offset) {
   Midi_metaevent* meta=NULL;
   if (buffer_size >= offset + 1) {
     BYTE meta_type = buffer[offset++];
@@ -710,8 +710,8 @@ Midi_metaevent* Midi_metaevent::create_from_buffer(const unsigned char* buffer,
 }
 
 Midi_abstractevent* Midi_abstractevent::create_from_buffer(const unsigned char* buffer, 
-                                                                  unsigned int buffer_size,
-                                                                  unsigned int& offset)
+                                                           unsigned int buffer_size,
+                                                           unsigned int& offset)
 {
   Midi_abstractevent* event=NULL;
   if (buffer_size >= offset + 1) {
