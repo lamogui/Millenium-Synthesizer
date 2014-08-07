@@ -147,7 +147,7 @@ void Scope::update()
       const unsigned int sy =_texture.getSize().x;
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = sqrt(_fft->getModule()[x])*sy*_y_zoom ;
+        int fakey = 2.0*sqrt(_fft->getModule()[x])*sy*_y_zoom ;
         fakey = fakey > (int)sy ? sy : fakey;
         const int y = fakey < 0 ? 0 : fakey;
         const unsigned delta_x = x*sy*4;
@@ -207,15 +207,3 @@ void Scope::setFadeColor(const sf::Color& colorInit, const sf::Color& colorEnd, 
     }
   }
 }
-
-void SwitchSpectrumRoutine(Scope *s) {
-  if (s) {
-    if (s->isSpectrum()) {
-      s->setSpectrum(false);
-    }
-    else {
-      s->setSpectrum(true);
-    }
-  }
-}
-

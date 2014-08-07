@@ -59,7 +59,7 @@ LowPassFilter2::LowPassFilter2(float f, float m) : Filter(f,m), _y_1(0), _y_2(0)
 LowPassFilter2::~LowPassFilter2() {}
 void LowPassFilter2::step(Signal* inout)
 {
-sample* samples = inout->samples;
+  sample* samples = inout->samples;
   sample* f = getFrequency().samples;
   sample* m = getResonance().samples;
   const float pi_2 = 3.1415f*2.f;

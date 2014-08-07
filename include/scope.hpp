@@ -56,6 +56,4 @@ class Scope : public Interface
       ModulableCallbackButton<Scope> _modeButton;
 };
 
-void SwitchSpectrumRoutine(Scope *s);
-
 #endif
