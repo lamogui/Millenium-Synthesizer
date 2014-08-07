@@ -115,12 +115,18 @@ class AbstractButton : public MouseCatcher, public sf::Transformable
       
       
   protected:
+    void released();
+    void pressed();
+
     inline virtual bool allowed() { return true;}
     virtual void clicked()=0;   
    
     sf::Color _idleColor;
     sf::Color _clickedColor;
     sf::RectangleShape _shape;
+    sf::RectangleShape _lightup;
+    sf::RectangleShape _lightleft;
+    sf::RectangleShape _shadow;
     sf::Text _text;
     sf::IntRect _idleRect;
     sf::IntRect _clickedRect;
@@ -371,7 +377,7 @@ class ScrollBar : public MouseCatcher
     virtual void update();
 
     void setZoneSize(unsigned int zone);
-    
+    inline int getPosition() {return _current_offset;}
     
   private:
     sf::View *_view;
@@ -435,6 +441,12 @@ class Interface : public sf::Drawable
     {
       return sf::Color(255,255,255,0);
     }
+
+
+    inline sf::Vector2i getPosition() {
+      return sf::Vector2i(_horizontalBar.getPosition(),
+                          _verticalBar.getPosition());
+    }    
 
     virtual void setViewSize(float x, float y);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;

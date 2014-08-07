@@ -29,7 +29,7 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _update_time(0),
   _time(0),
   _spectrum(spectrum),
-  _modeButton(sf::Vector2f(42.f,15.f),spectrum ?  "OSC" : "SPEC" )
+  _modeButton(sf::Vector2f(56.f,18.f),spectrum ?  "OSC" : "SPEC" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
   _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
@@ -52,7 +52,7 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _update_time(0),
   _time(0),
   _spectrum(spectrum),
-  _modeButton(sf::Vector2f(42.f,15.f),spectrum ?  "OSC" : "SPEC" )
+  _modeButton(sf::Vector2f(56.f,18.f),spectrum ?  "OSC" : "SPEC" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
   _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
@@ -87,25 +87,26 @@ void Scope::_allocate()
   if (_signal)
   {
     if (_spectrum) { 
-      unsigned samples = GetSettingsFor("FFT/Samples",4096);
+      const unsigned samples = GetSettingsFor("FFT/Samples",4096);
+      const unsigned size=samples < 4096 ? samples: 4096;
       _fft=new FFT(samples); 
-      _internalZoneChanged(sf::Vector2u(samples,_zone.y));
+      _internalZoneChanged(sf::Vector2u(size,_zone.y));
       _modeButton.setText("OSC");
-      _back.setSize(sf::Vector2f(samples,100));
     }
     else {
       _internalZoneChanged(sf::Vector2u(Signal::size,_zone.y));
       _modeButton.setText("SPEC");
-      _back.setSize(sf::Vector2f(Signal::size,100));
     } 
     _texture.create(_zone.y, _zone.x);
+    _back.setSize(sf::Vector2f(_zone.x,_zone.y));
     unsigned p = _texture.getSize().x* _texture.getSize().y*4;
     _pixels = (sf::Uint8*) malloc(p);
     setColor(_color);
 
     _sprite.setTexture(_texture,true);
     _sprite.setOrigin(_zone.y/2,_zone.x/2);
-    _sprite.setPosition(_zone.x/2,_zone.y/2);
+    if (_spectrum)  _sprite.setPosition(_zone.x/2,_zone.y/2-12.f);
+    else _sprite.setPosition(_zone.x/2,_zone.y/2);
     _sprite.setRotation(90);
   }
   
@@ -114,7 +115,9 @@ void Scope::_allocate()
 void Scope::update()
 {
   Interface::update();
-
+  sf::Vector2i position=getPosition();
+  _modeButton.setPosition(position.x+10,position.y+10);
+  
   if (_pixels && _time++ > _update_time && _signal)
   {
     _time=0;

@@ -145,6 +145,9 @@ AbstractButton::AbstractButton(const sf::Vector2f& size,
 _idleColor(75,75,75,255),
 _clickedColor(142,142,142,255),
 _shape(size),
+_lightup(sf::Vector2f(size.x-0.5,0.8)),
+_lightleft(sf::Vector2f(0.8,size.y-0.5)),
+_shadow(sf::Vector2f(size.x+1,size.y+1)),
 _text(),
 _idleRect(),
 _clickedRect()
@@ -153,8 +156,13 @@ _clickedRect()
   _text.setCharacterSize(11);
   setText(text);
   _shape.setFillColor(_idleColor);
-  _shape.setOutlineThickness(1.f);
+  //_shape.setOutlineThickness(1.f);
+  //Test win98
   setOutlineColor(sf::Color(255,255,255,255));
+  _lightup.setFillColor(sf::Color(255,255,255,128));
+  _lightleft.setFillColor(sf::Color(255,255,255,128));
+  _shadow.setFillColor(sf::Color(20,20,20,255));
+  released();
 }
 
 AbstractButton::AbstractButton( const sf::Texture &texture,
@@ -163,16 +171,24 @@ AbstractButton::AbstractButton( const sf::Texture &texture,
 _idleColor(255,255,255,255),
 _clickedColor(255,255,255,255),
 _shape(sf::Vector2f(idle.width,idle.height)),
+_lightup(sf::Vector2f(idle.width-0.5,0.8)),
+_lightleft(sf::Vector2f(0.8,idle.height-0.5f)),
+_shadow(sf::Vector2f(idle.width+1,idle.height+1)),
 _idleRect(idle),
 _clickedRect(clicked)
 {
   _text.setFont(globalfont);
   _text.setCharacterSize(11);
   _shape.setFillColor(_idleColor);
-  //_shape.setOutlineThickness(1.f);
   setOutlineColor(sf::Color(255,255,255,255));
   _shape.setTexture(&texture);
   _shape.setTextureRect(_idleRect);
+
+  //Test win98
+  _lightup.setFillColor(sf::Color(255,255,255,0));
+  _lightleft.setFillColor(sf::Color(255,255,255,0));
+  _shadow.setFillColor(sf::Color(20,20,20,0));
+  released();
 }
 
 AbstractButton::~AbstractButton()
@@ -204,12 +220,33 @@ void AbstractButton::setTexture(const sf::Texture &texture,
 void AbstractButton::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   states.transform *= getTransform();
+  target.draw(_shadow,states);
   target.draw(_shape,states);
+  target.draw(_lightup,states);
+  target.draw(_lightleft,states);
   target.draw(_text,states);
 }
 
 void AbstractButton::update()
 {
+}
+
+void AbstractButton::pressed()
+{
+  _shape.setFillColor(_clickedColor);
+  _shape.setTextureRect(_clickedRect);
+  _shadow.setPosition(sf::Vector2f(-1.f,-1.f));
+  _lightup.setPosition(sf::Vector2f(0,_shape.getSize().y-1));
+  _lightleft.setPosition(sf::Vector2f(_shape.getSize().x-1,0));
+}
+
+void AbstractButton::released()
+{
+  _shape.setFillColor(_idleColor);
+  _shape.setTextureRect(_idleRect);
+  _shadow.setPosition(sf::Vector2f(0,0));
+  _lightup.setPosition(sf::Vector2f(0,0));
+  _lightleft.setPosition(sf::Vector2f(0,0));
 }
 
 void AbstractButton::setText(const sf::String& t)
@@ -232,8 +269,7 @@ bool AbstractButton::onMousePress(float x, float y)
       ry > _shape.getSize().y || ry < 0 ) {
     return false;
   }
-  _shape.setFillColor(_clickedColor);
-  _shape.setTextureRect(_clickedRect);
+  pressed();
   return true;
 }
 
@@ -244,9 +280,7 @@ void AbstractButton::onMouseMove(float x, float y)
 
 void AbstractButton::onMouseRelease(float x, float y)
 {
-   _shape.setFillColor(_idleColor);
-   _shape.setTextureRect(_idleRect);
-   
+   released();
    sf::Vector2f v(getInverseTransform().transformPoint(x,y));
     
    float rx = v.x - _shape.getPosition().x;
@@ -254,8 +288,9 @@ void AbstractButton::onMouseRelease(float x, float y)
    if (rx > _shape.getSize().x || rx < 0 ||
        ry > _shape.getSize().y || ry < 0) 
     return;
-   else    
-    clicked();  
+   else {
+      clicked();
+    }  
 }
 
 ModulableButton::ModulableButton( const sf::Texture &texture,
@@ -297,8 +332,7 @@ bool ModulableButton::onMousePress(float x, float y)
     return false;   
   }
   else if (_mode != ButtonMode::toggle) {
-    _shape.setFillColor(_clickedColor);
-    _shape.setTextureRect(_clickedRect);
+    released();
   }
   return true;
 }
@@ -317,19 +351,16 @@ void ModulableButton::onMouseRelease(float x, float y)
   {
     if (toggleState())
     {
-      _shape.setFillColor(_clickedColor);
-      _shape.setTextureRect(_clickedRect);
+      pressed();
     }
     else
     {
-      _shape.setFillColor(_idleColor);
-      _shape.setTextureRect(_idleRect);
+      released();
     }
   }
   else 
   {  
-    _shape.setFillColor(_idleColor);
-    _shape.setTextureRect(_idleRect);
+    released();
   }
 }
 
@@ -497,6 +528,10 @@ ScrollBar::~ScrollBar() {
 void ScrollBar::setZoneSize(unsigned int zone)
 {
   _zone_size=zone;
+  if (_horizontal && _current_offset > _zone_size - _view->getSize().x) 
+    _current_offset=_zone_size - _view->getSize().x;
+  else if (_current_offset > _zone_size - _view->getSize().y) 
+    _current_offset=_zone_size - _view->getSize().y;
   update();
 }
 
