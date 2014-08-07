@@ -28,9 +28,12 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _y_zoom(1),
   _update_time(0),
   _time(0),
-  _spectrum(spectrum)
+  _spectrum(spectrum),
+  _modeButton(sf::Vector2f(42.f,15.f),spectrum ?  "OSC" : "SPEC" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
+  _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
+  addMouseCatcher(&_modeButton);
   addDrawable(&_sprite);
   addDrawable(&_back);
   _allocate();
@@ -48,9 +51,12 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _y_zoom(1),
   _update_time(0),
   _time(0),
-  _spectrum(spectrum)
+  _spectrum(spectrum),
+  _modeButton(sf::Vector2f(42.f,15.f),spectrum ?  "OSC" : "SPEC" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
+  _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
+  addMouseCatcher(&_modeButton);
   addDrawable(&_sprite);
   addDrawable(&_back);
   _allocate();
@@ -80,7 +86,18 @@ void Scope::_allocate()
   _pixels=0;
   if (_signal)
   {
-    if (_spectrum) _fft=new FFT(GetSettingsFor("FFT/Samples",16384));
+    if (_spectrum) { 
+      unsigned samples = GetSettingsFor("FFT/Samples",4096);
+      _fft=new FFT(samples); 
+      _internalZoneChanged(sf::Vector2u(samples,_zone.y));
+      _modeButton.setText("OSC");
+      _back.setSize(sf::Vector2f(samples,100));
+    }
+    else {
+      _internalZoneChanged(sf::Vector2u(Signal::size,_zone.y));
+      _modeButton.setText("SPEC");
+      _back.setSize(sf::Vector2f(Signal::size,100));
+    } 
     _texture.create(_zone.y, _zone.x);
     unsigned p = _texture.getSize().x* _texture.getSize().y*4;
     _pixels = (sf::Uint8*) malloc(p);

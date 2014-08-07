@@ -71,8 +71,10 @@ int main(int argc, char** argv)
 #endif
     if (driver_name=="SFML")
       driver = new SFMLAudioDriver();
-    else if (driver_name=="BASS")
+    else if (driver_name=="BASS"){ //Deprecated 
       driver = new BassDriver();
+      std::cout << "warning : use deprecated and bugged BASS driver" << std::endl; 
+    }
 #ifdef COMPILE_WINDOWS
     else if (driver_name=="WINMM")
       directStream = new WinmmDriver();

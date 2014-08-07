@@ -280,6 +280,84 @@ class SingleProcessButton : public AbstractButton
 };
 
 
+template<class C >
+class ModulableCallbackButton : public ModulableButton
+{
+  public:
+    typedef void(C::*setter)(bool);
+    typedef bool(C::*getter)(void);
+  protected:
+    C* _object;
+    setter _setter;
+    getter _getter;
+
+  public:
+    ModulableCallbackButton(const sf::Vector2f& size, 
+                            const sf::String text,
+                            ButtonMode::Mode mode=ButtonMode::toggle) :
+    ModulableButton(size,text,mode),    
+    _object(0),
+    _setter(0),
+    _getter(0) 
+    {
+    }
+    
+    ModulableCallbackButton(const sf::Texture &texture,
+                            const sf::IntRect &idle,
+                            const sf::IntRect &clicked,
+                            ButtonMode::Mode mode=ButtonMode::toggle):
+    ModulableButton(texture,idle,clicked,mode),    
+    _object(0),
+    _setter(0),
+    _getter(0) 
+    {
+    }
+                   
+    virtual ~ModulableCallbackButton() {
+    }
+    
+    
+
+    void setCallback(C *object,setter s,getter g) {
+       _object=object;
+       _setter=s;
+       _getter=g;
+    }
+  
+  protected:
+    virtual void clicked() {
+      if (_object && _setter) {
+      switch (_mode)
+      {
+        case ButtonMode::toggle:
+          (_object->*_setter)(!(_object->*_getter)()); 
+          break;
+
+        case ButtonMode::increment:
+        case ButtonMode::interrupt:
+        case ButtonMode::on:
+          (_object->*_setter)(true);
+          break;
+
+        case ButtonMode::decrement: 
+        case ButtonMode::off:
+          (_object->*_setter)(false);
+          break;
+      }
+    }
+    }
+    
+
+    inline virtual bool allowed() { 
+      return _object && _setter ? true : false;
+    } 
+
+    inline virtual bool toggleState() {
+      return (_object->*_getter)();
+    }
+};
+
+
 class ScrollBar : public MouseCatcher
 {
   public:

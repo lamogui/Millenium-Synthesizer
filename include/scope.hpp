@@ -53,6 +53,7 @@ class Scope : public Interface
       unsigned int _update_time;
       unsigned int _time;
       bool _spectrum;
+      ModulableCallbackButton<Scope> _modeButton;
 };
 
 void SwitchSpectrumRoutine(Scope *s);
