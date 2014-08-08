@@ -106,6 +106,10 @@ class AbstractButton : public MouseCatcher, public sf::Transformable
      
     //Texture setter (assume button is not catched)
     void setTexture(const sf::Texture &texture, const sf::IntRect &idle, const sf::IntRect &clicked);
+
+	//Windows 98 Styke
+	inline bool isWin98Looking() { return _win98; } 
+	void setWin98Looking(bool e);
      
     virtual bool onMousePress(float x, float y);
     virtual void onMouseMove(float x, float y);
@@ -126,10 +130,12 @@ class AbstractButton : public MouseCatcher, public sf::Transformable
     sf::RectangleShape _shape;
     sf::RectangleShape _lightup;
     sf::RectangleShape _lightleft;
-    sf::RectangleShape _shadow;
+    sf::RectangleShape _shadowright;
+	sf::RectangleShape _shadowdown;
     sf::Text _text;
     sf::IntRect _idleRect;
     sf::IntRect _clickedRect;
+	bool _win98;
 };
 
 class ModulableButton : public AbstractButton 

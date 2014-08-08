@@ -135,10 +135,14 @@ void Scope::update()
 
         if (y-1 >= -(int)(_texture.getSize().x>>1) && y+1 < (int)(_texture.getSize().x>>1))
         {
-
+		  const unsigned int offset = ((x*_texture.getSize().x + y + (_texture.getSize().x>>1))<<2) + 3;
+          _pixels[offset] = 255;
+          _pixels[offset+4] = 120;
+          _pixels[offset-4] = 120;
+		  /*
           _pixels[(x*_texture.getSize().x + y + _texture.getSize().x/2)*4 + 3] = 255;
           _pixels[(x*_texture.getSize().x + y + 1 + _texture.getSize().x/2)*4 + 3] = 120;
-          _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;
+          _pixels[(x*_texture.getSize().x + y - 1 + _texture.getSize().x/2)*4 + 3] = 120;*/
 
         }
       }
@@ -150,13 +154,12 @@ void Scope::update()
       const unsigned int sy =_texture.getSize().x;
       for (unsigned int x=0; x < l;x++)
       {
-        int fakey = 2.0*sqrt(_fft->getModule()[x])*sy*_y_zoom ;
-        fakey = fakey > (int)sy ? sy : fakey;
-        const int y = fakey < 0 ? 0 : fakey;
-        const unsigned delta_x = x*sy*4;
+        const unsigned int fakey = 2.0*sqrt(_fft->getModule()[x])*sy*_y_zoom ;
+        const unsigned int y = fakey > sy ? sy : fakey;
+        const unsigned delta_x = x*sy*4 + 3;
         
-        for (int i=0; i<y; i++) {
-          _pixels[delta_x + (sy-i-1)*4 + 3] = 255;
+        for (unsigned int i=0; i<y; i++) {
+          _pixels[delta_x + ((sy-i-1)<<2)] = 255;
         }
       }
     }

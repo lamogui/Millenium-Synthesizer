@@ -142,26 +142,29 @@ void Knob::update()
 
 AbstractButton::AbstractButton(const sf::Vector2f& size, 
                                const sf::String text):
-_idleColor(75,75,75,255),
-_clickedColor(142,142,142,255),
+_idleColor(75,75,75,128),
+_clickedColor(142,142,142,128),
 _shape(size),
-_lightup(sf::Vector2f(size.x-0.5,0.8)),
-_lightleft(sf::Vector2f(0.8,size.y-0.5)),
-_shadow(sf::Vector2f(size.x+1,size.y+1)),
+_lightup(sf::Vector2f(size.x-0.5f,0.8f)),
+_lightleft(sf::Vector2f(0.8f,size.y-0.5f)),
+_shadowright(sf::Vector2f(1.5f,size.y)),
+_shadowdown(sf::Vector2f(size.x,1.5f)),
 _text(),
 _idleRect(),
-_clickedRect()
+_clickedRect(),
+_win98(false)
 {
   _text.setFont(globalfont);
   _text.setCharacterSize(11);
   setText(text);
   _shape.setFillColor(_idleColor);
   //_shape.setOutlineThickness(1.f);
-  //Test win98
   setOutlineColor(sf::Color(255,255,255,255));
   _lightup.setFillColor(sf::Color(255,255,255,128));
   _lightleft.setFillColor(sf::Color(255,255,255,128));
-  _shadow.setFillColor(sf::Color(20,20,20,255));
+  _shadowright.setFillColor(sf::Color(20,20,20,255));
+  _shadowdown.setFillColor(sf::Color(20,20,20,255));
+  _win98=true;
   released();
 }
 
@@ -171,11 +174,13 @@ AbstractButton::AbstractButton( const sf::Texture &texture,
 _idleColor(255,255,255,255),
 _clickedColor(255,255,255,255),
 _shape(sf::Vector2f(idle.width,idle.height)),
-_lightup(sf::Vector2f(idle.width-0.5,0.8)),
-_lightleft(sf::Vector2f(0.8,idle.height-0.5f)),
-_shadow(sf::Vector2f(idle.width+1,idle.height+1)),
+_lightup(sf::Vector2f(idle.width-0.5f,0.8f)),
+_lightleft(sf::Vector2f(0.8f,idle.height-0.5f)),
+_shadowright(sf::Vector2f(1.5f,idle.height)),
+_shadowdown(sf::Vector2f(idle.width,1.5f)),
 _idleRect(idle),
-_clickedRect(clicked)
+_clickedRect(clicked),
+_win98(false)
 {
   _text.setFont(globalfont);
   _text.setCharacterSize(11);
@@ -183,17 +188,22 @@ _clickedRect(clicked)
   setOutlineColor(sf::Color(255,255,255,255));
   _shape.setTexture(&texture);
   _shape.setTextureRect(_idleRect);
-
-  //Test win98
-  _lightup.setFillColor(sf::Color(255,255,255,0));
-  _lightleft.setFillColor(sf::Color(255,255,255,0));
-  _shadow.setFillColor(sf::Color(20,20,20,0));
+  _lightup.setFillColor(sf::Color(255,255,255,128));
+  _lightleft.setFillColor(sf::Color(255,255,255,128));
+  _shadowright.setFillColor(sf::Color(20,20,20,255));
+  _shadowdown.setFillColor(sf::Color(20,20,20,255));
   released();
 }
 
 AbstractButton::~AbstractButton()
 {
 }
+
+void AbstractButton::setWin98Looking(bool e)
+{
+  _win98=e;
+}
+
 
 void AbstractButton::setTexture(const sf::Texture &texture, 
                                 const sf::IntRect &idle, 
@@ -208,22 +218,20 @@ void AbstractButton::setTexture(const sf::Texture &texture,
   _shape.setOutlineThickness(0);
   _shape.setTexture(&texture);
   _shape.setTextureRect(_idleRect);
-  /*if (_mode != ButtonMode::toggle)
-  {
-     if (_catched)
-       _shape.setTextureRect(_clickedRect);
-     else
-       _shape.setTextureRect(_idleRect);
-  }*/
 }
+
 
 void AbstractButton::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   states.transform *= getTransform();
-  target.draw(_shadow,states);
+  
   target.draw(_shape,states);
-  target.draw(_lightup,states);
-  target.draw(_lightleft,states);
+  if (_win98) {
+	target.draw(_lightup,states);
+	target.draw(_lightleft,states);
+	target.draw(_shadowright,states);
+	target.draw(_shadowdown,states);
+  }
   target.draw(_text,states);
 }
 
@@ -235,7 +243,8 @@ void AbstractButton::pressed()
 {
   _shape.setFillColor(_clickedColor);
   _shape.setTextureRect(_clickedRect);
-  _shadow.setPosition(sf::Vector2f(-1.f,-1.f));
+  _shadowright.setPosition(sf::Vector2f(0,0));
+  _shadowdown.setPosition(sf::Vector2f(0,0));
   _lightup.setPosition(sf::Vector2f(0,_shape.getSize().y-1));
   _lightleft.setPosition(sf::Vector2f(_shape.getSize().x-1,0));
 }
@@ -244,7 +253,8 @@ void AbstractButton::released()
 {
   _shape.setFillColor(_idleColor);
   _shape.setTextureRect(_idleRect);
-  _shadow.setPosition(sf::Vector2f(0,0));
+  _shadowright.setPosition(sf::Vector2f(_shape.getSize().x,0));
+  _shadowdown.setPosition(sf::Vector2f(0,_shape.getSize().y-1));
   _lightup.setPosition(sf::Vector2f(0,0));
   _lightleft.setPosition(sf::Vector2f(0,0));
 }
