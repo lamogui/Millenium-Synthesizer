@@ -327,12 +327,12 @@ bool ModulableButton::onMousePress(float x, float y)
    float rx = v.x - _shape.getPosition().x;
    float ry = v.y - _shape.getPosition().y;
 
-   if (rx > _shape.getSize().x || rx < 0 ||
+  if (rx > _shape.getSize().x || rx < 0 ||
        ry > _shape.getSize().y || ry < 0 ) {
     return false;   
   }
   else if (_mode != ButtonMode::toggle) {
-    released();
+    pressed();
   }
   return true;
 }
