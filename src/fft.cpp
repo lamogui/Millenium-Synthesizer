@@ -121,7 +121,7 @@ void FFT::realloc(unsigned int size) {
   //calcul des twidleFactor
   //la formule est : exp(-j*2*PI*n/N)
   //si on explose en partie reel et imaginaire
-  //Re(W)=cos(2*PI*n/N)
+  //Re(W)=cos(-2*PI*n/N)
   //Im(W)=sin(-2*PI*n/N)
   //Pour la FFT, N varie en puissance de 2 en commencant par 2 : 2, 4, 8, ...
   //N s'arrete a la puissance de 2 superieur au nombre de points du signal compris
@@ -133,7 +133,7 @@ void FFT::realloc(unsigned int size) {
   sample* gi=_twidleFactorI;
   for (unsigned int N=2; N<=_size; N<<=1) {
     for (unsigned int n=0; n<(N>>1); n++) {
-      *g++=(sample)std::cos(2.f*3.14159265359*(float)n/(float)N);
+      *g++=(sample)std::cos(-2.f*3.14159265359*(float)n/(float)N);
       *gi++=(sample)std::sin(-2.f*3.14159265359*(float)n/(float)N);
     }
   }
@@ -152,7 +152,6 @@ void FFT::realloc(unsigned int size) {
   //g_init donne la position du bit 0
   //g_fin donne la position du bit &
   //i_delta donne l'ecart entre ces deux bits
-  if (_pow2) {
     for (unsigned int j=0; j<_size; j++) {
       unsigned int g_init=0, g_fin=_pow2-1, index=0;
       unsigned int i_delta=g_fin-g_init;   
@@ -168,7 +167,6 @@ void FFT::realloc(unsigned int size) {
       //std::cout << "l'index vaut "<<index << std::endl;
       _indexTable[j]=index;
     }
-  }
 }
 
 

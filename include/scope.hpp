@@ -53,7 +53,9 @@ class Scope : public Interface
       unsigned int _update_time;
       unsigned int _time;
       bool _spectrum;
+      int _autoscaley;
       ModulableCallbackButton<Scope> _modeButton;
+      Button _autoYScaleButton;
 };
 
 #endif

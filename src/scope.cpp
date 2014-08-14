@@ -29,11 +29,15 @@ Scope::Scope(const sf::Vector2f& size, bool spectrum) :
   _update_time(0),
   _time(0),
   _spectrum(spectrum),
-  _modeButton(sf::Vector2f(56.f,18.f),spectrum ?  "OSC" : "SPEC" )
+  _autoscaley(0),
+  _modeButton(sf::Vector2f(80.f,18.f), "FFT" ),
+  _autoYScaleButton(sf::Vector2f(80.f,18.f), "Auto Scale" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
   _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
+  _autoYScaleButton.linkTo(&_autoscaley);
   addMouseCatcher(&_modeButton);
+  addMouseCatcher(&_autoYScaleButton);
   addDrawable(&_sprite);
   addDrawable(&_back);
   _allocate();
@@ -52,11 +56,15 @@ Scope::Scope(const sf::Vector2f& size,Signal* s, bool spectrum) :
   _update_time(0),
   _time(0),
   _spectrum(spectrum),
-  _modeButton(sf::Vector2f(56.f,18.f),spectrum ?  "OSC" : "SPEC" )
+  _autoscaley(0),
+  _modeButton(sf::Vector2f(80.f,18.f), "FFT" ),
+  _autoYScaleButton(sf::Vector2f(80.f,18.f), "Auto Scale" )
 {
   _back.setFillColor(sf::Color(42,42,42,128));
   _modeButton.setCallback(this,&Scope::setSpectrum, &Scope::isSpectrum);
+  _autoYScaleButton.linkTo(&_autoscaley);
   addMouseCatcher(&_modeButton);
+  addMouseCatcher(&_autoYScaleButton);
   addDrawable(&_sprite);
   addDrawable(&_back);
   _allocate();
@@ -91,11 +99,9 @@ void Scope::_allocate()
       const unsigned size=samples < 4096 ? samples: 4096;
       _fft=new FFT(samples); 
       _internalZoneChanged(sf::Vector2u(size,_zone.y));
-      _modeButton.setText("OSC");
     }
     else {
       _internalZoneChanged(sf::Vector2u(Signal::size,_zone.y));
-      _modeButton.setText("SPEC");
     } 
     _texture.create(_zone.y, _zone.x);
     _back.setSize(sf::Vector2f(_zone.x,_zone.y));
@@ -117,6 +123,7 @@ void Scope::update()
   Interface::update();
   sf::Vector2i position=getPosition();
   _modeButton.setPosition(position.x+10,position.y+10);
+  _autoYScaleButton.setPosition(position.x+10,position.y+30);
   
   if (_pixels && _time++ > _update_time && _signal)
   {
@@ -129,9 +136,17 @@ void Scope::update()
 
     if (!_spectrum) {
       const unsigned int l = Signal::size < _texture.getSize().y ? Signal::size : _texture.getSize().y;
+      float smax = 0.0;
+      for (unsigned int x=0; x < l;x++) {
+        const float a=fabs(_signal->samples[x]);
+        if (a > smax) smax=a;
+      }
+      const float _y_factor = _autoscaley && smax > 0.001 ?  
+                  (_texture.getSize().x-20) *_y_zoom * 0.5 * 1/smax :
+                  _texture.getSize().x * 0.5 * _y_zoom;
       for (unsigned int x=0; x < l;x++)
       {
-        const int y = _signal->samples[x]*_y_zoom*_texture.getSize().x*0.5;
+        const int y = _signal->samples[x]*_y_factor;
 
         if (y-1 >= -(int)(_texture.getSize().x>>1) && y+1 < (int)(_texture.getSize().x>>1))
         {
@@ -152,9 +167,19 @@ void Scope::update()
       _fft->computeModule();
       const unsigned int l = _fft->size() < _texture.getSize().y ? _fft->size() : _texture.getSize().y;
       const unsigned int sy =_texture.getSize().x;
+      float smax = 0.0;
+      for (unsigned int x=0; x < l;x++) {
+        const float a=2.0*_fft->getModule()[x];
+        //if (a < 0) std::cerr << "Erreur dans la fft !! " << a << std::endl;
+        if (sqrt(a) > smax) smax=sqrt(a);
+      }
+      //std::cout << " smax " << smax << std::endl;
+      const float _y_factor = _autoscaley && smax > 0.001 ?  
+                  (_texture.getSize().x-20) *_y_zoom * 1/smax :
+                  _texture.getSize().x * _y_zoom;
       for (unsigned int x=0; x < l;x++)
       {
-        const unsigned int fakey = 2.0*sqrt(_fft->getModule()[x])*sy*_y_zoom ;
+        const unsigned int fakey = sqrt(2.0*_fft->getModule()[x])*_y_factor ;
         const unsigned int y = fakey > sy ? sy : fakey;
         const unsigned delta_x = x*sy*4 + 3;
         

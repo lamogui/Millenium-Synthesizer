@@ -246,7 +246,7 @@ void NEWindow::arrange() {
 #ifdef COMPILE_WINDOWS
   _resizeTriangle.setPosition(_clientSize.x+_borderSizeLeft,
                               _clientSize.y+_borderSizeUp);
-  _closeButton.setPosition(_clientSize.x,0);
+  _closeButton.setPosition(_clientSize.x-5,5);
 #endif
 
    _backSprite.setPosition(-(int)_backCenter.x+(int)_backCenter.x*(int)getSize().x/((int)_backTexture.getSize().x+1),
