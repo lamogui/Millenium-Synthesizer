@@ -57,7 +57,7 @@ bool WinmmDriver::init(unsigned int rate)
   _nbBlocks=3;
   _waveFreeBlockCount=_nbBlocks;
   _waveCurrentBlock=0;
-  DWORD totalBufferSize = (Signal::size*wfx.nAvgBytesPerSec + sizeof(WAVEHDR)) * _nbBlocks;
+  DWORD totalBufferSize = (Signal::size*4 + sizeof(WAVEHDR)) * _nbBlocks;
   /*
    * allocate memory for the entire set in one go
    */
@@ -71,9 +71,9 @@ bool WinmmDriver::init(unsigned int rate)
   _waveBlocks = (WAVEHDR*)buffer;
   buffer += sizeof(WAVEHDR) * _nbBlocks;
   for(unsigned int i = 0; i < _nbBlocks; i++) {
-    _waveBlocks[i].dwBufferLength = Signal::size*wfx.nAvgBytesPerSec;
+    _waveBlocks[i].dwBufferLength = Signal::size*4;
     _waveBlocks[i].lpData = (LPSTR)buffer;
-    buffer += Signal::size*wfx.nAvgBytesPerSec;
+    buffer += Signal::size*4;
   }
   return true;
 }
@@ -138,7 +138,7 @@ bool WinmmDriver::pushStereoSignal(const Signal& left,const Signal& right)
     *p++ = (short)(right.samples[i]*MULTIPLIER_16);
   }
   
-  current->dwBufferLength = Signal::size*2*2;
+  current->dwBufferLength = Signal::size*4;
   
   waveOutPrepareHeader(_hWaveOut, current, sizeof(WAVEHDR));
   waveOutWrite(_hWaveOut, current, sizeof(WAVEHDR));
