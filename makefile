@@ -7,8 +7,8 @@ EXTRA_LIB=#-lQtGui -lQtCore #Qt4 if you have it
 DEFINES=#-DHAVE_QT4 
 #DEFINES=-DNO_SFML_AUDIO -DHAVE_QT4 
 
-CFLAGS= $(DEFINES) $(EXTRA_INCLUDE) --std=c99 -W -Wall -I"include" -g
-CXXFLAGS= $(DEFINES) $(EXTRA_INCLUDE) -I"include" -W -Wall -g
+CFLAGS= $(DEFINES) $(EXTRA_INCLUDE) --std=c99 -W -Wall -I"include" -g -DSFML_STATIC
+CXXFLAGS= $(DEFINES) $(EXTRA_INCLUDE) -I"include" -W -Wall -g -DSFML_STATIC
 
 OBJ= build/signal.o \
 	build/audiostream.o \
@@ -108,7 +108,7 @@ build/%.o: src/%.rc
 	windres $< $@ -v
 	
 win32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
-	g++ -o $(TARGET_NAME).exe $(OBJ) build/main.o  $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 "./libwin32/bass.lib" "./libwin32/bassasio.lib" "./libwin32/libsfml-audio.a" "./libwin32/libsfml-graphics.a" "./libwin32/libsfml-window.a" "./libwin32/libsfml-system.a" -lkernel32 $(EXTRA_LIB)
+	g++ -o $(TARGET_NAME).exe $(OBJ) build/main.o  $(CXXFLAGS) -static-libgcc -static -lstdc++ -lComdlg32 -lbass -lbassasio -lsfml-audio-s -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lkernel32 -lws2_32 -lfreetype -lglew32 -lopengl32 -lwinmm -lgdi32 -ljpeg -lopenal32 -lsndfile
 	
 linux32: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).x32 $(OBJ) build/main.o $(CXXFLAGS) "./liblinux32/libbass.so" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lX11 -lGL -lXrandr -ljpeg -lfreetype -lGLEW $(EXTRA_LIB)
@@ -119,3 +119,5 @@ linux64: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 linux64enib: $(HEADER) $(OBJ) $(FILECPP) build/main.o
 	g++ -o $(TARGET_NAME).enib $(OBJ) build/main.o $(CXXFLAGS) "./liblinux64/libbass.so" "./liblinux64/ENIB/libsfml-graphics.a" "./liblinux64/ENIB/libsfml-window.a" "./liblinux64/ENIB/libsfml-system.a" -lX11 -lGL -lXrandr -ljpeg -lfreetype "./liblinux64/ENIB/libGLEW.a" $(EXTRA_LIB)
 	
+clean:
+	del build\*.o
